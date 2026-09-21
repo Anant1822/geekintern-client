@@ -308,7 +308,7 @@ export default function Apply() {
     if (!selectedCategory || !formData.internship_title) {
       toast({
         title: 'Domain Selection Required',
-        description: 'Please select your Main Engineering Domain and Specific Track.',
+        description: 'Please select both your Internship Category and Internship Track.',
         variant: 'destructive',
       })
       return
@@ -658,10 +658,10 @@ export default function Apply() {
 
                       {/* Domain Selection - Natural Form Grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {/* 1st: Main Domain Category */}
+                        {/* 1st: Domain Category */}
                         <div>
                           <Label className="text-slate-700 dark:text-slate-300 font-medium text-sm">
-                            Main Engineering Domain <span className="text-red-500">*</span>
+                            Internship Category <span className="text-red-500">*</span>
                           </Label>
                           <Select
                             value={selectedCategory}
@@ -672,7 +672,7 @@ export default function Apply() {
                             }}
                           >
                             <SelectTrigger className="mt-1.5">
-                              <SelectValue placeholder="Select Main Domain (e.g. Web Dev, Core, AI...)" />
+                              <SelectValue placeholder="Select Category (e.g. Web Dev, Core, AI...)" />
                             </SelectTrigger>
                             <SelectContent className="max-h-72">
                               {DOMAIN_CATEGORIES.map((cat) => (
@@ -695,7 +695,7 @@ export default function Apply() {
                             disabled={!selectedCategory}
                           >
                             <SelectTrigger className={`mt-1.5 ${!selectedCategory ? 'opacity-60 cursor-not-allowed bg-slate-50 dark:bg-slate-900' : ''}`}>
-                              <SelectValue placeholder={selectedCategory ? "Select Specialization" : "First select Main Domain above"} />
+                              <SelectValue placeholder={selectedCategory ? "Select Track / Domain" : "First select category"} />
                             </SelectTrigger>
                             <SelectContent className="max-h-72">
                               {(() => {
