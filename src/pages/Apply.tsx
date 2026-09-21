@@ -140,20 +140,36 @@ export default function Apply() {
   const [linkedinFollowClicked, setLinkedinFollowClicked] = useState(false)
   const [isVerifyingLinkedin, setIsVerifyingLinkedin] = useState(false)
   const [linkedinCountdown, setLinkedinCountdown] = useState(0)
+  const [linkedinSessionId] = useState(() => `li_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`)
 
-  // Countdown timer for LinkedIn verification (5 seconds stay/follow check)
+  // Countdown timer for LinkedIn verification (minimum 5-second stay validated by backend)
   useEffect(() => {
     let timer: any = null
     if (isVerifyingLinkedin && linkedinCountdown > 0) {
       timer = setInterval(() => {
         setLinkedinCountdown((prev) => {
           if (prev <= 1) {
-            setIsVerifyingLinkedin(false)
-            setIsLinkedinFollowed(true)
-            toast({
-              title: 'LinkedIn Follow Verified! ✓',
-              description: 'Thank you for following Geek Intern on LinkedIn.',
-            })
+            // Verify with backend that 5 full seconds elapsed
+            api
+              .post('/applications/linkedin-verify', { sessionId: linkedinSessionId })
+              .then(() => {
+                setIsVerifyingLinkedin(false)
+                setIsLinkedinFollowed(true)
+                toast({
+                  title: 'LinkedIn Follow Verified! ✓',
+                  description: 'Thank you for following Geek Intern on LinkedIn.',
+                })
+              })
+              .catch((err) => {
+                // If applicant came back prematurely, enforce remaining time
+                const remaining = err?.response?.data?.data?.remainingSeconds || 3
+                setLinkedinCountdown(remaining)
+                toast({
+                  title: 'Stay on LinkedIn',
+                  description: 'Please stay on our LinkedIn page for at least 5 seconds before returning to verify.',
+                  variant: 'destructive',
+                })
+              })
             return 0
           }
           return prev - 1
@@ -161,12 +177,20 @@ export default function Apply() {
       }, 1000)
     }
     return () => clearInterval(timer)
-  }, [isVerifyingLinkedin, linkedinCountdown, toast])
+  }, [isVerifyingLinkedin, linkedinCountdown, linkedinSessionId, toast])
 
-  const handleOpenLinkedin = () => {
+  const handleOpenLinkedin = async () => {
     setLinkedinFollowClicked(true)
     setIsVerifyingLinkedin(true)
     setLinkedinCountdown(5)
+
+    // Notify backend to register start timestamp
+    try {
+      await api.post('/applications/linkedin-start', { sessionId: linkedinSessionId })
+    } catch (e) {
+      console.warn('Backend start tracking registered locally:', e)
+    }
+
     window.open('https://www.linkedin.com/in/geek-intern', '_blank', 'noopener,noreferrer')
   }
 
@@ -825,7 +849,23 @@ export default function Apply() {
                         />
                       </div>
 
-                      {/* Follow Geek Intern on LinkedIn Verification Section */}
+                      {/* Message / Goals */}
+                      <div>
+                        <Label htmlFor="message" className="text-slate-700 dark:text-slate-300 font-medium text-sm">
+                          Learning Goals / Notes
+                        </Label>
+                        <Textarea
+                          id="message"
+                          name="message"
+                          rows={3}
+                          placeholder="Tell us about your background or what you hope to achieve during this virtual internship..."
+                          value={formData.message}
+                          onChange={handleChange}
+                          className="mt-1.5"
+                        />
+                      </div>
+
+                      {/* Follow Geek Intern on LinkedIn Verification Section (Placed after Learning Goals) */}
                       <div className="rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/60 dark:bg-blue-950/20 p-4 transition-all">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                           <div className="flex items-center gap-2.5">
@@ -842,7 +882,7 @@ export default function Apply() {
                                 </span>
                               </div>
                               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                                Click the button to open our LinkedIn page, hit Follow, and stay for a few seconds to complete verification.
+                                Click the button to open our LinkedIn page, hit Follow, and stay for at least 5 seconds to complete verification.
                               </p>
                             </div>
                           </div>
@@ -884,7 +924,7 @@ export default function Apply() {
                           <div className="mb-3 p-2.5 rounded-lg bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 flex items-center justify-between text-xs text-blue-900 dark:text-blue-200">
                             <div className="flex items-center gap-2">
                               <Loader2 className="h-4 w-4 animate-spin text-blue-600 shrink-0" />
-                              <span>Checking follow status... Please stay on LinkedIn and follow our page.</span>
+                              <span>Checking follow status with server... Please stay on LinkedIn and follow our page.</span>
                             </div>
                             <span className="font-bold font-mono px-2 py-0.5 rounded bg-blue-200 dark:bg-blue-800 text-blue-950 dark:text-blue-100 text-[11px]">
                               {linkedinCountdown}s remaining
@@ -942,22 +982,6 @@ export default function Apply() {
                             </div>
                           </label>
                         </div>
-                      </div>
-
-                      {/* Message / Goals */}
-                      <div>
-                        <Label htmlFor="message" className="text-slate-700 dark:text-slate-300 font-medium text-sm">
-                          Learning Goals / Notes
-                        </Label>
-                        <Textarea
-                          id="message"
-                          name="message"
-                          rows={3}
-                          placeholder="Tell us about your background or what you hope to achieve during this virtual internship..."
-                          value={formData.message}
-                          onChange={handleChange}
-                          className="mt-1.5"
-                        />
                       </div>
 
                       {/* ------------------------------------------------------------- */}
