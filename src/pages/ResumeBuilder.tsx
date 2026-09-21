@@ -415,7 +415,7 @@ export function ResumeBuilder() {
               </div>
 
               <div className="text-[9px] text-slate-400 text-center pt-6 border-t border-slate-100">
-                Generated via Geek Intern ATS-Optimized Career Tools • https://geekintern.in
+                Generated via Geek Intern ATS-Optimized Career Tools • https://geekintern.com
               </div>
             </div>
           </div>

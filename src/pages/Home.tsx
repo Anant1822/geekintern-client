@@ -1403,7 +1403,7 @@ export function Home() {
                       <div>
                         <div className="text-[10px] font-mono font-bold text-slate-900 dark:text-white tracking-wider">CID: CF-2026-WD101</div>
                         <div className="text-[9px] text-slate-500 dark:text-slate-400 font-medium">Scan to verify authenticity</div>
-                        <div className="text-[9px] text-blue-600 dark:text-blue-400 font-semibold mt-0.5">geekintern.in/verify</div>
+                        <div className="text-[9px] text-blue-600 dark:text-blue-400 font-semibold mt-0.5">geekintern.com/verify</div>
                       </div>
                     </div>
 
