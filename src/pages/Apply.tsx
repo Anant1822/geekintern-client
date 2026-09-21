@@ -13,40 +13,84 @@ import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { authService } from '@/services/auth'
 
-const DOMAIN_OPTIONS = [
-  'Frontend Development',
-  'Backend Development',
-  'Full Stack Development',
-  'Web Development',
-  'Android App Development',
-  'Python Programming',
-  'Java Programming',
-  'C++ Programming',
-  'C Programming',
-  'Blockchain Development',
-  'Artificial Intelligence',
-  'Machine Learning',
-  'Data Science',
-  'Data Analytics',
-  'Power BI',
-  'Cloud Computing',
-  'AWS Cloud',
-  'DevOps',
-  'Cyber Security',
-  'UI/UX Design',
-  'Graphic Designing',
-  'Civil Engineering & Structural Design',
-  'Mechanical Design & Simulation',
-  'AutoCAD',
-  'MATLAB',
-  'Electric Vehicle Technology (EV)',
-  'VLSI Design',
-  'Embedded Systems & IoT',
-  'Embedded Systems with Arduino',
-  'IoT Fundamentals',
-  'PLC & SCADA',
-  'PCB Design',
+export interface DomainCategoryConfig {
+  name: string
+  description: string
+  subdomains: string[]
+}
+
+export const DOMAIN_CATEGORIES: DomainCategoryConfig[] = [
+  {
+    name: 'Software & Web Development',
+    description: 'Frontend, Backend, Full Stack & Mobile Engineering',
+    subdomains: [
+      'Frontend Development',
+      'Backend Development',
+      'Full Stack Development',
+      'Web Development',
+      'Android App Development',
+      'Python Programming',
+      'Java Programming',
+      'C++ Programming',
+      'C Programming',
+      'Blockchain Development',
+    ],
+  },
+  {
+    name: 'Artificial Intelligence & Data',
+    description: 'AI Agents, Machine Learning, Data Analytics & BI',
+    subdomains: [
+      'Artificial Intelligence',
+      'Machine Learning',
+      'Data Science',
+      'Data Analytics',
+      'Power BI',
+    ],
+  },
+  {
+    name: 'Cloud, DevOps & Security',
+    description: 'AWS Cloud, Cloud Infra, CI/CD & Cyber Security',
+    subdomains: [
+      'Cloud Computing',
+      'AWS Cloud',
+      'DevOps',
+      'Cyber Security',
+    ],
+  },
+  {
+    name: 'Design & Creative Arts',
+    description: 'UI/UX Design, Figma Prototyping & Graphic Design',
+    subdomains: [
+      'UI/UX Design',
+      'Graphic Designing',
+    ],
+  },
+  {
+    name: 'Core Engineering & CAD/Simulation',
+    description: 'Mechanical, Civil, AutoCAD, MATLAB & Electric Vehicles',
+    subdomains: [
+      'Civil Engineering & Structural Design',
+      'Mechanical Design & Simulation',
+      'AutoCAD',
+      'MATLAB',
+      'Electric Vehicle Technology (EV)',
+    ],
+  },
+  {
+    name: 'Embedded Systems, IoT & Hardware',
+    description: 'VLSI Semiconductor, Embedded C, Arduino, PCB & SCADA',
+    subdomains: [
+      'VLSI Design',
+      'Embedded Systems & IoT',
+      'Embedded Systems with Arduino',
+      'IoT Fundamentals',
+      'PLC & SCADA',
+      'PCB Design',
+    ],
+  },
 ]
+
+const DOMAIN_OPTIONS = DOMAIN_CATEGORIES.flatMap((cat) => cat.subdomains)
 
 const YEAR_OPTIONS = [
   '1st Year',
@@ -91,6 +135,8 @@ export default function Apply() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submittedData, setSubmittedData] = useState<typeof formData | null>(null)
+
+  const [selectedCategory, setSelectedCategory] = useState<string>('Software & Web Development')
 
   // Supabase Auth Email OTP State
   const [otp, setOtp] = useState('')
@@ -148,8 +194,8 @@ export default function Apply() {
       console.error('Supabase OTP unexpected error:', err)
       setOtpError(err?.message || 'Failed to send OTP.')
       toast({
-        title: 'Error',
-        description: 'Unexpected error sending OTP. Please try again.',
+        title: 'Network Error',
+        description: 'Unable to dispatch verification email. Please try again.',
         variant: 'destructive',
       })
     } finally {
@@ -157,13 +203,17 @@ export default function Apply() {
     }
   }
 
-  // Handle verifying OTP via Supabase Auth
+  // Handle verifying the OTP via Supabase Auth
   const handleVerifyEmailOtp = async () => {
     const cleanEmail = formData.email.trim().toLowerCase()
-    const cleanToken = otp.trim()
+    const cleanOtp = otp.trim()
 
-    if (!cleanToken || cleanToken.length < 6) {
-      setOtpError('Please enter the 6-digit code received on your email.')
+    if (!cleanOtp || cleanOtp.length < 6) {
+      toast({
+        title: 'Invalid OTP',
+        description: 'Please enter the 6-digit code sent to your email.',
+        variant: 'destructive',
+      })
       return
     }
 
@@ -171,10 +221,10 @@ export default function Apply() {
     setOtpError(null)
 
     try {
-      const { data, error } = await authService.verifyOtp(cleanEmail, cleanToken)
+      const { session, error } = await authService.verifyOtp(cleanEmail, cleanOtp)
       if (error) {
-        console.error('Supabase OTP verify error:', error)
-        setOtpError(error.message || 'Invalid or expired OTP code.')
+        console.error('Supabase OTP verification error:', error)
+        setOtpError(error.message || 'Incorrect verification code. Please check and retry.')
         toast({
           title: 'Verification Failed',
           description: error.message || 'Invalid or expired OTP. Please try again.',
@@ -182,15 +232,16 @@ export default function Apply() {
         })
       } else {
         setIsEmailVerified(true)
-        setOtpError(null)
+        setIsOtpSent(false)
+        setOtp('')
         toast({
           title: 'Email Verified Successfully!',
-          description: 'Your email has been authenticated with Supabase.',
+          description: 'Your email has been authenticated. You can now submit your application.',
         })
       }
     } catch (err: any) {
-      console.error('Supabase verify error:', err)
-      setOtpError(err?.message || 'Verification failed.')
+      console.error('Supabase OTP verification exception:', err)
+      setOtpError('Failed to verify OTP.')
       toast({
         title: 'Verification Failed',
         description: 'Invalid or expired code. Please retry.',
@@ -201,15 +252,30 @@ export default function Apply() {
     }
   }
 
-  // Auto-match queryDomain to options
+  // Auto-match queryDomain to category & sub-domain options
   useEffect(() => {
     if (queryDomain) {
-      const match = DOMAIN_OPTIONS.find((d) =>
-        d.toLowerCase().includes(queryDomain.toLowerCase()) ||
-        queryDomain.toLowerCase().includes(d.toLowerCase())
+      // Check which category contains this sub-domain or query
+      const matchedCategory = DOMAIN_CATEGORIES.find((cat) =>
+        cat.subdomains.some(
+          (sub) =>
+            sub.toLowerCase().includes(queryDomain.toLowerCase()) ||
+            queryDomain.toLowerCase().includes(sub.toLowerCase())
+        )
       )
-      if (match) {
-        setFormData((prev) => ({ ...prev, internship_title: match }))
+
+      if (matchedCategory) {
+        setSelectedCategory(matchedCategory.name)
+        const matchedSub = matchedCategory.subdomains.find(
+          (sub) =>
+            sub.toLowerCase().includes(queryDomain.toLowerCase()) ||
+            queryDomain.toLowerCase().includes(sub.toLowerCase())
+        )
+        if (matchedSub) {
+          setFormData((prev) => ({ ...prev, internship_title: matchedSub }))
+        } else {
+          setFormData((prev) => ({ ...prev, internship_title: matchedCategory.subdomains[0] }))
+        }
       } else {
         setFormData((prev) => ({ ...prev, internship_title: queryDomain }))
       }
@@ -560,48 +626,90 @@ export default function Apply() {
                         </div>
                       </div>
 
-                      {/* Year of Study & Domain Selection */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Current Year of Study */}
+                      <div>
+                        <Label className="text-slate-700 font-medium text-sm">
+                          Current Year of Study <span className="text-red-500">*</span>
+                        </Label>
+                        <Select
+                          value={formData.year_of_study}
+                          onValueChange={(val) => setFormData((prev) => ({ ...prev, year_of_study: val }))}
+                        >
+                          <SelectTrigger className="mt-1.5">
+                            <SelectValue placeholder="Select Year" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {YEAR_OPTIONS.map((yr) => (
+                              <SelectItem key={yr} value={yr}>
+                                {yr}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {/* 2-Step Cascading Domain Selection */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-blue-50/50 dark:bg-slate-900 border border-blue-100 dark:border-slate-800 transition-colors">
+                        {/* Step 1: Main Domain Category */}
                         <div>
-                          <Label className="text-slate-700 font-medium text-sm">
-                            Current Year of Study <span className="text-red-500">*</span>
+                          <Label className="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1.5">
+                            <span className="w-5 h-5 rounded-full bg-blue-600 dark:bg-blue-500 text-white text-[11px] font-bold inline-flex items-center justify-center shadow-xs">1</span>
+                            Main Engineering Domain <span className="text-red-500">*</span>
                           </Label>
                           <Select
-                            value={formData.year_of_study}
-                            onValueChange={(val) => setFormData((prev) => ({ ...prev, year_of_study: val }))}
+                            value={selectedCategory}
+                            onValueChange={(val) => {
+                              setSelectedCategory(val)
+                              const cat = DOMAIN_CATEGORIES.find((c) => c.name === val)
+                              if (cat && cat.subdomains.length > 0) {
+                                setFormData((prev) => ({ ...prev, internship_title: cat.subdomains[0] }))
+                              }
+                            }}
                           >
-                            <SelectTrigger className="mt-1.5">
-                              <SelectValue placeholder="Select Year" />
+                            <SelectTrigger className="mt-1.5 bg-white dark:bg-slate-950 border-blue-200 dark:border-slate-700 text-slate-900 dark:text-slate-100">
+                              <SelectValue placeholder="Select Main Domain" />
                             </SelectTrigger>
-                            <SelectContent>
-                              {YEAR_OPTIONS.map((yr) => (
-                                <SelectItem key={yr} value={yr}>
-                                  {yr}
+                            <SelectContent className="max-h-72 dark:bg-slate-900 dark:border-slate-800">
+                              {DOMAIN_CATEGORIES.map((cat) => (
+                                <SelectItem key={cat.name} value={cat.name} className="dark:text-slate-200 dark:focus:bg-slate-800">
+                                  {cat.name}
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                            {DOMAIN_CATEGORIES.find((c) => c.name === selectedCategory)?.description || 'Select overarching engineering field'}
+                          </p>
                         </div>
 
+                        {/* Step 2: Specific Specialization Track under that Category */}
                         <div>
-                          <Label className="text-slate-700 font-medium text-sm">
-                            Internship Track / Domain <span className="text-red-500">*</span>
+                          <Label className="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1.5">
+                            <span className="w-5 h-5 rounded-full bg-blue-600 dark:bg-blue-500 text-white text-[11px] font-bold inline-flex items-center justify-center shadow-xs">2</span>
+                            Specific Track / Specialization <span className="text-red-500">*</span>
                           </Label>
                           <Select
                             value={formData.internship_title}
                             onValueChange={(val) => setFormData((prev) => ({ ...prev, internship_title: val }))}
                           >
-                            <SelectTrigger className="mt-1.5">
-                              <SelectValue placeholder="Select Domain" />
+                            <SelectTrigger className="mt-1.5 bg-white dark:bg-slate-950 border-blue-200 dark:border-slate-700 text-slate-900 dark:text-slate-100">
+                              <SelectValue placeholder="Select Specialization" />
                             </SelectTrigger>
-                            <SelectContent className="max-h-72">
-                              {DOMAIN_OPTIONS.map((dom) => (
-                                <SelectItem key={dom} value={dom}>
-                                  {dom}
-                                </SelectItem>
-                              ))}
+                            <SelectContent className="max-h-72 dark:bg-slate-900 dark:border-slate-800">
+                              {(() => {
+                                const currentCat = DOMAIN_CATEGORIES.find((c) => c.name === selectedCategory)
+                                const subList = currentCat ? currentCat.subdomains : DOMAIN_OPTIONS
+                                return subList.map((sub) => (
+                                  <SelectItem key={sub} value={sub} className="dark:text-slate-200 dark:focus:bg-slate-800">
+                                    {sub}
+                                  </SelectItem>
+                                ))
+                              })()}
                             </SelectContent>
                           </Select>
+                          <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1">
+                            Selected: <strong>{formData.internship_title}</strong>
+                          </p>
                         </div>
                       </div>
 
