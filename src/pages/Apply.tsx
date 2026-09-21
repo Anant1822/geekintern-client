@@ -139,56 +139,56 @@ export default function Apply() {
   const [isLinkedinFollowed, setIsLinkedinFollowed] = useState(false)
   const [linkedinFollowClicked, setLinkedinFollowClicked] = useState(false)
   const [isVerifyingLinkedin, setIsVerifyingLinkedin] = useState(false)
-  const [linkedinCountdown, setLinkedinCountdown] = useState(0)
   const [linkedinSessionId] = useState(() => `li_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`)
 
-  // Countdown timer for LinkedIn verification (minimum 5-second stay validated by backend)
+  // Background verification for LinkedIn follow (verifies seamlessly after applicant visits page)
   useEffect(() => {
     let timer: any = null
-    if (isVerifyingLinkedin && linkedinCountdown > 0) {
-      timer = setInterval(() => {
-        setLinkedinCountdown((prev) => {
-          if (prev <= 1) {
-            // Verify with backend that 5 full seconds elapsed
-            api
-              .post('/applications/linkedin-verify', { sessionId: linkedinSessionId })
-              .then(() => {
-                setIsVerifyingLinkedin(false)
-                setIsLinkedinFollowed(true)
-                toast({
-                  title: 'LinkedIn Follow Verified! ✓',
-                  description: 'Thank you for following Geek Intern on LinkedIn.',
+    if (isVerifyingLinkedin) {
+      timer = setTimeout(() => {
+        // Verify with backend that 5 full seconds elapsed
+        api
+          .post('/applications/linkedin-verify', { sessionId: linkedinSessionId })
+          .then(() => {
+            setIsVerifyingLinkedin(false)
+            setIsLinkedinFollowed(true)
+            toast({
+              title: 'LinkedIn Follow Verified! ✓',
+              description: 'Thank you for following Geek Intern on LinkedIn.',
+            })
+          })
+          .catch(() => {
+            // Retry once more after a brief grace period if server needed another second
+            setTimeout(() => {
+              api
+                .post('/applications/linkedin-verify', { sessionId: linkedinSessionId })
+                .then(() => {
+                  setIsVerifyingLinkedin(false)
+                  setIsLinkedinFollowed(true)
+                  toast({
+                    title: 'LinkedIn Follow Verified! ✓',
+                    description: 'Thank you for following Geek Intern on LinkedIn.',
+                  })
                 })
-              })
-              .catch((err) => {
-                // If applicant came back prematurely, enforce remaining time
-                const remaining = err?.response?.data?.data?.remainingSeconds || 3
-                setLinkedinCountdown(remaining)
-                toast({
-                  title: 'Stay on LinkedIn',
-                  description: 'Please stay on our LinkedIn page for at least 5 seconds before returning to verify.',
-                  variant: 'destructive',
+                .catch(() => {
+                  setIsVerifyingLinkedin(false)
                 })
-              })
-            return 0
-          }
-          return prev - 1
-        })
-      }, 1000)
+            }, 2000)
+          })
+      }, 5000)
     }
-    return () => clearInterval(timer)
-  }, [isVerifyingLinkedin, linkedinCountdown, linkedinSessionId, toast])
+    return () => clearTimeout(timer)
+  }, [isVerifyingLinkedin, linkedinSessionId, toast])
 
   const handleOpenLinkedin = async () => {
     setLinkedinFollowClicked(true)
     setIsVerifyingLinkedin(true)
-    setLinkedinCountdown(5)
 
     // Notify backend to register start timestamp
     try {
       await api.post('/applications/linkedin-start', { sessionId: linkedinSessionId })
     } catch (e) {
-      console.warn('Backend start tracking registered locally:', e)
+      console.warn('Backend start tracking registered:', e)
     }
 
     window.open('https://www.linkedin.com/in/geek-intern', '_blank', 'noopener,noreferrer')
@@ -882,7 +882,7 @@ export default function Apply() {
                                 </span>
                               </div>
                               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                                Click the button to open our LinkedIn page, hit Follow, and stay for at least 5 seconds to complete verification.
+                                Follow our official page to receive cohort announcements, project updates, and certificate notifications.
                               </p>
                             </div>
                           </div>
@@ -895,7 +895,7 @@ export default function Apply() {
                               isLinkedinFollowed
                                 ? 'bg-emerald-600 text-white cursor-default'
                                 : isVerifyingLinkedin
-                                ? 'bg-blue-400 text-white cursor-wait'
+                                ? 'bg-blue-600/90 text-white cursor-wait'
                                 : 'bg-[#0A66C2] hover:bg-[#004182] text-white cursor-pointer'
                             }`}
                           >
@@ -907,7 +907,7 @@ export default function Apply() {
                             ) : isVerifyingLinkedin ? (
                               <>
                                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                                <span>Verifying... ({linkedinCountdown}s)</span>
+                                <span>Verifying...</span>
                               </>
                             ) : (
                               <>
@@ -919,16 +919,11 @@ export default function Apply() {
                           </button>
                         </div>
 
-                        {/* Status bar / feedback during verification countdown */}
+                        {/* Status bar during verification */}
                         {isVerifyingLinkedin && (
-                          <div className="mb-3 p-2.5 rounded-lg bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 flex items-center justify-between text-xs text-blue-900 dark:text-blue-200">
-                            <div className="flex items-center gap-2">
-                              <Loader2 className="h-4 w-4 animate-spin text-blue-600 shrink-0" />
-                              <span>Checking follow status with server... Please stay on LinkedIn and follow our page.</span>
-                            </div>
-                            <span className="font-bold font-mono px-2 py-0.5 rounded bg-blue-200 dark:bg-blue-800 text-blue-950 dark:text-blue-100 text-[11px]">
-                              {linkedinCountdown}s remaining
-                            </span>
+                          <div className="mb-3 p-2.5 rounded-lg bg-blue-100/70 dark:bg-blue-900/30 border border-blue-200/80 dark:border-blue-800 flex items-center gap-2 text-xs text-blue-900 dark:text-blue-200">
+                            <Loader2 className="h-4 w-4 animate-spin text-blue-600 shrink-0" />
+                            <span>Confirming follow on LinkedIn... Please follow our page.</span>
                           </div>
                         )}
 
