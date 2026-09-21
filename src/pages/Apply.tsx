@@ -102,10 +102,9 @@ const YEAR_OPTIONS = [
 ]
 
 const DURATION_OPTIONS = [
-  { value: '4 Weeks', label: '4 Weeks (1 Month) - Fast Track' },
-  { value: '8 Weeks', label: '8 Weeks (2 Months) - Recommended' },
-  { value: '12 Weeks', label: '12 Weeks (3 Months) - Advanced' },
-  { value: '16 Weeks', label: '16 Weeks (4 Months) - Capstone' },
+  { value: '7 Days', label: '7 Days / 1 Week (Workshop Program)' },
+  { value: '4 Weeks', label: '4 Weeks / 1 Month' },
+  { value: '12 Weeks', label: '12 Weeks / 3 Months' },
 ]
 
 export default function Apply() {
@@ -122,7 +121,7 @@ export default function Apply() {
     college_name: '',
     branch: '',
     year_of_study: '3rd Year',
-    internship_title: 'Web Development',
+    internship_title: '',
     duration: '4 Weeks',
     linkedin_url: '',
     github_url: '',
@@ -136,7 +135,7 @@ export default function Apply() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submittedData, setSubmittedData] = useState<typeof formData | null>(null)
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('Software & Web Development')
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   // Supabase Auth Email OTP State
   const [otp, setOtp] = useState('')
@@ -301,6 +300,15 @@ export default function Apply() {
       toast({
         title: 'Required fields missing',
         description: 'Please fill in your name, email, and mobile number.',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    if (!selectedCategory || !formData.internship_title) {
+      toast({
+        title: 'Domain Selection Required',
+        description: 'Please select your Main Engineering Domain and Specific Track.',
         variant: 'destructive',
       })
       return
@@ -628,7 +636,7 @@ export default function Apply() {
 
                       {/* Current Year of Study */}
                       <div>
-                        <Label className="text-slate-700 font-medium text-sm">
+                        <Label className="text-slate-700 dark:text-slate-300 font-medium text-sm">
                           Current Year of Study <span className="text-red-500">*</span>
                         </Label>
                         <Select
@@ -648,95 +656,82 @@ export default function Apply() {
                         </Select>
                       </div>
 
-                      {/* 2-Step Cascading Domain Selection */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-blue-50/50 dark:bg-slate-900 border border-blue-100 dark:border-slate-800 transition-colors">
-                        {/* Step 1: Main Domain Category */}
+                      {/* Domain Selection - Natural Form Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* 1st: Main Domain Category */}
                         <div>
-                          <Label className="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1.5">
-                            <span className="w-5 h-5 rounded-full bg-blue-600 dark:bg-blue-500 text-white text-[11px] font-bold inline-flex items-center justify-center shadow-xs">1</span>
+                          <Label className="text-slate-700 dark:text-slate-300 font-medium text-sm">
                             Main Engineering Domain <span className="text-red-500">*</span>
                           </Label>
                           <Select
                             value={selectedCategory}
                             onValueChange={(val) => {
                               setSelectedCategory(val)
-                              const cat = DOMAIN_CATEGORIES.find((c) => c.name === val)
-                              if (cat && cat.subdomains.length > 0) {
-                                setFormData((prev) => ({ ...prev, internship_title: cat.subdomains[0] }))
-                              }
+                              // Keep the secondary specialization field blank initially until user selects it
+                              setFormData((prev) => ({ ...prev, internship_title: '' }))
                             }}
                           >
-                            <SelectTrigger className="mt-1.5 bg-white dark:bg-slate-950 border-blue-200 dark:border-slate-700 text-slate-900 dark:text-slate-100">
-                              <SelectValue placeholder="Select Main Domain" />
+                            <SelectTrigger className="mt-1.5">
+                              <SelectValue placeholder="Select Main Domain (e.g. Web Dev, Core, AI...)" />
                             </SelectTrigger>
-                            <SelectContent className="max-h-72 dark:bg-slate-900 dark:border-slate-800">
+                            <SelectContent className="max-h-72">
                               {DOMAIN_CATEGORIES.map((cat) => (
-                                <SelectItem key={cat.name} value={cat.name} className="dark:text-slate-200 dark:focus:bg-slate-800">
+                                <SelectItem key={cat.name} value={cat.name}>
                                   {cat.name}
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-                            {DOMAIN_CATEGORIES.find((c) => c.name === selectedCategory)?.description || 'Select overarching engineering field'}
-                          </p>
                         </div>
 
-                        {/* Step 2: Specific Specialization Track under that Category */}
+                        {/* 2nd: Specific Specialization Track (kept blank until user picks) */}
                         <div>
-                          <Label className="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1.5">
-                            <span className="w-5 h-5 rounded-full bg-blue-600 dark:bg-blue-500 text-white text-[11px] font-bold inline-flex items-center justify-center shadow-xs">2</span>
-                            Specific Track / Specialization <span className="text-red-500">*</span>
+                          <Label className="text-slate-700 dark:text-slate-300 font-medium text-sm">
+                            Internship Track / Domain <span className="text-red-500">*</span>
                           </Label>
                           <Select
                             value={formData.internship_title}
                             onValueChange={(val) => setFormData((prev) => ({ ...prev, internship_title: val }))}
+                            disabled={!selectedCategory}
                           >
-                            <SelectTrigger className="mt-1.5 bg-white dark:bg-slate-950 border-blue-200 dark:border-slate-700 text-slate-900 dark:text-slate-100">
-                              <SelectValue placeholder="Select Specialization" />
+                            <SelectTrigger className={`mt-1.5 ${!selectedCategory ? 'opacity-60 cursor-not-allowed bg-slate-50 dark:bg-slate-900' : ''}`}>
+                              <SelectValue placeholder={selectedCategory ? "Select Specialization" : "First select Main Domain above"} />
                             </SelectTrigger>
-                            <SelectContent className="max-h-72 dark:bg-slate-900 dark:border-slate-800">
+                            <SelectContent className="max-h-72">
                               {(() => {
                                 const currentCat = DOMAIN_CATEGORIES.find((c) => c.name === selectedCategory)
-                                const subList = currentCat ? currentCat.subdomains : DOMAIN_OPTIONS
+                                const subList = currentCat ? currentCat.subdomains : []
                                 return subList.map((sub) => (
-                                  <SelectItem key={sub} value={sub} className="dark:text-slate-200 dark:focus:bg-slate-800">
+                                  <SelectItem key={sub} value={sub}>
                                     {sub}
                                   </SelectItem>
                                 ))
                               })()}
                             </SelectContent>
                           </Select>
-                          <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-1">
-                            Selected: <strong>{formData.internship_title}</strong>
-                          </p>
                         </div>
                       </div>
 
-                      {/* Duration */}
+                      {/* Preferred Internship Duration - Dropdown List */}
                       <div>
-                        <Label className="text-slate-700 font-medium text-sm">
+                        <Label className="text-slate-700 dark:text-slate-300 font-medium text-sm">
                           Preferred Internship Duration <span className="text-red-500">*</span>
                         </Label>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1.5">
-                          {DURATION_OPTIONS.map((opt) => (
-                            <button
-                              key={opt.value}
-                              type="button"
-                              onClick={() => setFormData((prev) => ({ ...prev, duration: opt.value }))}
-                              className={`p-3 rounded-lg border text-left text-xs transition-all flex items-center justify-between ${
-                                formData.duration === opt.value
-                                  ? 'border-blue-600 bg-blue-50/70 text-blue-900 font-semibold shadow-xs'
-                                  : 'border-slate-200 hover:border-slate-300 text-slate-700 bg-white'
-                              }`}
-                            >
-                              <span>{opt.label}</span>
-                              {formData.duration === opt.value && (
-                                <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" />
-                              )}
-                            </button>
-                          ))}
-                        </div>
+                        <Select
+                          value={formData.duration}
+                          onValueChange={(val) => setFormData((prev) => ({ ...prev, duration: val }))}
+                        >
+                          <SelectTrigger className="mt-1.5">
+                            <SelectValue placeholder="Select Internship Duration" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {DURATION_OPTIONS.map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
 
                       {/* LinkedIn & GitHub */}
