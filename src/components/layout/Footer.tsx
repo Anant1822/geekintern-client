@@ -163,7 +163,7 @@ export function Footer() {
             </Link>
           </div>
           <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400">
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <a href="https://www.linkedin.com/in/geek-intern" target="_blank" rel="noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="Follow Geek Intern on LinkedIn">
               <Linkedin className="h-4 w-4" />
             </a>
             <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
