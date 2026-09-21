@@ -221,7 +221,7 @@ export default function Apply() {
     setOtpError(null)
 
     try {
-      const { session, error } = await authService.verifyOtp(cleanEmail, cleanOtp)
+      const { data, error } = await authService.verifyOtp(cleanEmail, cleanOtp)
       if (error) {
         console.error('Supabase OTP verification error:', error)
         setOtpError(error.message || 'Incorrect verification code. Please check and retry.')
