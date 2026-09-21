@@ -70,42 +70,42 @@ export function StudentReviews() {
       <PageTitle title="500+ Authentic Student Reviews & Feedback | Geek Intern" />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/40 text-slate-900 border-b border-slate-200">
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/40 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 text-slate-900 dark:text-slate-100 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge className="bg-amber-50 text-amber-700 border border-amber-200 uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
+          <Badge className="bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Verified Experiences
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-950">
-            Learner <span className="text-blue-600">Reviews & Stories</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-950 dark:text-white">
+            Learner <span className="text-blue-600 dark:text-blue-400">Reviews & Stories</span>
           </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Read over 500 genuine experiences written by engineering and computer science students across India who built real projects, verified their skills, and earned accredited internship credentials.
           </p>
 
           {/* Rating Summary */}
-          <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-6 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-6 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
             <div className="flex items-center gap-2">
-              <span className="text-3xl font-extrabold text-slate-900">4.9</span>
+              <span className="text-3xl font-extrabold text-slate-900 dark:text-white">4.9</span>
               <div className="flex flex-col items-start">
                 <div className="flex text-amber-400">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
-                <span className="text-[10px] text-slate-500 mt-0.5">Overall Rating</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Overall Rating</span>
               </div>
             </div>
-            <div className="hidden sm:block h-8 w-px bg-slate-200" />
+            <div className="hidden sm:block h-8 w-px bg-slate-200 dark:bg-slate-800" />
             <div className="text-left">
-              <div className="text-sm font-bold text-slate-900">{ALL_STUDENT_REVIEWS.length}+ Organic Student Reviews</div>
-              <div className="text-[10px] text-emerald-600 font-semibold">98.4% Verified Completion Rate</div>
+              <div className="text-sm font-bold text-slate-900 dark:text-white">{ALL_STUDENT_REVIEWS.length}+ Organic Student Reviews</div>
+              <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">98.4% Verified Completion Rate</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Filter Tabs & Review Cards */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white text-slate-900 min-h-[60vh]">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-[60vh] transition-colors">
         <div className="max-w-7xl mx-auto">
           {/* Search bar & domain filters */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
@@ -115,12 +115,12 @@ export function StudentReviews() {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Search college, student, or keyword..."
-                className="pl-10 h-10 rounded-xl border-slate-200 bg-slate-50/70 focus:bg-white text-xs"
+                className="pl-10 h-10 rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900 focus:bg-white dark:focus:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 text-xs"
               />
             </div>
 
-            <div className="text-xs text-slate-500 font-medium">
-              Showing <span className="font-bold text-slate-900">{filtered.length}</span> reviews
+            <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+              Showing <span className="font-bold text-slate-900 dark:text-white">{filtered.length}</span> reviews
             </div>
           </div>
 
@@ -133,7 +133,7 @@ export function StudentReviews() {
                 className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                   activeFilter === f
                     ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/20'
-                    : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/80 border border-slate-200'
+                    : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
                 }`}
               >
                 {f}
@@ -143,7 +143,7 @@ export function StudentReviews() {
 
           {/* Cards Grid */}
           {paginatedReviews.length === 0 ? (
-            <div className="py-20 text-center text-slate-500">
+            <div className="py-20 text-center text-slate-500 dark:text-slate-400">
               <p className="text-base font-semibold">No reviews matching your search criteria.</p>
               <Button
                 variant="outline"
@@ -152,7 +152,7 @@ export function StudentReviews() {
                   setSearchQuery('')
                   setCurrentPage(1)
                 }}
-                className="mt-4 text-xs border-slate-200"
+                className="mt-4 text-xs border-slate-200 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 Reset Filters
               </Button>
@@ -162,7 +162,7 @@ export function StudentReviews() {
               {paginatedReviews.map((rev) => (
                 <div
                   key={rev.id}
-                  className="rounded-2xl bg-white border border-slate-200 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-300 transition-all shadow-xs hover:shadow-md group"
+                  className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-300 dark:hover:border-blue-700 transition-all shadow-xs hover:shadow-md group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3.5">
@@ -171,24 +171,24 @@ export function StudentReviews() {
                           <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
                         ))}
                       </div>
-                      <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-full flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3" />
                         <span>Verified Intern</span>
                       </span>
                     </div>
 
-                    <p className="text-slate-700 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                    <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
                       "{rev.text}"
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-sm text-slate-900">{rev.name}</div>
-                      <div className="text-xs font-semibold text-blue-600 mt-0.5">{rev.domain}</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5 leading-snug">{rev.college}</div>
+                      <div className="font-bold text-sm text-slate-900 dark:text-white">{rev.name}</div>
+                      <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">{rev.domain}</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-snug">{rev.college}</div>
                     </div>
-                    <div className="text-[10px] text-slate-400 font-medium">{rev.date}</div>
+                    <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">{rev.date}</div>
                   </div>
                 </div>
               ))}
@@ -203,13 +203,13 @@ export function StudentReviews() {
                 size="sm"
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="h-9 px-3 rounded-lg border-slate-200 text-xs text-slate-700 disabled:opacity-40"
+                className="h-9 px-3 rounded-lg border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-200 disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <ChevronLeft className="w-4 h-4 mr-1" /> Prev
               </Button>
 
-              <div className="flex items-center gap-1 text-xs font-semibold text-slate-600 px-3">
-                Page <span className="text-slate-950 font-bold px-1">{currentPage}</span> of {totalPages}
+              <div className="flex items-center gap-1 text-xs font-semibold text-slate-600 dark:text-slate-400 px-3">
+                Page <span className="text-slate-950 dark:text-white font-bold px-1">{currentPage}</span> of {totalPages}
               </div>
 
               <Button
@@ -217,7 +217,7 @@ export function StudentReviews() {
                 size="sm"
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="h-9 px-3 rounded-lg border-slate-200 text-xs text-slate-700 disabled:opacity-40"
+                className="h-9 px-3 rounded-lg border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-200 disabled:opacity-40 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 Next <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
@@ -225,9 +225,9 @@ export function StudentReviews() {
           )}
 
           {/* Bottom CTA */}
-          <div className="mt-20 rounded-2xl bg-slate-50 border border-slate-200 p-10 text-center max-w-4xl mx-auto shadow-sm">
-            <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-slate-950">Ready to Write Your Success Story?</h3>
-            <p className="text-slate-600 text-sm max-w-xl mx-auto mb-6">
+          <div className="mt-20 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-10 text-center max-w-4xl mx-auto shadow-sm">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-slate-950 dark:text-white">Ready to Write Your Success Story?</h3>
+            <p className="text-slate-600 dark:text-slate-300 text-sm max-w-xl mx-auto mb-6">
               Join thousands of ambitious students gaining hands-on software development experience.
             </p>
             <Link to="/apply">
