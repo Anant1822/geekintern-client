@@ -746,8 +746,8 @@ export default function Apply() {
                       {/* LinkedIn & GitHub */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <Label htmlFor="linkedin_url" className="text-slate-700 font-medium text-sm">
-                            LinkedIn Profile URL <span className="text-slate-400 font-normal">(Optional)</span>
+                          <Label htmlFor="linkedin_url" className="text-slate-700 dark:text-slate-300 font-medium text-sm">
+                            LinkedIn Profile URL
                           </Label>
                           <Input
                             id="linkedin_url"
@@ -761,8 +761,8 @@ export default function Apply() {
                         </div>
 
                         <div>
-                          <Label htmlFor="github_url" className="text-slate-700 font-medium text-sm">
-                            GitHub Profile URL <span className="text-slate-400 font-normal">(Optional)</span>
+                          <Label htmlFor="github_url" className="text-slate-700 dark:text-slate-300 font-medium text-sm">
+                            GitHub Profile URL
                           </Label>
                           <Input
                             id="github_url"
@@ -778,8 +778,8 @@ export default function Apply() {
 
                       {/* Resume / Drive link */}
                       <div>
-                        <Label htmlFor="resume_url" className="text-slate-700 font-medium text-sm">
-                          Resume / Portfolio / Google Drive Link <span className="text-slate-400 font-normal">(Optional)</span>
+                        <Label htmlFor="resume_url" className="text-slate-700 dark:text-slate-300 font-medium text-sm">
+                          Resume / Portfolio / Google Drive Link
                         </Label>
                         <Input
                           id="resume_url"
@@ -794,8 +794,8 @@ export default function Apply() {
 
                       {/* Message / Goals */}
                       <div>
-                        <Label htmlFor="message" className="text-slate-700 font-medium text-sm">
-                          Learning Goals / Notes <span className="text-slate-400 font-normal">(Optional)</span>
+                        <Label htmlFor="message" className="text-slate-700 dark:text-slate-300 font-medium text-sm">
+                          Learning Goals / Notes
                         </Label>
                         <Textarea
                           id="message"
