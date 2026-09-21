@@ -94,8 +94,8 @@ export default function Contact() {
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard icon={<Mail className="w-6 h-6 text-[#1E3A5F]" />} title="Email Us" accent="bg-[#1E3A5F]">
-            <a href="mailto:thestartup675@gmail.com" className="text-[#0D9488] text-sm font-semibold hover:underline break-all">
-              thestartup675@gmail.com
+            <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] text-sm font-semibold hover:underline break-all">
+              support.geekintern@gmail.com
             </a>
             <p className="text-gray-400 text-xs">We reply within 24 hours</p>
           </InfoCard>

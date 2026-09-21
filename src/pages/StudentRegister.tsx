@@ -176,7 +176,7 @@ export default function StudentRegister() {
             </p>
             <p className="text-sm text-muted-foreground mb-8">
               Didn&apos;t receive it? Check your spam folder or contact{' '}
-              <a href="mailto:support@intership.in" className="text-[#0D9488] hover:underline">support@intership.in</a>
+              <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] hover:underline">support.geekintern@gmail.com</a>
             </p>
             <Button onClick={() => navigate('/dashboard')} className="bg-[#1E3A5F] hover:bg-[#16304f] text-white w-full">
               Go to Dashboard

@@ -1655,10 +1655,10 @@ export function Home() {
                   <div>
                     <span className="text-slate-500 dark:text-slate-400 block text-[11px] uppercase font-bold tracking-wider">Official Support Email</span>
                     <a
-                      href="mailto:thestartup675@gmail.com"
+                      href="mailto:support.geekintern@gmail.com"
                       className="font-bold text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:underline break-all"
                     >
-                      thestartup675@gmail.com
+                      support.geekintern@gmail.com
                     </a>
                     <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">We reply to every query promptly within 24 hours.</p>
                   </div>
@@ -1686,7 +1686,7 @@ export function Home() {
                       Send Support Message →
                     </Button>
                   </Link>
-                  <a href="mailto:thestartup675@gmail.com" className="w-full">
+                  <a href="mailto:support.geekintern@gmail.com" className="w-full">
                     <Button
                       variant="outline"
                       className="w-full border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold h-10 sm:h-11 rounded-xl"

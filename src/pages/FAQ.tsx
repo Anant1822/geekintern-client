@@ -83,7 +83,7 @@ const FAQ_DATA: FAQItem[] = [
     category: 'Internship Workflow',
     question: 'What happens if my college semester exams clash with the deadline?',
     answer:
-      'We understand university schedules vary across states. If your semester mid-terms or final practical exams clash with your submission window, you can request an extension or cohort rollover by emailing thestartup675@gmail.com with your student details.'
+      'We understand university schedules vary across states. If your semester mid-terms or final practical exams clash with your submission window, you can request an extension or cohort rollover by emailing support.geekintern@gmail.com with your student details.'
   },
 
   // 3. Certificates & Verification
@@ -122,7 +122,7 @@ const FAQ_DATA: FAQItem[] = [
     category: 'College & Support',
     question: 'Does Geek Intern sign or provide college NOC / Internship Approval forms?',
     answer:
-      'Yes. If your college Training and Placement Cell (TPO) requires an official institutional approval form or NOC acknowledgment, you can email your college template to thestartup675@gmail.com and our team will stamp and sign it for you.'
+      'Yes. If your college Training and Placement Cell (TPO) requires an official institutional approval form or NOC acknowledgment, you can email your college template to support.geekintern@gmail.com and our team will stamp and sign it for you.'
   },
   {
     id: 14,
@@ -136,14 +136,14 @@ const FAQ_DATA: FAQItem[] = [
     category: 'College & Support',
     question: 'How do I contact student support if I encounter technical issues or errors?',
     answer:
-      'You can reach our dedicated helpdesk directly at thestartup675@gmail.com or via the Contact page (/contact). Our support team actively responds to student queries within 24 business hours.'
+      'You can reach our dedicated helpdesk directly at support.geekintern@gmail.com or via the Contact page (/contact). Our support team actively responds to student queries within 24 business hours.'
   },
   {
     id: 16,
     category: 'College & Support',
     question: 'Can I request a correction if there is a spelling mistake in my name or college on the certificate?',
     answer:
-      'Yes, absolutely. If you notice a typo in your name, university, or college roll number, email thestartup675@gmail.com with your registered email and CID within 7 days. Our administration will re-issue the corrected certificate free of charge.'
+      'Yes, absolutely. If you notice a typo in your name, university, or college roll number, email support.geekintern@gmail.com with your registered email and CID within 7 days. Our administration will re-issue the corrected certificate free of charge.'
   }
 ]
 
@@ -305,7 +305,7 @@ export function FAQ() {
             </div>
 
             <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
-              <a href="mailto:thestartup675@gmail.com" className="w-full md:w-auto">
+              <a href="mailto:support.geekintern@gmail.com" className="w-full md:w-auto">
                 <Button className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold h-10 px-5 rounded-xl shadow-xs">
                   Email Support Team
                 </Button>

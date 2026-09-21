@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -180,8 +180,8 @@ export default function RefundPolicy() {
             <ol className="list-decimal pl-5 space-y-2 mt-2">
               <li>
                 Email us at{" "}
-                <a href="mailto:support@intership.in" className="text-[#0D9488] underline font-medium">
-                  support@intership.in
+                <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline font-medium">
+                  support.geekintern@gmail.com
                 </a>{" "}
                 with the subject line: <strong>"Refund Request – [Your Registered Email]"</strong>
               </li>
@@ -276,7 +276,7 @@ export default function RefundPolicy() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild className="bg-[#1E3A5F] hover:bg-[#162d4a] text-white">
-              <a href="mailto:support@intership.in">
+              <a href="mailto:support.geekintern@gmail.com">
                 <Mail className="w-4 h-4 mr-2" /> Email Support
               </a>
             </Button>

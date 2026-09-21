@@ -165,7 +165,7 @@ export default function PrivacyPolicy() {
               <p>
                 No method of electronic transmission or storage is 100% secure. While we strive to protect your information,
                 we cannot guarantee absolute security. If you believe your account has been compromised, please contact us
-                immediately at <a href="mailto:support@intership.in" className="text-[#0D9488] underline">support@intership.in</a>.
+                immediately at <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>.
               </p>
             </SectionBlock>
 
@@ -198,7 +198,7 @@ export default function PrivacyPolicy() {
                 <li><strong>Right to Withdraw Consent:</strong> Withdraw consent for optional data processing at any time.</li>
               </ul>
               <p>
-                To exercise any of these rights, please email <a href="mailto:support@intership.in" className="text-[#0D9488] underline">support@intership.in</a>{" "}
+                To exercise any of these rights, please email <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>{" "}
                 with the subject line "Data Rights Request". We will respond within 30 days. Identity verification may be
                 required before we action your request.
               </p>
@@ -233,7 +233,7 @@ export default function PrivacyPolicy() {
               </p>
               <p>
                 If you believe we have collected data from a minor without consent, please contact us at{" "}
-                <a href="mailto:support@intership.in" className="text-[#0D9488] underline">support@intership.in</a>.
+                <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>.
               </p>
             </SectionBlock>
 
@@ -258,8 +258,8 @@ export default function PrivacyPolicy() {
                 For any privacy-related questions, concerns, or requests, please contact our Privacy Officer:
               </p>
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-3 text-sm">
-                <p className="font-semibold text-[#1E3A5F] mb-2">Intership Technologies Private Limited</p>
-                <p>Email: <a href="mailto:support@intership.in" className="text-[#0D9488] underline">support@intership.in</a></p>
+                <p className="font-semibold text-[#1E3A5F] mb-2">Geek Intern Technologies</p>
+                <p>Email: <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a></p>
                 <p>Subject: Privacy Policy Enquiry</p>
                 <p>Address: Ambikapur, Chhattisgarh, India</p>
                 <p className="mt-2 text-gray-500">We aim to respond to all privacy requests within 30 days.</p>

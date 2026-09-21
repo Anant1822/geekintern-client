@@ -147,7 +147,7 @@ export default function TermsAndConditions() {
               <ul className="list-disc pl-5 space-y-1">
                 <li>Maintaining the confidentiality of your account credentials;</li>
                 <li>All activities that occur under your account;</li>
-                <li>Notifying us immediately at <a href="mailto:support@intership.in" className="text-[#0D9488] underline">support@intership.in</a> of any unauthorised use of your account.</li>
+                <li>Notifying us immediately at <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a> of any unauthorised use of your account.</li>
               </ul>
               <p>
                 You may not share your account credentials with any third party. Each individual must maintain a separate
@@ -198,7 +198,7 @@ export default function TermsAndConditions() {
               </p>
               <p>
                 In the event of a payment failure, please check your bank statement before attempting another payment.
-                For duplicate payments or technical errors, contact us at <a href="mailto:support@intership.in" className="text-[#0D9488] underline">support@intership.in</a>{" "}
+                For duplicate payments or technical errors, contact us at <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>{" "}
                 within 7 days of the transaction with your payment reference number.
               </p>
             </SectionBlock>
@@ -235,7 +235,7 @@ export default function TermsAndConditions() {
               <p>
                 Intership is not responsible for delays in certificate issuance caused by Internship Providers failing to
                 confirm completion. Students who believe their certificate has been unreasonably delayed may contact us at{" "}
-                <a href="mailto:support@intership.in" className="text-[#0D9488] underline">support@intership.in</a>.
+                <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>.
                 Certificates issued through the Platform are digital only; physical certificates are not provided.
               </p>
             </SectionBlock>
@@ -248,55 +248,46 @@ export default function TermsAndConditions() {
                 <li>Creating multiple accounts to circumvent application limits or suspensions;</li>
                 <li>Attempting to reverse-engineer, scrape, or copy any content from the Platform;</li>
                 <li>Using automated tools or bots to interact with the Platform;</li>
-                <li>Posting or transmitting any content that is unlawful, defamatory, or harmful;</li>
-                <li>Interfering with the security or integrity of the Platform;</li>
-                <li>Attempting to contact Internship Providers outside the Platform to circumvent application fees;</li>
-                <li>Any conduct that violates applicable Indian law, including the IT Act, 2000.</li>
+                <li>Interfering with or disrupting the Platform infrastructure;</li>
+                <li>Using the Platform for any unlawful or fraudulent purpose;</li>
+                <li>Harassing, abusing, or harming another person or communicating offensive content.</li>
               </ul>
-              <p>
-                Violation of these prohibitions may result in immediate account suspension, forfeiture of application fees,
-                and legal action where warranted.
-              </p>
             </SectionBlock>
 
-            <SectionBlock id="privacy" title="10. Privacy">
+            <SectionBlock id="ip" title="10. Intellectual Property">
               <p>
-                Your privacy is important to us. Our collection, use, and disclosure of your personal information is governed
-                by our{" "}
-                <Link to="/privacy" className="text-[#0D9488] underline">Privacy Policy</Link>, which is incorporated into
-                and forms part of these Terms. By using the Platform, you consent to the data practices described in our
-                Privacy Policy.
+                All content on the Platform, including text, graphics, logos, icons, images, software, and compilations,
+                is the property of Intership or its content suppliers and is protected by Indian and international copyright
+                and intellectual property laws.
+              </p>
+              <p>
+                You may not reproduce, distribute, modify, create derivative works from, or publicly display any Platform
+                content without our prior written consent.
               </p>
             </SectionBlock>
 
             <SectionBlock id="liability" title="11. Limitation of Liability">
               <p>
-                To the maximum extent permitted by applicable law, Intership, its directors, officers, employees, and agents
-                shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but
-                not limited to:
+                To the maximum extent permitted by applicable law, Intership, its directors, employees, and agents shall
+                not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of
+                profits, data, or goodwill, arising out of:
               </p>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Loss of internship opportunity or employment;</li>
-                <li>Loss of income or anticipated savings;</li>
-                <li>Any conduct or content of third-party Internship Providers;</li>
-                <li>Unauthorised access to or alteration of your data.</li>
+                <li>Your access to or inability to access the Platform;</li>
+                <li>Any conduct or content of any third party on the Platform;</li>
+                <li>Any content obtained from the Platform;</li>
+                <li>Unauthorised access, use, or alteration of your transmissions or content.</li>
               </ul>
               <p>
-                In no event shall Intership's total aggregate liability to you exceed the amount of application fees actually
-                paid by you in the three months preceding the event giving rise to the claim. Nothing in these Terms excludes
-                or limits liability for fraud, death, or personal injury caused by negligence.
+                In no event shall Intership's aggregate liability exceed the amount paid by you to Intership in the twelve
+                (12) months preceding the claim.
               </p>
             </SectionBlock>
 
-            <SectionBlock id="changes" title="12. Changes to Terms">
+            <SectionBlock id="termination" title="12. Termination">
               <p>
-                Intership reserves the right to modify these Terms at any time. We will notify users of material changes by
-                posting a notice on the Platform or sending an email to your registered address at least 7 days before the
-                changes take effect.
-              </p>
-              <p>
-                Your continued use of the Platform after the effective date of any changes constitutes your acceptance of
-                the updated Terms. If you do not agree to the revised Terms, you must stop using the Platform and may request
+                We may suspend or terminate your account and access to the Platform immediately, without prior notice,
+                for conduct that we believe violates these Terms or is harmful to other users or the Platform. You may request
                 account deletion by contacting us.
               </p>
             </SectionBlock>
@@ -306,8 +297,8 @@ export default function TermsAndConditions() {
                 If you have any questions, concerns, or complaints regarding these Terms and Conditions, please contact us:
               </p>
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-3 text-sm">
-                <p className="font-semibold text-[#1E3A5F] mb-2">Intership Technologies Private Limited</p>
-                <p>Email: <a href="mailto:support@intership.in" className="text-[#0D9488] underline">support@intership.in</a></p>
+                <p className="font-semibold text-[#1E3A5F] mb-2">Geek Intern Technologies</p>
+                <p>Email: <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a></p>
                 <p>Address: Ambikapur, Chhattisgarh, India</p>
                 <p className="mt-2 text-gray-500">Response time: Within 2–3 business days</p>
               </div>

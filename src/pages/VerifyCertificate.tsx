@@ -138,7 +138,7 @@ export default function VerifyCertificate() {
               <p className="text-red-700 text-sm max-w-md mx-auto">{errorMsg}</p>
               <p className="text-xs text-red-500 mt-2">
                 Please ensure you have entered the Certificate ID exactly as it appears on your certificate, or contact{' '}
-                <a href="mailto:thestartup675@gmail.com" className="underline font-medium">thestartup675@gmail.com</a>.
+                <a href="mailto:support.geekintern@gmail.com" className="underline font-medium">support.geekintern@gmail.com</a>.
               </p>
             </Card>
           )}
