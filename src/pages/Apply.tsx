@@ -120,7 +120,7 @@ export default function Apply() {
     phone: '',
     college_name: '',
     branch: '',
-    year_of_study: '3rd Year',
+    year_of_study: '',
     internship_title: '',
     duration: '4 Weeks',
     linkedin_url: '',
@@ -300,6 +300,15 @@ export default function Apply() {
       toast({
         title: 'Required fields missing',
         description: 'Please fill in your name, email, and mobile number.',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    if (!formData.year_of_study) {
+      toast({
+        title: 'Year of Study Required',
+        description: 'Please select your current year of study.',
         variant: 'destructive',
       })
       return
