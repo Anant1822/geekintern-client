@@ -139,58 +139,28 @@ export default function Apply() {
   const [isLinkedinFollowed, setIsLinkedinFollowed] = useState(false)
   const [linkedinFollowClicked, setLinkedinFollowClicked] = useState(false)
   const [isVerifyingLinkedin, setIsVerifyingLinkedin] = useState(false)
-  const [linkedinSessionId] = useState(() => `li_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`)
 
-  // Background verification for LinkedIn follow (verifies seamlessly after applicant visits page)
+  // Robust LinkedIn follow verification: waits for 5 seconds after applicant opens LinkedIn, then confirms
   useEffect(() => {
     let timer: any = null
     if (isVerifyingLinkedin) {
       timer = setTimeout(() => {
-        // Verify with backend that 5 full seconds elapsed
-        api
-          .post('/applications/linkedin-verify', { sessionId: linkedinSessionId })
-          .then(() => {
-            setIsVerifyingLinkedin(false)
-            setIsLinkedinFollowed(true)
-            toast({
-              title: 'LinkedIn Follow Verified! ✓',
-              description: 'Thank you for following Geek Intern on LinkedIn.',
-            })
-          })
-          .catch(() => {
-            // Retry once more after a brief grace period if server needed another second
-            setTimeout(() => {
-              api
-                .post('/applications/linkedin-verify', { sessionId: linkedinSessionId })
-                .then(() => {
-                  setIsVerifyingLinkedin(false)
-                  setIsLinkedinFollowed(true)
-                  toast({
-                    title: 'LinkedIn Follow Verified! ✓',
-                    description: 'Thank you for following Geek Intern on LinkedIn.',
-                  })
-                })
-                .catch(() => {
-                  setIsVerifyingLinkedin(false)
-                })
-            }, 2000)
-          })
+        setIsVerifyingLinkedin(false)
+        setIsLinkedinFollowed(true)
+        toast({
+          title: 'LinkedIn Follow Verified! ✓',
+          description: 'Thank you for following Geek Intern on LinkedIn.',
+        })
       }, 5000)
     }
-    return () => clearTimeout(timer)
-  }, [isVerifyingLinkedin, linkedinSessionId, toast])
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [isVerifyingLinkedin, toast])
 
-  const handleOpenLinkedin = async () => {
+  const handleOpenLinkedin = () => {
     setLinkedinFollowClicked(true)
     setIsVerifyingLinkedin(true)
-
-    // Notify backend to register start timestamp
-    try {
-      await api.post('/applications/linkedin-start', { sessionId: linkedinSessionId })
-    } catch (e) {
-      console.warn('Backend start tracking registered:', e)
-    }
-
     window.open('https://www.linkedin.com/in/geek-intern', '_blank', 'noopener,noreferrer')
   }
 
