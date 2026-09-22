@@ -58,10 +58,12 @@ export const authService = {
 
   /** Send OTP to email using Supabase Auth */
   async sendOtp(email: string) {
+    const siteUrl = import.meta.env.VITE_APP_URL || 'https://geekintern.com'
     return supabase.auth.signInWithOtp({
       email,
       options: {
         shouldCreateUser: true,
+        emailRedirectTo: `${siteUrl}/student-portal`,
       },
     })
   },

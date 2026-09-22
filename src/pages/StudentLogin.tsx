@@ -30,6 +30,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import api from '@/services/api'
+import { authService } from '@/services/auth'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 import { useAuthStore } from '@/store/auth.store'
@@ -175,20 +176,45 @@ export default function StudentLogin() {
     setSuccessMsg(null)
 
     try {
-      const res = await api.post('/certificates/send-otp', { email: cleanEmail })
-      if (res.data?.success) {
+      // 1. Dispatch OTP via Supabase Auth
+      let supabaseDispatched = false
+      try {
+        const { error: sbError } = await authService.sendOtp(cleanEmail)
+        if (!sbError) {
+          supabaseDispatched = true
+        } else {
+          console.warn('Supabase Auth sendOtp notice:', sbError.message)
+        }
+      } catch (sbErr) {
+        console.warn('Supabase sendOtp exception:', sbErr)
+      }
+
+      // 2. Dispatch OTP via backend route
+      let backendDispatched = false
+      try {
+        const res = await api.post('/certificates/send-otp', { email: cleanEmail })
+        if (res.data?.success) {
+          backendDispatched = true
+          if (res.data.data?.devHint) {
+            setDevHint(res.data.data.devHint)
+          }
+        }
+      } catch (apiErr: any) {
+        console.warn('Backend send-otp notice:', apiErr?.response?.data?.message || apiErr?.message)
+      }
+
+      if (supabaseDispatched || backendDispatched) {
         setOtpSent(true)
         setOtpTimer(60)
-        setSuccessMsg(`One-Time Password (OTP) dispatched to ${cleanEmail}. Valid for 10 minutes.`)
-        if (res.data.data?.devHint) {
-          setDevHint(res.data.data.devHint)
-        }
+        setSuccessMsg(`One-Time Password (OTP) dispatched to ${cleanEmail}. Please check your inbox or spam.`)
+      } else {
+        setErrorMsg('Unable to dispatch OTP. Please verify your email or try again.')
       }
     } catch (err: any) {
       console.error('Send OTP error:', err)
       const msg =
         err?.response?.data?.message ||
-        'No student application found matching this email. Please check your registered email.'
+        'Unable to send OTP at this moment. Please check your registered email.'
       setErrorMsg(msg)
     } finally {
       setIsLoading(false)
@@ -202,37 +228,65 @@ export default function StudentLogin() {
     const cleanOtp = otp.trim()
 
     if (!cleanOtp || cleanOtp.length < 4) {
-      setErrorMsg('Please enter the verification code sent to your email.')
+      setErrorMsg('Please enter the 6-digit verification code sent to your email.')
       return
     }
 
     setIsLoading(true)
     setErrorMsg(null)
 
+    let verified = false
+
+    // 1. Try Supabase Auth verifyOtp
     try {
-      const res = await api.post('/certificates/verify-otp', { email: cleanEmail, otp: cleanOtp })
-      if (res.data?.success && res.data?.data) {
-        const data: PortalData = res.data.data
-        setPortalData(data)
-        if (data.certificates && data.certificates.length > 0) {
-          setSelectedCert(data.certificates[0])
-          setActiveTab('certificates')
-        } else if (data.offer_letters && data.offer_letters.length > 0) {
-          setSelectedOfferLetter(data.offer_letters[0])
-          setActiveTab('offer_letters')
-        } else {
-          setActiveTab('applications')
-        }
-        if (data.offer_letters && data.offer_letters.length > 0) {
-          setSelectedOfferLetter(data.offer_letters[0])
+      const { data: sbData, error: sbError } = await authService.verifyOtp(cleanEmail, cleanOtp)
+      if (!sbError && sbData?.user) {
+        verified = true
+        if (sbData.user) {
+          setAuthUser(sbData.user)
         }
       }
-    } catch (err: any) {
-      console.error('Verify OTP error:', err)
-      setErrorMsg(err?.response?.data?.message || 'Invalid or expired OTP. Please try again.')
-    } finally {
-      setIsLoading(false)
+    } catch (sbErr) {
+      console.warn('Supabase verifyOtp check:', sbErr)
     }
+
+    // 2. Try backend verify-otp if not verified yet
+    if (!verified) {
+      try {
+        const res = await api.post('/certificates/verify-otp', { email: cleanEmail, otp: cleanOtp })
+        if (res.data?.success && res.data?.data) {
+          verified = true
+          const data: PortalData = res.data.data
+          setPortalData(data)
+          if (data.certificates && data.certificates.length > 0) {
+            setSelectedCert(data.certificates[0])
+            setActiveTab('certificates')
+          } else if (data.offer_letters && data.offer_letters.length > 0) {
+            setSelectedOfferLetter(data.offer_letters[0])
+            setActiveTab('offer_letters')
+          } else {
+            setActiveTab('applications')
+          }
+          if (data.offer_letters && data.offer_letters.length > 0) {
+            setSelectedOfferLetter(data.offer_letters[0])
+          }
+        }
+      } catch (apiErr: any) {
+        console.warn('Backend verify-otp check failed:', apiErr?.response?.data?.message)
+      }
+    }
+
+    // 3. If verified via Supabase Auth and portalData is not yet loaded, load portal data
+    if (verified) {
+      if (!portalData) {
+        await loadPortalDataForUser(cleanEmail)
+      }
+      setIsLoading(false)
+      return
+    }
+
+    setErrorMsg('Invalid or expired verification code. Please check your email and try again.')
+    setIsLoading(false)
   }
 
 

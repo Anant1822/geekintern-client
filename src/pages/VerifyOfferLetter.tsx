@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import api from '@/services/api'
+import { supabase } from '@/lib/supabase'
 import { formatDate } from '@/lib/utils'
 
 interface OfferLetterData {
@@ -53,13 +54,40 @@ export default function VerifyOfferLetter() {
       if (res.data?.success && res.data?.data?.offer_letter) {
         setOfferLetter(res.data.data.offer_letter)
         setSearchParams({ id: cleanId })
+        return
+      }
+    } catch (err: any) {
+      console.warn('API verification failed, trying Supabase direct fallback...', err)
+    }
+
+    // Direct Supabase fallback for production (geekintern.com)
+    try {
+      const { data: letter, error: letterErr } = await supabase
+        .from('offer_letters')
+        .select('*')
+        .ilike('letter_id', cleanId)
+        .maybeSingle()
+
+      if (letter && !letterErr) {
+        setOfferLetter({
+          letter_id: letter.letter_id,
+          student_name: letter.student_name,
+          email: letter.email || '',
+          domain: letter.domain,
+          duration: letter.duration || '4 Weeks',
+          start_date: letter.start_date || '',
+          stipend: letter.stipend || 'Unpaid / Performance Based',
+          status: letter.status || 'verified',
+          issuer: 'Geek Intern Human Resources',
+          image_url: letter.image_url || null,
+        })
+        setSearchParams({ id: cleanId })
       } else {
         setErrorMsg(`Offer Letter ID "${cleanId}" not found in Geek Intern verification records.`)
       }
     } catch (err: any) {
-      console.error('Offer letter verification error:', err)
-      const msg = err?.response?.data?.message || `Offer Letter ID "${cleanId}" could not be verified.`
-      setErrorMsg(msg)
+      console.error('Direct offer letter verification error:', err)
+      setErrorMsg(`Offer Letter ID "${cleanId}" could not be verified.`)
     } finally {
       setIsLoading(false)
     }

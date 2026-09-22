@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import api from '@/services/api'
+import { supabase } from '@/lib/supabase'
 
 interface CertificateData {
   certificate_id: string
@@ -44,13 +45,52 @@ export default function VerifyCertificate() {
       if (res.data?.success && res.data?.data?.certificate) {
         setCertificate(res.data.data.certificate)
         setSearchParams({ id: cleanId })
+        return
+      }
+    } catch (err: any) {
+      console.warn('API verification failed, trying Supabase direct fallback...', err)
+    }
+
+    // Direct Supabase fallback for production (geekintern.com)
+    try {
+      const { data: cert, error: certErr } = await supabase
+        .from('certificates')
+        .select('*')
+        .ilike('certificate_id', cleanId)
+        .maybeSingle()
+
+      if (cert && !certErr) {
+        // Fetch cloud library image if exists
+        let imageUrl = cert.image_url || null
+        try {
+          const { data: settingRow } = await supabase
+            .from('app_settings')
+            .select('value')
+            .eq('key', 'certificate_images_library')
+            .maybeSingle()
+          if (settingRow?.value && settingRow.value[cleanId]?.image_url) {
+            imageUrl = settingRow.value[cleanId].image_url
+          }
+        } catch (_) {}
+
+        setCertificate({
+          certificate_id: cert.certificate_id,
+          student_name: cert.student_name,
+          domain: cert.domain,
+          duration: cert.duration,
+          issue_date: cert.issue_date,
+          grade: cert.grade || 'A',
+          status: cert.status || 'verified',
+          issuer: 'Geek Intern Certification Authority',
+          image_url: imageUrl,
+        })
+        setSearchParams({ id: cleanId })
       } else {
         setErrorMsg(`Certificate ID "${cleanId}" not found in Geek Intern verification records.`)
       }
     } catch (err: any) {
-      console.error('Verification error:', err)
-      const msg = err?.response?.data?.message || `Certificate ID "${cleanId}" could not be verified.`
-      setErrorMsg(msg)
+      console.error('Direct verification error:', err)
+      setErrorMsg(`Certificate ID "${cleanId}" could not be verified.`)
     } finally {
       setIsLoading(false)
     }
