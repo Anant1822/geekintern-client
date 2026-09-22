@@ -95,7 +95,6 @@ export default function StudentLogin() {
   const [otp, setOtp] = useState('')
   const [otpSent, setOtpSent] = useState(false)
   const [otpTimer, setOtpTimer] = useState(0)
-  const [devHint, setDevHint] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [portalData, setPortalData] = useState<PortalData | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
@@ -195,9 +194,6 @@ export default function StudentLogin() {
         const res = await api.post('/certificates/send-otp', { email: cleanEmail })
         if (res.data?.success) {
           backendDispatched = true
-          if (res.data.data?.devHint) {
-            setDevHint(res.data.data.devHint)
-          }
         }
       } catch (apiErr: any) {
         console.warn('Backend send-otp notice:', apiErr?.response?.data?.message || apiErr?.message)
@@ -415,26 +411,12 @@ export default function StudentLogin() {
                           onClick={() => {
                             setOtpSent(false)
                             setOtp('')
-                            setDevHint(null)
                           }}
                           className="text-blue-600 font-semibold underline shrink-0 hover:text-blue-800"
                         >
                           Change
                         </button>
                       </div>
-
-                      {devHint && (
-                        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-3 text-xs flex items-center justify-between">
-                          <span>Your Verification Code: <strong className="font-mono text-sm tracking-widest text-emerald-700">{devHint}</strong></span>
-                          <button
-                            type="button"
-                            onClick={() => setOtp(devHint)}
-                            className="text-emerald-700 underline font-semibold ml-2"
-                          >
-                            Auto-Fill
-                          </button>
-                        </div>
-                      )}
 
                       <div className="space-y-1.5">
                         <label className="text-xs font-semibold text-slate-700">

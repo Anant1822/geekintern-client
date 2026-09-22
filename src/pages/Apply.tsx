@@ -180,7 +180,6 @@ export default function Apply() {
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false)
   const [otpCooldown, setOtpCooldown] = useState(0)
   const [otpError, setOtpError] = useState<string | null>(null)
-  const [devHint, setDevHint] = useState<string | null>(null)
 
   // OTP Countdown timer
   useEffect(() => {
@@ -191,7 +190,7 @@ export default function Apply() {
     return () => clearInterval(timer)
   }, [otpCooldown])
 
-  // Handle sending OTP via Supabase Auth + Backend API + Instant Fallback
+  // Handle sending OTP to applicant's email address
   const handleSendEmailOtp = async () => {
     const cleanEmail = formData.email.trim().toLowerCase()
     if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
@@ -205,55 +204,50 @@ export default function Apply() {
 
     setIsSendingOtp(true)
     setOtpError(null)
-    setDevHint(null)
 
     let sent = false
-    let backendOtpCode: string | null = null
 
-    // 1. Dispatch via backend API (which generates OTP and attempts email dispatch)
+    // 1. Dispatch via backend API (triggers Supabase Auth / Email dispatch)
     try {
       const res = await api.post('/applications/send-otp', { email: cleanEmail })
       if (res.data?.success) {
         sent = true
-        if (res.data.data?.devHint) {
-          backendOtpCode = res.data.data.devHint
-          setDevHint(res.data.data.devHint)
-        }
       }
     } catch (apiErr: any) {
-      console.warn('Backend send-otp exception:', apiErr?.message)
+      console.warn('Backend send-otp error:', apiErr?.response?.data?.message || apiErr?.message)
     }
 
-    // 2. Try Supabase Auth signInWithOtp
+    // 2. Dispatch via Supabase Auth
     try {
       const { error } = await authService.sendOtp(cleanEmail)
       if (!error) {
         sent = true
       } else {
-        console.warn('Supabase Auth sendOtp notice in apply:', error.message)
+        console.warn('Supabase Auth sendOtp notice:', error.message)
       }
     } catch (err: any) {
-      console.warn('Supabase Auth exception in apply:', err)
-    }
-
-    // 3. Fallback: If both external services fail, generate a secure local session code
-    if (!sent) {
-      const fallbackOtp = Math.floor(100000 + Math.random() * 900000).toString()
-      sessionStorage.setItem(`apply_otp_${cleanEmail}`, fallbackOtp)
-      backendOtpCode = fallbackOtp
-      setDevHint(fallbackOtp)
-      sent = true
+      console.warn('Supabase Auth exception:', err)
     }
 
     setIsSendingOtp(false)
-    setIsOtpSent(true)
-    setOtpCooldown(60)
-    setOtp('')
 
-    toast({
-      title: 'Verification Code Dispatched! ✓',
-      description: `A 6-digit verification code has been issued for ${cleanEmail}. Please enter it to verify.`,
-    })
+    if (sent) {
+      setIsOtpSent(true)
+      setOtpCooldown(60)
+      setOtp('')
+      toast({
+        title: 'Verification Code Sent! ✓',
+        description: `A 6-digit verification code has been sent to ${cleanEmail}. Please check your inbox and spam folder.`,
+      })
+    } else {
+      setIsOtpSent(true)
+      setOtpCooldown(60)
+      setOtp('')
+      toast({
+        title: 'Verification Code Requested',
+        description: `Please enter the 6-digit code sent to ${cleanEmail}.`,
+      })
+    }
   }
 
   // Handle verifying the OTP via Supabase Auth, Backend, or Session Code
@@ -275,31 +269,17 @@ export default function Apply() {
 
     let verified = false
 
-    // 1. Check local session storage fallback code
-    const storedOtp = sessionStorage.getItem(`apply_otp_${cleanEmail}`)
-    if (storedOtp && storedOtp === cleanOtp) {
-      verified = true
-      sessionStorage.removeItem(`apply_otp_${cleanEmail}`)
-    }
-
-    // 2. Check devHint if matched
-    if (!verified && devHint && devHint === cleanOtp) {
-      verified = true
-    }
-
-    // 3. Try Backend verify-otp
-    if (!verified) {
-      try {
-        const res = await api.post('/applications/verify-otp', { email: cleanEmail, otp: cleanOtp })
-        if (res.data?.success && res.data?.data?.verified) {
-          verified = true
-        }
-      } catch (apiErr: any) {
-        console.warn('Backend verify-otp error:', apiErr?.response?.data?.message)
+    // 1. Try Backend verify-otp
+    try {
+      const res = await api.post('/applications/verify-otp', { email: cleanEmail, otp: cleanOtp })
+      if (res.data?.success && res.data?.data?.verified) {
+        verified = true
       }
+    } catch (apiErr: any) {
+      console.warn('Backend verify-otp error:', apiErr?.response?.data?.message)
     }
 
-    // 4. Try Supabase Auth verifyOtp
+    // 2. Try Supabase Auth verifyOtp
     if (!verified) {
       try {
         const { data, error } = await authService.verifyOtp(cleanEmail, cleanOtp)
@@ -317,40 +297,18 @@ export default function Apply() {
       setIsEmailVerified(true)
       setIsOtpSent(false)
       setOtp('')
-      setDevHint(null)
       toast({
         title: 'Email Verified Successfully! ✓',
         description: 'Your email has been authenticated. You can now submit your application.',
       })
     } else {
-      setOtpError('Incorrect verification code. Please check and retry, or use Instant Verify.')
+      setOtpError('Incorrect verification code. Please check your email and retry.')
       toast({
         title: 'Verification Failed',
         description: 'Incorrect verification code. Please check and try again.',
         variant: 'destructive',
       })
     }
-  }
-
-  // Instant one-click verify fallback for uninterrupted application
-  const handleInstantVerifyEmail = () => {
-    const cleanEmail = formData.email.trim().toLowerCase()
-    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
-      toast({
-        title: 'Valid email required',
-        description: 'Please enter a valid email address first.',
-        variant: 'destructive',
-      })
-      return
-    }
-    setIsEmailVerified(true)
-    setIsOtpSent(false)
-    setOtp('')
-    setDevHint(null)
-    toast({
-      title: 'Email Verified! ✓',
-      description: 'Email authenticated for your internship application.',
-    })
   }
 
   // Auto-match queryDomain to category & sub-domain options
@@ -703,16 +661,6 @@ export default function Apply() {
                                     'Get OTP'
                                   )}
                                 </Button>
-                                <Button
-                                  type="button"
-                                  variant="secondary"
-                                  size="sm"
-                                  onClick={handleInstantVerifyEmail}
-                                  className="h-10 px-2.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200"
-                                  title="Skip code entry and verify email immediately"
-                                >
-                                  Quick Verify
-                                </Button>
                               </div>
                             )}
 
@@ -745,28 +693,6 @@ export default function Apply() {
                                 </span>
                                 <span className="text-[11px] text-blue-700/80">Check your inbox/spam</span>
                               </div>
-
-                              {devHint && (
-                                <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg p-2.5 text-xs flex items-center justify-between">
-                                  <span>Verification Code: <strong className="font-mono text-sm tracking-widest text-emerald-700">{devHint}</strong></span>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setOtp(devHint)
-                                      setIsEmailVerified(true)
-                                      setIsOtpSent(false)
-                                      setDevHint(null)
-                                      toast({
-                                        title: 'Email Verified! ✓',
-                                        description: 'Email authenticated successfully.',
-                                      })
-                                    }}
-                                    className="text-emerald-700 underline font-semibold ml-2 hover:text-emerald-900 cursor-pointer"
-                                  >
-                                    Verify Now
-                                  </button>
-                                </div>
-                              )}
 
                               <div className="flex gap-2">
                                 <Input
@@ -805,15 +731,8 @@ export default function Apply() {
                                     {otpError}
                                   </p>
                                 ) : (
-                                  <span className="text-slate-500">Didn't receive code in your email?</span>
+                                  <span className="text-slate-500">Didn't receive code in your email? Check spam or click Resend.</span>
                                 )}
-                                <button
-                                  type="button"
-                                  onClick={handleInstantVerifyEmail}
-                                  className="text-blue-700 font-semibold underline hover:text-blue-900 ml-auto cursor-pointer"
-                                >
-                                  Instant Verify Email
-                                </button>
                               </div>
                             </div>
                           )}
