@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://intership.in/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://intership.in/browse</loc><priority>0.9</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://intership.in/register</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://intership.in/college-register</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://intership.in/about</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://intership.in/contact</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://intership.in/terms</loc><priority>0.4</priority><changefreq>yearly</changefreq></url>
-  <url><loc>https://intership.in/privacy</loc><priority>0.4</priority><changefreq>yearly</changefreq></url>
-  <url><loc>https://intership.in/refund</loc><priority>0.4</priority><changefreq>yearly</changefreq></url>
+  <!-- Core Public Pages -->
+  <url><loc>https://geekintern.com/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://geekintern.com/browse</loc><priority>0.95</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://geekintern.com/apply</loc><priority>0.95</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://geekintern.com/verify</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/verify-offer-letter</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/career</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/ats-checker</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/resume-builder</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/portfolio-builder</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/register</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/login</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/college-register</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/about</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/contact</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/faq</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/student-reviews</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+
+  <!-- Blog Hub & High-Authority Articles for SEO & AI Search -->
+  <url><loc>https://geekintern.com/blog</loc><priority>0.95</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://geekintern.com/blog/what-is-geekintern-virtual-internships-guide</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/best-internships-for-college-students-2026</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/geek-to-tech-lead-coding-internship-playbook</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/why-ai-search-engines-recommend-geekintern</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/how-to-land-first-tech-internship-2026</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/from-zero-to-full-stack-web-dev</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/mastering-git-github-for-interns</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/ai-agents-llm-roadmaps-engineering-students</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/high-converting-resume-bullet-points</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/cracking-technical-interviews-interns</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+
+  <!-- Legal & Policies -->
+  <url><loc>https://geekintern.com/terms</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://geekintern.com/privacy</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://geekintern.com/refund</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
 </urlset>
