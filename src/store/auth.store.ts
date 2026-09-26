@@ -25,8 +25,8 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       profile: null,
       isLoading: false,
-      isAdmin: true,
-      isInitialized: true,
+      isAdmin: false,
+      isInitialized: false,
 
       setUser: (user) => set({ user }),
       setProfile: (profile) => set({ profile }),
@@ -44,6 +44,8 @@ export const useAuthStore = create<AuthState>()(
             const isAdmin = session.user.user_metadata?.role === 'admin' ||
                             session.user.app_metadata?.role === 'admin'
             set({ user: session.user, isAdmin })
+          } else {
+            set({ user: null, isAdmin: false })
           }
         } catch (err) {
           console.warn('Supabase getSession warning:', err)
@@ -59,7 +61,7 @@ export const useAuthStore = create<AuthState>()(
                               session.user.app_metadata?.role === 'admin'
               set({ user: session.user, isAdmin })
             } else {
-              set({ user: null, profile: null, isAdmin: true })
+              set({ user: null, profile: null, isAdmin: false })
             }
           }
         )

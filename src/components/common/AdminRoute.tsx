@@ -7,8 +7,18 @@ interface AdminRouteProps {
 }
 
 export function AdminRoute({ children }: AdminRouteProps) {
+  const { isAuthenticated, isAdmin, isInitialized, isLoading } = useAuth()
+  const location = useLocation()
+
+  if (isLoading || !isInitialized) {
+    return <LoadingPage />
+  }
+
+  if (!isAuthenticated || !isAdmin) {
+    return <Navigate to="/admin/login" state={{ from: location }} replace />
+  }
+
   return <>{children}</>
 }
-
 
 export default AdminRoute

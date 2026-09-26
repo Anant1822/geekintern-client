@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -25,6 +25,7 @@ type LoginForm = z.infer<typeof loginSchema>
 // ── Component ──────────────────────────────────────────────────────────────
 export default function AdminLogin() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { signIn, signOut } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
@@ -37,8 +38,8 @@ export default function AdminLogin() {
   } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'anantmaxx@gmail.com',
-      password: 'AdminPassword@2026',
+      email: '',
+      password: '',
     },
   })
 
@@ -76,7 +77,8 @@ export default function AdminLogin() {
         return
       }
 
-      navigate('/admin', { replace: true })
+      const destination = (location.state as any)?.from?.pathname || '/admin'
+      navigate(destination, { replace: true })
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : 'Login failed. Check your credentials.'

@@ -141,17 +141,17 @@ export default function App() {
 
           {/* Admin routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/internships" element={<AdminInternships />} />
-          <Route path="/admin/internships/new" element={<AdminInternshipForm />} />
-          <Route path="/admin/internships/:id/edit" element={<AdminInternshipForm />} />
-          <Route path="/admin/applications" element={<AdminApplications />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-          <Route path="/admin/certificates" element={<AdminCertificates />} />
-          <Route path="/admin/offer-letters" element={<AdminOfferLetters />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
-          <Route path="/admin/inquiries" element={<AdminInquiries />} />
-          <Route path="/admin/messages" element={<AdminMessages />} />
+          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/admin/internships" element={<AdminRoute><AdminInternships /></AdminRoute>} />
+          <Route path="/admin/internships/new" element={<AdminRoute><AdminInternshipForm /></AdminRoute>} />
+          <Route path="/admin/internships/:id/edit" element={<AdminRoute><AdminInternshipForm /></AdminRoute>} />
+          <Route path="/admin/applications" element={<AdminRoute><AdminApplications /></AdminRoute>} />
+          <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+          <Route path="/admin/certificates" element={<AdminRoute><AdminCertificates /></AdminRoute>} />
+          <Route path="/admin/offer-letters" element={<AdminRoute><AdminOfferLetters /></AdminRoute>} />
+          <Route path="/admin/settings" element={<AdminRoute><AdminSettings /></AdminRoute>} />
+          <Route path="/admin/inquiries" element={<AdminRoute><AdminInquiries /></AdminRoute>} />
+          <Route path="/admin/messages" element={<AdminRoute><AdminMessages /></AdminRoute>} />
 
           {/* Fallback */}
           <Route path="*" element={<NotFound />} />

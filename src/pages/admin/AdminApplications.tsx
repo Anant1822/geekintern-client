@@ -515,6 +515,16 @@ export default function AdminApplications() {
             <Button
               variant="outline"
               size="sm"
+              onClick={() => fetchApplications(false)}
+              disabled={loading || isFetching}
+              className="gap-1.5"
+            >
+              <RefreshCw className={cn('h-3.5 w-3.5', (loading || isFetching) && 'animate-spin')} />
+              Sync Data
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setShowFilters((f) => !f)}
               className="gap-1.5"
             >

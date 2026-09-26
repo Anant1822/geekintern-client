@@ -93,11 +93,13 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchDashboard = async () => {
+  const fetchDashboard = async (forceRefresh = false) => {
     setLoading(true)
     setError(null)
     try {
-      const res = await api.get('/admin/dashboard')
+      const res = await api.get('/admin/dashboard', {
+        params: forceRefresh ? { refresh: 'true' } : undefined,
+      })
       const body = res.data?.data || res.data || {}
       setData(body)
     } catch {
@@ -227,7 +229,7 @@ export default function AdminDashboard() {
             <Button
               variant="outline"
               size="sm"
-              onClick={fetchDashboard}
+              onClick={() => fetchDashboard(true)}
               disabled={loading}
               className="gap-1.5 border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs h-9"
             >
@@ -250,7 +252,7 @@ export default function AdminDashboard() {
         {error && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 flex items-center justify-between">
             <span>{error}</span>
-            <Button size="sm" variant="outline" onClick={fetchDashboard}>Retry</Button>
+            <Button size="sm" variant="outline" onClick={() => fetchDashboard(true)}>Retry</Button>
           </div>
         )}
 
