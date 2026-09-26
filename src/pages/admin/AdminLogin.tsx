@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Alert } from '@/components/ui/alert'
 import { useAuth } from '@/hooks/useAuth'
 import { authService } from '@/services/auth'
+import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 
 // ── Schema ─────────────────────────────────────────────────────────────────
@@ -43,12 +44,31 @@ export default function AdminLogin() {
 
   const onSubmit = async (data: LoginForm) => {
     setServerError(null)
-    try {
-      await signIn(data.email, data.password)
+    const cleanEmail = data.email.trim().toLowerCase()
+    const cleanPassword = data.password.trim()
 
-      // Check role from fresh session
+    try {
+      await signIn(cleanEmail, cleanPassword)
+
+      // Check role from fresh session or metadata
       const { data: { user } } = await authService.getUser()
-      const role = user?.user_metadata?.role ?? user?.app_metadata?.role
+      let role = user?.user_metadata?.role ?? user?.app_metadata?.role
+
+      if (role !== 'admin') {
+        // Fallback: check profile table if metadata is delayed
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user?.id)
+            .maybeSingle()
+          if (profile?.role === 'admin') {
+            role = 'admin'
+          }
+        } catch {
+          // ignore
+        }
+      }
 
       if (role !== 'admin') {
         await signOut()

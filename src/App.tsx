@@ -21,6 +21,7 @@ const Contact = lazy(() => import('@/pages/Contact'))
 const TermsAndConditions = lazy(() => import('@/pages/TermsAndConditions'))
 const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'))
 const RefundPolicy = lazy(() => import('@/pages/RefundPolicy'))
+const Blog = lazy(() => import('@/pages/Blog'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
 // Portfolio Pages
@@ -99,6 +100,10 @@ export default function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/privacy-policy" element={<Navigate to="/privacy" replace />} />
           <Route path="/refund" element={<RefundPolicy />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<Blog />} />
+          <Route path="/blogs" element={<Navigate to="/blog" replace />} />
+          <Route path="/articles" element={<Navigate to="/blog" replace />} />
 
           {/* Portfolio routes */}
           <Route path="/web-portfolio" element={<WebPortfolio />} />

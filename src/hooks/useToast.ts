@@ -1,43 +1,29 @@
-﻿import { useState, useCallback } from 'react'
+import { useCallback } from 'react'
+import { toast as globalToast } from '@/components/ui/toaster'
 
 export interface Toast {
-  id: string
+  id?: string
   title?: string
   description?: string
   variant?: 'default' | 'destructive' | 'success'
   duration?: number
 }
 
-let toastCount = 0
-
 export function useToast() {
-  const [toasts, setToasts] = useState<Toast[]>([])
-
   const toast = useCallback((props: Omit<Toast, 'id'>) => {
-    const id = `toast-${++toastCount}`
-    const newToast: Toast = { id, duration: 5000, ...props }
-    setToasts((prev) => [...prev, newToast])
-
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id))
-    }, newToast.duration)
-
-    return id
-  }, [])
-
-  const dismiss = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id))
+    globalToast(props)
   }, [])
 
   const success = useCallback(
-    (title: string, description?: string) => toast({ title, description, variant: 'default' }),
-    [toast]
+    (title: string, description?: string) => globalToast({ title, description, variant: 'success' }),
+    []
   )
 
   const error = useCallback(
-    (title: string, description?: string) => toast({ title, description, variant: 'destructive' }),
-    [toast]
+    (title: string, description?: string) => globalToast({ title, description, variant: 'destructive' }),
+    []
   )
 
-  return { toast, toasts, dismiss, success, error }
+  return { toast, success, error, dismiss: () => {} }
 }
+

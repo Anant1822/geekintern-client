@@ -24,6 +24,7 @@ import {
   History,
   AlertTriangle,
   Loader2,
+  RefreshCw,
 } from 'lucide-react'
 import { AdminLayout } from '@/components/layout/AdminLayout'
 import { EmptyState } from '@/components/common/EmptyState'
@@ -285,7 +286,36 @@ export default function AdminUsers() {
     }
   }, [page, debouncedSearch, statusFilter, toast])
 
-  useEffect(() => { fetchStudents() }, [fetchStudents])
+  useEffect(() => {
+    fetchStudents()
+
+    const channel = supabase
+      .channel('admin-users-realtime')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'direct_applications' },
+        () => {
+          fetchStudents()
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'profiles' },
+        () => {
+          fetchStudents()
+        }
+      )
+      .subscribe()
+
+    const interval = setInterval(() => {
+      fetchStudents()
+    }, 15000)
+
+    return () => {
+      supabase.removeChannel(channel)
+      clearInterval(interval)
+    }
+  }, [fetchStudents])
 
   // Deleted History Modal state
   interface DeletedApplicantEntry {
@@ -437,6 +467,16 @@ export default function AdminUsers() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => fetchStudents()}
+              disabled={loading}
+              className="gap-1.5 shadow-xs border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+            >
+              <RefreshCw className={cn('h-3.5 w-3.5', loading && 'animate-spin')} />
+              Sync Data
+            </Button>
             <Button
               variant="outline"
               size="sm"

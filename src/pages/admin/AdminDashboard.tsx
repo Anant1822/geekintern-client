@@ -11,10 +11,11 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/hooks/useToast'
+import { useAuth } from '@/hooks/useAuth'
 import api from '@/services/api'
 import { formatDate, cn } from '@/lib/utils'
+import { supabase } from '@/lib/supabase'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface AdminStats {
@@ -109,6 +110,28 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchDashboard()
+
+    // Realtime listener for direct_applications so dashboard stats update automatically
+    const channel = supabase
+      .channel('admin-dashboard-realtime')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'direct_applications' },
+        () => {
+          fetchDashboard()
+        }
+      )
+      .subscribe()
+
+    // Auto-sync polling every 15 seconds
+    const interval = setInterval(() => {
+      fetchDashboard()
+    }, 15000)
+
+    return () => {
+      supabase.removeChannel(channel)
+      clearInterval(interval)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

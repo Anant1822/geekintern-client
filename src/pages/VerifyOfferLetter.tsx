@@ -62,29 +62,36 @@ export default function VerifyOfferLetter() {
 
     // Direct Supabase fallback for production (geekintern.com)
     try {
-      const { data: letter, error: letterErr } = await supabase
-        .from('offer_letters')
-        .select('*')
-        .ilike('letter_id', cleanId)
+      const { data: settingRow } = await supabase
+        .from('app_settings')
+        .select('value')
+        .eq('key', 'offer_letters_library')
         .maybeSingle()
 
-      if (letter && !letterErr) {
-        setOfferLetter({
-          letter_id: letter.letter_id,
-          student_name: letter.student_name,
-          email: letter.email || '',
-          domain: letter.domain,
-          duration: letter.duration || '4 Weeks',
-          start_date: letter.start_date || '',
-          stipend: letter.stipend || 'Unpaid / Performance Based',
-          status: letter.status || 'verified',
-          issuer: 'Geek Intern Human Resources',
-          image_url: letter.image_url || null,
-        })
-        setSearchParams({ id: cleanId })
-      } else {
-        setErrorMsg(`Offer Letter ID "${cleanId}" not found in Geek Intern verification records.`)
+      if (settingRow?.value) {
+        const olMap = JSON.parse(settingRow.value)
+        const letter = olMap[cleanId] || Object.values(olMap).find(
+          (l: any) => (l.letter_id || '').toUpperCase() === cleanId
+        ) as any
+
+        if (letter) {
+          setOfferLetter({
+            letter_id: letter.letter_id,
+            student_name: letter.student_name,
+            email: letter.email || '',
+            domain: letter.domain,
+            duration: letter.duration || '4 Weeks',
+            start_date: letter.start_date || '',
+            stipend: letter.stipend || 'Unpaid / Performance Based',
+            status: letter.status || 'verified',
+            issuer: 'Geek Intern Human Resources',
+            image_url: letter.image_url || null,
+          })
+          setSearchParams({ id: cleanId })
+          return
+        }
       }
+      setErrorMsg(`Offer Letter ID "${cleanId}" not found in Geek Intern verification records.`)
     } catch (err: any) {
       console.error('Direct offer letter verification error:', err)
       setErrorMsg(`Offer Letter ID "${cleanId}" could not be verified.`)
@@ -275,13 +282,13 @@ export default function VerifyOfferLetter() {
                 </Card>
               )}
 
-              {/* Offer Letter Document Details Sheet */}
+              {/* Verified Record Metadata Card */}
               <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
                 {/* Top header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
                   <div>
                     <span className="text-xs font-bold text-blue-600 tracking-wider uppercase">
-                      Official Letter of Engagement
+                      Internship Engagement Record
                     </span>
                     <h2 className="text-2xl font-bold text-slate-900 mt-1">
                       {offerLetter.domain} Intern
@@ -315,52 +322,17 @@ export default function VerifyOfferLetter() {
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block text-[10px] uppercase font-medium">Stipend / Honorarium</span>
+                    <span className="text-slate-400 block text-[10px] uppercase font-medium">Stipend / Terms</span>
                     <span className="font-bold text-emerald-700 text-sm mt-0.5 block">{offerLetter.stipend || 'Performance Based'}</span>
                   </div>
                 </div>
 
-                {/* Engagement Text */}
-                <div className="space-y-3 text-xs text-slate-600 leading-relaxed pt-2">
-                  <p>
-                    Dear <strong className="text-slate-900">{offerLetter.student_name}</strong>,
-                  </p>
-                  <p>
-                    We are pleased to extend this official offer of internship for the role of <strong className="text-slate-900">{offerLetter.domain} Intern</strong> at Geek Intern.
-                  </p>
-                  <p>
-                    During this experiential learning tenure, you will work on live software features, participate in architecture design, submit weekly milestones, and receive dedicated mentorship from senior engineers.
-                  </p>
-                  <p>
-                    Upon satisfactory completion of your project tasks, you will be awarded an industry-accredited virtual internship certificate verifiable in our public database.
-                  </p>
-                </div>
-
-                {/* Signatures & Seal */}
-                <div className="flex items-center justify-between pt-6 border-t border-slate-100 text-xs">
-                  <div className="text-center">
-                    <div className="h-8 border-b border-slate-400 flex items-end justify-center pb-1">
-                      <span className="font-serif italic font-bold text-blue-900 text-sm">Talent Acquisition</span>
-                    </div>
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block mt-1">
-                      Geek Intern Hiring Team
-                    </span>
+                {!offerLetter.image_url && (
+                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center gap-3">
+                    <ShieldCheck className="h-5 w-5 text-blue-600 shrink-0" />
+                    <span>This internship offer was verified in Geek Intern official records. The physical/digital offer document is issued directly to the candidate by the administration.</span>
                   </div>
-
-                  <div className="h-16 w-16 rounded-full border-2 border-blue-500 bg-blue-50/50 flex flex-col items-center justify-center text-blue-700 shadow-sm">
-                    <ShieldCheck className="h-6 w-6 text-blue-600" />
-                    <span className="text-[8px] font-bold uppercase tracking-tighter">OFFICIAL</span>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="h-8 border-b border-slate-400 flex items-end justify-center pb-1">
-                      <span className="font-serif italic font-bold text-blue-900 text-sm">Program Director</span>
-                    </div>
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block mt-1">
-                      Academic Board
-                    </span>
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Student Portal CTA */}

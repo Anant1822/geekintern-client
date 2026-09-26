@@ -25,6 +25,7 @@ import {
   Sparkles,
   Trash2,
   AlertTriangle,
+  RefreshCw,
 } from 'lucide-react'
 import { AdminLayout } from '@/components/layout/AdminLayout'
 import LoadingPage from '@/components/common/LoadingPage'
@@ -182,92 +183,103 @@ export default function AdminApplications() {
     } else {
       setIsFetching(true)
     }
+    const loadFromSupabase = async () => {
+      const offset = (page - 1) * PAGE_SIZE
+      let query = supabase
+        .from('direct_applications')
+        .select('*', { count: 'exact' })
+        .order('created_at', { ascending: false })
+
+      if (statusFilter && statusFilter !== 'all') {
+        if (statusFilter === 'pending') {
+          query = query.or('status.eq.pending,status.eq.submitted')
+        } else {
+          query = query.eq('status', statusFilter)
+        }
+      }
+
+      if (debouncedSearch) {
+        query = query.or(`full_name.ilike.%${debouncedSearch}%,email.ilike.%${debouncedSearch}%,phone.ilike.%${debouncedSearch}%,internship_title.ilike.%${debouncedSearch}%,college_name.ilike.%${debouncedSearch}%`)
+      }
+
+      if (dateFrom) {
+        query = query.gte('created_at', `${dateFrom}T00:00:00Z`)
+      }
+      if (dateTo) {
+        query = query.lte('created_at', `${dateTo}T23:59:59Z`)
+      }
+
+      query = query.range(offset, offset + PAGE_SIZE - 1)
+
+      const { data, count, error } = await query
+      if (error) throw error
+
+      setApplications((data as CustomerApplication[]) ?? [])
+      setTotal(count ?? data?.length ?? 0)
+
+      // Compute status counts directly
+      const { data: allStatuses } = await supabase.from('direct_applications').select('status')
+      if (allStatuses) {
+        const counts: Record<string, number> = {
+          all: allStatuses.length,
+          pending: 0,
+          under_review: 0,
+          payment_pending: 0,
+          payment_complete: 0,
+          offer_sent: 0,
+          accepted: 0,
+          completed: 0,
+          rejected: 0,
+        }
+        allStatuses.forEach((row: any) => {
+          const s = row.status?.toLowerCase()
+          if (s === 'submitted' || s === 'pending') {
+            counts.pending = (counts.pending || 0) + 1
+          } else if (s === 'payment_pending') {
+            counts.payment_pending = (counts.payment_pending || 0) + 1
+            counts.under_review = (counts.under_review || 0) + 1
+          } else if (s === 'payment_complete') {
+            counts.payment_complete = (counts.payment_complete || 0) + 1
+            counts.under_review = (counts.under_review || 0) + 1
+          } else if (counts[s] !== undefined) {
+            counts[s] = (counts[s] || 0) + 1
+          }
+        })
+        setStatusCounts(counts)
+      }
+    }
+
     try {
-      const params: Record<string, string | number> = { page, limit: PAGE_SIZE }
-      if (debouncedSearch) params.search = debouncedSearch
-      if (statusFilter !== 'all') params.status = statusFilter
-      if (statusFilter === 'under_review' && paymentFilter !== 'all') {
-        params.payment = paymentFilter
-      }
-      if (dateFrom) params.date_from = dateFrom
-      if (dateTo) params.date_to = dateTo
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      if (isLocalhost) {
+        const params: Record<string, string | number> = { page, limit: PAGE_SIZE }
+        if (debouncedSearch) params.search = debouncedSearch
+        if (statusFilter !== 'all') params.status = statusFilter
+        if (statusFilter === 'under_review' && paymentFilter !== 'all') {
+          params.payment = paymentFilter
+        }
+        if (dateFrom) params.date_from = dateFrom
+        if (dateTo) params.date_to = dateTo
 
-      const res = await api.get('/admin/applications', { params })
-      const body = res.data
-      setApplications(Array.isArray(body?.data) ? body.data : (Array.isArray(body) ? body : []))
-      if (body?.status_counts) {
-        setStatusCounts(body.status_counts)
+        const res = await api.get('/admin/applications', { params, timeout: 3000 })
+        const body = res.data
+        if (body && (Array.isArray(body?.data) || Array.isArray(body))) {
+          setApplications(Array.isArray(body?.data) ? body.data : body)
+          if (body?.status_counts) {
+            setStatusCounts(body.status_counts)
+          }
+          const totalCount = typeof body?.pagination?.total === 'number'
+            ? body.pagination.total
+            : (typeof body?.total === 'number' ? body.total : (Array.isArray(body?.data) ? body.data.length : 0))
+          setTotal(totalCount)
+          return
+        }
       }
-      const totalCount = typeof body?.pagination?.total === 'number'
-        ? body.pagination.total
-        : (typeof body?.total === 'number' ? body.total : (Array.isArray(body?.data) ? body.data.length : 0))
-      setTotal(totalCount)
+      // On production / Vercel: query directly via Supabase client for instant zero-latency responses
+      await loadFromSupabase()
     } catch {
-      // Direct Supabase fallback
       try {
-        const offset = (page - 1) * PAGE_SIZE
-        let query = supabase
-          .from('direct_applications')
-          .select('*', { count: 'exact' })
-          .order('created_at', { ascending: false })
-
-        if (statusFilter && statusFilter !== 'all') {
-          if (statusFilter === 'pending') {
-            query = query.or('status.eq.pending,status.eq.submitted')
-          } else {
-            query = query.eq('status', statusFilter)
-          }
-        }
-
-        if (debouncedSearch) {
-          query = query.or(`full_name.ilike.%${debouncedSearch}%,email.ilike.%${debouncedSearch}%,phone.ilike.%${debouncedSearch}%,internship_title.ilike.%${debouncedSearch}%,college_name.ilike.%${debouncedSearch}%`)
-        }
-
-        if (dateFrom) {
-          query = query.gte('created_at', `${dateFrom}T00:00:00Z`)
-        }
-        if (dateTo) {
-          query = query.lte('created_at', `${dateTo}T23:59:59Z`)
-        }
-
-        query = query.range(offset, offset + PAGE_SIZE - 1)
-
-        const { data, count, error } = await query
-        if (error) throw error
-
-        setApplications((data as CustomerApplication[]) ?? [])
-        setTotal(count ?? data?.length ?? 0)
-
-        // Compute counts
-        const { data: allStatuses } = await supabase.from('direct_applications').select('status')
-        if (allStatuses) {
-          const counts: Record<string, number> = {
-            all: allStatuses.length,
-            pending: 0,
-            under_review: 0,
-            payment_pending: 0,
-            payment_complete: 0,
-            offer_sent: 0,
-            accepted: 0,
-            completed: 0,
-            rejected: 0,
-          }
-          allStatuses.forEach((row: any) => {
-            const s = row.status?.toLowerCase()
-            if (s === 'submitted' || s === 'pending') {
-              counts.pending = (counts.pending || 0) + 1
-            } else if (s === 'payment_pending') {
-              counts.payment_pending = (counts.payment_pending || 0) + 1
-              counts.under_review = (counts.under_review || 0) + 1
-            } else if (s === 'payment_complete') {
-              counts.payment_complete = (counts.payment_complete || 0) + 1
-              counts.under_review = (counts.under_review || 0) + 1
-            } else if (counts[s] !== undefined) {
-              counts[s] = (counts[s] || 0) + 1
-            }
-          })
-          setStatusCounts(counts)
-        }
+        await loadFromSupabase()
       } catch (fallbackErr) {
         console.error('Failed to load applications:', fallbackErr)
         toast({ title: 'Error', description: 'Failed to load applications.', variant: 'destructive' })
@@ -282,6 +294,51 @@ export default function AdminApplications() {
   useEffect(() => {
     fetchApplications(loading && applications.length === 0)
   }, [fetchApplications])
+
+  // Supabase Realtime subscription + auto-polling so newly submitted applications
+  // immediately and automatically appear in the Admin Portal without manual refresh.
+  useEffect(() => {
+    const channel = supabase
+      .channel('admin-realtime-applications')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'direct_applications' },
+        (payload) => {
+          if (payload.eventType === 'INSERT') {
+            const newApp = payload.new as CustomerApplication
+            toast({
+              title: 'New Application Received!',
+              description: `${newApp.full_name} applied for ${newApp.internship_title || 'Internship'}.`,
+            })
+            // Re-fetch to seamlessly update pagination, filters, and status counts
+            fetchApplications(false)
+          } else if (payload.eventType === 'UPDATE') {
+            const updated = payload.new as CustomerApplication
+            setApplications((prev) =>
+              prev.map((a) => (a.id === updated.id ? { ...a, ...updated } : a))
+            )
+            fetchApplications(false)
+          } else if (payload.eventType === 'DELETE') {
+            const oldId = (payload.old as any)?.id
+            if (oldId) {
+              setApplications((prev) => prev.filter((a) => a.id !== oldId))
+            }
+            fetchApplications(false)
+          }
+        }
+      )
+      .subscribe()
+
+    // Polling interval every 12 seconds as a rock-solid fallback
+    const interval = setInterval(() => {
+      fetchApplications(false)
+    }, 12000)
+
+    return () => {
+      supabase.removeChannel(channel)
+      clearInterval(interval)
+    }
+  }, [fetchApplications, toast])
 
   const handleStatusUpdate = async (id: string, status: string) => {
     setUpdatingStatusId(id)

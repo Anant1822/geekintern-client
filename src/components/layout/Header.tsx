@@ -19,7 +19,8 @@ import {
   LogOut,
   Cpu,
   Sun,
-  Moon
+  Moon,
+  Newspaper
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -97,6 +98,12 @@ const NAVIGATION_ITEMS: NavItem[] = [
   {
     label: 'More',
     items: [
+      {
+        label: 'Blog & Articles',
+        href: '/blog',
+        description: 'Engineering roadmaps, tech tutorials, and internship guides',
+        icon: Newspaper,
+      },
       {
         label: 'Team Geek Intern',
         href: '/team',
