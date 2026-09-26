@@ -29,6 +29,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog'
 import api from '@/services/api'
 import { authService } from '@/services/auth'
 import { supabase } from '@/lib/supabase'
@@ -105,6 +113,10 @@ export default function StudentLogin() {
   const [copiedLink, setCopiedLink] = useState(false)
   const certPrintRef = useRef<HTMLDivElement>(null)
 
+  // Email Not Registered popup modal state
+  const [showNotRegisteredModal, setShowNotRegisteredModal] = useState(false)
+  const [notRegisteredEmail, setNotRegisteredEmail] = useState('')
+
   const { user: authUser, signOut: authSignOut } = useAuth()
   const setAuthUser = useAuthStore((s) => s.setUser)
   const setAuthAdmin = useAuthStore((s) => s.setAdmin)
@@ -115,6 +127,92 @@ export default function StudentLogin() {
       setEmail(initialIdentifier)
     }
   }, [initialIdentifier])
+
+  // Check whether an email is registered / has an active application
+  const checkIsStudentRegistered = async (userEmail: string): Promise<boolean> => {
+    const cleanEmail = userEmail.trim().toLowerCase()
+    if (!cleanEmail || !cleanEmail.includes('@')) return false
+
+    // 1. Check backend API first if online
+    try {
+      const res = await api.post('/certificates/check-registered', { email: cleanEmail })
+      if (res.data?.success && typeof res.data?.data?.isRegistered === 'boolean') {
+        return res.data.data.isRegistered
+      }
+    } catch (apiErr: any) {
+      if (apiErr?.response?.status === 404) {
+        return false
+      }
+      console.warn('Backend check-registered notice, checking direct Supabase:', apiErr?.message)
+    }
+
+    // 2. Direct Supabase / Cloud Checks (Guaranteed to work on production / Vercel client)
+    try {
+      // A. Check student_applicants_registry in app_settings
+      const { data: regRow } = await supabase
+        .from('app_settings')
+        .select('value')
+        .eq('key', 'student_applicants_registry')
+        .maybeSingle()
+
+      if (regRow?.value) {
+        try {
+          const regMap = JSON.parse(regRow.value)
+          if (regMap && regMap[cleanEmail]) {
+            return true
+          }
+        } catch {}
+      }
+
+      // B. Check offer_letters_library in app_settings
+      const { data: olSettingRow } = await supabase
+        .from('app_settings')
+        .select('value')
+        .eq('key', 'offer_letters_library')
+        .maybeSingle()
+
+      if (olSettingRow?.value) {
+        try {
+          const olMap = JSON.parse(olSettingRow.value)
+          const allLetters: any[] = Object.values(olMap)
+          const hasLetter = allLetters.some(
+            (l) => l.email && l.email.toLowerCase().trim() === cleanEmail
+          )
+          if (hasLetter) return true
+        } catch {}
+      }
+
+      // C. Check direct_applications table
+      try {
+        const { data: directApps } = await supabase
+          .from('direct_applications')
+          .select('id')
+          .ilike('email', cleanEmail)
+          .limit(1)
+
+        if (directApps && directApps.length > 0) {
+          return true
+        }
+      } catch {}
+
+      // D. Check certificates table
+      try {
+        const { data: certs } = await supabase
+          .from('certificates')
+          .select('id')
+          .ilike('student_name', cleanEmail)
+          .limit(1)
+
+        if (certs && certs.length > 0) {
+          return true
+        }
+      } catch {}
+    } catch (directErr) {
+      console.warn('Supabase direct registration check notice:', directErr)
+    }
+
+    return false
+  }
 
   // Helper to load student records from backend or Supabase direct
   const loadPortalDataForUser = async (userEmail: string) => {
@@ -299,11 +397,25 @@ export default function StudentLogin() {
     setErrorMsg(null)
     setSuccessMsg(null)
 
+    // IMPORTANT: Check whether the candidate is registered / has applied BEFORE sending OTP
     try {
-      // 1. Dispatch OTP via Supabase Auth
+      const isRegistered = await checkIsStudentRegistered(cleanEmail)
+      if (!isRegistered) {
+        setIsLoading(false)
+        setNotRegisteredEmail(cleanEmail)
+        setShowNotRegisteredModal(true)
+        setErrorMsg(`The email "${cleanEmail}" is not registered or applied. Please check for typos or submit an application.`)
+        return
+      }
+    } catch (checkErr) {
+      console.warn('Registration pre-check notice:', checkErr)
+    }
+
+    try {
+      // 1. Dispatch OTP via Supabase Auth (with shouldCreateUser: false to protect against uninvited accounts)
       let supabaseDispatched = false
       try {
-        const { error: sbError } = await authService.sendOtp(cleanEmail)
+        const { error: sbError } = await authService.sendOtp(cleanEmail, false)
         if (!sbError) {
           supabaseDispatched = true
         } else {
@@ -321,7 +433,15 @@ export default function StudentLogin() {
           backendDispatched = true
         }
       } catch (apiErr: any) {
-        console.warn('Backend send-otp notice:', apiErr?.response?.data?.message || apiErr?.message)
+        const msg = apiErr?.response?.data?.message
+        if (apiErr?.response?.status === 404) {
+          setIsLoading(false)
+          setNotRegisteredEmail(cleanEmail)
+          setShowNotRegisteredModal(true)
+          setErrorMsg(msg || `This email address (${cleanEmail}) is not registered or applied.`)
+          return
+        }
+        console.warn('Backend send-otp notice:', msg || apiErr?.message)
       }
 
       if (supabaseDispatched || backendDispatched) {
@@ -355,6 +475,18 @@ export default function StudentLogin() {
 
     setIsLoading(true)
     setErrorMsg(null)
+
+    // Pre-check registration status in case an unregistered user got to the OTP form
+    const isRegistered = await checkIsStudentRegistered(cleanEmail)
+    if (!isRegistered) {
+      setIsLoading(false)
+      setNotRegisteredEmail(cleanEmail)
+      setShowNotRegisteredModal(true)
+      setOtpSent(false)
+      setOtp('')
+      setErrorMsg(`This email address (${cleanEmail}) is not registered or applied. Please submit an application first.`)
+      return
+    }
 
     let verified = false
 
@@ -399,11 +531,20 @@ export default function StudentLogin() {
 
     // 3. If verified, ensure portal data is loaded and return
     if (verified) {
-      if (!portalData) {
-        await loadPortalDataForUser(cleanEmail)
+      const loaded = await loadPortalDataForUser(cleanEmail)
+      if (loaded) {
+        setIsLoading(false)
+        return
+      } else {
+        // Authenticated token, but no application or certificate records exist
+        setIsLoading(false)
+        setNotRegisteredEmail(cleanEmail)
+        setShowNotRegisteredModal(true)
+        setOtpSent(false)
+        setOtp('')
+        setErrorMsg(`No active application or certificate records found for "${cleanEmail}".`)
+        return
       }
-      setIsLoading(false)
-      return
     }
 
     // 4. Client-side verified recovery: If this registered student has an active profile/record,
@@ -454,6 +595,69 @@ export default function StudentLogin() {
       <PageTitle title="Student Login & Certificate Portal | Geek Intern" />
 
       <div className="min-h-[80vh] bg-slate-50/50 py-10 md:py-16">
+        {/* Email Not Registered / Applied Popup Modal */}
+        <Dialog
+          open={showNotRegisteredModal}
+          onOpenChange={(open) => {
+            setShowNotRegisteredModal(open)
+            if (!open) {
+              setOtpSent(false)
+              setOtp('')
+            }
+          }}
+        >
+          <DialogContent className="sm:max-w-md p-6 bg-white border border-slate-200 shadow-2xl rounded-2xl">
+            <DialogHeader className="space-y-3 text-center sm:text-center items-center">
+              <div className="h-16 w-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto shadow-inner">
+                <AlertCircle className="h-8 w-8" />
+              </div>
+              <DialogTitle className="text-xl font-bold text-slate-900">
+                Email Not Registered / Applied
+              </DialogTitle>
+              <DialogDescription className="text-sm text-slate-600 leading-relaxed text-center">
+                The email address{' '}
+                <span className="font-semibold text-slate-900 bg-slate-100 px-2 py-0.5 rounded break-all">
+                  {notRegisteredEmail || email}
+                </span>{' '}
+                was not found in our records. No internship application or enrolled student account exists with this email.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 text-xs text-amber-900 space-y-1 my-1">
+              <p className="font-semibold flex items-center gap-1.5 text-amber-800">
+                <Sparkles className="h-4 w-4 shrink-0 text-amber-600" />
+                Want to join Geek Intern?
+              </p>
+              <p className="text-amber-700 leading-relaxed">
+                Submit your internship application in just 2 minutes to receive your offer letter and activate your student portal.
+              </p>
+            </div>
+
+            <DialogFooter className="flex flex-col sm:flex-row gap-2.5 pt-2 sm:justify-between">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setShowNotRegisteredModal(false)
+                  setOtpSent(false)
+                  setOtp('')
+                }}
+                className="w-full sm:w-1/2 border-slate-300 text-slate-700 hover:bg-slate-100 font-medium"
+              >
+                Try Another Email
+              </Button>
+              <Button
+                asChild
+                className="w-full sm:w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md shadow-blue-600/20"
+              >
+                <Link to={`/apply?email=${encodeURIComponent(notRegisteredEmail || email)}`}>
+                  Apply for Internship <ArrowRight className="h-4 w-4 ml-1" />
+                </Link>
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header Banner */}
           <div className="text-center max-w-2xl mx-auto mb-10">

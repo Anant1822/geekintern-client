@@ -221,7 +221,7 @@ export default function Apply() {
 
     // 2. Dispatch via Supabase Auth
     try {
-      const { error } = await authService.sendOtp(cleanEmail)
+      const { error } = await authService.sendOtp(cleanEmail, true)
       if (!error) {
         sent = true
       } else {
