@@ -133,6 +133,12 @@ const NAVIGATION_ITEMS: NavItem[] = [
         description: 'Platform policies, guidelines, and compliance',
         icon: FileText,
       },
+      {
+        label: 'Admin Portal',
+        href: '/admin/login',
+        description: 'Staff console to manage applications, certificates, and students',
+        icon: LayoutDashboard,
+      },
     ],
   },
 ]

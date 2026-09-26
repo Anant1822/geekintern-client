@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
 import LoadingPage from '@/components/common/LoadingPage'
 import ProtectedRoute from '@/components/common/ProtectedRoute'
+import AdminRoute from '@/components/common/AdminRoute'
 import ErrorBoundary from '@/components/common/ErrorBoundary'
 
 // Public Core Pages (Clean White Interface)
@@ -47,6 +48,19 @@ const Team = lazy(() => import('@/pages/Team'))
 
 // Protected Student Pages
 const StudentDashboard = lazy(() => import('@/pages/StudentDashboard'))
+
+// Admin Pages (Lazy loaded so public visitor page loads lightning fast)
+const AdminLogin = lazy(() => import('@/pages/admin/AdminLogin'))
+const AdminDashboard = lazy(() => import('@/pages/admin/AdminDashboard'))
+const AdminInternships = lazy(() => import('@/pages/admin/AdminInternships'))
+const AdminInternshipForm = lazy(() => import('@/pages/admin/AdminInternshipForm'))
+const AdminApplications = lazy(() => import('@/pages/admin/AdminApplications'))
+const AdminUsers = lazy(() => import('@/pages/admin/AdminUsers'))
+const AdminCertificates = lazy(() => import('@/pages/admin/AdminCertificates'))
+const AdminOfferLetters = lazy(() => import('@/pages/admin/AdminOfferLetters'))
+const AdminSettings = lazy(() => import('@/pages/admin/AdminSettings'))
+const AdminInquiries = lazy(() => import('@/pages/admin/AdminInquiries'))
+const AdminMessages = lazy(() => import('@/pages/admin/AdminMessages'))
 
 import { useAuthInit } from '@/hooks/useAuth'
 
@@ -120,9 +134,19 @@ export default function App() {
             }
           />
 
-          {/* Explicitly block and 404 any admin paths */}
-          <Route path="/admin/*" element={<NotFound />} />
-          <Route path="/admin" element={<NotFound />} />
+          {/* Admin routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/internships" element={<AdminInternships />} />
+          <Route path="/admin/internships/new" element={<AdminInternshipForm />} />
+          <Route path="/admin/internships/:id/edit" element={<AdminInternshipForm />} />
+          <Route path="/admin/applications" element={<AdminApplications />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/certificates" element={<AdminCertificates />} />
+          <Route path="/admin/offer-letters" element={<AdminOfferLetters />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
+          <Route path="/admin/inquiries" element={<AdminInquiries />} />
+          <Route path="/admin/messages" element={<AdminMessages />} />
 
           {/* Fallback */}
           <Route path="*" element={<NotFound />} />

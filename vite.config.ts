@@ -15,13 +15,25 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-select', '@radix-ui/react-tabs'],
-          supabase: ['@supabase/supabase-js'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+              return 'vendor'
+            }
+            if (id.includes('@radix-ui')) {
+              return 'radix-ui'
+            }
+            if (id.includes('lucide-react')) {
+              return 'lucide-icons'
+            }
+            if (id.includes('@supabase')) {
+              return 'supabase'
+            }
+          }
         },
       },
     },
