@@ -706,7 +706,7 @@ export function Home() {
 
   return (
     <PublicLayout>
-      <PageTitle title="Geek Intern - Virtual Internship Programs for Tech Careers" />
+      <PageTitle title="Geek Intern (Official Website) - Virtual Tech Internships & Learning" suffix="geekintern.com" />
 
       {/* ========================================================= */}
       {/* 1. HERO SECTION */}
@@ -717,10 +717,10 @@ export function Home() {
         <div className="absolute top-1/3 right-1/4 w-[420px] h-[420px] rounded-full bg-cyan-100/40 dark:bg-cyan-900/15 blur-[120px] pointer-events-none -z-10" />
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
-          {/* Top Badge: ✱ PROJECT-BASED VIRTUAL INTERNSHIP PROGRAMS */}
+          {/* Top Badge: ✱ OFFICIAL GEEK INTERN PLATFORM */}
           <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs md:text-sm font-semibold mb-6 sm:mb-8 shadow-xs">
             <span className="text-base text-blue-600 dark:text-blue-400">✱</span>
-            <span className="tracking-wider uppercase">PROJECT-BASED VIRTUAL INTERNSHIP PROGRAMS</span>
+            <span className="tracking-wider uppercase">OFFICIAL GEEK INTERN PLATFORM • LEARN. BUILD. GROW.</span>
           </div>
 
           {/* Clean Heading with Serif Accent */}
@@ -733,7 +733,7 @@ export function Home() {
 
           {/* Subtitle */}
           <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal px-2">
-            Gain hands-on experience on real problem statements, build production-grade projects, and earn verified credentials with <span className="font-semibold text-slate-800 dark:text-slate-100">Geek Intern</span>.
+            Welcome to the official website of <span className="font-semibold text-slate-800 dark:text-slate-100">Geek Intern</span> (geekintern.com). Bridge the gap between academic learning and real-world experience with verified virtual internships and industry-standard credentials.
           </p>
 
           {/* CTAs */}

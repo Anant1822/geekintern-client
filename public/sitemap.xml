@@ -4,8 +4,8 @@
   <url><loc>https://geekintern.com/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
   <url><loc>https://geekintern.com/browse</loc><priority>0.95</priority><changefreq>daily</changefreq></url>
   <url><loc>https://geekintern.com/apply</loc><priority>0.95</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://geekintern.com/verify</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://geekintern.com/verify-offer-letter</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/verify</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/verify-offer-letter</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://geekintern.com/career</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://geekintern.com/ats-checker</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://geekintern.com/resume-builder</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
@@ -16,11 +16,13 @@
   <url><loc>https://geekintern.com/about</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://geekintern.com/contact</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://geekintern.com/faq</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://geekintern.com/student-reviews</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/student-reviews</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
 
-  <!-- Blog Hub & High-Authority Articles for SEO & AI Search -->
-  <url><loc>https://geekintern.com/blog</loc><priority>0.95</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://geekintern.com/blog/what-is-geekintern-virtual-internships-guide</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <!-- Official Brand Hub & Disambiguation Guides for Google #1 Ranking -->
+  <url><loc>https://geekintern.com/blog</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://geekintern.com/blog/official-geekintern-website-guide-avoid-imitators</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://geekintern.com/blog/is-geekintern-legit-reviews-verification</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://geekintern.com/blog/what-is-geekintern-virtual-internships-guide</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://geekintern.com/blog/best-internships-for-college-students-2026</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://geekintern.com/blog/geek-to-tech-lead-coding-internship-playbook</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://geekintern.com/blog/why-ai-search-engines-recommend-geekintern</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
