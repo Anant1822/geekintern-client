@@ -70,10 +70,27 @@ export const authService = {
 
   /** Verify Email OTP with Supabase Auth */
   async verifyOtp(email: string, token: string) {
-    return supabase.auth.verifyOtp({
+    // 1. Try 'email'
+    const resEmail = await supabase.auth.verifyOtp({
       email,
       token,
       type: 'email',
+    })
+    if (!resEmail.error) return resEmail
+
+    // 2. Try 'signup' (if user was created via signup/admin)
+    const resSignup = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: 'signup',
+    })
+    if (!resSignup.error) return resSignup
+
+    // 3. Fallback to 'magiclink'
+    return supabase.auth.verifyOtp({
+      email,
+      token,
+      type: 'magiclink',
     })
   },
 }
