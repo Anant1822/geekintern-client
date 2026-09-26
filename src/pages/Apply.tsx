@@ -699,10 +699,10 @@ export default function Apply() {
                                   type="text"
                                   inputMode="numeric"
                                   maxLength={6}
-                                  placeholder="• • • • • •"
+                                  placeholder="000000"
                                   value={otp}
                                   onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
-                                  className="h-9 bg-white text-center font-mono text-base tracking-widest font-bold border-blue-300 focus:border-blue-600"
+                                  className="h-10 bg-white text-center font-mono text-lg tracking-[0.3em] font-bold border-blue-300 focus:border-blue-600 shadow-inner"
                                   disabled={isVerifyingOtp}
                                   autoFocus
                                 />
@@ -711,7 +711,7 @@ export default function Apply() {
                                   size="sm"
                                   onClick={handleVerifyEmailOtp}
                                   disabled={isVerifyingOtp || otp.trim().length < 4}
-                                  className="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shrink-0"
+                                  className="h-10 px-5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shrink-0 shadow-sm"
                                 >
                                   {isVerifyingOtp ? (
                                     <span className="flex items-center gap-1.5">
@@ -731,7 +731,7 @@ export default function Apply() {
                                     {otpError}
                                   </p>
                                 ) : (
-                                  <span className="text-slate-500">Didn't receive code in your email? Check spam or click Resend.</span>
+                                  <span className="text-slate-500">Please enter the 6-digit code received on your email.</span>
                                 )}
                               </div>
                             </div>

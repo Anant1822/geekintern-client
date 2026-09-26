@@ -739,7 +739,7 @@ export function Home() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none">
             <Link to="/apply" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-600/20 inline-flex items-center justify-center gap-2 transition-all hover:scale-102 active:scale-98">
+              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-600/25 inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98">
                 <span>Start Your Internship</span>
                 <ArrowRight className="h-4 w-4 stroke-[2.5]" />
               </Button>
@@ -748,12 +748,28 @@ export function Home() {
             <Link to="/verify" className="w-full sm:w-auto">
               <Button
                 variant="outline"
-                className="w-full sm:w-auto h-12 px-8 rounded-full border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2 transition-all"
+                className="w-full sm:w-auto h-12 px-8 rounded-full border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98"
               >
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Verify Certificate</span>
-                <div className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 dark:border-slate-500" />
               </Button>
             </Link>
+          </div>
+
+          {/* Trust Highlights */}
+          <div className="mt-8 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
+            <div className="inline-flex items-center gap-1.5 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Free Application & Instant Offer Letter</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Verifiable QR Certificate ID</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Letter of Recommendation (LOR)</span>
+            </div>
           </div>
         </div>
       </section>
