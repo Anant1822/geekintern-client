@@ -1,0 +1,959 @@
+import { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { Save, Loader2, Plus, Trash2, Pencil, Eye, EyeOff, Shield, UserPlus, KeyRound, Check, Copy, AlertTriangle } from 'lucide-react'
+import { AdminLayout } from '@/components/layout/AdminLayout'
+import LoadingPage from '@/components/common/LoadingPage'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useAuth } from '@/hooks/useAuth'
+import { useToast } from '@/hooks/useToast'
+import api from '@/services/api'
+import type { FAQ, Testimonial } from '@/types'
+
+// ── Settings schema ────────────────────────────────────────────────────────
+const platformSchema = z.object({
+  platform_name: z.string().min(1, 'Platform name required'),
+  support_email: z.string().email('Enter a valid email'),
+})
+const feesSchema = z.object({
+  standard_fee: z.coerce.number().min(0),
+  premium_fee: z.coerce.number().min(0),
+})
+const formSchema = z.object({
+  google_form_url: z.string().url('Enter a valid URL').or(z.literal('')),
+  whatsapp_share_text: z.string(),
+})
+const faqSchema = z.object({
+  question: z.string().min(5, 'Question too short'),
+  answer: z.string().min(10, 'Answer too short'),
+  category: z.string().min(1, 'Category required'),
+  order_index: z.coerce.number().min(0),
+})
+
+type PlatformForm = z.infer<typeof platformSchema>
+type FeesForm = z.infer<typeof feesSchema>
+type FormSettings = z.infer<typeof formSchema>
+type FAQForm = z.infer<typeof faqSchema>
+
+interface Settings {
+  platform_name?: string
+  support_email?: string
+  standard_fee?: number
+  premium_fee?: number
+  google_form_url?: string
+  whatsapp_share_text?: string
+}
+
+// ── Section wrapper ────────────────────────────────────────────────────────
+function SettingsSection({
+  title, description, children, onSave, saving,
+}: {
+  title: string; description?: string; children: React.ReactNode; onSave: () => void; saving: boolean
+}) {
+  return (
+    <Card className="border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+      <CardHeader className="border-b border-slate-100 dark:border-slate-800 pb-4">
+        <CardTitle className="text-base font-semibold text-slate-900 dark:text-white">{title}</CardTitle>
+        {description && <CardDescription className="text-xs text-slate-500 dark:text-slate-400">{description}</CardDescription>}
+      </CardHeader>
+      <CardContent className="p-5 space-y-4">
+        {children}
+        <div className="flex justify-end pt-2">
+          <Button onClick={onSave} disabled={saving} className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white gap-2">
+            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            Save Changes
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+// ── Component ──────────────────────────────────────────────────────────────
+export default function AdminSettings() {
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialTab = searchParams.get('tab') || 'general'
+  const [activeTab, setActiveTab] = useState(initialTab)
+  const { toast } = useToast()
+
+  const [settings, setSettings] = useState<Settings>({})
+  const [loadingSettings, setLoadingSettings] = useState(true)
+  const [faqs, setFaqs] = useState<FAQ[]>([])
+  const [loadingFaqs, setLoadingFaqs] = useState(true)
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
+  const [loadingTestimonials, setLoadingTestimonials] = useState(true)
+
+  // FAQ dialog
+  const [faqDialog, setFaqDialog] = useState<{ open: boolean; editing: FAQ | null }>({ open: false, editing: null })
+
+  // Admin Accounts state
+  interface AdminAccount {
+    id: string
+    email: string
+    full_name: string
+    role: string
+    created_at: string
+    is_primary?: boolean
+  }
+  const [adminAccounts, setAdminAccounts] = useState<AdminAccount[]>([])
+  const [loadingAdmins, setLoadingAdmins] = useState(true)
+  const [addAdminOpen, setAddAdminOpen] = useState(false)
+  const [creatingAdmin, setCreatingAdmin] = useState(false)
+  const [newAdminEmail, setNewAdminEmail] = useState('')
+  const [newAdminName, setNewAdminName] = useState('')
+  const [newAdminPassword, setNewAdminPassword] = useState('')
+  const [deletingAdminId, setDeletingAdminId] = useState<string | null>(null)
+
+  // Edit Admin Credentials
+  const [editAdmin, setEditAdmin] = useState<AdminAccount | null>(null)
+  const [editAdminName, setEditAdminName] = useState('')
+  const [editAdminPassword, setEditAdminPassword] = useState('')
+  const [updatingAdmin, setUpdatingAdmin] = useState(false)
+
+  const fetchAdminAccounts = async () => {
+    setLoadingAdmins(true)
+    try {
+      const res = await api.get('/admin/accounts')
+      const list = res.data?.data || res.data || []
+      setAdminAccounts(Array.isArray(list) ? list : [])
+    } catch {
+      toast({ title: 'Error', description: 'Could not fetch admin team accounts.', variant: 'destructive' })
+    } finally {
+      setLoadingAdmins(false)
+    }
+  }
+
+  const handleCreateAdmin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newAdminEmail.trim() || !newAdminPassword.trim()) {
+      toast({ title: 'Missing details', description: 'Email and password are required.', variant: 'destructive' })
+      return
+    }
+    if (newAdminPassword.length < 6) {
+      toast({ title: 'Weak Password', description: 'Password must be at least 6 characters.', variant: 'destructive' })
+      return
+    }
+
+    setCreatingAdmin(true)
+    try {
+      const res = await api.post('/admin/accounts', {
+        email: newAdminEmail.trim(),
+        full_name: newAdminName.trim() || 'Admin',
+        password: newAdminPassword.trim(),
+      })
+      if (res.data?.success) {
+        toast({ title: 'Admin Created', description: `New administrator "${newAdminEmail}" has been added.` })
+        setNewAdminEmail('')
+        setNewAdminName('')
+        setNewAdminPassword('')
+        setAddAdminOpen(false)
+        fetchAdminAccounts()
+      } else {
+        throw new Error(res.data?.message || 'Failed to create admin')
+      }
+    } catch (err: any) {
+      toast({
+        title: 'Failed to Add Admin',
+        description: err.response?.data?.message || err.message || 'Could not create administrator.',
+        variant: 'destructive',
+      })
+    } finally {
+      setCreatingAdmin(false)
+    }
+  }
+
+  const handleUpdateAdmin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editAdmin) return
+
+    setUpdatingAdmin(true)
+    try {
+      const payload: any = { full_name: editAdminName.trim() }
+      if (editAdminPassword.trim()) {
+        if (editAdminPassword.trim().length < 6) {
+          toast({ title: 'Invalid Password', description: 'Password must be at least 6 characters.', variant: 'destructive' })
+          setUpdatingAdmin(false)
+          return
+        }
+        payload.password = editAdminPassword.trim()
+      }
+
+      const res = await api.patch(`/admin/accounts/${editAdmin.id}`, payload)
+      if (res.data?.success) {
+        toast({ title: 'Updated', description: `Credentials updated for ${editAdmin.email}.` })
+        setEditAdmin(null)
+        fetchAdminAccounts()
+      } else {
+        throw new Error(res.data?.message || 'Update failed')
+      }
+    } catch (err: any) {
+      toast({
+        title: 'Update Failed',
+        description: err.response?.data?.message || err.message || 'Could not update credentials.',
+        variant: 'destructive',
+      })
+    } finally {
+      setUpdatingAdmin(false)
+    }
+  }
+
+  const handleDeleteAdmin = async (account: AdminAccount) => {
+    if (account.is_primary || account.email?.toLowerCase() === 'anantmaxx@gmail.com') {
+      toast({
+        title: 'Action Prohibited',
+        description: `${account.email} is the Primary Administrator and cannot be removed by anyone.`,
+        variant: 'destructive',
+      })
+      return
+    }
+
+    if (adminAccounts.length <= 1) {
+      toast({ title: 'Action Prohibited', description: 'Cannot remove the last remaining administrator.', variant: 'destructive' })
+      return
+    }
+
+    if (!window.confirm(`Are you sure you want to remove administrator "${account.email}"? They will immediately lose admin access.`)) {
+      return
+    }
+
+    setDeletingAdminId(account.id)
+    try {
+      const res = await api.delete(`/admin/accounts/${account.id}`)
+      if (res.data?.success) {
+        toast({ title: 'Admin Removed', description: `Administrator ${account.email} has been removed.` })
+        fetchAdminAccounts()
+      } else {
+        throw new Error(res.data?.message || 'Failed to remove admin')
+      }
+    } catch (err: any) {
+      toast({
+        title: 'Error',
+        description: err.response?.data?.message || err.message || 'Could not remove admin account.',
+        variant: 'destructive',
+      })
+    } finally {
+      setDeletingAdminId(null)
+    }
+  }
+
+  useEffect(() => {
+    fetchAdminAccounts()
+  }, [])
+
+  // Settings forms
+  const platformForm = useForm<PlatformForm>({
+    resolver: zodResolver(platformSchema),
+    defaultValues: { platform_name: '', support_email: '' },
+  })
+  const feesForm = useForm<FeesForm>({
+    resolver: zodResolver(feesSchema),
+    defaultValues: { standard_fee: 0, premium_fee: 0 },
+  })
+  const formSettingsForm = useForm<FormSettings>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { google_form_url: '', whatsapp_share_text: '' },
+  })
+  const faqForm = useForm<FAQForm>({
+    resolver: zodResolver(faqSchema),
+    defaultValues: { question: '', answer: '', category: 'General', order_index: 0 },
+  })
+
+  // Load settings
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await api.get('/admin/settings')
+        const rawList = res.data?.data || res.data || []
+        const d: Record<string, any> = {}
+        if (Array.isArray(rawList)) {
+          rawList.forEach((item: any) => {
+            if (item.key) d[item.key] = item.value
+          })
+        } else if (typeof rawList === 'object') {
+          Object.assign(d, rawList)
+        }
+        setSettings(d)
+        platformForm.reset({ platform_name: d.platform_name ?? '', support_email: d.support_email ?? '' })
+        feesForm.reset({ standard_fee: Number(d.standard_application_fee || d.standard_fee) || 0, premium_fee: Number(d.premium_application_fee || d.premium_fee) || 0 })
+        formSettingsForm.reset({ google_form_url: d.google_form_url ?? '', whatsapp_share_text: d.whatsapp_share_text ?? '' })
+      } catch {
+        toast({ title: 'Error', description: 'Could not load settings.', variant: 'destructive' })
+      } finally {
+        setLoadingSettings(false)
+      }
+    }
+    load()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Load FAQs
+  useEffect(() => {
+    api.get('/faqs/admin')
+      .then((r) => {
+        const list = r.data?.data || r.data || []
+        setFaqs(Array.isArray(list) ? list : [])
+      })
+      .catch(() => {})
+      .finally(() => setLoadingFaqs(false))
+  }, [])
+
+  // Load testimonials
+  useEffect(() => {
+    api.get('/testimonials/admin')
+      .then((r) => {
+        const list = r.data?.data || r.data || []
+        setTestimonials(Array.isArray(list) ? list : [])
+      })
+      .catch(() => {})
+      .finally(() => setLoadingTestimonials(false))
+  }, [])
+
+  // ── Save helpers ──────────────────────────────────────────────────────────
+  const [savingPlatform, setSavingPlatform] = useState(false)
+  const [savingFees, setSavingFees] = useState(false)
+  const [savingForm, setSavingForm] = useState(false)
+
+  const savePlatform = platformForm.handleSubmit(async (data) => {
+    setSavingPlatform(true)
+    try {
+      await api.patch('/admin/settings/platform_name', { value: data.platform_name })
+      if (data.support_email) {
+        await api.patch('/admin/settings/support_email', { value: data.support_email })
+      }
+      toast({ title: 'Platform settings saved.' })
+    } catch {
+      toast({ title: 'Error saving settings.', variant: 'destructive' })
+    } finally {
+      setSavingPlatform(false)
+    }
+  })
+
+  const saveFees = feesForm.handleSubmit(async (data) => {
+    setSavingFees(true)
+    try {
+      await api.patch('/admin/settings/standard_application_fee', { value: String(data.standard_fee) })
+      await api.patch('/admin/settings/premium_application_fee', { value: String(data.premium_fee) })
+      toast({ title: 'Fee settings saved.' })
+    } catch {
+      toast({ title: 'Error saving fees.', variant: 'destructive' })
+    } finally {
+      setSavingFees(false)
+    }
+  })
+
+  const saveFormSettings = formSettingsForm.handleSubmit(async (data) => {
+    setSavingForm(true)
+    try {
+      await api.patch('/admin/settings/google_form_url', { value: data.google_form_url })
+      await api.patch('/admin/settings/whatsapp_share_text', { value: data.whatsapp_share_text })
+      toast({ title: 'Form & WhatsApp settings saved.' })
+    } catch {
+      toast({ title: 'Error saving settings.', variant: 'destructive' })
+    } finally {
+      setSavingForm(false)
+    }
+  })
+
+  // ── FAQ CRUD ──────────────────────────────────────────────────────────────
+  const openNewFaq = () => {
+    faqForm.reset({ question: '', answer: '', category: 'General', order_index: faqs.length })
+    setFaqDialog({ open: true, editing: null })
+  }
+
+  const openEditFaq = (faq: FAQ) => {
+    faqForm.reset({
+      question: faq.question,
+      answer: faq.answer,
+      category: faq.category,
+      order_index: faq.order_index,
+    })
+    setFaqDialog({ open: true, editing: faq })
+  }
+
+  const [savingFaq, setSavingFaq] = useState(false)
+  const saveFaq = faqForm.handleSubmit(async (data) => {
+    setSavingFaq(true)
+    try {
+      if (faqDialog.editing) {
+        await api.patch(`/faqs/${faqDialog.editing.id}`, data)
+        setFaqs((prev) => prev.map((f) => f.id === faqDialog.editing!.id ? { ...f, ...data } : f))
+      } else {
+        const res = await api.post('/faqs', { ...data, is_published: true })
+        const created = res.data?.data || res.data
+        setFaqs((prev) => [...prev, created])
+      }
+      toast({ title: `FAQ ${faqDialog.editing ? 'updated' : 'created'}.` })
+      setFaqDialog({ open: false, editing: null })
+    } catch {
+      toast({ title: 'Error', variant: 'destructive' })
+    } finally {
+      setSavingFaq(false)
+    }
+  })
+
+  const toggleFaqActive = async (faq: FAQ) => {
+    try {
+      await api.patch(`/faqs/${faq.id}`, { is_published: !faq.is_active })
+      setFaqs((prev) => prev.map((f) => f.id === faq.id ? { ...f, is_active: !f.is_active } : f))
+    } catch {
+      toast({ title: 'Error', variant: 'destructive' })
+    }
+  }
+
+  const deleteFaq = async (faq: FAQ) => {
+    if (!window.confirm(`Delete FAQ: "${faq.question}"?`)) return
+    try {
+      await api.delete(`/faqs/${faq.id}`)
+      setFaqs((prev) => prev.filter((f) => f.id !== faq.id))
+      toast({ title: 'FAQ deleted.' })
+    } catch {
+      toast({ title: 'Error', variant: 'destructive' })
+    }
+  }
+
+  const toggleTestimonial = async (t: Testimonial) => {
+    try {
+      await api.patch(`/testimonials/${t.id}`, { is_published: !t.is_active })
+      setTestimonials((prev) => prev.map((x) => x.id === t.id ? { ...x, is_active: !x.is_active } : x))
+    } catch {
+      toast({ title: 'Error', variant: 'destructive' })
+    }
+  }
+
+  return (
+    <AdminLayout title="Settings">
+      <div className="space-y-6 max-w-3xl">
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">Platform Settings</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">Configure platform-wide settings</p>
+        </div>
+
+        <Tabs
+          value={activeTab}
+          onValueChange={(val) => {
+            setActiveTab(val)
+            setSearchParams({ tab: val })
+          }}
+        >
+          <TabsList className="mb-6">
+            <TabsTrigger value="general">General</TabsTrigger>
+            <TabsTrigger value="fees">Fees</TabsTrigger>
+            <TabsTrigger value="forms">Forms & WhatsApp</TabsTrigger>
+            <TabsTrigger value="content">Content</TabsTrigger>
+            <TabsTrigger value="team" className="flex items-center gap-1.5 font-medium text-blue-700 dark:text-blue-400">
+              <Shield className="h-3.5 w-3.5" />
+              Admin Team
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Admin Team Management */}
+          <TabsContent value="team" className="space-y-6">
+            <Card className="border border-slate-200 dark:border-slate-800 shadow-sm bg-white dark:bg-slate-900">
+              <CardHeader className="border-b border-slate-100 dark:border-slate-800 pb-4 flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-blue-600" />
+                    Administrator Accounts & Privileges
+                  </CardTitle>
+                  <CardDescription className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Manage team members who have administrative access to this portal.
+                  </CardDescription>
+                </div>
+                <Button
+                  onClick={() => {
+                    setNewAdminEmail('')
+                    setNewAdminName('')
+                    setNewAdminPassword('')
+                    setAddAdminOpen(true)
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-xs gap-1.5"
+                >
+                  <UserPlus className="h-3.5 w-3.5" /> Add New Admin
+                </Button>
+              </CardHeader>
+              <CardContent className="p-0">
+                {loadingAdmins ? (
+                  <div className="p-6 space-y-3">
+                    <Skeleton className="h-12 w-full" />
+                    <Skeleton className="h-12 w-full" />
+                  </div>
+                ) : adminAccounts.length === 0 ? (
+                  <div className="py-12 text-center text-sm text-slate-500">
+                    No administrators found.
+                  </div>
+                ) : (
+                  <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                    {adminAccounts.map((admin) => (
+                      <div key={admin.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
+                        <div className="flex items-start sm:items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 flex items-center justify-center font-bold text-sm shrink-0 uppercase">
+                            {admin.full_name?.charAt(0) || admin.email.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-sm text-slate-900 dark:text-white">
+                                {admin.full_name || 'Admin User'}
+                              </span>
+                              {admin.is_primary || admin.email?.toLowerCase() === 'anantmaxx@gmail.com' ? (
+                                <Badge className="bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-700 text-[10px] px-2 py-0.5 font-bold flex items-center gap-1">
+                                  <Shield className="h-3 w-3 text-amber-600" />
+                                  Primary Admin (Permanent)
+                                </Badge>
+                              ) : (
+                                <Badge className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800 text-[10px] px-2 py-0.5">
+                                  Administrator
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex flex-wrap items-center gap-2">
+                              <span>{admin.email}</span>
+                              {admin.created_at && (
+                                <>
+                                  <span>•</span>
+                                  <span>Added {new Date(admin.created_at).toLocaleDateString()}</span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 text-xs gap-1"
+                            onClick={() => {
+                              setEditAdmin(admin)
+                              setEditAdminName(admin.full_name || '')
+                              setEditAdminPassword('')
+                            }}
+                          >
+                            <KeyRound className="h-3.5 w-3.5 text-slate-500" />
+                            Edit / Password
+                          </Button>
+                          {admin.is_primary || admin.email?.toLowerCase() === 'anantmaxx@gmail.com' ? (
+                            <Badge variant="outline" className="h-8 px-2.5 text-xs text-slate-400 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 flex items-center gap-1 cursor-not-allowed">
+                              <span>Cannot Remove</span>
+                            </Badge>
+                          ) : (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              disabled={deletingAdminId === admin.id || adminAccounts.length <= 1}
+                              onClick={() => handleDeleteAdmin(admin)}
+                              className="h-8 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30 gap-1 disabled:opacity-40"
+                              title={adminAccounts.length <= 1 ? "Cannot delete the last admin" : "Remove admin"}
+                            >
+                              {deletingAdminId === admin.id ? (
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              ) : (
+                                <Trash2 className="h-3.5 w-3.5" />
+                              )}
+                              Remove
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <div className="p-4 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 flex items-start gap-3 text-xs text-amber-800 dark:text-amber-300">
+              <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold mb-0.5">Security & Access Policy</p>
+                <p>
+                  Administrators have full read and write access to all internship records, student data, payment histories, and settings. Only invite verified team members. The platform protects against accidental lockouts by preventing removal of the last remaining admin account.
+                </p>
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* General */}
+          <TabsContent value="general">
+            <SettingsSection
+              title="Platform Info"
+              description="Basic platform details shown to users"
+              onSave={savePlatform}
+              saving={savingPlatform}
+            >
+              {loadingSettings ? (
+                <div className="space-y-3">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <Label htmlFor="platform_name">Platform Name</Label>
+                    <Input id="platform_name" {...platformForm.register('platform_name')} className="mt-1.5" />
+                    {platformForm.formState.errors.platform_name && (
+                      <p className="text-xs text-red-500 mt-1">{platformForm.formState.errors.platform_name.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="support_email">Support Email</Label>
+                    <Input id="support_email" type="email" {...platformForm.register('support_email')} className="mt-1.5" />
+                    {platformForm.formState.errors.support_email && (
+                      <p className="text-xs text-red-500 mt-1">{platformForm.formState.errors.support_email.message}</p>
+                    )}
+                  </div>
+                </>
+              )}
+            </SettingsSection>
+          </TabsContent>
+
+          {/* Fees */}
+          <TabsContent value="fees">
+            <SettingsSection
+              title="Application Fees"
+              description="Base fees charged per application. Category-specific fees can override these."
+              onSave={saveFees}
+              saving={savingFees}
+            >
+              {loadingSettings ? (
+                <div className="space-y-3">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <Label htmlFor="standard_fee">Standard Application Fee (₹)</Label>
+                    <div className="relative mt-1.5">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">₹</span>
+                      <Input id="standard_fee" type="number" min={0} {...feesForm.register('standard_fee')} className="pl-7" />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">Default fee for standard/general internships</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="premium_fee">Premium Application Fee (₹)</Label>
+                    <div className="relative mt-1.5">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">₹</span>
+                      <Input id="premium_fee" type="number" min={0} {...feesForm.register('premium_fee')} className="pl-7" />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">Fee for core engineering / premium categories</p>
+                  </div>
+                </>
+              )}
+            </SettingsSection>
+          </TabsContent>
+
+          {/* Forms & WhatsApp */}
+          <TabsContent value="forms">
+            <SettingsSection
+              title="Google Form & WhatsApp"
+              description="Configure the student registration form and WhatsApp share text"
+              onSave={saveFormSettings}
+              saving={savingForm}
+            >
+              {loadingSettings ? (
+                <div className="space-y-3">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-24 w-full" />
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <Label htmlFor="google_form_url">Google Form URL</Label>
+                    <Input
+                      id="google_form_url"
+                      type="url"
+                      {...formSettingsForm.register('google_form_url')}
+                      placeholder="https://forms.gle/…"
+                      className="mt-1.5"
+                    />
+                    {formSettingsForm.formState.errors.google_form_url && (
+                      <p className="text-xs text-red-500 mt-1">{formSettingsForm.formState.errors.google_form_url.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="whatsapp_share_text">WhatsApp Share Text</Label>
+                    <Textarea
+                      id="whatsapp_share_text"
+                      {...formSettingsForm.register('whatsapp_share_text')}
+                      rows={5}
+                      className="mt-1.5 font-mono text-xs"
+                      placeholder="Hey! Apply for internships at Intership → {FORM_URL}"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Use <code className="bg-gray-100 px-1 rounded">{'{FORM_URL}'}</code> as placeholder — it will be replaced with the Google Form URL.
+                    </p>
+                  </div>
+                </>
+              )}
+            </SettingsSection>
+          </TabsContent>
+
+          {/* Content */}
+          <TabsContent value="content" className="space-y-6">
+            {/* FAQs */}
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="border-b pb-3 flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-base font-semibold">Manage FAQs</CardTitle>
+                  <CardDescription>Control which FAQs are visible on the site</CardDescription>
+                </div>
+                <Button size="sm" onClick={openNewFaq} className="bg-brand-navy hover:bg-brand-navy/90 text-white gap-1.5">
+                  <Plus className="h-3.5 w-3.5" /> Add FAQ
+                </Button>
+              </CardHeader>
+              <CardContent className="p-0">
+                {loadingFaqs ? (
+                  <div className="space-y-2 p-4">
+                    {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-10 w-full" />)}
+                  </div>
+                ) : !faqs.length ? (
+                  <p className="text-sm text-muted-foreground text-center py-8">No FAQs yet. Add one!</p>
+                ) : (
+                  <div className="divide-y">
+                    {faqs.map((faq) => (
+                      <div key={faq.id} className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50/60 transition-colors">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 leading-snug">{faq.question}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5 truncate">{faq.answer}</p>
+                        </div>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <Badge className={faq.is_active
+                            ? 'bg-green-100 text-green-700 border-green-200 text-xs'
+                            : 'bg-gray-100 text-gray-500 border-gray-200 text-xs'
+                          }>
+                            {faq.is_active ? 'Active' : 'Hidden'}
+                          </Badge>
+                          <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => toggleFaqActive(faq)} title={faq.is_active ? 'Hide' : 'Publish'}>
+                            {faq.is_active ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                          </Button>
+                          <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => openEditFaq(faq)} title="Edit">
+                            <Pencil className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button size="icon" variant="ghost" className="h-7 w-7 text-red-500 hover:bg-red-50" onClick={() => deleteFaq(faq)} title="Delete">
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Testimonials */}
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="border-b pb-3">
+                <CardTitle className="text-base font-semibold">Manage Testimonials</CardTitle>
+                <CardDescription>Publish or hide student testimonials on the homepage</CardDescription>
+              </CardHeader>
+              <CardContent className="p-0">
+                {loadingTestimonials ? (
+                  <div className="space-y-2 p-4">
+                    {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-10 w-full" />)}
+                  </div>
+                ) : !testimonials.length ? (
+                  <p className="text-sm text-muted-foreground text-center py-8">No testimonials yet.</p>
+                ) : (
+                  <div className="divide-y">
+                    {testimonials.map((t) => (
+                      <div key={t.id} className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50/60 transition-colors">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900">{t.student_name}</p>
+                          <p className="text-xs text-muted-foreground truncate">{t.internship_title} @ {t.company_name}</p>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Badge className={t.is_active
+                            ? 'bg-green-100 text-green-700 border-green-200 text-xs'
+                            : 'bg-gray-100 text-gray-500 border-gray-200 text-xs'
+                          }>
+                            {t.is_active ? 'Published' : 'Hidden'}
+                          </Badge>
+                          <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => toggleTestimonial(t)} title={t.is_active ? 'Hide' : 'Publish'}>
+                            {t.is_active ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* FAQ Dialog */}
+      <Dialog open={faqDialog.open} onOpenChange={(open) => !open && setFaqDialog({ open: false, editing: null })}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{faqDialog.editing ? 'Edit FAQ' : 'Add New FAQ'}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={saveFaq} className="space-y-4">
+            <div>
+              <Label htmlFor="faq_question">Question *</Label>
+              <Input id="faq_question" {...faqForm.register('question')} className="mt-1.5" placeholder="What is…?" />
+              {faqForm.formState.errors.question && (
+                <p className="text-xs text-red-500 mt-1">{faqForm.formState.errors.question.message}</p>
+              )}
+            </div>
+            <div>
+              <Label htmlFor="faq_answer">Answer *</Label>
+              <Textarea id="faq_answer" {...faqForm.register('answer')} rows={4} className="mt-1.5" />
+              {faqForm.formState.errors.answer && (
+                <p className="text-xs text-red-500 mt-1">{faqForm.formState.errors.answer.message}</p>
+              )}
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="faq_category">Category</Label>
+                <Input id="faq_category" {...faqForm.register('category')} className="mt-1.5" placeholder="General" />
+              </div>
+              <div>
+                <Label htmlFor="faq_order">Order Index</Label>
+                <Input id="faq_order" type="number" min={0} {...faqForm.register('order_index')} className="mt-1.5" />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setFaqDialog({ open: false, editing: null })}>Cancel</Button>
+              <Button type="submit" disabled={savingFaq} className="bg-brand-navy hover:bg-brand-navy/90 text-white">
+                {savingFaq && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                {faqDialog.editing ? 'Update FAQ' : 'Create FAQ'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Admin Dialog */}
+      <Dialog open={addAdminOpen} onOpenChange={(open) => !open && setAddAdminOpen(false)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <UserPlus className="h-5 w-5 text-blue-600" />
+              Add Administrator
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleCreateAdmin} className="space-y-4 pt-2">
+            <div>
+              <Label htmlFor="admin_name">Full Name</Label>
+              <Input
+                id="admin_name"
+                value={newAdminName}
+                onChange={(e) => setNewAdminName(e.target.value)}
+                placeholder="e.g. Rahul Sharma"
+                className="mt-1.5"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="admin_email">Email Address</Label>
+              <Input
+                id="admin_email"
+                type="email"
+                value={newAdminEmail}
+                onChange={(e) => setNewAdminEmail(e.target.value)}
+                placeholder="admin@intership.in"
+                className="mt-1.5"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="admin_pass">Initial Password</Label>
+              <Input
+                id="admin_pass"
+                type="password"
+                value={newAdminPassword}
+                onChange={(e) => setNewAdminPassword(e.target.value)}
+                placeholder="Minimum 6 characters"
+                className="mt-1.5"
+                minLength={6}
+                required
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                The new administrator can log into the Admin portal with this email and password.
+              </p>
+            </div>
+            <DialogFooter className="pt-2">
+              <Button type="button" variant="outline" onClick={() => setAddAdminOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={creatingAdmin} className="bg-blue-600 hover:bg-blue-700 text-white">
+                {creatingAdmin && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                Create Administrator
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Admin Dialog */}
+      <Dialog open={!!editAdmin} onOpenChange={(open) => !open && setEditAdmin(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <KeyRound className="h-5 w-5 text-blue-600" />
+              Edit Administrator
+            </DialogTitle>
+          </DialogHeader>
+          {editAdmin && (
+            <form onSubmit={handleUpdateAdmin} className="space-y-4 pt-2">
+              <div>
+                <Label>Email</Label>
+                <Input
+                  disabled
+                  value={editAdmin.email}
+                  className="mt-1.5 bg-slate-50 dark:bg-slate-800 text-slate-500 cursor-not-allowed"
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit_admin_name">Full Name</Label>
+                <Input
+                  id="edit_admin_name"
+                  value={editAdminName}
+                  onChange={(e) => setEditAdminName(e.target.value)}
+                  placeholder="Admin Name"
+                  className="mt-1.5"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit_admin_pass">Reset Password (Optional)</Label>
+                <Input
+                  id="edit_admin_pass"
+                  type="password"
+                  value={editAdminPassword}
+                  onChange={(e) => setEditAdminPassword(e.target.value)}
+                  placeholder="Leave blank to keep existing password"
+                  className="mt-1.5"
+                  minLength={6}
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Only enter a new password if you want to reset this admin's login credentials.
+                </p>
+              </div>
+              <DialogFooter className="pt-2">
+                <Button type="button" variant="outline" onClick={() => setEditAdmin(null)}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={updatingAdmin} className="bg-blue-600 hover:bg-blue-700 text-white">
+                  {updatingAdmin && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                  Save Changes
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+    </AdminLayout>
+  )
+}
