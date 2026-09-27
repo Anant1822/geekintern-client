@@ -7,9 +7,9 @@ interface PublicLayoutProps {
 
 export function PublicLayout({ children }: PublicLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+    <div className="flex min-h-screen flex-col bg-[#0a0a0f] text-[#f0efe9] selection:bg-[#06e4f9]/30 selection:text-white relative overflow-x-hidden">
       <Header />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 pt-16 md:pt-20">{children}</main>
       <Footer />
     </div>
   )

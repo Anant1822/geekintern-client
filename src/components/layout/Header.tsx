@@ -1,519 +1,376 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
-  Menu,
-  X,
-  ChevronDown,
   ArrowUpRight,
-  BookOpen,
-  Briefcase,
-  GraduationCap,
   Sparkles,
   Award,
-  Layers,
-  FileText,
-  CheckCircle2,
-  Users,
   Compass,
+  Layers,
+  BookOpen,
+  CheckCircle2,
+  FileText,
+  Users,
+  Briefcase,
   LayoutDashboard,
   LogOut,
-  Cpu,
-  Sun,
-  Moon,
-  Newspaper
+  ChevronDown,
+  ShieldCheck,
+  Mail,
+  Phone,
+  Newspaper,
+  Github,
+  Linkedin,
+  Twitter,
+  Instagram
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Logo } from '@/components/common/Logo'
 import { useAuth } from '@/hooks/useAuth'
-import { useTheme } from '@/context/ThemeContext'
-import { getInitials, cn } from '@/lib/utils'
-
-interface NavItem {
-  label: string
-  href?: string
-  items?: {
-    label: string
-    href: string
-    description?: string
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
-}
-
-const NAVIGATION_ITEMS: NavItem[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about' },
-  {
-    label: 'Internships',
-    items: [
-      {
-        label: 'Apply for Internship',
-        href: '/apply',
-        description: 'Submit your candidate application for verified virtual internships',
-        icon: Award,
-      },
-      {
-        label: 'Internship Tracks',
-        href: '/browse',
-        description: 'Explore web dev, Python, AI, Android, C++, and design roles',
-        icon: Compass,
-      },
-      {
-        label: 'Internship Guidelines',
-        href: '/internships/guidelines',
-        description: 'Review task submission rules, evaluation criteria, and timelines',
-        icon: BookOpen,
-      },
-      {
-        label: 'Certificate Verification',
-        href: '/verify',
-        description: 'Instantly verify completed internship credentials by CID',
-        icon: CheckCircle2,
-      },
-    ],
-  },
-  {
-    label: 'Portfolio',
-    items: [
-      {
-        label: 'Web Portfolio',
-        href: '/web-portfolio',
-        description: 'Live web applications, dashboards, and client platforms',
-        icon: Layers,
-      },
-      {
-        label: 'App Portfolio',
-        href: '/app-portfolio',
-        description: 'iOS, Android, and Flutter mobile applications',
-        icon: Briefcase,
-      },
-      {
-        label: 'Core Portfolio',
-        href: '/core-portfolio',
-        description: 'Embedded systems, VLSI, IoT, robotics, and hardware capstones',
-        icon: Cpu,
-      },
-    ],
-  },
-  {
-    label: 'More',
-    items: [
-      {
-        label: 'Blog & Articles',
-        href: '/blog',
-        description: 'Engineering roadmaps, tech tutorials, and internship guides',
-        icon: Newspaper,
-      },
-      {
-        label: 'Team Geek Intern',
-        href: '/team',
-        description: 'Meet leadership, tech mentors, and curriculum architects',
-        icon: Users,
-      },
-      {
-        label: 'Student Reviews',
-        href: '/student-reviews',
-        description: 'Verified student testimonials, ratings, and feedback',
-        icon: Award,
-      },
-      {
-        label: 'FAQs',
-        href: '/faq',
-        description: 'Frequently asked questions about internships and certificates',
-        icon: BookOpen,
-      },
-      {
-        label: 'Partner With Us',
-        href: '/college-register',
-        description: 'Institutional partnerships and college placement drives',
-        icon: GraduationCap,
-      },
-      {
-        label: 'Contact Us',
-        href: '/contact',
-        description: 'Reach our team for candidate support or inquiries',
-        icon: Briefcase,
-      },
-      {
-        label: 'Terms & Conditions',
-        href: '/terms',
-        description: 'Platform policies, guidelines, and compliance',
-        icon: FileText,
-      },
-      {
-        label: 'Admin Portal',
-        href: '/admin/login',
-        description: 'Staff console to manage applications, certificates, and students',
-        icon: LayoutDashboard,
-      },
-    ],
-  },
-]
+import { cn } from '@/lib/utils'
 
 export function Header() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null)
+  const [fullMenuOpen, setFullMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const { isAuthenticated, user, profile, isAdmin, signOut } = useAuth()
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 8)
+    const handler = () => setScrolled(window.scrollY > 15)
     window.addEventListener('scroll', handler)
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
   useEffect(() => {
-    setMobileOpen(false)
-    setOpenDropdown(null)
+    setFullMenuOpen(false)
     setUserMenuOpen(false)
   }, [location.pathname])
-
-  const handleMouseEnter = (label: string) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    setOpenDropdown(label)
-  }
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setOpenDropdown(null)
-    }, 150)
-  }
 
   const handleSignOut = async () => {
     await signOut()
     navigate('/')
   }
 
-  const isLinkActive = (href?: string) => {
-    if (!href) return false
-    return href === '/' ? location.pathname === '/' : location.pathname.startsWith(href)
+  const isLinkActive = (path: string) => {
+    return path === '/' ? location.pathname === '/' : location.pathname.startsWith(path)
   }
-
-  const isDropdownActive = (items?: { href: string }[]) => {
-    if (!items) return false
-    return items.some((item) => location.pathname.startsWith(item.href))
-  }
-
-  const { theme, toggleTheme } = useTheme()
 
   return (
     <>
       <header
         className={cn(
-          'fixed top-0 inset-x-0 z-50 transition-colors duration-200 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800',
-          scrolled ? 'shadow-md shadow-slate-900/5' : 'shadow-xs'
+          'fixed top-0 inset-x-0 z-50 transition-all duration-300 bg-[#0a0a0f]/85 backdrop-blur-xl border-b border-white/10 text-[#f0efe9]',
+          scrolled ? 'shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] py-1' : 'py-0'
         )}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex h-16 md:h-20 items-center justify-between gap-2">
-            {/* Logo on left */}
-            <div className="flex shrink-0 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 md:h-20 items-center justify-between gap-4">
+            {/* Logo on Left */}
+            <div className="flex items-center gap-3">
               <Link
                 to="/"
-                className="flex items-center outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg transition-transform hover:scale-105 duration-200"
+                className="flex items-center gap-2.5 outline-none group"
               >
-                <Logo variant="auto" size="md" />
+                <Logo variant="light" size="md" />
+                <div className="hidden sm:flex flex-col text-left">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-display font-black text-sm md:text-base tracking-wider uppercase text-white group-hover:text-[#06e4f9] transition-colors">
+                      Geek Interns
+                    </span>
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono tracking-widest uppercase text-white/50">
+                    Code. Build. Deploy.
+                  </span>
+                </div>
               </Link>
             </div>
 
-            {/* Desktop Navigation Links & Dropdowns */}
-            <nav className="hidden xl:flex flex-1 items-center justify-center gap-1">
-              {NAVIGATION_ITEMS.map((item) => {
-                const active = isLinkActive(item.href) || isDropdownActive(item.items)
+            {/* Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-1 font-mono text-xs uppercase tracking-wider">
+              <Link
+                to="/browse"
+                className={cn(
+                  'px-3.5 py-1.5 rounded-full transition-all duration-200 hover:text-[#06e4f9] hover:bg-white/5',
+                  isLinkActive('/browse') ? 'text-[#06e4f9] bg-white/10 font-bold border border-[#06e4f9]/30' : 'text-[#f0efe9]/80'
+                )}
+              >
+                Tracks
+              </Link>
 
-                if (item.items) {
-                  const isOpen = openDropdown === item.label
-                  return (
-                    <div
-                      key={item.label}
-                      className="relative"
-                      onMouseEnter={() => handleMouseEnter(item.label)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <button
-                        type="button"
-                        className={cn(
-                          'inline-flex h-9 items-center justify-center rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200 gap-1 select-none',
-                          active || isOpen
-                            ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border border-blue-200/80 dark:border-blue-900 font-semibold'
-                            : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800'
-                        )}
-                        aria-expanded={isOpen}
-                      >
-                        <span>{item.label}</span>
-                        <ChevronDown
-                          className={cn(
-                            'h-3.5 w-3.5 transition-transform duration-200 text-slate-400',
-                            isOpen && 'rotate-180 text-blue-600 dark:text-blue-400'
-                          )}
-                        />
-                      </button>
+              <Link
+                to="/about"
+                className={cn(
+                  'px-3.5 py-1.5 rounded-full transition-all duration-200 hover:text-[#06e4f9] hover:bg-white/5',
+                  isLinkActive('/about') ? 'text-[#06e4f9] bg-white/10 font-bold border border-[#06e4f9]/30' : 'text-[#f0efe9]/80'
+                )}
+              >
+                Mission
+              </Link>
 
-                      {/* Dropdown Menu */}
-                      {isOpen && (
-                        <div className="absolute left-0 top-full pt-2 z-50 min-w-[300px] max-w-sm animate-in fade-in slide-in-from-top-2 duration-150">
-                          <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2.5 shadow-2xl ring-1 ring-black/5">
-                            <div className="flex flex-col gap-1">
-                              {item.items.map((sub) => {
-                                const IconComponent = sub.icon || Award
-                                const subActive = location.pathname === sub.href
-                                return (
-                                  <Link
-                                    key={sub.label}
-                                    to={sub.href}
-                                    onClick={() => setOpenDropdown(null)}
-                                    className={cn(
-                                      'flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors group',
-                                      subActive
-                                        ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300'
-                                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
-                                    )}
-                                  >
-                                    <div className="p-1.5 rounded-md bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors mt-0.5">
-                                      <IconComponent className="h-4 w-4" />
-                                    </div>
-                                    <div className="flex flex-col text-left">
-                                      <span className="text-xs font-semibold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 leading-tight">
-                                        {sub.label}
-                                      </span>
-                                      {sub.description && (
-                                        <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug mt-0.5">
-                                          {sub.description}
-                                        </span>
-                                      )}
-                                    </div>
-                                  </Link>
-                                )
-                              })}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )
-                }
+              <a
+                href="/#comparison-section"
+                className="px-3.5 py-1.5 rounded-full transition-all duration-200 hover:text-[#06e4f9] hover:bg-white/5 text-[#f0efe9]/80"
+              >
+                Comparison
+              </a>
 
-                return (
-                  <Link
-                    key={item.label}
-                    to={item.href || '/'}
-                    className={cn(
-                      'inline-flex h-9 items-center justify-center rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200 select-none',
-                      active
-                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border border-blue-200/80 dark:border-blue-900 font-semibold'
-                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800'
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                )
-              })}
+              <Link
+                to="/student-reviews"
+                className={cn(
+                  'px-3.5 py-1.5 rounded-full transition-all duration-200 hover:text-[#06e4f9] hover:bg-white/5',
+                  isLinkActive('/student-reviews') ? 'text-[#06e4f9] bg-white/10 font-bold border border-[#06e4f9]/30' : 'text-[#f0efe9]/80'
+                )}
+              >
+                Reviews
+              </Link>
+
+              <Link
+                to="/student-portal"
+                className={cn(
+                  'px-3.5 py-1.5 rounded-full transition-all duration-200 hover:text-emerald-400 hover:bg-emerald-500/10 inline-flex items-center gap-1',
+                  isLinkActive('/student-portal') || isLinkActive('/login') ? 'text-emerald-400 bg-emerald-500/15 font-bold border border-emerald-500/40' : 'text-[#f0efe9]/80'
+                )}
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Portal</span>
+              </Link>
+
+              <Link
+                to="/blog"
+                className={cn(
+                  'px-3.5 py-1.5 rounded-full transition-all duration-200 hover:text-[#06e4f9] hover:bg-white/5',
+                  isLinkActive('/blog') ? 'text-[#06e4f9] bg-white/10 font-bold border border-[#06e4f9]/30' : 'text-[#f0efe9]/80'
+                )}
+              >
+                Blog
+              </Link>
             </nav>
 
-            {/* Right Action Items */}
-            <div className="hidden lg:flex shrink-0 items-center gap-2.5">
-              {/* Theme Toggle Button (Light/Dark Mode) */}
-              <button
-                type="button"
-                onClick={toggleTheme}
-                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                aria-label="Toggle dark mode"
-                className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
-              >
-                {theme === 'dark' ? (
-                  <Sun className="h-4 w-4 text-amber-400" />
-                ) : (
-                  <Moon className="h-4 w-4 text-slate-700" />
-                )}
-              </button>
-
-              {/* Student Certificate & Application Portal */}
-              <Link to="/login">
-                <Button
-                  variant="outline"
-                  className="h-9 px-3.5 rounded-lg border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950 text-xs font-semibold inline-flex items-center gap-1.5 transition-all"
-                >
-                  <Award className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-                  <span>Student Portal</span>
-                </Button>
-              </Link>
-
-              {/* Apply Now ↗ button pointing to /apply */}
+            {/* Right Side CTAs & GKK Iconic Menu Button */}
+            <div className="flex items-center gap-3">
+              {/* Primary Apply Button */}
               <Link to="/apply">
-                <Button className="h-9 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-md shadow-blue-600/20 inline-flex items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                <Button className="h-9 px-4 sm:px-5 rounded-full bg-gradient-to-r from-[#2c2cf3] via-[#06e4f9] to-[#22c55e] text-white text-xs font-mono font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(6,228,249,0.3)] hover:shadow-[0_0_30px_rgba(6,228,249,0.6)] hover:scale-105 active:scale-95 transition-all">
                   <span>Apply Now</span>
-                  <ArrowUpRight className="h-3.5 w-3.5 stroke-[2.5]" />
+                  <ArrowUpRight className="h-3.5 w-3.5 ml-1" />
                 </Button>
               </Link>
 
-              {/* User Account / Signout Menu if logged in */}
+              {/* User Account if authenticated */}
               {isAuthenticated && (
-                <div className="relative ml-1">
+                <div className="relative">
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    className="flex items-center gap-1.5 rounded-lg p-1 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-[#06e4f9]/40 text-xs text-white"
                   >
-                    <Avatar className="h-8 w-8 border border-blue-200">
-                      <AvatarImage src={profile?.avatar_url} />
-                      <AvatarFallback className="text-xs bg-blue-600 text-white">
-                        {getInitials(profile?.full_name ?? user?.email ?? 'U')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <ChevronDown className={cn('h-3.5 w-3.5 text-slate-500 transition-transform', userMenuOpen && 'rotate-180')} />
+                    <span className="font-mono">{profile?.full_name?.split(' ')[0] || 'User'}</span>
+                    <ChevronDown className="h-3 w-3 text-white/60" />
                   </button>
 
                   {userMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl p-1 z-50">
-                      {isAdmin || user?.email === 'admin@geekintern.com' ? (
+                    <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-white/15 bg-[#12121e] p-2 shadow-2xl z-50">
+                      {isAdmin ? (
                         <Link
-                          to="/admin"
-                          className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          to="/admin/dashboard"
+                          className="flex items-center gap-2 px-3 py-2 text-xs text-white/80 hover:text-white hover:bg-white/5 rounded-lg"
                         >
-                          <LayoutDashboard className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-                          Admin Console
+                          <LayoutDashboard className="h-3.5 w-3.5 text-blue-400" />
+                          <span>Admin Console</span>
                         </Link>
                       ) : (
                         <Link
-                          to="/login"
-                          className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          to="/dashboard"
+                          className="flex items-center gap-2 px-3 py-2 text-xs text-white/80 hover:text-white hover:bg-white/5 rounded-lg"
                         >
-                          <Award className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-                          My Certificates & Portal
+                          <LayoutDashboard className="h-3.5 w-3.5 text-emerald-400" />
+                          <span>Dashboard</span>
                         </Link>
                       )}
                       <button
                         onClick={handleSignOut}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50 rounded-lg transition-colors"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-400 hover:bg-red-500/10 rounded-lg transition-colors text-left"
                       >
                         <LogOut className="h-3.5 w-3.5" />
-                        Sign Out
+                        <span>Sign Out</span>
                       </button>
                     </div>
                   )}
                 </div>
               )}
-            </div>
 
-            {/* Mobile Header Controls: Theme Toggle, Quick Apply & Menu Hamburger */}
-            <div className="flex xl:hidden items-center gap-1.5 sm:gap-2">
+              {/* GKK Iconic Menu Toggle Button */}
               <button
                 type="button"
-                onClick={toggleTheme}
-                title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                aria-label="Toggle dark mode"
-                className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
+                onClick={() => setFullMenuOpen(!fullMenuOpen)}
+                className="flex items-center gap-2 group cursor-pointer px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 hover:border-[#06e4f9]/50 hover:bg-white/10 transition-all duration-300"
+                aria-label="Toggle Fullscreen Navigation Menu"
               >
-                {theme === 'dark' ? (
-                  <Sun className="h-4 w-4 text-amber-400" />
-                ) : (
-                  <Moon className="h-4 w-4 text-slate-700" />
-                )}
-              </button>
-
-              <Link to="/apply">
-                <Button size="sm" className="h-9 px-3 sm:px-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs">
-                  Apply ↗
-                </Button>
-              </Link>
-
-              <button
-                className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
-                onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-              >
-                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                <span className="text-xs font-mono font-bold tracking-widest uppercase transition-colors group-hover:text-[#06e4f9] text-[#f0efe9]">
+                  {fullMenuOpen ? 'CLOSE' : 'MENU'}
+                </span>
+                <div
+                  className={cn(
+                    'w-6 h-6 rounded-full border border-[#f0efe9]/60 flex items-center justify-center transition-all duration-300 text-[#f0efe9]',
+                    fullMenuOpen ? 'rotate-45 border-[#06e4f9] text-[#06e4f9]' : 'group-hover:border-[#06e4f9] group-hover:text-[#06e4f9]'
+                  )}
+                >
+                  <span className="text-sm leading-none font-bold">+</span>
+                </div>
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer Overlay */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm xl:hidden"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-
-      {/* Mobile Navigation Drawer with Smooth Slide & Touch friendly items */}
-      <div
-        className={cn(
-          'fixed top-16 md:top-20 inset-x-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 max-h-[85vh] overflow-y-auto xl:hidden transition-all duration-300 ease-in-out px-4 py-5 shadow-2xl',
-          mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
-        )}
-      >
-        <nav className="flex flex-col gap-1.5" aria-label="Mobile navigation">
-          {NAVIGATION_ITEMS.map((item) => {
-            if (item.items) {
-              const isExpanded = mobileExpanded === item.label
-              return (
-                <div key={item.label} className="border-b border-slate-100 dark:border-slate-800/80 pb-1">
-                  <button
-                    type="button"
-                    onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
-                    className="flex w-full items-center justify-between py-2.5 px-3 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                  >
-                    <span>{item.label}</span>
-                    <ChevronDown className={cn('h-4 w-4 text-slate-400 transition-transform', isExpanded && 'rotate-180 text-blue-600 dark:text-blue-400')} />
-                  </button>
-
-                  {isExpanded && (
-                    <div className="pl-3 py-1.5 flex flex-col gap-1 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200/80 dark:border-slate-700/60 my-1">
-                      {item.items.map((sub) => (
-                        <Link
-                          key={sub.label}
-                          to={sub.href}
-                          onClick={() => setMobileOpen(false)}
-                          className="flex items-center gap-2.5 py-2 px-3 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800 transition-colors"
-                        >
-                          <div className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 shrink-0" />
-                          <span>{sub.label}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )
-            }
-
-            return (
-              <Link
-                key={item.label}
-                to={item.href || '/'}
-                onClick={() => setMobileOpen(false)}
-                className="py-2.5 px-3 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                {item.label}
-              </Link>
-            )
-          })}
-
-          <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2.5">
-            <Link to="/login" onClick={() => setMobileOpen(false)}>
-              <Button variant="outline" className="w-full h-11 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950 font-semibold flex items-center justify-center gap-2 text-xs">
-                <Award className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                Student Certificate Portal
-              </Button>
+      {/* GKK Fullscreen Curtain Menu Overlay */}
+      {fullMenuOpen && (
+        <div className="fixed inset-0 z-[100] bg-[#0a0a0f] flex flex-col justify-between p-6 sm:p-10 md:p-16 overflow-y-auto animate-in fade-in duration-300 text-[#f0efe9]">
+          {/* Top Bar inside Overlay */}
+          <div className="flex items-center justify-between border-b border-white/10 pb-6">
+            <Link to="/" onClick={() => setFullMenuOpen(false)} className="flex items-center gap-3">
+              <Logo variant="light" size="md" />
+              <div className="flex flex-col text-left">
+                <span className="font-display font-black text-lg tracking-wider uppercase text-white">
+                  Geek Interns
+                </span>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-emerald-400">
+                  A GKK & Bubblesort Venture
+                </span>
+              </div>
             </Link>
-            <Link to="/apply" onClick={() => setMobileOpen(false)}>
-              <Button className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-md shadow-blue-600/20">
-                Start Your Internship ↗
-              </Button>
-            </Link>
+
+            <button
+              onClick={() => setFullMenuOpen(false)}
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 hover:border-[#06e4f9] hover:bg-[#06e4f9]/10 transition-all text-xs font-mono font-bold tracking-widest text-white"
+            >
+              <span>CLOSE</span>
+              <span className="text-base leading-none text-[#06e4f9]">✕</span>
+            </button>
           </div>
-        </nav>
-      </div>
 
-      {/* Spacer for sticky header */}
-      <div className="h-16 md:h-20" aria-hidden="true" />
+          {/* Center Main Links & Information Columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 py-10 my-auto">
+            {/* Left Big Nav Links */}
+            <div className="lg:col-span-7 flex flex-col gap-2 md:gap-3">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#06e4f9] mb-2">
+                // System Navigation
+              </span>
+
+              {[
+                { num: '01', name: 'Home Overview', desc: 'Code. Build. Deploy.', href: '/' },
+                { num: '02', name: 'About Mission', desc: 'Why Geek Interns Exists', href: '/about' },
+                { num: '03', name: 'Internship Tracks', desc: 'Full Stack, AI, Cloud & Mobile', href: '/browse' },
+                { num: '04', name: 'Comparison Matrix', desc: 'Traditional Courses vs Geek Interns', href: '/#comparison-section' },
+                { num: '05', name: 'Student Reviews', desc: 'Verified Alumni & Testimonials', href: '/student-reviews' },
+                { num: '06', name: 'Student Portal', desc: 'Secure OTP Login & Verified Certificate', href: '/student-portal' },
+                { num: '07', name: 'Engineering Blog', desc: 'Career Insights, Architecture & Roadmaps', href: '/blog' },
+                { num: '08', name: 'Apply for Internship', desc: 'Join the Next Residency Cohort', href: '/apply' },
+                { num: '09', name: 'Contact & Enquiry', desc: 'Support & Institutional Partnerships', href: '/contact' },
+              ].map((item) => (
+                <Link
+                  key={item.num}
+                  to={item.href}
+                  onClick={() => setFullMenuOpen(false)}
+                  className="group flex items-baseline justify-between py-2 border-b border-white/5 hover:border-[#06e4f9]/40 transition-all"
+                >
+                  <div className="flex items-baseline gap-4">
+                    <span className="font-mono text-xs text-white/30 group-hover:text-[#06e4f9] transition-colors">
+                      {item.num}
+                    </span>
+                    <span className="text-xl sm:text-2xl md:text-4xl font-black uppercase tracking-tight text-white/90 group-hover:text-white group-hover:translate-x-3 transition-all duration-300">
+                      {item.name}
+                    </span>
+                  </div>
+                  <span className="hidden sm:inline-block text-xs font-mono text-white/40 group-hover:text-[#06e4f9] transition-colors">
+                    {item.desc} ↗
+                  </span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Right Information & Lead Magnet Box */}
+            <div className="lg:col-span-5 flex flex-col justify-between gap-8 bg-[#12121e]/80 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-xl">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-wider mb-4">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Residency Open 2026</span>
+                </div>
+                <h3 className="text-2xl font-bold uppercase tracking-tight text-white mb-2">
+                  Ready to deploy your future?
+                </h3>
+                <p className="text-sm text-white/60 leading-relaxed mb-6">
+                  Build production-grade applications, earn verifiable GitHub pull request credentials, and work directly with engineering mentors.
+                </p>
+
+                <div className="flex flex-col gap-3">
+                  <Link to="/apply" onClick={() => setFullMenuOpen(false)}>
+                    <Button className="w-full h-11 bg-gradient-to-r from-[#2c2cf3] to-[#06e4f9] hover:shadow-[0_0_25px_rgba(6,228,249,0.5)] text-white font-mono text-xs font-bold uppercase tracking-wider rounded-xl">
+                      Apply for Internship ↗
+                    </Button>
+                  </Link>
+                  <Link to="/student-portal" onClick={() => setFullMenuOpen(false)}>
+                    <Button variant="outline" className="w-full h-11 border-white/15 hover:border-emerald-500 hover:bg-emerald-500/10 text-white font-mono text-xs font-bold uppercase tracking-wider rounded-xl">
+                      Student Verification Portal
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Contact info and Socials */}
+              <div className="space-y-4 pt-6 border-t border-white/10">
+                <div className="text-xs font-mono text-white/60 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <Mail className="w-3.5 h-3.5 text-[#06e4f9]" />
+                    <span>Study Enquiry: <a href="mailto:support.geekintern@gmail.com" className="text-white hover:underline">support.geekintern@gmail.com</a></span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Helpline: <a href="tel:+919477564633" className="text-white hover:underline">+91 9477564633</a></span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 pt-2">
+                  <a
+                    href="https://in.linkedin.com/in/geek-intern"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2.5 rounded-full border border-white/10 bg-white/5 hover:border-[#06e4f9] hover:text-[#06e4f9] transition-all"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://github.com/Anant1822/geekintern-client"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2.5 rounded-full border border-white/10 bg-white/5 hover:border-[#06e4f9] hover:text-[#06e4f9] transition-all"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://instagram.com/geekintern"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2.5 rounded-full border border-white/10 bg-white/5 hover:border-[#06e4f9] hover:text-[#06e4f9] transition-all"
+                  >
+                    <Instagram className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10 text-xs font-mono text-white/40">
+            <span>© {new Date().getFullYear()} Geek Interns. All rights reserved.</span>
+            <span className="text-emerald-400">A GKK & Bubblesort Venture</span>
+          </div>
+        </div>
+      )}
     </>
   )
 }
-
-export default Header

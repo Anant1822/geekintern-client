@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import {
-  Search, ShieldCheck, CheckCircle2, AlertCircle, Send, Calendar, Clock,
+  Search, ShieldCheck, CheckCircle2, AlertCircle, Calendar, Clock,
   User, Briefcase, FileCheck, ArrowRight, Download, Printer, ExternalLink,
   Sparkles, Mail, Building, FileText, Share2
 } from 'lucide-react'
 import { PublicLayout } from '@/components/layout/PublicLayout'
-import PageTitle from '@/components/common/PageTitle'
+import { PageTitle } from '@/components/common/PageTitle'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -84,7 +84,7 @@ export default function VerifyOfferLetter() {
             start_date: letter.start_date || '',
             stipend: letter.stipend || 'Unpaid / Performance Based',
             status: letter.status || 'verified',
-            issuer: 'Geek Intern Human Resources',
+            issuer: 'Geek Interns Human Resources — A GKK & Bubblesort Venture',
             image_url: letter.image_url || null,
           })
           setSearchParams({ id: cleanId })
@@ -100,12 +100,11 @@ export default function VerifyOfferLetter() {
     }
   }
 
-  // Auto-verify if ID is passed in query string
   useEffect(() => {
     if (initialId) {
       handleVerify(initialId)
     }
-  }, [initialId])
+  }, [])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -113,97 +112,102 @@ export default function VerifyOfferLetter() {
   }
 
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href)
+    const url = window.location.href
+    navigator.clipboard.writeText(url)
     setCopiedLink(true)
-    setTimeout(() => setCopiedLink(false), 2500)
+    setTimeout(() => setCopiedLink(false), 2000)
   }
 
   return (
     <PublicLayout>
-      <PageTitle title="Verify Internship Offer Letter | Geek Intern Verification Portal" />
+      <PageTitle title="Verify Internship Offer Letter | Geek Interns" />
 
-      <div className="min-h-screen bg-slate-50/70 py-12 sm:py-16">
-        <div className="container max-w-4xl px-4 sm:px-6">
+      {/* Atmospheric Ambient Glows */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-[#2c2cf3]/15 to-transparent rounded-full blur-[140px]" />
+        <div className="absolute top-[35%] -left-48 w-[600px] h-[600px] bg-[#06e4f9]/10 rounded-full blur-[160px]" />
+      </div>
+
+      <div className="relative z-10 min-h-screen py-12 sm:py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-4">
-              <ShieldCheck className="h-4 w-4 text-blue-600" />
-              Geek Intern Official Document Verification
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono uppercase tracking-widest mb-4">
+              <ShieldCheck className="h-4 w-4" />
+              <span>Official Document Verification</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Verify Internship Offer Letter
+            <h1 className="font-display font-black text-3xl sm:text-5xl text-white uppercase tracking-tight mb-2">
+              Verify Offer Letter
             </h1>
-            <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-              Validate internship engagement and onboarding documents issued by Geek Intern. Enter the unique Offer Letter ID printed on the official letter or document header.
+            <p className="font-serif italic text-xl sm:text-2xl text-white/60">
+              validate authentic onboarding documents issued by Geek Interns.
             </p>
           </div>
 
           {/* Search Card */}
-          <Card className="border border-slate-200 shadow-sm bg-white mb-8">
-            <CardContent className="p-6 sm:p-8">
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <Input
-                    placeholder="Enter Offer Letter ID (e.g. GI-OL-2026-DEMO1)"
-                    value={letterId}
-                    onChange={(e) => setLetterId(e.target.value)}
-                    className="pl-10 h-11 text-sm sm:text-base uppercase font-mono tracking-wide"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  disabled={isLoading || !letterId.trim()}
-                  className="h-11 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-xs transition-all"
-                >
-                  {isLoading ? (
-                    <span className="flex items-center gap-2">
-                      <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Verifying...
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-2">
-                      <ShieldCheck className="h-4 w-4" />
-                      Verify Document
-                    </span>
-                  )}
-                </Button>
-              </form>
-              <div className="mt-2.5 flex items-center justify-between text-xs text-slate-500">
-                <span>Looking for a certificate instead? <Link to="/verify" className="text-blue-600 hover:underline font-medium">Verify Certificate ↗</Link></span>
-                <span className="font-mono text-[11px] text-slate-400">Format: GI-OL-YYYY-XXXXX</span>
+          <div className="cyber-card p-6 sm:p-8 rounded-3xl border border-white/10 mb-8 shadow-[0_0_40px_rgba(6,228,249,0.08)]">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
+                <Input
+                  placeholder="Enter Offer Letter ID (e.g. GI-OL-2026-DEMO1)"
+                  value={letterId}
+                  onChange={(e) => setLetterId(e.target.value)}
+                  className="pl-10 h-12 bg-white/[0.04] border-white/15 text-white font-mono text-sm uppercase tracking-wider focus-visible:ring-[#06e4f9]"
+                />
               </div>
-            </CardContent>
-          </Card>
+              <Button
+                type="submit"
+                disabled={isLoading || !letterId.trim()}
+                className="h-12 px-8 bg-[#06e4f9] hover:bg-cyan-300 text-black font-mono font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(6,228,249,0.3)] transition-all"
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="h-4 w-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    Verifying...
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    <ShieldCheck className="h-4 w-4" />
+                    Verify Document
+                  </span>
+                )}
+              </Button>
+            </form>
+            <div className="mt-3 flex items-center justify-between text-xs font-mono text-white/40">
+              <span>Looking for a certificate? <Link to="/verify" className="text-[#06e4f9] hover:underline font-bold">Verify Certificate ↗</Link></span>
+              <span>Format: GI-OL-YYYY-XXXXX</span>
+            </div>
+          </div>
 
           {/* Error Message */}
           {errorMsg && (
-            <Card className="border-red-200 bg-red-50/70 mb-8 animate-in fade-in">
-              <CardContent className="p-5 flex items-start gap-3">
-                <AlertCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-semibold text-red-900 text-sm">Offer Letter Not Found</h3>
-                  <p className="text-xs text-red-700 mt-0.5 leading-relaxed">{errorMsg}</p>
-                  <p className="text-xs text-red-600 mt-2">
-                    Please double-check the Offer Letter ID. If you recently received your offer letter, please verify the exact reference code provided in your email.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="cyber-card border-rose-500/30 bg-rose-950/20 p-6 rounded-3xl mb-8 flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-rose-400 shrink-0 mt-0.5" />
+              <div>
+                <h3 className="font-display font-bold text-rose-300 text-sm">Offer Letter Not Found</h3>
+                <p className="text-xs text-white/70 mt-1 leading-relaxed font-sans">{errorMsg}</p>
+                <p className="text-xs text-white/40 mt-2 font-mono">
+                  Please verify the exact reference code provided in your official email communication.
+                </p>
+              </div>
+            </div>
           )}
 
           {/* Verified Offer Letter Card */}
           {offerLetter && (
-            <div className="space-y-6 animate-in fade-in">
+            <div className="space-y-6">
               {/* Verification Status Banner */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900">
-                <div className="flex items-center gap-2.5">
-                  <div className="h-8 w-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-white">
+                <div className="flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-full bg-emerald-500 text-black flex items-center justify-center shrink-0 font-bold">
                     <CheckCircle2 className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold">Verified Authentic Internship Offer Letter</h3>
-                    <p className="text-xs text-emerald-700">Issued and digitally sealed by Geek Intern</p>
+                    <h3 className="text-sm font-display font-bold uppercase tracking-wider">
+                      Verified Authentic Internship Offer Letter
+                    </h3>
+                    <p className="text-xs text-emerald-300 font-mono">Issued and digitally sealed by Geek Interns</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -211,45 +215,45 @@ export default function VerifyOfferLetter() {
                     size="sm"
                     variant="outline"
                     onClick={handleShare}
-                    className="text-xs border-emerald-300 text-emerald-800 hover:bg-emerald-100/60 h-8"
+                    className="text-xs font-mono uppercase tracking-wider border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/20 h-9"
                   >
                     <Share2 className="h-3 w-3 mr-1" />
-                    {copiedLink ? 'Link Copied!' : 'Share Verification Link'}
+                    {copiedLink ? 'Link Copied!' : 'Share Link'}
                   </Button>
                   <Button
                     size="sm"
                     onClick={() => window.print()}
                     variant="outline"
-                    className="text-xs border-emerald-300 text-emerald-800 hover:bg-emerald-100/60 h-8"
+                    className="text-xs font-mono uppercase tracking-wider border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/20 h-9"
                   >
                     <Printer className="h-3 w-3 mr-1" />
-                    Print / Save
+                    Print
                   </Button>
                 </div>
               </div>
 
               {/* Cloud Uploaded Document Banner (if image/PDF exists) */}
               {offerLetter.image_url && (
-                <Card className="border-2 border-blue-500/40 shadow-sm bg-white overflow-hidden rounded-2xl">
-                  <CardHeader className="bg-slate-50/60 border-b border-slate-100 p-4 flex flex-row items-center justify-between">
+                <div className="cyber-card rounded-3xl border border-white/15 overflow-hidden">
+                  <div className="bg-white/[0.03] border-b border-white/10 p-4 flex flex-row items-center justify-between">
                     <div>
-                      <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                        <FileText className="h-4 w-4 text-blue-600" />
+                      <div className="text-sm font-display font-bold text-white flex items-center gap-2">
+                        <FileText className="h-4 w-4 text-[#06e4f9]" />
                         Original Cloud Document
-                      </CardTitle>
-                      <CardDescription className="text-xs">
-                        Official document hosted in Geek Intern cloud archive
-                      </CardDescription>
+                      </div>
+                      <div className="text-xs font-mono text-white/50">
+                        Official document hosted in Geek Interns cloud archive
+                      </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <a
                         href={offerLetter.image_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-blue-600 hover:underline font-semibold inline-flex items-center gap-1"
+                        className="text-xs text-[#06e4f9] hover:underline font-mono inline-flex items-center gap-1"
                       >
                         <ExternalLink className="h-3.5 w-3.5" />
-                        Open High-Res ↗
+                        <span>High-Res</span>
                       </a>
                       <a
                         href={offerLetter.image_url}
@@ -257,92 +261,92 @@ export default function VerifyOfferLetter() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white text-xs h-8 gap-1.5">
+                        <Button size="sm" className="bg-[#06e4f9] hover:bg-cyan-300 text-black text-xs font-mono font-bold h-8 gap-1.5">
                           <Download className="h-3.5 w-3.5" />
-                          Download Document
+                          Download
                         </Button>
                       </a>
                     </div>
-                  </CardHeader>
-                  <CardContent className="p-4 sm:p-6 bg-slate-900/5 flex items-center justify-center">
+                  </div>
+                  <div className="p-4 sm:p-6 bg-black/40 flex items-center justify-center">
                     {offerLetter.image_url.endsWith('.pdf') ? (
                       <iframe
                         src={offerLetter.image_url}
                         title={`Offer Letter ${offerLetter.letter_id}`}
-                        className="w-full h-[650px] rounded-lg border border-slate-200"
+                        className="w-full h-[650px] rounded-xl border border-white/10"
                       />
                     ) : (
                       <img
                         src={offerLetter.image_url}
                         alt={`Offer Letter ${offerLetter.letter_id}`}
-                        className="max-h-[750px] w-auto max-w-full rounded-lg shadow-md object-contain border border-slate-200"
+                        className="max-h-[750px] w-auto max-w-full rounded-xl shadow-md object-contain border border-white/10"
                       />
                     )}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               )}
 
               {/* Verified Record Metadata Card */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+              <div className="cyber-card rounded-3xl p-6 sm:p-8 border border-white/10 space-y-6">
                 {/* Top header */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
                   <div>
-                    <span className="text-xs font-bold text-blue-600 tracking-wider uppercase">
+                    <span className="text-xs font-mono font-bold text-[#06e4f9] tracking-widest uppercase block mb-1">
                       Internship Engagement Record
                     </span>
-                    <h2 className="text-2xl font-bold text-slate-900 mt-1">
+                    <h2 className="text-2xl sm:text-3xl font-display font-bold text-white">
                       {offerLetter.domain} Intern
                     </h2>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Issued by <strong className="text-slate-800">{offerLetter.issuer}</strong>
+                    <p className="text-xs text-white/50 font-sans mt-0.5">
+                      Issued by <strong className="text-white">{offerLetter.issuer}</strong>
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[11px] text-slate-400 block uppercase">Verification Code</span>
-                    <span className="font-mono font-bold text-blue-600 text-base bg-blue-50 px-2.5 py-1 rounded border border-blue-100 inline-block">
+                    <span className="text-[11px] font-mono text-white/40 block uppercase">Verification Code</span>
+                    <span className="font-mono font-bold text-[#06e4f9] text-base bg-white/5 px-3 py-1 rounded-xl border border-[#06e4f9]/30 inline-block mt-0.5">
                       {offerLetter.letter_id}
                     </span>
                   </div>
                 </div>
 
                 {/* Candidate & Term Metrics */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50/70 p-4 rounded-xl border border-slate-100 text-xs">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-white/[0.03] p-4 rounded-2xl border border-white/10 text-xs">
                   <div>
-                    <span className="text-slate-400 block text-[10px] uppercase font-medium">Candidate Name</span>
-                    <span className="font-bold text-slate-900 text-sm mt-0.5 block">{offerLetter.student_name}</span>
+                    <span className="text-white/40 block text-[10px] font-mono uppercase font-bold">Candidate Name</span>
+                    <span className="font-bold text-white text-sm mt-1 block">{offerLetter.student_name}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block text-[10px] uppercase font-medium">Program Duration</span>
-                    <span className="font-bold text-slate-800 text-sm mt-0.5 block">{offerLetter.duration || '4 Weeks'}</span>
+                    <span className="text-white/40 block text-[10px] font-mono uppercase font-bold">Program Duration</span>
+                    <span className="font-bold text-white text-sm mt-1 block">{offerLetter.duration || '4 Weeks'}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block text-[10px] uppercase font-medium">Commencement Date</span>
-                    <span className="font-bold text-slate-800 text-sm mt-0.5 block">
+                    <span className="text-white/40 block text-[10px] font-mono uppercase font-bold">Commencement Date</span>
+                    <span className="font-bold text-white text-sm mt-1 block">
                       {offerLetter.start_date ? formatDate(offerLetter.start_date) : 'Immediate'}
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block text-[10px] uppercase font-medium">Stipend / Terms</span>
-                    <span className="font-bold text-emerald-700 text-sm mt-0.5 block">{offerLetter.stipend || 'Performance Based'}</span>
+                    <span className="text-white/40 block text-[10px] font-mono uppercase font-bold">Stipend / Terms</span>
+                    <span className="font-bold text-emerald-400 text-sm mt-1 block">{offerLetter.stipend || 'Performance Based'}</span>
                   </div>
                 </div>
 
                 {!offerLetter.image_url && (
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center gap-3">
-                    <ShieldCheck className="h-5 w-5 text-blue-600 shrink-0" />
-                    <span>This internship offer was verified in Geek Intern official records. The physical/digital offer document is issued directly to the candidate by the administration.</span>
+                  <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 text-xs text-white/60 flex items-center gap-3">
+                    <ShieldCheck className="h-5 w-5 text-emerald-400 shrink-0" />
+                    <span>This internship offer is verified in Geek Interns official records. The formal onboarding package is sent directly to the candidate.</span>
                   </div>
                 )}
               </div>
 
               {/* Student Portal CTA */}
-              <div className="p-5 rounded-2xl bg-blue-50/60 border border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+              <div className="cyber-card p-6 rounded-3xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
                 <div>
-                  <p className="font-bold text-blue-900">Are you the candidate named on this document?</p>
-                  <p className="text-blue-700 mt-0.5">Sign into the student portal to track onboarding, tasks, and future certificates.</p>
+                  <p className="font-display font-bold text-base text-white">Are you the candidate named on this document?</p>
+                  <p className="text-white/60 font-sans mt-0.5">Sign into the student portal to track onboarding, tasks, and future certificates.</p>
                 </div>
-                <Link to={`/login?email=${encodeURIComponent(offerLetter.email || '')}`}>
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white gap-1.5 text-xs">
+                <Link to={`/student-portal`}>
+                  <Button size="sm" className="bg-[#06e4f9] hover:bg-cyan-300 text-black font-mono font-bold uppercase tracking-wider gap-1.5 text-xs h-10 px-5 rounded-full">
                     Open Student Portal
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Button>
