@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useParams, Link } from 'react-router-dom'
-import { CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Award, Laptop, Clock, Briefcase, FileText, PhoneCall, MessageCircle, AlertCircle, Mail, KeyRound, Check, Linkedin, ExternalLink, Loader2 } from 'lucide-react'
+import { CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Award, Laptop, Clock, Briefcase, FileText, PhoneCall, MessageCircle, AlertCircle, Mail, Check, Linkedin, ExternalLink, Loader2 } from 'lucide-react'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,7 +11,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
-import { authService } from '@/services/auth'
 import { supabase } from '@/lib/supabase'
 
 export interface DomainCategoryConfig {
@@ -174,145 +173,6 @@ export default function Apply() {
     window.open('https://www.linkedin.com/in/geek-intern', '_blank', 'noopener,noreferrer')
   }
 
-  // Supabase Auth Email OTP State
-  const [otp, setOtp] = useState('')
-  const [isOtpSent, setIsOtpSent] = useState(false)
-  const [isEmailVerified, setIsEmailVerified] = useState(false)
-  const [isSendingOtp, setIsSendingOtp] = useState(false)
-  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false)
-  const [otpCooldown, setOtpCooldown] = useState(0)
-  const [otpError, setOtpError] = useState<string | null>(null)
-
-  // OTP Countdown timer
-  useEffect(() => {
-    let timer: any = null
-    if (otpCooldown > 0) {
-      timer = setInterval(() => setOtpCooldown((prev) => prev - 1), 1000)
-    }
-    return () => clearInterval(timer)
-  }, [otpCooldown])
-
-  // Handle sending OTP to applicant's email address
-  const handleSendEmailOtp = async () => {
-    const cleanEmail = formData.email.trim().toLowerCase()
-    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
-      toast({
-        title: 'Valid email required',
-        description: 'Please enter a valid email address before requesting an OTP.',
-        variant: 'destructive',
-      })
-      return
-    }
-
-    setIsSendingOtp(true)
-    setOtpError(null)
-
-    let sent = false
-
-    // 1. Dispatch via backend API (triggers Supabase Auth / Email dispatch)
-    try {
-      const res = await api.post('/applications/send-otp', { email: cleanEmail })
-      if (res.data?.success) {
-        sent = true
-      }
-    } catch (apiErr: any) {
-      console.warn('Backend send-otp error:', apiErr?.response?.data?.message || apiErr?.message)
-    }
-
-    // 2. Dispatch via Supabase Auth
-    try {
-      const { error } = await authService.sendOtp(cleanEmail, true)
-      if (!error) {
-        sent = true
-      } else {
-        console.warn('Supabase Auth sendOtp notice:', error.message)
-      }
-    } catch (err: any) {
-      console.warn('Supabase Auth exception:', err)
-    }
-
-    setIsSendingOtp(false)
-
-    if (sent) {
-      setIsOtpSent(true)
-      setOtpCooldown(60)
-      setOtp('')
-      toast({
-        title: 'Verification Code Sent! ✓',
-        description: `A 6-digit verification code has been sent to ${cleanEmail}. Please check your inbox and spam folder.`,
-      })
-    } else {
-      setIsOtpSent(true)
-      setOtpCooldown(60)
-      setOtp('')
-      toast({
-        title: 'Verification Code Requested',
-        description: `Please enter the 6-digit code sent to ${cleanEmail}.`,
-      })
-    }
-  }
-
-  // Handle verifying the OTP via Supabase Auth, Backend, or Session Code
-  const handleVerifyEmailOtp = async () => {
-    const cleanEmail = formData.email.trim().toLowerCase()
-    const cleanOtp = otp.trim()
-
-    if (!cleanOtp || cleanOtp.length < 4) {
-      toast({
-        title: 'Invalid Code',
-        description: 'Please enter the 6-digit verification code.',
-        variant: 'destructive',
-      })
-      return
-    }
-
-    setIsVerifyingOtp(true)
-    setOtpError(null)
-
-    let verified = false
-
-    // 1. Try Backend verify-otp
-    try {
-      const res = await api.post('/applications/verify-otp', { email: cleanEmail, otp: cleanOtp })
-      if (res.data?.success && res.data?.data?.verified) {
-        verified = true
-      }
-    } catch (apiErr: any) {
-      console.warn('Backend verify-otp error:', apiErr?.response?.data?.message)
-    }
-
-    // 2. Try Supabase Auth verifyOtp
-    if (!verified) {
-      try {
-        const { data, error } = await authService.verifyOtp(cleanEmail, cleanOtp)
-        if (!error && data?.user) {
-          verified = true
-        }
-      } catch (sbErr) {
-        console.warn('Supabase verifyOtp notice:', sbErr)
-      }
-    }
-
-    setIsVerifyingOtp(false)
-
-    if (verified) {
-      setIsEmailVerified(true)
-      setIsOtpSent(false)
-      setOtp('')
-      toast({
-        title: 'Email Verified Successfully! ✓',
-        description: 'Your email has been authenticated. You can now submit your application.',
-      })
-    } else {
-      setOtpError('Incorrect verification code. Please check your email and retry.')
-      toast({
-        title: 'Verification Failed',
-        description: 'Incorrect verification code. Please check and try again.',
-        variant: 'destructive',
-      })
-    }
-  }
-
   // Auto-match queryDomain to category & sub-domain options
   useEffect(() => {
     if (!queryDomain) return
@@ -426,13 +286,6 @@ export default function Apply() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    // If user changes email after requesting or verifying OTP, reset verification
-    if (name === 'email') {
-      setIsOtpSent(false)
-      setIsEmailVerified(false)
-      setOtp('')
-      setOtpError(null)
-    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -488,17 +341,6 @@ export default function Apply() {
       setSubmitError(msg)
       toast({
         title: 'Urgent Reason Required',
-        description: msg,
-        variant: 'destructive',
-      })
-      return
-    }
-
-    if (!isEmailVerified) {
-      const msg = 'Please verify your email address by entering the OTP sent to your inbox before submitting.'
-      setSubmitError(msg)
-      toast({
-        title: 'Email Verification Required',
         description: msg,
         variant: 'destructive',
       })
@@ -717,133 +559,25 @@ export default function Apply() {
                       {/* Email & Phone */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <div className="flex items-center justify-between">
-                            <Label htmlFor="email" className="text-slate-700 font-medium text-sm">
-                              Email Address <span className="text-red-500">*</span>
-                            </Label>
-                            {isEmailVerified && (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                                <Check className="h-3 w-3" /> Verified
-                              </span>
-                            )}
-                          </div>
-                          
-                          <div className="relative mt-1.5 flex gap-2">
-                            <div className="relative flex-1">
-                              <Input
-                                id="email"
-                                name="email"
-                                type="email"
-                                placeholder="e.g. rahul@example.com"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                                disabled={isEmailVerified}
-                                className={`pr-9 ${isEmailVerified ? 'bg-slate-50 border-emerald-400 text-slate-700' : ''}`}
-                              />
-                              <div className="absolute right-3 top-2.5 text-slate-400">
-                                <Mail className="h-4 w-4" />
-                              </div>
+                          <Label htmlFor="email" className="text-slate-700 font-medium text-sm">
+                            Email Address <span className="text-red-500">*</span>
+                          </Label>
+                          <div className="relative mt-1.5">
+                            <Input
+                              id="email"
+                              name="email"
+                              type="email"
+                              placeholder="e.g. rahul@example.com"
+                              value={formData.email}
+                              onChange={handleChange}
+                              required
+                              className="pr-9"
+                            />
+                            <div className="absolute right-3 top-2.5 text-slate-400">
+                              <Mail className="h-4 w-4" />
                             </div>
-                            
-                            {!isEmailVerified && (
-                              <div className="flex gap-1.5 shrink-0">
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={handleSendEmailOtp}
-                                  disabled={isSendingOtp || otpCooldown > 0}
-                                  className="h-10 px-3 text-xs font-semibold border-blue-200 hover:bg-blue-50 text-blue-700"
-                                >
-                                  {isSendingOtp ? (
-                                    <span className="flex items-center gap-1.5">
-                                      <span className="h-3 w-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                                      Sending...
-                                    </span>
-                                  ) : otpCooldown > 0 ? (
-                                    `Resend (${otpCooldown}s)`
-                                  ) : isOtpSent ? (
-                                    'Resend OTP'
-                                  ) : (
-                                    'Get OTP'
-                                  )}
-                                </Button>
-                              </div>
-                            )}
-
-                            {isEmailVerified && (
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => {
-                                  setIsEmailVerified(false)
-                                  setIsOtpSent(false)
-                                  setOtp('')
-                                }}
-                                className="h-10 px-2.5 text-xs text-slate-500 hover:text-slate-800"
-                              >
-                                Edit
-                              </Button>
-                            )}
                           </div>
-                          
                           <p className="text-[11px] text-slate-500 mt-1">Offer letter will be sent here</p>
-
-                          {/* OTP Verification Box */}
-                          {isOtpSent && !isEmailVerified && (
-                            <div className="mt-3 p-3.5 rounded-xl bg-blue-50/70 border border-blue-200/80 animate-in fade-in slide-in-from-top-2 duration-200 space-y-2.5">
-                              <div className="flex items-center justify-between text-xs text-blue-900 font-medium">
-                                <span className="flex items-center gap-1.5">
-                                  <KeyRound className="h-3.5 w-3.5 text-blue-600" />
-                                  Enter Email Verification Code
-                                </span>
-                                <span className="text-[11px] text-blue-700/80">Check your inbox/spam</span>
-                              </div>
-
-                              <div className="flex gap-2">
-                                <Input
-                                  type="text"
-                                  inputMode="numeric"
-                                  maxLength={6}
-                                  placeholder="000000"
-                                  value={otp}
-                                  onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
-                                  className="h-10 bg-white text-center font-mono text-lg tracking-[0.3em] font-bold border-blue-300 focus:border-blue-600 shadow-inner"
-                                  disabled={isVerifyingOtp}
-                                  autoFocus
-                                />
-                                <Button
-                                  type="button"
-                                  size="sm"
-                                  onClick={handleVerifyEmailOtp}
-                                  disabled={isVerifyingOtp || otp.trim().length < 4}
-                                  className="h-10 px-5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shrink-0 shadow-sm"
-                                >
-                                  {isVerifyingOtp ? (
-                                    <span className="flex items-center gap-1.5">
-                                      <span className="h-3 w-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                      Verifying...
-                                    </span>
-                                  ) : (
-                                    'Verify OTP'
-                                  )}
-                                </Button>
-                              </div>
-
-                              <div className="flex items-center justify-between text-[11px] pt-1">
-                                {otpError ? (
-                                  <p className="text-red-600 flex items-center gap-1 font-medium">
-                                    <AlertCircle className="h-3 w-3 shrink-0" />
-                                    {otpError}
-                                  </p>
-                                ) : (
-                                  <span className="text-slate-500">Please enter the 6-digit code received on your email.</span>
-                                )}
-                              </div>
-                            </div>
-                          )}
                         </div>
 
                         <div>
@@ -1264,20 +998,11 @@ export default function Apply() {
 
                         <Button
                           type="submit"
-                          disabled={isSubmitting || !isEmailVerified}
-                          className={`w-full text-white font-semibold py-3 h-12 text-base rounded-lg shadow-md transition-all flex items-center justify-center gap-2 ${
-                            !isEmailVerified
-                              ? 'bg-slate-400 hover:bg-slate-500 cursor-not-allowed opacity-90'
-                              : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'
-                          }`}
+                          disabled={isSubmitting}
+                          className="w-full text-white font-semibold py-3 h-12 text-base rounded-lg shadow-md transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                         >
                           {isSubmitting ? (
                             <span>Submitting Application...</span>
-                          ) : !isEmailVerified ? (
-                            <span className="flex items-center gap-2 text-sm sm:text-base">
-                              <KeyRound className="h-4 w-4" />
-                              Verify Email with OTP to Proceed
-                            </span>
                           ) : (
                             <>
                               <span>Submit Application & Get Offer Letter</span>
@@ -1286,13 +1011,7 @@ export default function Apply() {
                           )}
                         </Button>
                         <p className="text-center text-xs text-slate-500 mt-2.5">
-                          {!isEmailVerified ? (
-                            <span className="text-amber-700 font-medium">
-                              * Click "Get OTP" next to your email address and enter the 6-digit code received before submitting.
-                            </span>
-                          ) : (
-                            'By submitting, you agree to receive internship updates, task kits, and offer letters from Geek Intern.'
-                          )}
+                          By submitting, you agree to receive internship updates, task kits, and offer letters from Geek Intern.
                         </p>
                       </div>
                     </form>

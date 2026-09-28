@@ -107,7 +107,7 @@ const NAVIGATION_ITEMS: NavItem[] = [
       {
         label: 'Team Geek Intern',
         href: '/team',
-        description: 'Meet leadership, tech mentors, and curriculum architects',
+        description: 'Meet our mentors, project reviewers, and team',
         icon: Users,
       },
       {

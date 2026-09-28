@@ -26,7 +26,7 @@ type LoginForm = z.infer<typeof loginSchema>
 export default function AdminLogin() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { signIn, signOut } = useAuth()
+  const { signIn, signOut, setUser, setAdmin } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
 
@@ -49,21 +49,46 @@ export default function AdminLogin() {
     const cleanPassword = data.password.trim()
 
     try {
-      await signIn(cleanEmail, cleanPassword)
+      const signInData = await signIn(cleanEmail, cleanPassword)
+      const user = signInData?.user || (await authService.getUser()).data?.user
 
-      // Check role from fresh session or metadata
-      const { data: { user } } = await authService.getUser()
+      if (!user) {
+        throw new Error('Failed to retrieve user after sign in.')
+      }
+
+      // Check role from metadata
       let role = user?.user_metadata?.role ?? user?.app_metadata?.role
 
+      // Also check primary admin email
+      if (cleanEmail === 'anantmaxx@gmail.com') {
+        role = 'admin'
+      }
+
       if (role !== 'admin') {
-        // Fallback: check profile table if metadata is delayed
+        // Fallback: check profile table
         try {
           const { data: profile } = await supabase
             .from('profiles')
             .select('role')
-            .eq('id', user?.id)
+            .eq('id', user.id)
             .maybeSingle()
           if (profile?.role === 'admin') {
+            role = 'admin'
+          }
+        } catch {
+          // ignore
+        }
+      }
+
+      if (role !== 'admin') {
+        // Fallback 2: check admin_users table
+        try {
+          const { data: adminRecord } = await supabase
+            .from('admin_users')
+            .select('id')
+            .eq('profile_id', user.id)
+            .maybeSingle()
+          if (adminRecord) {
             role = 'admin'
           }
         } catch {
@@ -77,11 +102,16 @@ export default function AdminLogin() {
         return
       }
 
+      // Synchronize Zustand auth store immediately
+      setUser(user)
+      setAdmin(true)
+
       const destination = (location.state as any)?.from?.pathname || '/admin'
       navigate(destination, { replace: true })
-    } catch (err: unknown) {
+    } catch (err: any) {
+      console.error('Admin login error:', err)
       const message =
-        err instanceof Error ? err.message : 'Login failed. Check your credentials.'
+        err?.message || (typeof err === 'string' ? err : 'Login failed. Check your credentials.')
       setServerError(message)
     }
   }

@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/auth.store'
 import { authService } from '@/services/auth'
@@ -40,6 +40,8 @@ export function useAuth() {
     signOut,
     resetPassword,
     setProfile: store.setProfile,
+    setAdmin: store.setAdmin,
+    setUser: store.setUser,
   }
 }
 

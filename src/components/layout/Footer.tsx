@@ -15,7 +15,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Logo variant="auto" size="md" className="mb-4" />
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">
-              Geek Intern delivers industry-standard virtual internships, verified certifications, and career acceleration tools empowering learners worldwide to build real projects and launch engineering careers.
+              Hands-on remote engineering internships. Build real software projects, earn verified credentials, and prepare for tech industry roles.
             </p>
 
             <div className="mt-6 flex items-center gap-3">

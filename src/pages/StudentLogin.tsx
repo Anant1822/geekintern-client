@@ -22,6 +22,10 @@ import {
   ArrowLeft,
   Share2,
   Send,
+  Lock,
+  KeyRound,
+  Eye,
+  EyeOff,
 } from 'lucide-react'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import PageTitle from '@/components/common/PageTitle'
@@ -384,12 +388,31 @@ export default function StudentLogin() {
     return () => clearInterval(interval)
   }, [otpTimer])
 
-  // Step 1: Request OTP to Gmail
-  const handleSendOtp = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault()
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [authMode, setAuthMode] = useState<'login' | 'forgot_password'>('login')
+
+  // Forgot password OTP flow states
+  const [forgotEmail, setForgotEmail] = useState('')
+  const [forgotOtp, setForgotOtp] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [forgotStep, setForgotStep] = useState<'request_otp' | 'verify_and_reset'>('request_otp')
+
+  // Step 1: Handle Email and Password Login
+  const handlePasswordLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
     const cleanEmail = email.trim().toLowerCase()
+    const cleanPassword = password.trim()
+
     if (!cleanEmail || !cleanEmail.includes('@')) {
-      setErrorMsg('Please enter a valid registered Gmail / Email address.')
+      setErrorMsg('Please enter a valid email address.')
+      return
+    }
+
+    if (!cleanPassword) {
+      setErrorMsg('Please enter your password.')
       return
     }
 
@@ -397,118 +420,44 @@ export default function StudentLogin() {
     setErrorMsg(null)
     setSuccessMsg(null)
 
-    // IMPORTANT: Check whether the candidate is registered / has applied BEFORE sending OTP
+    // Check if the student is registered or applied
     try {
       const isRegistered = await checkIsStudentRegistered(cleanEmail)
       if (!isRegistered) {
         setIsLoading(false)
         setNotRegisteredEmail(cleanEmail)
         setShowNotRegisteredModal(true)
-        setErrorMsg(`The email "${cleanEmail}" is not registered or applied. Please check for typos or submit an application.`)
+        setErrorMsg(`The email "${cleanEmail}" was not found in our records. Please submit an internship application first.`)
         return
       }
     } catch (checkErr) {
       console.warn('Registration pre-check notice:', checkErr)
     }
 
+    let authenticated = false
+
+    // 1. Authenticate with Supabase Auth
     try {
-      // 1. Dispatch OTP via Supabase Auth (with shouldCreateUser: false to protect against uninvited accounts)
-      let supabaseDispatched = false
+      const { data: authData, error: authError } = await authService.signIn(cleanEmail, cleanPassword)
+      if (!authError && authData?.user) {
+        authenticated = true
+        setAuthUser(authData.user)
+      } else if (authError) {
+        console.warn('Supabase signIn notice:', authError.message)
+      }
+    } catch (sbErr: any) {
+      console.warn('Supabase auth exception:', sbErr?.message)
+    }
+
+    // 2. Try backend verify-password endpoint
+    if (!authenticated) {
       try {
-        const { error: sbError } = await authService.sendOtp(cleanEmail, false)
-        if (!sbError) {
-          supabaseDispatched = true
-        } else {
-          console.warn('Supabase Auth sendOtp notice:', sbError.message)
-        }
-      } catch (sbErr) {
-        console.warn('Supabase sendOtp exception:', sbErr)
-      }
-
-      // 2. Dispatch OTP via backend route
-      let backendDispatched = false
-      try {
-        const res = await api.post('/certificates/send-otp', { email: cleanEmail })
-        if (res.data?.success) {
-          backendDispatched = true
-        }
-      } catch (apiErr: any) {
-        const msg = apiErr?.response?.data?.message
-        if (apiErr?.response?.status === 404) {
-          setIsLoading(false)
-          setNotRegisteredEmail(cleanEmail)
-          setShowNotRegisteredModal(true)
-          setErrorMsg(msg || `This email address (${cleanEmail}) is not registered or applied.`)
-          return
-        }
-        console.warn('Backend send-otp notice:', msg || apiErr?.message)
-      }
-
-      if (supabaseDispatched || backendDispatched) {
-        setOtpSent(true)
-        setOtpTimer(60)
-        setSuccessMsg(`One-Time Password (OTP) dispatched to ${cleanEmail}. Please check your inbox or spam.`)
-      } else {
-        setErrorMsg('Unable to dispatch OTP. Please verify your email or try again.')
-      }
-    } catch (err: any) {
-      console.error('Send OTP error:', err)
-      const msg =
-        err?.response?.data?.message ||
-        'Unable to send OTP at this moment. Please check your registered email.'
-      setErrorMsg(msg)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  // Step 2: Verify OTP
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const cleanEmail = email.trim().toLowerCase()
-    const cleanOtp = otp.trim()
-
-    if (!cleanOtp || cleanOtp.length < 4) {
-      setErrorMsg('Please enter the 6-digit verification code sent to your email.')
-      return
-    }
-
-    setIsLoading(true)
-    setErrorMsg(null)
-
-    // Pre-check registration status in case an unregistered user got to the OTP form
-    const isRegistered = await checkIsStudentRegistered(cleanEmail)
-    if (!isRegistered) {
-      setIsLoading(false)
-      setNotRegisteredEmail(cleanEmail)
-      setShowNotRegisteredModal(true)
-      setOtpSent(false)
-      setOtp('')
-      setErrorMsg(`This email address (${cleanEmail}) is not registered or applied. Please submit an application first.`)
-      return
-    }
-
-    let verified = false
-
-    // 1. Try Supabase Auth verifyOtp
-    try {
-      const { data: sbData, error: sbError } = await authService.verifyOtp(cleanEmail, cleanOtp)
-      if (!sbError && sbData?.user) {
-        verified = true
-        if (sbData.user) {
-          setAuthUser(sbData.user)
-        }
-      }
-    } catch (sbErr) {
-      console.warn('Supabase verifyOtp check:', sbErr)
-    }
-
-    // 2. Try backend verify-otp if not verified yet
-    if (!verified) {
-      try {
-        const res = await api.post('/certificates/verify-otp', { email: cleanEmail, otp: cleanOtp })
+        const res = await api.post('/certificates/verify-password', {
+          email: cleanEmail,
+          password: cleanPassword,
+        })
         if (res.data?.success && res.data?.data) {
-          verified = true
+          authenticated = true
           const data: PortalData = res.data.data
           setPortalData(data)
           if (data.certificates && data.certificates.length > 0) {
@@ -523,44 +472,166 @@ export default function StudentLogin() {
           if (data.offer_letters && data.offer_letters.length > 0) {
             setSelectedOfferLetter(data.offer_letters[0])
           }
+          setIsLoading(false)
+          return
         }
       } catch (apiErr: any) {
-        console.warn('Backend verify-otp check failed:', apiErr?.response?.data?.message)
+        console.warn('Backend verify-password notice:', apiErr?.response?.data?.message)
       }
     }
 
-    // 3. If verified, ensure portal data is loaded and return
-    if (verified) {
+    // 3. If authenticated via Supabase, load portal data
+    if (authenticated) {
       const loaded = await loadPortalDataForUser(cleanEmail)
+      setIsLoading(false)
       if (loaded) {
-        setIsLoading(false)
         return
       } else {
-        // Authenticated token, but no application or certificate records exist
-        setIsLoading(false)
         setNotRegisteredEmail(cleanEmail)
         setShowNotRegisteredModal(true)
-        setOtpSent(false)
-        setOtp('')
         setErrorMsg(`No active application or certificate records found for "${cleanEmail}".`)
         return
       }
     }
 
-    // 4. Client-side verified recovery: If this registered student has an active profile/record,
-    // and entered their code from email or recent dispatch, attempt loading records
-    try {
-      const loaded = await loadPortalDataForUser(cleanEmail)
-      if (loaded) {
-        setIsLoading(false)
-        return
-      }
-    } catch {
-      // Continue to error msg
+    setIsLoading(false)
+    setErrorMsg('Invalid email or password. Please check your credentials or click "Forgot Password?".')
+  }
+
+  // Step 2: Handle Forgot Password - Send OTP
+  const handleSendForgotPasswordOtp = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault()
+    const targetEmail = (forgotEmail || email).trim().toLowerCase()
+
+    if (!targetEmail || !targetEmail.includes('@')) {
+      setErrorMsg('Please enter your registered email address.')
+      return
     }
 
-    setErrorMsg('Invalid or expired verification code. Please check your email and try again.')
+    setIsLoading(true)
+    setErrorMsg(null)
+    setSuccessMsg(null)
+
+    // Check if the student is registered
+    const isRegistered = await checkIsStudentRegistered(targetEmail)
+    if (!isRegistered) {
+      setIsLoading(false)
+      setNotRegisteredEmail(targetEmail)
+      setShowNotRegisteredModal(true)
+      setErrorMsg(`The email "${targetEmail}" is not registered. Please submit an internship application.`)
+      return
+    }
+
+    try {
+      // 1. Dispatch via backend endpoint
+      let dispatched = false
+      try {
+        const res = await api.post('/certificates/forgot-password-otp', { email: targetEmail })
+        if (res.data?.success) {
+          dispatched = true
+        }
+      } catch (apiErr: any) {
+        console.warn('Backend forgot-password-otp notice:', apiErr?.message)
+      }
+
+      // 2. Fallback / supplementary reset email via Supabase Auth
+      try {
+        await authService.resetPassword(targetEmail)
+        dispatched = true
+      } catch (sbErr) {
+        console.warn('Supabase resetPassword notice:', sbErr)
+      }
+
+      if (dispatched) {
+        setForgotEmail(targetEmail)
+        setForgotStep('verify_and_reset')
+        setOtpTimer(60)
+        setSuccessMsg(`A 6-digit password reset OTP code has been sent to ${targetEmail}. Please check your inbox or spam.`)
+      } else {
+        setErrorMsg('Unable to dispatch reset code at this moment. Please try again.')
+      }
+    } catch (err: any) {
+      setErrorMsg(err?.response?.data?.message || 'Failed to dispatch reset code. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Step 3: Handle Reset Password using OTP
+  const handleResetPasswordWithOtp = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const targetEmail = forgotEmail.trim().toLowerCase()
+    const cleanOtp = forgotOtp.trim()
+    const cleanPass = newPassword.trim()
+
+    if (!cleanOtp || cleanOtp.length < 4) {
+      setErrorMsg('Please enter the 6-digit OTP code sent to your email.')
+      return
+    }
+
+    if (!cleanPass || cleanPass.length < 6) {
+      setErrorMsg('Password must be at least 6 characters long.')
+      return
+    }
+
+    if (cleanPass !== confirmPassword.trim()) {
+      setErrorMsg('Passwords do not match. Please re-enter.')
+      return
+    }
+
+    setIsLoading(true)
+    setErrorMsg(null)
+    setSuccessMsg(null)
+
+    let resetSuccess = false
+
+    // 1. Try backend reset-password-with-otp endpoint
+    try {
+      const res = await api.post('/certificates/reset-password-with-otp', {
+        email: targetEmail,
+        otp: cleanOtp,
+        newPassword: cleanPass,
+      })
+      if (res.data?.success) {
+        resetSuccess = true
+      }
+    } catch (apiErr: any) {
+      console.warn('Backend reset-password-with-otp error:', apiErr?.response?.data?.message)
+    }
+
+    // 2. Try Supabase Auth verifyOtp with type 'recovery'
+    if (!resetSuccess) {
+      try {
+        const { data: recData, error: recErr } = await supabase.auth.verifyOtp({
+          email: targetEmail,
+          token: cleanOtp,
+          type: 'recovery',
+        })
+        if (!recErr && recData?.user) {
+          const { error: updErr } = await supabase.auth.updateUser({ password: cleanPass })
+          if (!updErr) {
+            resetSuccess = true
+          }
+        }
+      } catch (sbErr) {
+        console.warn('Supabase recovery verifyOtp notice:', sbErr)
+      }
+    }
+
     setIsLoading(false)
+
+    if (resetSuccess) {
+      setSuccessMsg('Your password has been reset successfully! Please sign in with your new password.')
+      setEmail(targetEmail)
+      setPassword(cleanPass)
+      setAuthMode('login')
+      setForgotStep('request_otp')
+      setForgotOtp('')
+      setNewPassword('')
+      setConfirmPassword('')
+    } else {
+      setErrorMsg('Invalid or expired OTP code. Please check your email or request a new code.')
+    }
   }
 
 
@@ -669,155 +740,303 @@ export default function StudentLogin() {
               Student Login & Certificate Access
             </h1>
             <p className="mt-3 text-sm sm:text-base text-slate-600">
-              Secure authentication via One-Time Password (OTP) dispatched to your registered email to protect and access candidate credentials.
+              Sign in with your registered email and password to access your verified internship certificates, offer letters, and academic credentials.
             </p>
           </div>
 
           {!portalData ? (
-            /* Secure OTP Login Card */
+            /* Student Authentication Card */
             <Card className="max-w-md mx-auto border-slate-200 shadow-xl bg-white rounded-2xl overflow-hidden">
               <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-5 text-white">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-bold flex items-center gap-2">
-                    <ShieldCheck className="h-5 w-5 text-emerald-300" />
-                    Student OTP Verification
+                    {authMode === 'login' ? (
+                      <>
+                        <Lock className="h-5 w-5 text-blue-200" />
+                        Student Account Login
+                      </>
+                    ) : (
+                      <>
+                        <KeyRound className="h-5 w-5 text-amber-300" />
+                        Reset Student Password
+                      </>
+                    )}
                   </h2>
                   <Badge className="bg-white/20 text-white text-[10px] border-0">256-bit Encrypted</Badge>
                 </div>
                 <p className="text-xs text-blue-100 mt-1">
-                  Enter your registered email to receive an instant login code
+                  {authMode === 'login'
+                    ? 'Enter your email and password to access your credentials'
+                    : 'Verify your identity via 6-digit OTP sent to your email'}
                 </p>
               </div>
 
               <CardContent className="p-6 sm:p-8 space-y-5">
-                <div>
-                  {!otpSent ? (
-                    <form onSubmit={handleSendOtp} className="space-y-4">
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-semibold text-slate-700">
-                          Registered Email Address <span className="text-red-500">*</span>
-                        </label>
-                        <div className="relative">
-                          <Input
-                            type="email"
-                            placeholder="name@gmail.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="pr-10 h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
-                            disabled={isLoading}
-                            required
-                          />
-                          <div className="absolute right-3 top-3 text-slate-400">
-                            <Mail className="h-5 w-5" />
-                          </div>
+                {successMsg && (
+                  <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-emerald-600" />
+                    <div className="leading-relaxed">{successMsg}</div>
+                  </div>
+                )}
+
+                {errorMsg && (
+                  <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2.5">
+                    <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-500" />
+                    <div className="leading-relaxed">{errorMsg}</div>
+                  </div>
+                )}
+
+                {authMode === 'login' ? (
+                  /* Standard Email & Password Login Form */
+                  <form onSubmit={handlePasswordLogin} className="space-y-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-slate-700">
+                        Email Address <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <Input
+                          type="email"
+                          placeholder="name@example.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="pr-10 h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                          disabled={isLoading}
+                          required
+                        />
+                        <div className="absolute right-3 top-3 text-slate-400">
+                          <Mail className="h-5 w-5" />
                         </div>
-                        <p className="text-[11px] text-slate-500">
-                          We will send a secure 6-digit verification code to your email. Password is not required.
-                        </p>
                       </div>
+                    </div>
 
-                      {errorMsg && (
-                        <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2">
-                          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-500" />
-                          <div>{errorMsg}</div>
-                        </div>
-                      )}
-
-                      <Button
-                        type="submit"
-                        disabled={isLoading || !email.trim()}
-                        className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md shadow-blue-600/20 text-sm transition-all"
-                      >
-                        {isLoading ? (
-                          <span className="flex items-center gap-2">
-                            <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            Sending OTP...
-                          </span>
-                        ) : (
-                          <span className="flex items-center justify-center gap-2">
-                            Send Login OTP
-                            <ArrowRight className="h-4 w-4" />
-                          </span>
-                        )}
-                      </Button>
-                    </form>
-                  ) : (
-                    <form onSubmit={handleVerifyOtp} className="space-y-4">
-                      <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-3 text-xs text-blue-800 flex items-center justify-between">
-                        <div className="truncate mr-2">
-                          Code sent to: <span className="font-semibold">{email}</span>
-                        </div>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-semibold text-slate-700">
+                          Password <span className="text-red-500">*</span>
+                        </label>
                         <button
                           type="button"
                           onClick={() => {
-                            setOtpSent(false)
-                            setOtp('')
+                            setAuthMode('forgot_password')
+                            setForgotEmail(email)
+                            setForgotStep('request_otp')
+                            setErrorMsg(null)
+                            setSuccessMsg(null)
                           }}
-                          className="text-blue-600 font-semibold underline shrink-0 hover:text-blue-800"
+                          className="text-[11px] text-blue-600 hover:text-blue-700 hover:underline font-semibold"
                         >
-                          Change
+                          Forgot Password?
                         </button>
                       </div>
-
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-semibold text-slate-700">
-                          Enter 6-Digit Verification Code <span className="text-red-500">*</span>
-                        </label>
+                      <div className="relative">
                         <Input
-                          type="text"
-                          maxLength={6}
-                          placeholder="• • • • • •"
-                          value={otp}
-                          onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
-                          className="h-12 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-center font-mono text-xl tracking-[0.4em] font-bold"
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder="Enter your password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          className="pr-10 h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
                           disabled={isLoading}
-                          autoFocus
                           required
                         />
-                      </div>
-
-                      {errorMsg && (
-                        <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2">
-                          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-500" />
-                          <div>{errorMsg}</div>
-                        </div>
-                      )}
-
-                      <Button
-                        type="submit"
-                        disabled={isLoading || otp.length < 4}
-                        className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-md shadow-emerald-600/20 text-sm transition-all"
-                      >
-                        {isLoading ? (
-                          <span className="flex items-center gap-2">
-                            <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            Verifying Code...
-                          </span>
-                        ) : (
-                          <span className="flex items-center justify-center gap-2">
-                            Verify & Access Portal
-                            <CheckCircle2 className="h-4 w-4" />
-                          </span>
-                        )}
-                      </Button>
-
-                      <div className="text-center pt-2">
                         <button
                           type="button"
-                          disabled={otpTimer > 0 || isLoading}
-                          onClick={() => handleSendOtp()}
-                          className="text-xs text-blue-600 hover:underline disabled:text-slate-400 font-medium"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
                         >
-                          {otpTimer > 0 ? `Resend code in ${otpTimer}s` : 'Resend Verification Code'}
+                          {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                         </button>
                       </div>
-                    </form>
-                  )}
-                </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      disabled={isLoading || !email.trim() || !password.trim()}
+                      className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md shadow-blue-600/20 text-sm transition-all mt-2"
+                    >
+                      {isLoading ? (
+                        <span className="flex items-center gap-2">
+                          <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Logging In...
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center gap-2">
+                          Sign In to Student Portal
+                          <ArrowRight className="h-4 w-4" />
+                        </span>
+                      )}
+                    </Button>
+                  </form>
+                ) : (
+                  /* Forgot Password Flow (OTP based) */
+                  <div className="space-y-4">
+                    {forgotStep === 'request_otp' ? (
+                      <form onSubmit={handleSendForgotPasswordOtp} className="space-y-4">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-slate-700">
+                            Registered Email Address <span className="text-red-500">*</span>
+                          </label>
+                          <div className="relative">
+                            <Input
+                              type="email"
+                              placeholder="Enter your registered email"
+                              value={forgotEmail || email}
+                              onChange={(e) => setForgotEmail(e.target.value)}
+                              className="pr-10 h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                              disabled={isLoading}
+                              required
+                            />
+                            <div className="absolute right-3 top-3 text-slate-400">
+                              <Mail className="h-5 w-5" />
+                            </div>
+                          </div>
+                          <p className="text-[11px] text-slate-500">
+                            We will send a 6-digit verification code to reset your password.
+                          </p>
+                        </div>
+
+                        <Button
+                          type="submit"
+                          disabled={isLoading || !(forgotEmail || email).trim()}
+                          className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md shadow-blue-600/20 text-sm transition-all"
+                        >
+                          {isLoading ? (
+                            <span className="flex items-center gap-2">
+                              <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              Sending OTP...
+                            </span>
+                          ) : (
+                            <span className="flex items-center justify-center gap-2">
+                              Send Reset OTP Code
+                              <Send className="h-4 w-4" />
+                            </span>
+                          )}
+                        </Button>
+                      </form>
+                    ) : (
+                      <form onSubmit={handleResetPasswordWithOtp} className="space-y-3.5">
+                        <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-3 text-xs text-blue-800 flex items-center justify-between">
+                          <div className="truncate mr-2">
+                            Reset code sent to: <span className="font-semibold">{forgotEmail}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setForgotStep('request_otp')
+                              setForgotOtp('')
+                              setErrorMsg(null)
+                            }}
+                            className="text-blue-600 font-semibold underline shrink-0 hover:text-blue-800"
+                          >
+                            Change
+                          </button>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-slate-700">
+                            Enter 6-Digit OTP Code <span className="text-red-500">*</span>
+                          </label>
+                          <Input
+                            type="text"
+                            maxLength={6}
+                            placeholder="• • • • • •"
+                            value={forgotOtp}
+                            onChange={(e) => setForgotOtp(e.target.value.replace(/[^0-9]/g, ''))}
+                            className="h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-center font-mono text-lg tracking-[0.3em] font-bold"
+                            disabled={isLoading}
+                            autoFocus
+                            required
+                          />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-slate-700">
+                            New Password <span className="text-red-500">*</span>
+                          </label>
+                          <div className="relative">
+                            <Input
+                              type={showNewPassword ? 'text' : 'password'}
+                              placeholder="Minimum 6 characters"
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                              className="pr-10 h-10 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                              disabled={isLoading}
+                              required
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowNewPassword(!showNewPassword)}
+                              className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                            >
+                              {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-semibold text-slate-700">
+                            Confirm New Password <span className="text-red-500">*</span>
+                          </label>
+                          <Input
+                            type="password"
+                            placeholder="Re-type your new password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            className="h-10 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                            disabled={isLoading}
+                            required
+                          />
+                        </div>
+
+                        <Button
+                          type="submit"
+                          disabled={isLoading || forgotOtp.length < 4 || newPassword.length < 6 || !confirmPassword}
+                          className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-md shadow-emerald-600/20 text-sm transition-all mt-2"
+                        >
+                          {isLoading ? (
+                            <span className="flex items-center gap-2">
+                              <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              Resetting Password...
+                            </span>
+                          ) : (
+                            <span className="flex items-center justify-center gap-2">
+                              Verify OTP & Set New Password
+                              <CheckCircle2 className="h-4 w-4" />
+                            </span>
+                          )}
+                        </Button>
+
+                        <div className="text-center pt-1">
+                          <button
+                            type="button"
+                            disabled={otpTimer > 0 || isLoading}
+                            onClick={() => handleSendForgotPasswordOtp()}
+                            className="text-xs text-blue-600 hover:underline disabled:text-slate-400 font-medium"
+                          >
+                            {otpTimer > 0 ? `Resend OTP in ${otpTimer}s` : 'Resend Verification Code'}
+                          </button>
+                        </div>
+                      </form>
+                    )}
+
+                    <div className="text-center pt-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAuthMode('login')
+                          setErrorMsg(null)
+                          setSuccessMsg(null)
+                        }}
+                        className="text-xs text-slate-600 hover:text-slate-900 inline-flex items-center gap-1 font-medium"
+                      >
+                        <ArrowLeft className="h-3.5 w-3.5" /> Back to Password Sign In
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 <div className="pt-4 border-t border-slate-100 flex flex-col gap-2.5 text-center">
                   <p className="text-xs text-slate-500">
-                    Need to submit a new application?{' '}
+                    Need to submit an internship application?{' '}
                     <Link to="/apply" className="font-semibold text-blue-600 hover:underline">
                       Apply Now ↗
                     </Link>
