@@ -16,7 +16,7 @@ const PLACEHOLDER_FAQS: FAQ[] = [
     answer: 'Both paid and unpaid internships are available on our platform. You can filter by "Paid" when browsing. Stipend amounts vary by role and company.'
   },
   {
-    id: '4', question: 'Can my college partner with Intership?', order_index: 4, is_active: true, category: 'college',
+    id: '4', question: 'Can my college partner with Geek Intern?', order_index: 4, is_active: true, category: 'college',
     answer: 'Yes! We partner with engineering and management colleges across India. Register your college using the College Registration form and our team will get in touch within 2 business days.'
   },
   {

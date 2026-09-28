@@ -51,10 +51,10 @@ import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
 
 const STATS = [
-  { target: 80000, decimals: 0, suffix: '+', label: 'Students Joined', sub: 'Across 500+ colleges' },
-  { target: 6500, decimals: 0, suffix: '+', label: 'Certificates Issued', sub: 'Independently verified credentials' },
-  { target: 750, decimals: 0, suffix: '+', label: 'Clients', sub: 'Corporate & startup partners' },
-  { target: 250, decimals: 0, suffix: '+', label: 'Teams', sub: 'Active engineering project squads' },
+  { target: 50000, decimals: 0, suffix: '+', label: 'Students Enrolled', sub: 'From 500+ colleges across India' },
+  { target: 6500, decimals: 0, suffix: '+', label: 'Verified Certificates', sub: 'Authentic credentials with QR verification' },
+  { target: 30, decimals: 0, suffix: '+', label: 'Technical Tracks', sub: 'Full stack, AI, Python, Embedded & more' },
+  { target: 100, decimals: 0, suffix: '%', label: 'Remote & Practical', sub: 'Hands-on repository project submissions' },
 ]
 
 function AnimatedStat({
@@ -253,8 +253,8 @@ const DOMAIN_PROGRAMS = [
   {
     title: 'Artificial Intelligence',
     category: 'AI & Data',
-    description: 'Develop intelligent systems capable of natural language processing, LLM agent workflows, and cognitive reasoning.',
-    badge: 'Cutting Edge',
+    description: 'Build practical AI applications using modern language models, semantic search, prompt workflows, and API integrations.',
+    badge: 'Emerging',
     icon: BrainCircuit,
     color: 'text-purple-600',
     bg: 'bg-purple-50',
@@ -484,10 +484,10 @@ const JOURNEY_STEPS = [
   {
     step: '01',
     word: 'Apply',
-    tagline: 'Instant Registration',
+    tagline: 'Choose your track',
     icon: UserCheck,
-    quote: '“Every great career begins with a single decisive step.”',
-    detail: 'Choose your desired specialization from 32+ tech tracks and submit your details in under 2 minutes with no gatekeeping.',
+    heading: 'Select Your Track & Apply',
+    detail: 'Pick the domain that aligns with your learning goals. Submit your basic details in under two minutes with no application fees.',
     color: 'text-blue-600',
     bg: 'bg-blue-50',
     border: 'border-blue-200',
@@ -495,10 +495,10 @@ const JOURNEY_STEPS = [
   {
     step: '02',
     word: 'Onboard',
-    tagline: 'Offer & Task Dossier',
+    tagline: 'Receive project brief',
     icon: MailCheck,
-    quote: '“Clarity precedes mastery. Know what to build and why.”',
-    detail: 'Receive your verified digital Offer Letter alongside curated real-world problem statements, GitHub starter templates, and milestone rubrics within 24 hours.',
+    heading: 'Get Your Offer & Task Details',
+    detail: 'Receive your verified digital Offer Letter alongside your project problem statement, starter guidance, and submission checklist within 24 hours.',
     color: 'text-cyan-600',
     bg: 'bg-cyan-50',
     border: 'border-cyan-200',
@@ -506,10 +506,10 @@ const JOURNEY_STEPS = [
   {
     step: '03',
     word: 'Build',
-    tagline: 'Practical Code Work',
+    tagline: 'Write real code',
     icon: GitBranch,
-    quote: '“Talk is cheap. Show me the code.”',
-    detail: 'Develop production-ready modules, implement industry best practices, solve real technical constraints, and maintain a clean public Git commit history.',
+    heading: 'Work on Your Project',
+    detail: 'Develop your application milestone by milestone. Write clean code, maintain standard Git commit practices, and document your setup in a README.',
     color: 'text-indigo-600',
     bg: 'bg-indigo-50',
     border: 'border-indigo-200',
@@ -517,10 +517,10 @@ const JOURNEY_STEPS = [
   {
     step: '04',
     word: 'Submit',
-    tagline: 'Review & Evaluation',
+    tagline: 'Share your work',
     icon: Code2,
-    quote: '“Excellence is not an act, but a habit of disciplined delivery.”',
-    detail: 'Push your completed code to GitHub, deploy the live demo, record a quick architectural walkthrough, and submit for mentor evaluation.',
+    heading: 'Submit Your Repository',
+    detail: 'Push your finished project to GitHub, verify your live demo or walkthrough, and submit your project links through our student portal for review.',
     color: 'text-purple-600',
     bg: 'bg-purple-50',
     border: 'border-purple-200',
@@ -528,21 +528,21 @@ const JOURNEY_STEPS = [
   {
     step: '05',
     word: 'Verify',
-    tagline: 'Tamper-Proof CID',
+    tagline: 'Earn your certificate',
     icon: BadgeCheck,
-    quote: '“Authentic work speaks for itself through verifiable proof.”',
-    detail: 'Receive your official Certificate of Completion equipped with a tamper-proof digital Certificate ID (CID) and QR code verifiable by recruiters worldwide.',
+    heading: 'Receive Verified Credentials',
+    detail: 'Get your digital Certificate of Completion with a unique Certificate ID (CID) and scannable QR code that recruiters and colleges can verify online.',
     color: 'text-emerald-600',
     bg: 'bg-emerald-50',
     border: 'border-emerald-200',
   },
   {
     step: '06',
-    word: 'Accelerate',
-    tagline: 'Career & LOR',
+    word: 'Showcase',
+    tagline: 'Strengthen your resume',
     icon: Award,
-    quote: '“Your portfolio is your ultimate passport to tech opportunities.”',
-    detail: 'Earn formal Letters of Recommendation (LOR), pass ATS resume filters with our AI scanner, and get showcased on the Geek Intern talent directory.',
+    heading: 'Build Your Tech Resume',
+    detail: 'Add your verified project to your resume and LinkedIn. Top submissions receive a formal Letter of Recommendation to support their job search.',
     color: 'text-amber-600',
     bg: 'bg-amber-50',
     border: 'border-amber-200',
@@ -551,84 +551,31 @@ const JOURNEY_STEPS = [
 
 const CAREER_TOOLS = [
   {
-    title: 'ATS Resume Score Checker',
-    desc: 'Upload or paste your developer resume to benchmark against real job descriptions. Get instant keyword matching and score insights.',
-    tag: 'Free AI Scanner',
-    actionText: 'Scan Resume Free',
+    title: 'ATS Resume Checker',
+    desc: 'Scan your resume against technical job descriptions to check keyword matching, formatting issues, and readability scores.',
+    tag: 'Free Resume Scanner',
+    actionText: 'Scan Your Resume',
     href: '/ats-checker',
     icon: CheckCircle2,
     accent: 'blue',
   },
   {
     title: 'Developer Resume Builder',
-    desc: 'Create clean, recruiter-approved developer resumes tailored for ATS parsers. Includes live side-by-side preview and PDF download.',
-    tag: 'Interactive Builder',
-    actionText: 'Build My Resume',
+    desc: 'Create a clean, single-page software engineering resume designed specifically to pass ATS parsers and technical recruiter screening.',
+    tag: 'Resume Builder',
+    actionText: 'Build Your Resume',
     href: '/resume-builder',
     icon: FileText,
     accent: 'purple',
   },
   {
-    title: 'Portfolio Website Builder',
-    desc: 'Transform your GitHub repositories and projects into an elegant personal developer portfolio ready to share with hiring managers.',
-    tag: 'Portfolio Generator',
+    title: 'Developer Portfolio Creator',
+    desc: 'Turn your GitHub repositories and projects into a professional portfolio website you can link directly in job applications.',
+    tag: 'Portfolio Tool',
     actionText: 'Create Portfolio',
     href: '/portfolio-builder',
     icon: Layers,
     accent: 'emerald',
-  },
-]
-
-const PORTFOLIO_PREVIEW = [
-  {
-    title: 'Nexus Modern E-Commerce Storefront',
-    category: 'Full Stack Web',
-    type: 'Web',
-    tags: ['React', 'Next.js', 'PostgreSQL', 'Stripe'],
-    image: 'https://images.unsplash.com/photo-1556742049-0a67e55722c0?q=80&w=800&auto=format&fit=crop',
-    link: '/web-portfolio',
-    desc: 'High-conversion headless storefront with real-time cart state, automated inventory sync, and Stripe checkout authorization.',
-  },
-  {
-    title: 'Pulse AI Workflow Automation Platform',
-    category: 'AI & SaaS',
-    type: 'Web',
-    tags: ['Next.js', 'Python', 'FastAPI', 'LangChain'],
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop',
-    link: '/web-portfolio',
-    desc: 'Multi-tenant SaaS application integrating autonomous LLM agents for document extraction, summarization, and reporting.',
-  },
-  {
-    title: 'FinTrack Crypto & Multi-Currency Wallet',
-    category: 'Mobile Application',
-    type: 'App',
-    tags: ['Flutter', 'Dart', 'Firebase', 'Web3'],
-    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=800&auto=format&fit=crop',
-    link: '/app-portfolio',
-    desc: 'High-security decentralized digital wallet with biometric authentication, candlestick feeds, and asset portfolio analytics.',
-  },
-]
-
-const SERVICES_LIST = [
-  {
-    title: 'Web Application Development',
-    desc: 'Custom, high-performance web applications built using Next.js, React, TypeScript, and modern scalable cloud backends.',
-    icon: Globe,
-  },
-  {
-    title: 'Mobile App Engineering',
-    desc: 'Intuitive cross-platform and native iOS/Android applications developed with Flutter and React Native.',
-    icon: Smartphone,
-  },
-  {
-    title: 'Custom AI & Agent Solutions',
-    desc: 'Autonomous agentic workflows, custom LLM integrations, document search (RAG), and data extraction microservices.',
-    icon: BrainCircuit,
-  },
-  {
-    title: 'Cloud DevOps & Infrastructure',
-    desc: 'Resilient cloud infrastructure, automated CI/CD deployment pipelines, Docker containerization, and zero-downtime releases.',
-    icon: Cpu,
   },
 ]
 
@@ -662,29 +609,29 @@ const STUDENT_TESTIMONIALS = [
 
 const FAQS = [
   {
-    question: 'How do I apply for a Geek Intern Virtual Internship?',
+    question: 'How do I apply for an internship with Geek Intern?',
     answer:
-      'Simply click "Start Your Internship" or "Apply Now" to navigate to our application page. Select your technical domain, provide your basic details, and submit. There are no prerequisite gatekeepings.',
+      'Click "Apply for Free" or "Start Your Internship" on any page. Select your desired technical track, fill out your basic contact and academic information, and submit. Applications are completely free.',
   },
   {
-    question: 'Is the virtual internship program remote and self-paced?',
+    question: 'Is the internship fully remote and flexible?',
     answer:
-      'Yes, 100% of our internships are conducted remotely. You can comfortably plan your schedule around college coursework, assignments, and exams while meeting weekly project milestones.',
+      'Yes, all internship tracks are 100% remote. You can manage your project tasks around your college schedule, classes, and exams while keeping up with the milestone checklist.',
   },
   {
-    question: 'How are the certificates verified by companies and recruiters?',
+    question: 'How do employers verify certificates?',
     answer:
-      'Each certificate issued by Geek Intern carries a globally unique Certificate ID (CID) and a QR code. Employers can enter this ID into our Certificate Verification portal (/verify) to validate student authenticity, domain, and completion date.',
+      'Every certificate issued has a unique Certificate ID (CID) and an instant-scan QR code. Recruiters and university evaluators can enter the CID on our verification portal at /verify to confirm completion details.',
   },
   {
-    question: 'What is the duration of the internship programs?',
+    question: 'What is the duration of each internship track?',
     answer:
-      'Internships are typically 4 weeks or 8 weeks in duration, depending on your preferred pace and project complexity. Fast-track options are available for candidates who submit their tasks early.',
+      'Standard tracks are 4 to 8 weeks in duration depending on the scope of the project. If you finish your tasks and repository documentation ahead of schedule, you can submit early for evaluation.',
   },
   {
-    question: 'Can I get a Letter of Recommendation (LOR)?',
+    question: 'Can I receive a Letter of Recommendation (LOR)?',
     answer:
-      'Yes. Top-performing interns who submit clean code, comprehensive GitHub README documentation, and timely task solutions receive a formal Letter of Recommendation alongside their verified certificate.',
+      'Yes. Interns who demonstrate high-quality code, clean Git commit hygiene, and detailed project documentation are eligible for an official Letter of Recommendation.',
   },
 ]
 

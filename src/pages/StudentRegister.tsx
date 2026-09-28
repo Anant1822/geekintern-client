@@ -164,7 +164,7 @@ export default function StudentRegister() {
   if (done) {
     return (
       <PublicLayout>
-        <PageTitle title="Verify Email – Intership" />
+        <PageTitle title="Verify Email – Geek Intern" />
         <div className="min-h-[calc(100vh-10rem)] flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md text-center bg-white rounded-2xl shadow-lg border border-gray-100 p-10">
             <CheckCircle2 className="h-16 w-16 text-[#0D9488] mx-auto mb-4" />
@@ -189,7 +189,7 @@ export default function StudentRegister() {
 
   return (
     <PublicLayout>
-      <PageTitle title="Create Account – Intership" />
+      <PageTitle title="Create Account – Geek Intern" />
       <div className="min-h-[calc(100vh-10rem)] flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-2xl">
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-10">
@@ -440,7 +440,7 @@ export default function StudentRegister() {
                       <Link to="/terms" target="_blank" className="text-[#0D9488] hover:underline font-medium">Terms and Conditions</Link>{' '}
                       and{' '}
                       <Link to="/privacy" target="_blank" className="text-[#0D9488] hover:underline font-medium">Privacy Policy</Link>{' '}
-                      of Intership. *
+                      of Geek Intern. *
                     </span>
                   </label>
                   <FieldError msg={form3.formState.errors.consent?.message} />

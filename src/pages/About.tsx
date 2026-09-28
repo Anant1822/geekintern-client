@@ -73,10 +73,10 @@ export default function About() {
         <div className="relative max-w-5xl mx-auto px-4 py-24 text-center">
           <Badge className="bg-white/20 text-white hover:bg-white/20 border-0 mb-5 text-xs tracking-widest uppercase">Our Story</Badge>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-5 leading-tight">
-            About <span className="text-[#F59E0B]">Intership</span>
+            About <span className="text-[#F59E0B]">Geek Intern</span>
           </h1>
           <p className="text-lg md:text-xl text-white/85 max-w-3xl mx-auto leading-relaxed">
-            India's trusted internship platform built for college students — branch-specific, verified, and transparent.
+            A practical engineering internship platform built for college students and graduates — project-focused, verified, and accessible.
           </p>
         </div>
       </section>
@@ -87,26 +87,19 @@ export default function About() {
           <div>
             <Badge className="bg-teal-50 text-[#0D9488] border-teal-200 mb-4">How It Started</Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-5 leading-tight">
-              Born from a Real Student Problem
+              Built to Solve Real Engineering Challenges
             </h2>
             <div className="space-y-4 text-gray-600 leading-relaxed">
               <p>
-                Intership was founded after witnessing firsthand the struggles Indian college students face when
-                searching for quality internships. Engineering students from Tier 2 and Tier 3 colleges spent weeks
-                on job boards that offered generic, irrelevant listings — or worse, fell victim to fraudulent
-                "internships" that demanded money without delivering results.
+                Geek Intern was founded to help engineering students build real-world software projects that employers actually care about. Students from universities across India often struggle to bridge the gap between textbook theory and practical repository development.
               </p>
               <p>
-                We built Intership to fix exactly that. Our platform offers{" "}
-                <span className="font-semibold text-[#1E3A5F]">branch-specific internship matching</span> — so a
-                Civil Engineering student from Nagpur or a CSE student from Kochi sees only opportunities
-                genuinely relevant to their field.
+                We built Geek Intern to change that. Our platform offers{" "}
+                <span className="font-semibold text-[#1E3A5F]">domain-specific technical tracks</span> — covering full stack development, Python, AI, embedded systems, VLSI, and cloud engineering with real GitHub deliverables.
               </p>
               <p>
-                Every internship listing on Intership is{" "}
-                <span className="font-semibold text-[#1E3A5F]">reviewed for authenticity</span>. We maintain
-                complete transparency around fees, selection criteria, and stipend details so students can make
-                informed decisions with confidence.
+                Every internship project on Geek Intern is{" "}
+                <span className="font-semibold text-[#1E3A5F]">evaluated on quality code and documentation</span>. We provide transparent milestones, official offer letters, and verifiable credentials with unique QR verification.
               </p>
             </div>
           </div>
@@ -197,19 +190,19 @@ export default function About() {
         </div>
       </section>
 
-      {/* 5. How Intership Helps */}
+      {/* 5. How Geek Intern Works */}
       <section className="py-20 px-4 bg-gradient-to-br from-[#1E3A5F] to-[#0a3352] text-white">
         <div className="max-w-5xl mx-auto text-center mb-14">
           <Badge className="bg-white/20 text-white border-0 mb-4 hover:bg-white/20">How It Works</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">How Intership Helps</h2>
-          <p className="text-white/75 max-w-2xl mx-auto">A simple 4-step journey from browsing to internship completion.</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">How Geek Intern Works</h2>
+          <p className="text-white/75 max-w-2xl mx-auto">A straightforward 4-stage process from onboarding to certified completion.</p>
         </div>
         <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
           <div className="hidden lg:block absolute top-5 left-[12.5%] right-[12.5%] h-0.5 bg-white/20 pointer-events-none" />
-          <StepCard step={1} title="Create Your Profile" description="Sign up and fill in your academic details — branch, college, year of study, and skills." />
-          <StepCard step={2} title="Browse Matched Internships" description="See internships curated specifically for your branch and location with full details upfront." />
-          <StepCard step={3} title="Apply with One Click" description="Pay the transparent application fee and submit your application instantly — no hidden steps." />
-          <StepCard step={4} title="Get Selected & Earn Certificate" description="Work with the company, complete the internship, and receive a verified completion certificate." />
+          <StepCard step={1} title="Choose Your Track" description="Select from 30+ domain specializations that align with your career goals." />
+          <StepCard step={2} title="Receive Task Brief" description="Get your digital Offer Letter and project problem statements delivered directly to your inbox." />
+          <StepCard step={3} title="Build on GitHub" description="Develop your project milestone by milestone, commit clean code, and write clear documentation." />
+          <StepCard step={4} title="Verify & Showcase" description="Submit your project link, receive evaluation feedback, and get your verifiable certificate." />
         </div>
       </section>
 
@@ -218,11 +211,11 @@ export default function About() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-4">
-              Built for Everyone in the Ecosystem
+              Built for Engineering Students & Institutions
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
-              Whether you're a student looking for your first internship or a college placement coordinator,
-              Intership has you covered.
+              Whether you're a student looking for hands-on project experience or a college placement coordinator,
+              Geek Intern provides the right framework.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -236,17 +229,17 @@ export default function About() {
                   <h3 className="text-xl font-bold text-[#1E3A5F]">For Students</h3>
                 </div>
                 <CompareList color="teal" items={[
-                  "Branch-specific internship recommendations",
-                  "Verified and fraud-free listings only",
-                  "Transparent fee structure (₹100–₹150 only)",
-                  "Real-time application status tracking",
-                  "Verified internship completion certificates",
-                  "WhatsApp support for queries",
-                  "Students from any college can apply",
-                  "Mobile-first, easy to use on any device",
+                  "Domain-specific engineering project tracks",
+                  "Real GitHub code repositories to showcase in interviews",
+                  "Free, instant online application process",
+                  "Student portal to track tasks and submissions",
+                  "Verifiable Certificate of Completion with unique CID",
+                  "Prompt email and message support",
+                  "Accepted by universities for internship credits",
+                  "Mobile-friendly student portal",
                 ]} />
                 <Button asChild className="mt-6 bg-[#0D9488] hover:bg-teal-700 text-white w-full">
-                  <Link to="/internships">Browse Internships <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  <Link to="/browse">Browse Tracks <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -261,16 +254,16 @@ export default function About() {
                 </div>
                 <CompareList color="navy" items={[
                   "Placement coordinator dashboard",
-                  "Real-time student application tracking",
-                  "Branch-wise placement analytics and reports",
-                  "Bulk student onboarding support",
-                  "Dedicated partnership manager assigned",
-                  "College-specific internship campaigns",
-                  "Free onboarding for partner colleges",
-                  "Priority listing for partnered institutions",
+                  "Real-time student progress tracking",
+                  "Branch-wise performance analytics and reports",
+                  "Bulk student onboarding assistance",
+                  "College NOC and credit fulfillment support",
+                  "Customized internship cohorts for departments",
+                  "Free partnership onboarding for colleges",
+                  "Direct priority support channel",
                 ]} />
                 <Button asChild className="mt-6 bg-[#1E3A5F] hover:bg-[#162d4a] text-white w-full">
-                  <Link to="/college-register">Register Your College <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  <Link to="/college-register">Partner With Us <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -284,17 +277,16 @@ export default function About() {
           <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-6">
             <FileText className="w-8 h-8 text-[#F59E0B]" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-4">Ready to Get Started?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-4">Ready to Build Real Projects?</h2>
           <p className="text-gray-500 mb-8 leading-relaxed">
-            Join thousands of students who have already found quality internships through Intership. Or bring
-            Intership to your college's placement cell today.
+            Join thousands of engineering students who leveled up their skills and built portfolios with Geek Intern.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-[#0D9488] hover:bg-teal-700 text-white font-semibold px-8">
-              <Link to="/browse">Browse Internships <ArrowRight className="w-4 h-4 ml-2" /></Link>
+              <Link to="/browse">Explore Tracks <ArrowRight className="w-4 h-4 ml-2" /></Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-[#1E3A5F] text-[#1E3A5F] hover:bg-[#1E3A5F] hover:text-white font-semibold px-8">
-              <Link to="/college-register">Register as College</Link>
+              <Link to="/college-register">Partner as College</Link>
             </Button>
           </div>
         </div>

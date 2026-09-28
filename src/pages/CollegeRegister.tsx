@@ -206,11 +206,10 @@ export default function CollegeRegister() {
             College Partnership
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-            Partner with Intership
+            Partner with Geek Intern
           </h1>
           <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed">
-            Help your students land verified internships. Join hundreds of colleges across India
-            that trust Intership for branch-specific placement support.
+            Help your students build real software projects and earn verified credentials. Partner with Geek Intern for technical internship cohorts and NOC support.
           </p>
         </div>
       </section>

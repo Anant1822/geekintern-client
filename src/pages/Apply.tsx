@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useParams, Link } from 'react-router-dom'
-import { CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Award, Laptop, Clock, Briefcase, FileText, PhoneCall, MessageCircle, AlertCircle, Mail, Check, Linkedin, ExternalLink, Loader2 } from 'lucide-react'
+import { CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Award, Laptop, Clock, Briefcase, FileText, PhoneCall, MessageCircle, AlertCircle, Mail, Check, Linkedin, ExternalLink, Loader2, Eye, EyeOff, Lock } from 'lucide-react'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -125,6 +125,7 @@ export default function Apply() {
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
+    password: '',
     phone: '',
     college_name: '',
     branch: '',
@@ -139,6 +140,7 @@ export default function Apply() {
     urgent_reason: '',
   })
 
+  const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submittedData, setSubmittedData] = useState<typeof formData | null>(null)
@@ -303,6 +305,17 @@ export default function Apply() {
       return
     }
 
+    if (!formData.password || formData.password.trim().length < 6) {
+      const msg = 'Please set a password with at least 6 characters for future login.'
+      setSubmitError(msg)
+      toast({
+        title: 'Password Required',
+        description: msg,
+        variant: 'destructive',
+      })
+      return
+    }
+
     if (!formData.college_name.trim() || !formData.branch.trim()) {
       const msg = 'Please enter your college name and branch/department.'
       setSubmitError(msg)
@@ -393,7 +406,29 @@ export default function Apply() {
         }
       }
 
-      // 3. Update student applicants registry in app_settings so student can immediately log into student portal
+      // 3. Register student user account with email & password in Supabase Auth for portal login
+      try {
+        const { error: authError } = await supabase.auth.signUp({
+          email: payload.email,
+          password: formData.password.trim(),
+          options: {
+            data: {
+              full_name: payload.full_name,
+              phone: payload.phone,
+              college_name: payload.college_name,
+              branch: payload.branch,
+              role: 'student',
+            },
+          },
+        })
+        if (authError) {
+          console.warn('Supabase Auth student account creation note:', authError.message)
+        }
+      } catch (authErr) {
+        console.warn('Background student auth creation notice:', authErr)
+      }
+
+      // 4. Update student applicants registry in app_settings so student can immediately log into student portal
       try {
         const { data: regRow } = await supabase
           .from('app_settings')
@@ -418,6 +453,7 @@ export default function Apply() {
           internship_title: payload.internship_title,
           duration: payload.duration,
           status: 'submitted',
+          has_password: true,
           created_at: new Date().toISOString(),
         }
         await supabase
@@ -512,14 +548,30 @@ export default function Apply() {
                 </ul>
               </div>
 
+              {/* Student Portal Account Confirmation */}
+              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-left max-w-xl mx-auto mb-6 text-sm text-emerald-800 flex items-start gap-3">
+                <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-emerald-900">Student Portal Account Initialized!</p>
+                  <p className="text-xs text-emerald-700 mt-0.5">
+                    You can log in to your Student Portal anytime with your email (<strong>{submittedData?.email}</strong>) and the password you set to track your application, offer letter, and certificate.
+                  </p>
+                </div>
+              </div>
+
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link to={`/student-portal?email=${encodeURIComponent(submittedData?.email || '')}`}>
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto shadow-sm gap-1.5">
+                    Login to Student Portal <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
                 <Link to="/browse">
                   <Button variant="outline" className="w-full sm:w-auto">
                     Explore Other Domains
                   </Button>
                 </Link>
                 <Link to="/">
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto">
+                  <Button variant="ghost" className="w-full sm:w-auto text-slate-600">
                     Return to Homepage
                   </Button>
                 </Link>
@@ -556,7 +608,7 @@ export default function Apply() {
                         />
                       </div>
 
-                      {/* Email & Phone */}
+                      {/* Email & Set Password */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="email" className="text-slate-700 font-medium text-sm">
@@ -577,9 +629,42 @@ export default function Apply() {
                               <Mail className="h-4 w-4" />
                             </div>
                           </div>
-                          <p className="text-[11px] text-slate-500 mt-1">Offer letter will be sent here</p>
+                          <p className="text-[11px] text-slate-500 mt-1">Offer letter & credentials will be sent here</p>
                         </div>
 
+                        <div>
+                          <Label htmlFor="password" className="text-slate-700 font-medium text-sm flex items-center justify-between">
+                            <span>Set Password <span className="text-red-500">*</span></span>
+                            <span className="text-[11px] text-blue-600 font-normal">For future portal login</span>
+                          </Label>
+                          <div className="relative mt-1.5">
+                            <Input
+                              id="password"
+                              name="password"
+                              type={showPassword ? 'text' : 'password'}
+                              placeholder="Min. 6 characters"
+                              value={formData.password}
+                              onChange={handleChange}
+                              required
+                              minLength={6}
+                              className="pr-10"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                              aria-label={showPassword ? 'Hide password' : 'Show password'}
+                              tabIndex={-1}
+                            >
+                              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                          </div>
+                          <p className="text-[11px] text-slate-500 mt-1">Used to log into student portal & view certificate</p>
+                        </div>
+                      </div>
+
+                      {/* Contact Number & Current Year of Study */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="phone" className="text-slate-700 font-medium text-sm">
                             Contact / Mobile Number <span className="text-red-500">*</span>
@@ -595,6 +680,28 @@ export default function Apply() {
                             className="mt-1.5"
                           />
                           <p className="text-[11px] text-slate-500 mt-1">For program updates & verification</p>
+                        </div>
+
+                        <div>
+                          <Label className="text-slate-700 dark:text-slate-300 font-medium text-sm">
+                            Current Year of Study <span className="text-red-500">*</span>
+                          </Label>
+                          <Select
+                            value={formData.year_of_study}
+                            onValueChange={(val) => setFormData((prev) => ({ ...prev, year_of_study: val }))}
+                          >
+                            <SelectTrigger className="mt-1.5">
+                              <SelectValue placeholder="Select Year" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {YEAR_OPTIONS.map((yr) => (
+                                <SelectItem key={yr} value={yr}>
+                                  {yr}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <p className="text-[11px] text-slate-500 mt-1">Your current academic year</p>
                         </div>
                       </div>
 
@@ -629,28 +736,6 @@ export default function Apply() {
                             className="mt-1.5"
                           />
                         </div>
-                      </div>
-
-                      {/* Current Year of Study */}
-                      <div>
-                        <Label className="text-slate-700 dark:text-slate-300 font-medium text-sm">
-                          Current Year of Study <span className="text-red-500">*</span>
-                        </Label>
-                        <Select
-                          value={formData.year_of_study}
-                          onValueChange={(val) => setFormData((prev) => ({ ...prev, year_of_study: val }))}
-                        >
-                          <SelectTrigger className="mt-1.5">
-                            <SelectValue placeholder="Select Year" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {YEAR_OPTIONS.map((yr) => (
-                              <SelectItem key={yr} value={yr}>
-                                {yr}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
                       </div>
 
                       {/* Domain Selection - Natural Form Grid */}
