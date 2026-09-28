@@ -756,7 +756,7 @@ export function Home() {
               <span className="text-blue-600 dark:text-blue-400">Choose Geek Intern</span>
             </h2>
             <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm md:text-base mt-3 max-w-2xl mx-auto leading-relaxed">
-              We eliminate theoretical fluff and gatekeeping by giving you direct access to production-grade engineering tasks, industry recognition, and hiring tools.
+              We focus on hands-on software development: structured project tasks, clean code reviews, verifiable credentials, and tools to prepare you for tech hiring.
             </p>
           </div>
 
@@ -791,9 +791,9 @@ export function Home() {
                 <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Verifiable Credential Security (CID)</h3>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Verifiable Credential (CID)</h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                  Every completion certificate includes an immutable, unique Certificate ID (CID) verifiable 24/7 by prospective employers and college academic boards.
+                  Every completion certificate includes a unique Certificate ID (CID) verifiable anytime by prospective employers and college academic boards.
                 </p>
               </div>
               <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
@@ -1394,13 +1394,13 @@ export function Home() {
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-3">
               <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-              Free Developer Tooling
+              Free Developer Tools
             </div>
             <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-              Supercharge Your Job Search with <span className="text-blue-600 dark:text-blue-400">Free Career Tools</span>
+              Free Developer Tools to <span className="text-blue-600 dark:text-blue-400">Help You Get Hired</span>
             </h2>
             <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed">
-              Equip yourself with the same developer tooling used by candidates landing tech roles. Free to use for every learner.
+              Practical utilities built to help you optimize your tech resume, review code quality, and prepare for technical interviews.
             </p>
           </div>
 
@@ -1453,13 +1453,13 @@ export function Home() {
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-xs font-semibold uppercase tracking-wider mb-3">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-              Real Student Reviews
+              Student Feedback
             </div>
             <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-              Loved by Thousands of <span className="text-blue-600 dark:text-blue-400">Ambitious Learners</span>
+              What Past Interns <span className="text-blue-600 dark:text-blue-400">Say About Their Experience</span>
             </h2>
             <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed">
-              Read authentic feedback from undergraduate engineers who gained industry-grade skills and certified credentials through Geek Intern.
+              Genuine feedback from engineering students and graduates who built projects and earned credentials with Geek Intern.
             </p>
           </div>
 
@@ -1501,7 +1501,7 @@ export function Home() {
           <div className="mt-10 sm:mt-12 text-center">
             <Link to="/student-reviews">
               <Button variant="outline" className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs px-6 h-11 rounded-xl shadow-xs inline-flex items-center gap-2">
-                <span>Read 500+ More Student Reviews</span>
+                <span>Read More Student Reviews</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
@@ -1561,19 +1561,19 @@ export function Home() {
       <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 text-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider mb-4">
-            Accelerate Your Career
+            Get Started Today
           </div>
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-white">
-            Ready to Build Real Projects & Get Certified?
+            Ready to Build Real Projects for Your Resume?
           </h2>
           <p className="text-blue-100 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
-            Join thousands of developers and engineering students who leveled up their skills with Geek Intern. Applications are open for upcoming cohorts.
+            Pick your track, receive your task brief, and start building production-style code you can show to recruiters. Applications are completely free.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link to="/apply" className="w-full sm:w-auto">
               <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-white hover:bg-slate-100 text-blue-700 font-bold text-sm shadow-xl inline-flex items-center justify-center gap-2">
-                <span>Start Your Internship Now</span>
+                <span>Apply for Free</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -1582,7 +1582,7 @@ export function Home() {
                 variant="outline"
                 className="w-full sm:w-auto h-12 px-8 rounded-full border-white/40 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold"
               >
-                Explore All Tracks
+                Explore Tracks
               </Button>
             </Link>
           </div>
