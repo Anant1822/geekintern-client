@@ -188,6 +188,33 @@
   .internship-card {
     @apply transition-all duration-200 hover:shadow-card-hover hover:-translate-y-0.5;
   }
+
+  .font-cormorant {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-inter {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .font-syne {
+    font-family: 'Syne', 'Space Grotesk', sans-serif;
+  }
+
+  @keyframes scroll-marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-marquee 35s linear infinite;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
 }
 
 @layer utilities {
@@ -197,3 +224,4 @@
   .animation-delay-400 { animation-delay: 400ms; }
   .animation-delay-500 { animation-delay: 500ms; }
 }
+

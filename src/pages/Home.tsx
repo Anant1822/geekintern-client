@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import {
   ArrowRight,
   ArrowUpRight,
@@ -14,9 +14,7 @@ import {
   Terminal,
   Cpu,
   Globe,
-  Database,
   Smartphone,
-  ChevronRight,
   ChevronDown,
   FileText,
   TrendingUp,
@@ -27,554 +25,464 @@ import {
   GitBranch,
   BadgeCheck,
   Zap,
-  Briefcase,
-  Users,
-  Compass,
   Check,
   X,
   Server,
   Cloud,
-  BarChart3,
-  Wrench,
-  BatteryCharging,
-  Network,
-  CircuitBoard,
-  Gauge,
-  Building2,
-  Palette,
-  QrCode,
-  Search,
-  Lock,
   ExternalLink,
-  Flame,
-  HelpCircle,
+  MessageSquare,
+  Send,
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { SectionCanvas } from '@/components/common/SectionCanvas'
+import { AlumniFloatingWidget } from '@/components/common/AlumniFloatingWidget'
 
-// Animated Counter Component
-function AnimatedStat({
-  target,
-  decimals = 0,
-  suffix = '',
-  duration = 1800,
-}: {
-  target: number
-  decimals?: number
-  suffix?: string
-  duration?: number
-}) {
-  const [count, setCount] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  const [hasStarted, setHasStarted] = useState(false)
+// ==========================================
+// 1. DATA DEFINITIONS (EXACT GKK MIRROR)
+// ==========================================
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasStarted) {
-          setHasStarted(true)
-        }
-      },
-      { threshold: 0.3 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [hasStarted])
-
-  useEffect(() => {
-    if (!hasStarted) return
-    const frameRate = 1000 / 60
-    const totalFrames = Math.round(duration / frameRate)
-    let frame = 0
-
-    const timer = setInterval(() => {
-      frame++
-      const progress = 1 - Math.pow(2, -10 * (frame / totalFrames))
-      const currentVal = target * Math.min(progress, 1)
-
-      if (frame >= totalFrames) {
-        setCount(target)
-        clearInterval(timer)
-      } else {
-        setCount(currentVal)
-      }
-    }, frameRate)
-
-    return () => clearInterval(timer)
-  }, [hasStarted, target, duration])
-
-  const formattedValue =
-    decimals > 0
-      ? count.toFixed(decimals)
-      : Math.floor(count).toLocaleString('en-US')
-
-  return (
-    <div ref={ref} className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight font-display">
-      {formattedValue}
-      <span className="text-[#06e4f9]">{suffix}</span>
-    </div>
-  )
-}
-
-const STATS = [
-  { target: 80000, suffix: '+', label: 'Students Joined', sub: 'Across 500+ technical colleges' },
-  { target: 6500, suffix: '+', label: 'Verified Credentials', sub: 'Cryptographically signed CIDs' },
-  { target: 750, suffix: '+', label: 'Hiring Partners', sub: 'Startups & global tech firms' },
-  { target: 99.4, decimals: 1, suffix: '%', label: 'Verification Rate', sub: 'Zero fraud tolerance standard' },
+// Left Sticky Side Navigation
+const LEFT_NAV_ITEMS = [
+  { name: 'Home', desc: 'Main Page', targetId: 'hero-section' },
+  { name: 'About', desc: 'Our Mission', targetId: 'about-section' },
+  { name: 'Curriculum', desc: 'What We Do', targetId: 'services-section' },
+  { name: 'Alumni', desc: 'Past Interns', targetId: 'alumni-section' },
+  { name: 'Blog', desc: 'Dev Insights', path: '/blog' },
 ]
 
-const CATEGORY_TABS = [
-  'All Tracks',
-  'Software & Web',
-  'AI & Data',
+// Right Sticky Side Navigation
+const RIGHT_NAV_ITEMS = [
+  { name: 'Apply', desc: 'Join Cohort 2026', path: '/apply' },
+  { name: 'Verify', desc: 'Recruiter CID Portal', path: '/verify' },
+  { name: 'Career Tools', desc: 'AI Resume & Portfolio', path: '/resume-builder' },
+  { name: 'Contact', desc: 'Get In Touch', targetId: 'contact-section' },
+  { name: 'Guidelines', desc: 'Rules & Rubrics', path: '/guidelines' },
+]
+
+// Bottom Continuous Marquee Ticker Items
+const MARQUEE_ITEMS = [
+  'Web Development',
+  '·',
+  'UI/UX Design',
+  '·',
+  'Full Stack Engineering',
+  '·',
+  'App Development',
+  '·',
+  'Generative AI & LLMs',
+  '·',
   'Cloud & DevOps',
-  'Design & Creative',
-  'Core Engineering',
-  'Embedded & IoT',
+  '·',
+  'Data Engineering',
+  '·',
+  'Cybersecurity',
+  '·',
+  'Software Internships',
+  '·',
+  'Design Internships',
+  '·',
+  'Marketing Internships',
+  '·',
 ]
 
-const DOMAIN_PROGRAMS = [
-  // 1. Web & Software Engineering
+// Bento Section Cards (Exact GKK Bento Architecture)
+const BENTO_CARDS = [
   {
-    title: 'Frontend Development',
-    category: 'Software & Web',
-    description: 'Build responsive, ultra-fast web interfaces using React 19, TypeScript, Tailwind CSS, and state management.',
-    badge: 'Popular',
-    icon: Globe,
-    stack: ['React', 'TypeScript', 'Tailwind', 'Next.js'],
+    title: 'Why Geek Interns Exists',
+    text: 'Geek Interns was built to close the gap between classroom theory and industry execution. This is a do-first ecosystem where interns ship real features, contribute to active products, and graduate with proof of work, not just certificates.',
   },
   {
-    title: 'Backend Development',
-    category: 'Software & Web',
-    description: 'Design robust server architectures, RESTful APIs, JWT auth, and relational schemas with Node.js and PostgreSQL.',
-    badge: 'High Demand',
-    icon: Server,
-    stack: ['Node.js', 'Express', 'PostgreSQL', 'Redis'],
+    title: 'How We Train',
+    text: 'We blend structure with creative freedom. Interns work inside design-forward product environments, guided by mentors through practical workflows: planning, coding, reviews, deployment, and iteration.',
   },
   {
-    title: 'Full Stack Development',
-    category: 'Software & Web',
-    description: 'Master end-to-end architectures uniting modern React frontends with high-scale backends and cloud storage.',
-    badge: 'Comprehensive',
-    icon: Code2,
-    stack: ['React', 'Node.js', 'PostgreSQL', 'Docker'],
+    title: 'What You Build',
+    text: 'You build production-grade apps, UI systems, automation logic, and data-driven features across full-stack development, AI, UX, and cloud. Every task is selected to grow both technical depth and product thinking.',
   },
   {
-    title: 'Android App Development',
-    category: 'Software & Web',
-    description: 'Engineer native mobile applications with Kotlin, Jetpack Compose, asynchronous coroutines, and REST integrations.',
-    badge: 'Mobile',
-    icon: Smartphone,
-    stack: ['Kotlin', 'Compose', 'Coroutines', 'Retrofit'],
+    title: 'Career Outcome',
+    text: 'By the end of the residency, you gain technical confidence, collaboration habits, and a portfolio mapped to modern hiring expectations. You learn how teams actually ship software in real timelines.',
   },
   {
-    title: 'Python Systems & Automation',
-    category: 'Software & Web',
-    description: 'Write clean, modular code for algorithmic backends, automated bot workers, and file processing systems.',
-    badge: 'Versatile',
-    icon: Terminal,
-    stack: ['Python', 'FastAPI', 'Celery', 'PyTest'],
-  },
-  {
-    title: 'Enterprise Java Engineering',
-    category: 'Software & Web',
-    description: 'Enterprise software development, Spring Boot microservices, multithreading, and scalable backend structures.',
-    badge: 'Enterprise',
-    icon: Cpu,
-    stack: ['Java 21', 'Spring Boot', 'Kafka', 'Hibernate'],
-  },
-  {
-    title: 'C++ Systems Programming',
-    category: 'Software & Web',
-    description: 'Build high-performance applications, low-latency system software, and memory-safe algorithms using modern C++20.',
-    badge: 'Systems',
-    icon: Terminal,
-    stack: ['Modern C++', 'STL', 'CMake', 'Valgrind'],
-  },
-  {
-    title: 'Blockchain & Web3 Engineering',
-    category: 'Software & Web',
-    description: 'Develop decentralized applications (dApps), Solidity smart contracts, and cryptographic verification on EVM chains.',
-    badge: 'Web3',
-    icon: Code2,
-    stack: ['Solidity', 'Hardhat', 'Ethers.js', 'IPFS'],
-  },
-
-  // 2. AI, Machine Learning & Data
-  {
-    title: 'Generative AI & LLM Systems',
-    category: 'AI & Data',
-    description: 'Develop production AI agents, LangChain/LlamaIndex RAG workflows, prompt pipelines, and vector database search.',
-    badge: 'Cutting Edge',
-    icon: BrainCircuit,
-    stack: ['LangChain', 'OpenAI', 'Pinecone', 'Python'],
-  },
-  {
-    title: 'Machine Learning Engineering',
-    category: 'AI & Data',
-    description: 'Train predictive models, implement deep neural networks, tune hyperparameters, and deploy inference microservices.',
-    badge: 'High Impact',
-    icon: Bot,
-    stack: ['PyTorch', 'Scikit-Learn', 'MLflow', 'FastAPI'],
-  },
-  {
-    title: 'Data Science & Statistical Modeling',
-    category: 'AI & Data',
-    description: 'Extract actionable intelligence from complex datasets using statistical modeling, Pandas, NumPy, and Scipy.',
-    badge: 'Analytics',
-    icon: TrendingUp,
-    stack: ['Pandas', 'NumPy', 'SciPy', 'Jupyter'],
-  },
-  {
-    title: 'Data Analytics & SQL Warehousing',
-    category: 'AI & Data',
-    description: 'Perform exploratory data analysis, clean structured datasets, run complex SQL queries, and build BI summaries.',
-    badge: 'Business Tech',
-    icon: BarChart3,
-    stack: ['PostgreSQL', 'BigQuery', 'Tableau', 'dbt'],
-  },
-  {
-    title: 'Power BI Enterprise Reporting',
-    category: 'AI & Data',
-    description: 'Build interactive executive business dashboards, DAX queries, and real-time KPI monitors for enterprise data.',
-    badge: 'BI Suite',
-    icon: BarChart3,
-    stack: ['Power BI', 'DAX', 'Power Query', 'SQL'],
-  },
-
-  // 3. Cloud, DevOps & Security
-  {
-    title: 'Cloud Computing & Architecture',
-    category: 'Cloud & DevOps',
-    description: 'Architect scalable cloud environments, virtual VPC instances, serverless computing, and distributed object storage.',
-    badge: 'Cloud Infra',
-    icon: Cloud,
-    stack: ['AWS', 'Cloudflare', 'Terraform', 'Serverless'],
-  },
-  {
-    title: 'AWS Cloud Engineering',
-    category: 'Cloud & DevOps',
-    description: 'Deploy resilient cloud architectures with AWS EC2, S3, IAM security roles, Lambda functions, and RDS databases.',
-    badge: 'AWS Certified',
-    icon: Cloud,
-    stack: ['AWS EC2', 'Lambda', 'S3', 'RDS Aurora'],
-  },
-  {
-    title: 'DevOps & CI/CD Pipelines',
-    category: 'Cloud & DevOps',
-    description: 'Automate GitHub Actions CI/CD workflows, Docker containerization, Kubernetes orchestration, and observability.',
-    badge: 'Automation',
-    icon: Sparkles,
-    stack: ['Docker', 'Kubernetes', 'GitHub Actions', 'Prometheus'],
-  },
-  {
-    title: 'Cyber Security & Ethical Hacking',
-    category: 'Cloud & DevOps',
-    description: 'Defend web applications and infrastructure through vulnerability audits, network defense, and OWASP Top 10 mitigations.',
-    badge: 'Security',
-    icon: ShieldCheck,
-    stack: ['OWASP', 'Burp Suite', 'Wireshark', 'Metasploit'],
-  },
-
-  // 4. Design & Creative
-  {
-    title: 'UI/UX Design Systems',
-    category: 'Design & Creative',
-    description: 'Craft intuitive digital user experiences, interactive component libraries, design systems, and Figma prototypes.',
-    badge: 'Creative',
-    icon: Layers,
-    stack: ['Figma', 'Design Tokens', 'Prototyping', 'User Research'],
-  },
-  {
-    title: 'Graphic Design & Brand Identity',
-    category: 'Design & Creative',
-    description: 'Create compelling visual assets, digital branding, marketing graphics, vector illustrations, and typography compositions.',
-    badge: 'Visual Arts',
-    icon: Palette,
-    stack: ['Illustrator', 'Photoshop', 'Brand Systems', 'Typography'],
-  },
-
-  // 5. Core Engineering & Simulation
-  {
-    title: 'Civil Engineering & Structural Design',
-    category: 'Core Engineering',
-    description: 'Analyze structural loads, foundation designs, concrete modeling, and civil architectural drawings to code.',
-    badge: 'Civil Eng',
-    icon: Building2,
-    stack: ['STAAD Pro', 'ETABS', 'AutoCAD Civil', 'BIM'],
-  },
-  {
-    title: 'Mechanical Design & Simulation',
-    category: 'Core Engineering',
-    description: 'Model 3D mechanical assemblies, stress analyses, thermal simulations, and kinematic mechanisms for fabrication.',
-    badge: 'Mechanical',
-    icon: Wrench,
-    stack: ['SolidWorks', 'ANSYS', 'CATIA', 'GD&T'],
-  },
-  {
-    title: 'AutoCAD Industrial Drafting',
-    category: 'Core Engineering',
-    description: 'Generate precision 2D drafting schematics and 3D architectural/mechanical layouts to international drafting standards.',
-    badge: 'Drafting',
-    icon: Layers,
-    stack: ['AutoCAD 2025', '2D Drafting', 'Isometric', '3D Modeling'],
-  },
-  {
-    title: 'MATLAB Numerical Computing',
-    category: 'Core Engineering',
-    description: 'Implement mathematical matrix computations, dynamic signal processing, and Simulink control system simulations.',
-    badge: 'Scientific',
-    icon: Gauge,
-    stack: ['MATLAB', 'Simulink', 'Signal Proc', 'Control Systems'],
-  },
-  {
-    title: 'Electric Vehicle Technology (EV)',
-    category: 'Core Engineering',
-    description: 'Explore battery management systems (BMS), electric powertrains, regenerative braking, and EV charging architectures.',
-    badge: 'Future Tech',
-    icon: BatteryCharging,
-    stack: ['BMS', 'Inverters', 'CAN Bus', 'Lithium Cells'],
-  },
-
-  // 6. Embedded Systems, Hardware & IoT
-  {
-    title: 'VLSI Design & Semiconductor',
-    category: 'Embedded & IoT',
-    description: 'Design digital logic circuits, Verilog/VHDL hardware architectures, FPGA synthesis, and semiconductor layout verification.',
-    badge: 'Semiconductor',
-    icon: Cpu,
-    stack: ['Verilog', 'VHDL', 'FPGA', 'ModelSim'],
-  },
-  {
-    title: 'Embedded Systems & IoT',
-    category: 'Embedded & IoT',
-    description: 'Interface microcontrollers with sensor networks, wireless telemetry protocols (MQTT/HTTP), and cloud dashboards.',
-    badge: 'Embedded',
-    icon: Network,
-    stack: ['ESP32', 'C/C++', 'MQTT', 'FreeRTOS'],
-  },
-  {
-    title: 'PCB Design & Circuit Fabrication',
-    category: 'Embedded & IoT',
-    description: 'Create multi-layer circuit schematics, component footprints, routing topologies, and production Gerber files.',
-    badge: 'Electronics',
-    icon: CircuitBoard,
-    stack: ['KiCad', 'Altium', 'Gerber', 'SMD Assembly'],
+    title: 'Our Mission & Venture',
+    text: 'We are committed to building a high-standard community of engineers and creators who value craft, discipline, and impact. A GKK & Bubblesort Venture where ambitious learners transform into industry-ready builders.',
   },
 ]
 
-const COMPARISONS = [
+// Services / Curriculum Cards
+const CURRICULUM_TRACKS = [
   {
-    feature: 'Project Scope',
-    traditional: 'Generic Todo apps & calculator clones copied from video tutorials',
-    geekInterns: 'Production microservices, RAG LLM agents, and live cloud databases',
+    id: '01',
+    title: 'PROMPT ENGINEERING & LLMs',
+    description: 'Master AI prompt design, LLM workflows, fine-tuning techniques, and autonomous AI-driven automation systems.',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop',
+    domain: 'Generative AI & LLM Systems',
   },
   {
-    feature: 'Code Reviews',
-    traditional: 'Automated multiple-choice questions or zero feedback on code quality',
-    geekInterns: 'Strict GitHub PR reviews, architecture feedback, and linting audits',
+    id: '02',
+    title: 'FULL STACK WEB DEVELOPMENT',
+    description: 'Build complete web applications from frontend to backend. Master React 19, Node.js, relational databases, and deployment pipelines.',
+    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=1200&auto=format&fit=crop',
+    domain: 'Full Stack Development',
   },
   {
-    feature: 'Deployment',
-    traditional: 'Runs on localhost:3000 only; submitted as raw zip files or screenshots',
-    geekInterns: 'Live production cloud URLs with SSL, custom domains, and CI/CD pipelines',
+    id: '03',
+    title: 'APP DEVELOPMENT',
+    description: 'Create cross-platform mobile apps with React Native and Flutter. Ship to both iOS App Store and Google Play Store.',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200&auto=format&fit=crop',
+    domain: 'Android App Development',
   },
   {
-    feature: 'Credential Validity',
-    traditional: 'Static image or unverified PDF without tamper protection',
-    geekInterns: 'Cryptographically verifiable CID with instant recruiter lookup portal',
+    id: '04',
+    title: 'UI/UX & DESIGN SYSTEMS',
+    description: 'Design and implement beautiful, accessible interfaces. Learn Figma, design tokens, interaction states, and frontend architecture.',
+    image: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=1200&auto=format&fit=crop',
+    domain: 'UI/UX Design',
   },
   {
-    feature: 'Work Culture',
-    traditional: 'Isolated passive video watching with zero accountability',
-    geekInterns: 'Agile sprints, Git branching, issue tracking, and production milestones',
+    id: '05',
+    title: 'CLOUD & DEVOPS ENGINEERING',
+    description: 'Architect resilient cloud infrastructure on AWS and Cloudflare with Docker, automated CI/CD pipelines, and zero-downtime releases.',
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
+    domain: 'DevOps',
   },
   {
-    feature: 'Hiring Readiness',
-    traditional: 'Fails practical coding rounds due to lack of git & system experience',
-    geekInterns: 'Interview-ready with demonstrable GitHub commits and live URLs',
-  },
-]
-
-const JOURNEY_STEPS = [
-  {
-    step: '01',
-    word: 'Apply',
-    tagline: 'Instant Registration',
-    icon: UserCheck,
-    detail: 'Choose your desired specialization from 27+ engineering tracks and submit your application in under 2 minutes with zero gatekeeping.',
-  },
-  {
-    step: '02',
-    word: 'Onboard',
-    tagline: 'Offer & Task Dossier',
-    icon: MailCheck,
-    detail: 'Receive your verified digital Offer Letter alongside curated real-world problem statements, GitHub starter templates, and milestone rubrics.',
-  },
-  {
-    step: '03',
-    word: 'Build',
-    tagline: 'Practical Code Work',
-    icon: GitBranch,
-    detail: 'Develop production-ready modules, implement industry best practices, solve real constraints, and maintain a public Git commit history.',
-  },
-  {
-    step: '04',
-    word: 'Submit',
-    tagline: 'Review & Evaluation',
-    icon: Code2,
-    detail: 'Push your completed code to GitHub, deploy the live demo to the cloud, record an architectural walkthrough, and submit for evaluation.',
-  },
-  {
-    step: '05',
-    word: 'Verify',
-    tagline: 'Tamper-Proof CID',
-    icon: BadgeCheck,
-    detail: 'Receive your official Certificate of Completion equipped with a tamper-proof digital Certificate ID (CID) verifiable by recruiters worldwide.',
-  },
-  {
-    step: '06',
-    word: 'Accelerate',
-    tagline: 'Career & LOR',
-    icon: Award,
-    detail: 'Earn formal Letters of Recommendation (LOR), pass ATS resume filters with our AI scanner, and get showcased on the Geek Intern talent network.',
+    id: '06',
+    title: 'CYBERSECURITY & DEFENSIVE OPS',
+    description: 'Defend web applications through vulnerability auditing, OWASP Top 10 mitigation, penetration testing, and network security.',
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1200&auto=format&fit=crop',
+    domain: 'Cyber Security',
   },
 ]
 
-const EXPERT_QUOTES = [
+// Alumni / Intern Testimonials
+const ALUMNI_LIST = [
   {
-    quote:
-      'The software industry doesn’t need more candidates who watched 40 hours of passive videos. It hires developers who understand production latency, clean git rebase workflows, and automated CI pipelines.',
-    author: 'Mentorship Lead',
-    role: 'Staff Systems Architect, Geek Interns',
-    tag: 'Engineering Council',
-  },
-  {
-    quote:
-      'Every intern here commits to real git repositories and deploys to staging clouds. The confidence jump between day one and final project submission is what makes our graduates stand out.',
-    author: 'Core Platform Lead',
-    role: 'A GKK & Bubblesort Venture',
-    tag: 'Technical Director',
-  },
-]
-
-const STUDENT_TESTIMONIALS = [
-  {
+    id: 'alum-1',
     name: 'Aarav Singhania',
     college: 'IIT Roorkee',
     domain: 'Full Stack Web Development',
-    rating: 5,
-    quote:
-      'The hands-on project tasks mirrored real production tickets. Building a full-stack platform with authentication and database schemas made all the difference during my technical interviews.',
+    outcome: 'Software Engineer at Google Cloud',
+    quote: 'The hands-on project tasks mirrored real production tickets. Building a full-stack platform with authentication and database schemas made all the difference during my technical interviews.',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop',
+    company: 'Google',
   },
   {
+    id: 'alum-2',
     name: 'Meera Nambiar',
     college: 'BITS Pilani',
     domain: 'Machine Learning & AI',
-    rating: 5,
-    quote:
-      'The curriculum pushed me to implement neural network architectures from scratch rather than just running pre-made notebooks. Having a verifiable QR certificate helped me secure an off-campus ML internship.',
+    outcome: 'Applied ML Intern at Microsoft',
+    quote: 'The curriculum pushed me to implement neural network architectures from scratch rather than just running pre-made notebooks. Having a verifiable QR certificate helped me secure an off-campus ML internship.',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop',
+    company: 'Microsoft',
   },
   {
+    id: 'alum-3',
     name: 'Tanmay Deshmukh',
     college: 'COEP Technological University',
     domain: 'Android App Development',
-    rating: 5,
-    quote:
-      'The freedom to complete assignments alongside my university semester exams was fantastic. Geek Intern provided clear task guidelines and prompt credential verification upon submission.',
+    outcome: 'Mobile Systems at Amazon',
+    quote: 'The freedom to complete assignments alongside my university semester exams was fantastic. Geek Intern provided clear task guidelines and prompt credential verification upon submission.',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop',
+    company: 'Amazon',
+  },
+  {
+    id: 'alum-4',
+    name: 'Priyanshu Sharma',
+    college: 'VIT Vellore',
+    domain: 'Cloud Native & DevOps',
+    outcome: 'Systems Engineer at TCS Digital',
+    quote: 'Deploying Docker containers and writing GitHub Action pipelines to AWS gave me exact production answers for technical rounds.',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop',
+    company: 'TCS',
+  },
+  {
+    id: 'alum-5',
+    name: 'Ananya Verma',
+    college: 'DTU Delhi',
+    domain: 'Data Science & Analytics',
+    outcome: 'Data Analyst at Infosys',
+    quote: 'The mentor code reviews were ruthlessly constructive. My Git commit hygiene and system design clarity skyrocketed.',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop',
+    company: 'Infosys',
   },
 ]
 
-const CAREER_TOOLS = [
+// Comparison Table Data
+const COMPARISON_ROWS = [
   {
-    title: 'ATS Resume Score Checker',
-    desc: 'Benchmark your developer resume against real engineering job descriptions. Get instant keyword matching and score recommendations.',
-    tag: 'Free AI Scanner',
-    actionText: 'Scan Resume Free',
-    href: '/ats-checker',
-    icon: CheckCircle2,
-    gradient: 'from-blue-600/20 to-cyan-600/20',
+    feature: 'Primary Learning Focus',
+    traditional: 'Pre-recorded lectures & multiple choice quizzes',
+    geek: 'Live codebase contributions & real product features',
+    highlight: true,
   },
   {
-    title: 'Developer Resume Builder',
-    desc: 'Create clean, recruiter-approved developer resumes tailored for ATS parsers. Includes live side-by-side preview and PDF export.',
-    tag: 'Interactive Builder',
-    actionText: 'Build My Resume',
-    href: '/resume-builder',
-    icon: FileText,
-    gradient: 'from-indigo-600/20 to-purple-600/20',
+    feature: 'Project Complexity',
+    traditional: 'Synthetic toy apps (Todo lists, basic calculators)',
+    geek: 'Scalable full-stack apps, AI microservices, cloud deployments',
   },
   {
-    title: 'Portfolio Website Builder',
-    desc: 'Transform your GitHub repositories and projects into an elegant personal developer portfolio ready to share with hiring managers.',
-    tag: 'Portfolio Generator',
-    actionText: 'Create Portfolio',
-    href: '/portfolio-builder',
-    icon: Layers,
-    gradient: 'from-emerald-600/20 to-teal-600/20',
+    feature: 'Mentorship & Reviews',
+    traditional: 'Automated grading scripts or absent mentors',
+    geek: '1-on-1 senior mentor reviews & engineering feedback',
+  },
+  {
+    feature: 'Portfolio Verification',
+    traditional: 'Generic completion certificates without hash',
+    geek: 'Verifiable GitHub pull requests & live product links',
+    highlight: true,
+  },
+  {
+    feature: 'Career Transition',
+    traditional: 'Theoretical knowledge with unverified experience',
+    geek: 'Production-ready engineering habits & direct hiring network referrals',
   },
 ]
 
-const FAQS = [
+// Roadmap Guide Steps
+const ROADMAP_STEPS = [
   {
-    question: 'How do I apply for a Geek Intern Virtual Internship?',
-    answer:
-      'Simply click "Apply for Cohort" or select any engineering track. Fill out your educational details, choose your specialization, and submit. There are no prerequisite entrance tests or restrictive gatekeeping.',
+    number: '01',
+    title: 'Selective Onboarding & Assessment',
+    description: 'Ambition meets evaluation. Candidates complete practical coding benchmarks testing logic, system design awareness, and problem-solving velocity.',
+    tag: 'Step 1: Onboarding',
   },
   {
-    question: 'Is the virtual internship program remote and self-paced?',
-    answer:
-      'Yes, 100% of our internships are conducted remotely. You can comfortably plan your schedule around college coursework, laboratory sessions, and semester examinations while meeting weekly project milestones.',
+    number: '02',
+    title: 'Senior Mentor Pairing & Architecture Briefs',
+    description: 'Receive direct mentorship from senior engineers. Define clean architecture, select modern tech stacks, and set up continuous integration pipelines.',
+    tag: 'Step 2: Architecture',
   },
   {
-    question: 'How are the certificates and offer letters verified by employers?',
-    answer:
-      'Every credential issued by Geek Intern carries a unique Certificate ID (CID) and cryptographic QR code. Recruiters can verify authenticity in seconds through our permanent public verification portal at /verify and /verify-offer-letter.',
+    number: '03',
+    title: 'Production Sprint Execution & Peer Reviews',
+    description: 'Build features against real product requirements. Submit pull requests, undergo detailed code reviews, and refactor for performance and security.',
+    tag: 'Step 3: Execution',
   },
   {
-    question: 'What is the duration of the internship programs?',
-    answer:
-      'Standard tracks are structured across 4-week or 8-week durations depending on project scope. Flexible submissions allow driven engineers to finish milestones early without administrative bottlenecks.',
-  },
-  {
-    question: 'Can I get a formal Letter of Recommendation (LOR)?',
-    answer:
-      'Yes. Top-performing interns who demonstrate clean commit histories, well-architected systems, and thorough documentation receive a formal Letter of Recommendation (LOR) alongside their verified certificate.',
-  },
-  {
-    question: 'Can I submit this internship to my college for academic credit?',
-    answer:
-      'Absolutely. Our internships comply with standard university internship guidelines (AICTE / UGC format), and we issue official digital Offer Letters, milestone rubrics, and Completion Certificates acceptable across 500+ universities.',
+    number: '04',
+    title: 'Live Deployment & Proof-of-Work Verification',
+    description: 'Deploy live software to cloud infrastructure. Graduate with verifiable GitHub contributions, live URLs, and documented impact metrics.',
+    tag: 'Step 4: Deployment',
   },
 ]
+
+// Expert Quotes
+const EXPERT_QUOTES = [
+  {
+    quote: "The single biggest issue with modern tech hiring is that resume keywords don't equal software craftsmanship. At Geek Interns, we train engineers to read diffs, debug live services, and explain architectural tradeoffs.",
+    author: 'Engineering Mentorship Lead',
+    role: 'Geek Interns Technical Council',
+    stats: '100+ Production Code Reviews',
+  },
+  {
+    quote: 'AI search engines prioritize real experience and verifiable stats over generic claims. When our interns present their verified GitHub pull requests, recruiters immediately see true technical depth.',
+    author: 'Bubblesort Ecosystem Advisor',
+    role: 'Core Technical Architect',
+    stats: '98.4% Internship Completion Success',
+  },
+]
+
+// FAQ Items
+const FAQ_ITEMS = [
+  {
+    category: 'Program Overview',
+    question: 'What is Geek Interns and how does it optimize career readiness?',
+    answer: 'Geek Interns is an elite software engineering internship ecosystem. Unlike traditional courses, interns write production code, participate in real code reviews, and ship live software to active users, closing the gap between university theory and high-tech hiring expectations.',
+  },
+  {
+    category: 'Learning & Mentorship',
+    question: 'What tech stack and methodologies do Geek interns work with?',
+    answer: 'Interns master modern full-stack development using React, Next.js, Node.js, Python, Supabase, Tailwind CSS, Docker, and Generative AI APIs. Engineering workflows follow real-world Agile sprints, CI/CD automated deployments, and continuous peer code reviews.',
+  },
+  {
+    category: 'Comparison & Value',
+    question: 'How does Geek Interns differ from standard online courses or internships?',
+    answer: 'Standard courses offer canned projects with synthetic data. Geek Interns provides real project repositories, 1-on-1 expert mentor pairing, actual user data handling, production deployment experience, and a verified proof-of-work portfolio.',
+  },
+  {
+    category: 'AI & Search Optimization',
+    question: 'What is Generative Engine Optimization (GEO) & AEO?',
+    answer: 'Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) structure digital content into direct, highly authoritative Q&A formats, step-by-step guides, and data-rich comparisons so AI models (ChatGPT, Perplexity, Google SGE) easily cite and recommend your brand.',
+  },
+  {
+    category: 'Outcomes & Placement',
+    question: 'What career outcomes can I expect after completing a Geek Internship?',
+    answer: "Graduates exit with real production commits, a verifiable GitHub portfolio, strong system design fundamentals, and direct referral opportunities through Geek Interns and GKK's hiring network.",
+  },
+]
+
+// ==========================================
+// 2. REUSABLE GKK-STYLE INTERACTIVE COMPONENTS
+// ==========================================
+
+// Exact 3D Vertical Text-Flip Button (di from GKK)
+function FlipButton({
+  text,
+  onClick,
+  primary = false,
+  orange = false,
+  className = '',
+}: {
+  text: string
+  onClick?: (e: React.MouseEvent) => void
+  primary?: boolean
+  orange?: boolean
+  className?: string
+}) {
+  let bg = 'bg-white text-black'
+  let shadow = ''
+  let border = 'border-white/10'
+
+  if (primary) {
+    bg = 'bg-[#22d87a] text-black'
+    shadow = 'shadow-[0_0_20px_rgba(34,216,122,0.35)]'
+    border = 'border-transparent'
+  } else if (orange) {
+    bg = 'bg-[#f97316] text-white'
+    shadow = 'shadow-[0_0_20px_rgba(249,115,22,0.35)]'
+    border = 'border-transparent'
+  }
+
+  return (
+    <motion.div
+      onClick={onClick}
+      className={`group relative w-full sm:w-auto cursor-pointer ${className}`}
+      whileHover="hovered"
+      initial="initial"
+    >
+      <div
+        className={`relative overflow-hidden ${bg} w-full sm:w-auto px-5 md:px-8 py-3 rounded-full uppercase font-black text-[10px] md:text-xs tracking-[0.1em] no-underline border ${border} ${shadow} text-center flex items-center justify-center transition-transform active:scale-95`}
+      >
+        <div className="relative block overflow-hidden w-full font-inter">
+          <motion.div
+            variants={{ initial: { y: 0 }, hovered: { y: '-100%' } }}
+            transition={{ duration: 0.28, ease: 'easeInOut' }}
+          >
+            {text}
+          </motion.div>
+          <motion.div
+            className="absolute top-0 left-0 w-full"
+            variants={{ initial: { y: '100%' }, hovered: { y: 0 } }}
+            transition={{ duration: 0.28, ease: 'easeInOut' }}
+          >
+            {text}
+          </motion.div>
+        </div>
+      </div>
+      <div
+        className={`absolute inset-0 ${
+          primary ? 'bg-[#22d87a]' : 'bg-white'
+        } opacity-0 group-hover:opacity-25 blur-2xl rounded-full transition-opacity duration-500 pointer-events-none`}
+      />
+    </motion.div>
+  )
+}
+
+// Exact Side Navigation Item (Yl from GKK)
+function SideNavItem({
+  name,
+  desc,
+  side,
+  onClick,
+}: {
+  name: string
+  desc: string
+  side: 'left' | 'right'
+  onClick: () => void
+}) {
+  return (
+    <motion.div
+      className="group relative py-3 cursor-pointer"
+      onClick={onClick}
+      whileHover="hover"
+      initial="initial"
+    >
+      <div
+        className={`flex items-center gap-4 ${
+          side === 'right' ? 'flex-row-reverse' : 'flex-row'
+        }`}
+      >
+        <motion.div
+          variants={{
+            initial: { width: '24px', height: '4px', backgroundColor: 'rgba(255,255,255,0.25)' },
+            hover: { width: '56px', height: '4px', backgroundColor: '#22d87a' },
+          }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className="rounded-full shrink-0"
+        />
+        <div
+          className={`flex flex-col justify-center ${
+            side === 'right' ? 'items-end' : 'items-start'
+          }`}
+        >
+          <motion.span
+            variants={{
+              initial: { opacity: 0.7, color: '#f0efe9', x: 0 },
+              hover: { opacity: 1, color: '#ffffff', x: side === 'left' ? 8 : -8 },
+            }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="text-xs md:text-sm font-black font-inter uppercase tracking-[0.2em] whitespace-nowrap"
+          >
+            {name}
+          </motion.span>
+          <motion.div
+            variants={{
+              initial: { opacity: 0, height: 0, y: -4 },
+              hover: { opacity: 0.9, height: 'auto', y: 0 },
+            }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <span className="text-[10px] md:text-[11px] font-bold text-[#22d87a] uppercase tracking-widest mt-0.5 block font-inter whitespace-nowrap">
+              {desc}
+            </span>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// ==========================================
+// 3. MAIN COMPONENT EXPORT
+// ==========================================
 
 export function Home() {
-  const [activeCategory, setActiveCategory] = useState('All Tracks')
-  const [showAllDomains, setShowAllDomains] = useState(false)
-  const [faqOpen, setFaqOpen] = useState<number | null>(null)
-  const [verifyIdInput, setVerifyIdInput] = useState('')
   const navigate = useNavigate()
+  const [openFaq, setOpenFaq] = useState<number | null>(0)
+  const [contactStatus, setContactStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
+  const [contactName, setContactName] = useState('')
+  const [contactEmail, setContactEmail] = useState('')
+  const [contactMessage, setContactMessage] = useState('')
 
-  const allFilteredPrograms =
-    activeCategory === 'All Tracks'
-      ? DOMAIN_PROGRAMS
-      : DOMAIN_PROGRAMS.filter((p) => p.category === activeCategory)
-
-  const visiblePrograms = showAllDomains
-    ? allFilteredPrograms
-    : allFilteredPrograms.slice(0, 9)
-
-  const handleVerifySubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!verifyIdInput.trim()) return
-    const id = verifyIdInput.trim().toUpperCase()
-    if (id.includes('OFFER') || id.startsWith('OFF-') || id.startsWith('GKK-OFF')) {
-      navigate(`/verify-offer-letter?id=${encodeURIComponent(id)}`)
-    } else {
-      navigate(`/verify?id=${encodeURIComponent(id)}`)
+  // Scroll Helper
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  // Alumni horizontal scroll progress
+  const alumniRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: alumniRef,
+    offset: ['start start', 'end end'],
+  })
+  const alumniX = useTransform(scrollYProgress, [0, 1], ['0%', '-55%'])
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setContactStatus('submitting')
+    setTimeout(() => {
+      setContactStatus('success')
+      setContactName('')
+      setContactEmail('')
+      setContactMessage('')
+    }, 1200)
   }
 
   return (
@@ -584,806 +492,1038 @@ export function Home() {
         suffix="Geek Interns"
       />
 
-      {/* Atmospheric Ambient Glows */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-[#2c2cf3]/15 to-transparent rounded-full blur-[140px]" />
-        <div className="absolute top-[35%] -left-48 w-[600px] h-[600px] bg-[#06e4f9]/10 rounded-full blur-[160px]" />
-        <div className="absolute top-[65%] -right-48 w-[600px] h-[600px] bg-[#22c55e]/08 rounded-full blur-[160px]" />
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:32px_32px] opacity-60" />
-      </div>
+      {/* Floating Alumni Widget (Matches GKK bottom-left widget) */}
+      <AlumniFloatingWidget onClick={() => scrollTo('alumni-section')} />
 
-      <div className="relative z-10">
-        {/* ---------------- 1. HERO SECTION ---------------- */}
-        <section className="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            {/* Status Pill */}
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-8 shadow-[0_0_20px_rgba(6,228,249,0.15)]"
+      {/* ---------------- SECTION 1: HERO SECTION (Exact Yx Clone) ---------------- */}
+      <section
+        id="hero-section"
+        className="relative min-h-screen bg-[#0c0c0f] text-[#f0efe9] flex flex-col justify-between overflow-hidden pt-20 md:pt-28"
+      >
+        {/* Interactive Dot Grid Background */}
+        <SectionCanvas dotColor="rgba(240,239,233,0.08)" accentColor="rgba(34,216,122,0.4)" />
+
+        {/* Noise overlay */}
+        <div className="absolute inset-0 bg-[#000000] opacity-[0.03] pointer-events-none mix-blend-overlay" />
+
+        {/* Left Sticky Navigation Widget (Desktop) */}
+        <div className="absolute left-6 xl:left-12 top-1/2 -translate-y-1/2 flex-col gap-2 z-30 hidden lg:flex">
+          {LEFT_NAV_ITEMS.map((item) => (
+            <SideNavItem
+              key={item.name}
+              name={item.name}
+              desc={item.desc}
+              side="left"
+              onClick={() => {
+                if (item.targetId) scrollTo(item.targetId)
+                else if (item.path) navigate(item.path)
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Right Sticky Navigation Widget (Desktop) */}
+        <div className="absolute right-6 xl:right-12 top-1/2 -translate-y-1/2 flex-col gap-2 z-30 hidden lg:flex">
+          {RIGHT_NAV_ITEMS.map((item) => (
+            <SideNavItem
+              key={item.name}
+              name={item.name}
+              desc={item.desc}
+              side="right"
+              onClick={() => {
+                if (item.targetId) scrollTo(item.targetId)
+                else if (item.path) navigate(item.path)
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Hero Center Title & Interactive Actions */}
+        <div className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 max-w-5xl mx-auto text-center">
+          {/* Glowing gradient blur behind title */}
+          <div className="relative flex flex-col items-center leading-none select-none w-full">
+            <div className="absolute -inset-x-10 top-8 h-24 md:h-32 rounded-full bg-gradient-to-r from-[#22d87a]/20 via-[#06e4f9]/15 to-[#22d87a]/20 blur-3xl pointer-events-none" />
+
+            {/* Line 1: JOIN THE */}
+            <motion.h2
+              initial={{ y: 80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(34px,5vw,72px)] md:text-[6rem] lg:text-8xl font-black font-inter tracking-tighter mb-0 md:mb-2 text-[#f0efe9] uppercase"
             >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#06e4f9] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#06e4f9]"></span>
-              </span>
-              <span className="font-mono text-xs uppercase tracking-widest text-[#06e4f9] font-bold">
-                A GKK & BUBBLESORT VENTURE
-              </span>
-              <span className="text-white/30 text-xs">•</span>
-              <span className="font-mono text-xs text-white/70">
-                COHORT 2026 ADMISSIONS OPEN
-              </span>
-            </motion.div>
+              JOIN THE
+            </motion.h2>
 
-            {/* Kinetic Main Headline */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="space-y-3 mb-6"
+            {/* Line 2: GEEK INTERNS */}
+            <motion.h1
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(68px,12vw,190px)] leading-[0.85] font-black font-inter tracking-tighter text-[#f0efe9] uppercase [text-shadow:0_8px_30px_rgba(0,0,0,0.5)]"
             >
-              <h1 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl tracking-tight text-white uppercase leading-[1.05]">
-                JOIN THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#06e4f9] to-[#2c2cf3]">GEEK INTERNS</span>
-              </h1>
-              <p className="font-serif italic font-normal text-3xl sm:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-[#06e4f9] via-sky-200 to-indigo-300">
-                where convention collapses and engineering begins.
-              </p>
-            </motion.div>
+              GEEK
+            </motion.h1>
 
-            {/* Subtitle */}
+            {/* Line 3: Italic Subtitle */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="max-w-3xl mx-auto text-base sm:text-lg lg:text-xl text-[#f0efe9]/70 font-sans leading-relaxed mb-10"
-            >
-              Transform from a tutorial consumer into a battle-tested software engineer.
-              Work in agile squads, ship production code to live cloud infrastructure, and earn
-              cryptographically verified credentials recognized across the tech industry.
-            </motion.p>
-
-            {/* Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-            >
-              <Link
-                to="/apply"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-[#2c2cf3] via-[#06e4f9] to-[#2c2cf3] bg-[length:200%_auto] text-black font-mono font-bold text-sm uppercase tracking-wider shadow-[0_0_35px_rgba(6,228,249,0.4)] hover:shadow-[0_0_50px_rgba(6,228,249,0.7)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-              >
-                <span>Apply for Cohort 2026</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              <a
-                href="#tracks"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full cyber-glass text-white font-mono text-sm uppercase tracking-wider hover:bg-white/10 hover:border-[#06e4f9]/50 transition-all duration-300"
-              >
-                <span>Explore Tracks</span>
-                <ChevronDown className="w-4 h-4 text-[#06e4f9]" />
-              </a>
-
-              <Link
-                to="/verify"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-white/[0.02] border border-white/10 text-white/70 hover:text-white font-mono text-xs uppercase tracking-wider hover:border-white/30 transition-all duration-300"
-              >
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>Verify Credential CID</span>
-              </Link>
-            </motion.div>
-
-            {/* Bento Counter Stats Strip */}
-            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto"
+              transition={{ duration: 0.9, delay: 0.3, ease: 'easeOut' }}
+              className="text-[13px] md:text-xl lg:text-[24px] font-cormorant italic text-[#f0efe9]/80 max-w-2xl mx-auto mt-6 md:mt-8 font-medium px-4 text-center tracking-normal leading-relaxed"
             >
-              {STATS.map((stat, i) => (
-                <div
-                  key={i}
-                  className="cyber-card p-6 text-left rounded-2xl relative overflow-hidden group hover:border-[#06e4f9]/40"
+              Build real projects. Ship production code. Launch your tech career.
+            </motion.p>
+          </div>
+
+          {/* Action Buttons (FlipButton text-flip 3D hover) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.45 }}
+            className="mt-8 md:mt-14 relative z-30 flex flex-col items-center gap-4 w-full px-4 max-w-[500px] md:max-w-none mx-auto"
+          >
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 flex-wrap w-full">
+              <FlipButton
+                text="APPLY FOR INTERNSHIP"
+                onClick={() => navigate('/apply')}
+              />
+              <FlipButton
+                text="APPLY FOR TRAINING"
+                primary
+                onClick={() => navigate('/industrial-training')}
+              />
+              <FlipButton
+                text="EXPLORE TRACKS"
+                orange
+                onClick={() => scrollTo('services-section')}
+              />
+            </div>
+
+            {/* Already Approved link */}
+            <Link
+              to="/verify"
+              className="mt-2 text-[#f0efe9] text-xs sm:text-sm font-medium hover:opacity-80 transition-opacity border-b border-transparent hover:border-white/20 pb-0.5 font-inter"
+            >
+              Already Approved or Need Verification?{' '}
+              <span className="text-[#22d87a] font-bold underline decoration-[#22d87a]/50">
+                Verify Document Here
+              </span>
+            </Link>
+
+            {/* Student Portal Button */}
+            <Link
+              to="/student-portal"
+              className="mt-1 px-6 py-2 bg-transparent border border-white/10 text-[#f0efe9] text-xs font-bold uppercase tracking-widest rounded-full hover:bg-[#13131a] hover:text-[#f0efe9] hover:border-white/30 transition-all flex items-center gap-2 font-inter"
+            >
+              <span>Student Portal</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#22d87a]" />
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Bottom Marquee Ticker (Exact Hx Clone) */}
+        <div className="relative w-full z-20 border-t border-white/5 bg-[#0c0c0f] py-4 overflow-hidden">
+          <div className="marquee-track flex items-center gap-8">
+            {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, idx) => (
+              <span
+                key={idx}
+                className={`text-xs font-bold tracking-[0.12em] uppercase font-inter whitespace-nowrap ${
+                  item === '·'
+                    ? 'text-white/20'
+                    : idx % 8 === 0 || idx % 8 === 4
+                    ? 'text-[#22d87a]'
+                    : 'text-white/60'
+                }`}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 2: BENTO MISSION SECTION (Exact Kx Clone) ---------------- */}
+      <section
+        id="about-section"
+        className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] relative overflow-hidden flex flex-col justify-center py-16 md:py-28"
+      >
+        <SectionCanvas dotColor="rgba(240,239,233,0.07)" accentColor="rgba(34,216,122,0.4)" />
+
+        {/* Giant Watermark Text (GEEK) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full select-none pointer-events-none z-0 overflow-hidden flex justify-center items-center">
+          <span className="text-[40vw] font-black text-[rgba(240,239,233,0.03)] leading-none tracking-tighter whitespace-nowrap font-inter">
+            GEEK
+          </span>
+        </div>
+
+        <div className="max-w-[1400px] w-full mx-auto px-4 md:px-12 relative z-10 flex flex-col justify-center">
+          {/* Header */}
+          <div className="relative z-10 mb-12 md:mb-20">
+            <motion.h2
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="text-[11vw] md:text-[8rem] font-black tracking-tighter leading-[0.88] uppercase bg-gradient-to-b from-[#f0efe9] to-[#f0efe9]/50 bg-clip-text text-transparent font-inter"
+            >
+              CODE
+              <br />
+              BUILD
+            </motion.h2>
+            <motion.h2
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
+              className="text-[8vw] md:text-[6rem] font-cormorant italic font-light tracking-tight leading-[0.9] text-[#06e4f9]"
+            >
+              deploy & grow.
+            </motion.h2>
+          </div>
+
+          {/* 5-Card Bento Grid */}
+          <div className="max-w-6xl">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6"
+            >
+              {BENTO_CARDS.map((card, i) => (
+                <motion.article
+                  key={card.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.2 }}
+                  transition={{ duration: 0.45, delay: 0.06 * i }}
+                  className="rounded-2xl border border-white/10 bg-[#12121e]/80 backdrop-blur-sm p-6 md:p-8 hover:border-[#22d87a]/40 transition-colors"
                 >
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-[#06e4f9]/5 rounded-bl-full pointer-events-none group-hover:bg-[#06e4f9]/10 transition-colors" />
-                  <AnimatedStat
-                    target={stat.target}
-                    decimals={stat.decimals || 0}
-                    suffix={stat.suffix}
-                  />
-                  <div className="font-mono text-xs uppercase tracking-wider text-white/90 font-bold mt-2">
-                    {stat.label}
-                  </div>
-                  <div className="text-xs text-white/50 font-sans mt-0.5">
-                    {stat.sub}
-                  </div>
-                </div>
+                  <h3 className="text-lg md:text-xl font-bold mb-3 text-[#f0efe9] font-inter">
+                    {card.title}
+                  </h3>
+                  <p className="text-sm md:text-base text-[#f0efe9]/70 leading-relaxed font-inter">
+                    {card.text}
+                  </p>
+                </motion.article>
               ))}
             </motion.div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ---------------- 2. KINETIC MISSION BENTO GRID ("CODE BUILD deploy & grow.") ---------------- */}
-        <section className="py-20 md:py-32 relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Header */}
-            <div className="text-center max-w-4xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2c2cf3]/10 border border-[#2c2cf3]/30 text-xs font-mono uppercase tracking-widest text-[#06e4f9] mb-4">
-                // THE GEEK INTERNS MANIFESTO
+      {/* ---------------- SECTION 3: CURRICULUM & MASTERY (Exact ey / ServicesPage Clone) ---------------- */}
+      <section
+        id="services-section"
+        className="relative min-h-screen bg-[#0a0a0f] text-[#f0efe9] py-20 md:py-28 px-4 md:px-12 overflow-hidden border-t border-white/5"
+      >
+        <SectionCanvas dotColor="rgba(240,239,233,0.06)" accentColor="rgba(6,228,249,0.4)" />
+
+        {/* Serrated triangular top divider */}
+        <div className="absolute top-0 left-0 right-0 h-16 bg-white/[0.03] flex flex-col justify-end overflow-hidden z-10 pointer-events-none">
+          <div className="flex flex-row absolute -bottom-5 -left-4">
+            {[...Array(40)].map((_, r) => (
+              <div key={r} className="w-10 h-10 bg-[#0a0a0f] transform rotate-45 -mr-5" />
+            ))}
+          </div>
+        </div>
+
+        <div className="max-w-[1600px] mx-auto pt-12 relative z-20">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div>
+              <motion.span
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: false }}
+                className="text-xs font-bold tracking-widest text-[#22d87a] uppercase mb-4 block font-inter"
+              >
+                PROGRAM CURRICULUM
+              </motion.span>
+              <motion.h2
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: false }}
+                className="text-4xl md:text-8xl font-black tracking-tighter uppercase leading-[0.9] text-[#f0efe9] font-inter"
+              >
+                What You Will Master
+              </motion.h2>
+            </div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: false }}
+              className="text-sm md:text-base text-white/50 max-w-sm text-left md:text-right font-inter font-medium leading-relaxed"
+            >
+              Master in-demand tech skills through real projects. Build, ship, and grow with expert mentorship.
+            </motion.p>
+          </div>
+
+          {/* Grid of Square Track Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-x-8 md:gap-y-16">
+            {CURRICULUM_TRACKS.map((track) => (
+              <motion.div
+                key={track.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.7 }}
+                className="group cursor-pointer"
+                onClick={() => navigate(`/apply?domain=${encodeURIComponent(track.domain)}`)}
+              >
+                {/* Square Image container */}
+                <div className="relative aspect-square bg-[#12121e] mb-6 overflow-hidden rounded-2xl border border-white/10 group-hover:border-[#06e4f9]/50 transition-colors">
+                  <img
+                    src={track.image}
+                    alt={track.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
+                    loading="lazy"
+                  />
+                  <span className="absolute bottom-4 right-4 text-6xl font-black text-white/10 group-hover:text-white/20 transition-colors font-inter">
+                    {track.id}
+                  </span>
+                </div>
+                <h3 className="text-xl font-black uppercase tracking-tight mb-2 group-hover:underline decoration-2 underline-offset-4 text-[#f0efe9] font-inter">
+                  {track.title}
+                </h3>
+                <p className="text-xs text-white/50 leading-relaxed max-w-xs font-inter">
+                  {track.description}
+                </p>
+              </motion.div>
+            ))}
+
+            {/* Ready to Start Coding Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.7 }}
+              className="relative aspect-square bg-gradient-to-br from-[#12121e] to-black p-8 flex flex-col justify-between group overflow-hidden rounded-2xl border border-white/15 hover:border-[#22d87a]/60 transition-colors"
+            >
+              <div className="relative z-10">
+                <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none mb-4 md:mb-6 font-inter">
+                  Ready to
+                  <br />
+                  Start
+                  <br />
+                  Coding?
+                </h3>
+                <p className="text-white/60 text-sm leading-relaxed max-w-xs font-inter">
+                  Applications are reviewed on a rolling basis. Build verifiable production experience starting today.
+                </p>
               </div>
-              <h2 className="font-display font-black text-4xl sm:text-6xl lg:text-7xl uppercase tracking-tight text-white mb-2">
-                CODE BUILD
+
+              <div className="relative z-10 pt-6">
+                <FlipButton
+                  text="APPLY NOW"
+                  primary
+                  onClick={() => navigate('/apply')}
+                />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 4: OUR ALUMNI / INTERNS (Exact ty / AlumniSection Clone) ---------------- */}
+      <section
+        ref={alumniRef}
+        id="alumni-section"
+        className="relative min-h-[160vh] bg-[#0c0c0f] text-[#f0efe9] border-t border-white/5"
+      >
+        <SectionCanvas dotColor="rgba(240,239,233,0.06)" accentColor="rgba(34,216,122,0.3)" />
+
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          {/* Header Overlay */}
+          <div className="absolute top-12 left-6 md:top-20 md:left-20 z-20 mix-blend-difference">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}>
+              <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white uppercase font-inter">
+                OUR ALUMNI
               </h2>
-              <div className="font-serif italic text-3xl sm:text-5xl lg:text-6xl text-[#06e4f9] font-normal mb-6">
-                deploy & grow.
+              <p className="text-xs md:text-base text-white/60 mt-3 max-w-md font-inter">
+                Your spot is waiting. Join Geek Interns and become our next verified success story.
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Horizontal Scrolling Track */}
+          <motion.div
+            style={{ x: alumniX }}
+            className="flex gap-6 md:gap-12 pl-6 md:pl-[36vw] pt-24"
+          >
+            {ALUMNI_LIST.map((alum) => (
+              <div
+                key={alum.id}
+                className="w-[300px] sm:w-[380px] shrink-0 rounded-3xl border border-white/10 bg-[#12121e]/90 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between shadow-2xl hover:border-[#22d87a]/40 transition-colors"
+              >
+                <div>
+                  <div className="flex items-center gap-4 mb-6">
+                    <img
+                      src={alum.avatar}
+                      alt={alum.name}
+                      className="w-14 h-14 rounded-2xl object-cover border-2 border-[#22d87a]"
+                    />
+                    <div>
+                      <h4 className="font-bold text-lg text-white font-inter">{alum.name}</h4>
+                      <p className="text-xs font-mono text-[#06e4f9]">{alum.college}</p>
+                      <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded mt-1 inline-block">
+                        {alum.outcome}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-sm text-white/70 italic leading-relaxed font-inter mb-4">
+                    “{alum.quote}”
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-white/50">
+                  <span>{alum.domain}</span>
+                  <span className="font-bold text-white flex items-center gap-1">
+                    Verified <Check className="w-3.5 h-3.5 text-[#22d87a]" />
+                  </span>
+                </div>
               </div>
-              <p className="text-white/60 font-sans text-base sm:text-lg max-w-2xl mx-auto">
-                We bridge the gap between academic theory and real-world high-scale production engineering.
-                Here is why thousands of aspiring developers choose Geek Interns over outdated bootcamps.
+            ))}
+
+            <div className="w-[12vw] shrink-0" />
+          </motion.div>
+
+          {/* Bottom right indicator */}
+          <div className="absolute bottom-10 right-10 z-20 hidden md:block">
+            <div className="flex items-center gap-4">
+              <span className="text-xs font-bold tracking-widest uppercase text-white font-inter">
+                Scroll to Explore
+              </span>
+              <div className="h-px w-12 bg-white" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 5: COMPARISON ANALYSIS (Exact sy / ComparisonSection Clone) ---------------- */}
+      <section
+        id="comparison-section"
+        className="py-20 px-4 md:px-12 bg-[#0a0a0f] text-[#f0efe9] relative overflow-hidden border-t border-white/5"
+      >
+        <SectionCanvas dotColor="rgba(240,239,233,0.06)" accentColor="rgba(34,216,122,0.4)" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="mb-14 text-center md:text-left">
+            <span className="text-xs font-mono tracking-widest text-[#22d87a] uppercase font-bold">
+              // COMPARATIVE GEO ANALYSIS
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase mt-2 bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent font-inter">
+              Traditional vs. Geek Real-World Ecosystem
+            </h2>
+            <p className="text-neutral-400 text-sm md:text-base max-w-2xl mt-3 font-inter">
+              A side-by-side comparison formatted for direct indexing by search engines, recruiters, and engineering teams.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto rounded-2xl border border-white/10 bg-neutral-950/70 backdrop-blur-xl">
+            <table className="w-full text-left border-collapse min-w-[650px]">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/5">
+                  <th className="p-5 font-mono text-xs uppercase tracking-wider text-neutral-400">
+                    Evaluation Criteria
+                  </th>
+                  <th className="p-5 font-mono text-xs uppercase tracking-wider text-neutral-400">
+                    Traditional Internships / Courses
+                  </th>
+                  <th className="p-5 font-mono text-xs uppercase tracking-wider text-[#22d87a] font-bold">
+                    Geek Real-World Ecosystem
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 text-sm md:text-base font-inter">
+                {COMPARISON_ROWS.map((row, idx) => (
+                  <motion.tr
+                    key={row.feature}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: idx * 0.05 }}
+                    className={`hover:bg-white/[0.02] transition-colors ${
+                      row.highlight ? 'bg-[#22d87a]/[0.03]' : ''
+                    }`}
+                  >
+                    <td className="p-5 font-semibold text-neutral-200">{row.feature}</td>
+                    <td className="p-5 text-neutral-400">{row.traditional}</td>
+                    <td className="p-5 font-bold text-[#22d87a] flex items-center gap-2">
+                      <span>✓</span> {row.geek}
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 6: THE ENGINEERING ROADMAP (Exact oy / InternshipGuide Clone) ---------------- */}
+      <section
+        id="guide-section"
+        className="py-20 px-4 md:px-12 bg-[#0c0c0f] text-[#f0efe9] relative overflow-hidden border-t border-white/5"
+      >
+        <SectionCanvas dotColor="rgba(240,239,233,0.06)" accentColor="rgba(6,228,249,0.3)" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="mb-14 text-center md:text-left">
+            <span className="text-xs font-mono tracking-widest text-[#06e4f9] uppercase font-bold">
+              // Step-by-Step GEO Framework
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase mt-2 bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent font-inter">
+              The Geek Engineering Roadmap
+            </h2>
+            <p className="text-neutral-400 text-sm md:text-base max-w-2xl mt-3 font-inter">
+              A structured, step-by-step breakdown of how Geek Interns transforms software learners into production-ready engineers.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {ROADMAP_STEPS.map((step, idx) => (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="p-8 rounded-2xl border border-white/10 bg-neutral-950/60 backdrop-blur-lg relative group hover:border-[#06e4f9]/50 transition-all duration-300"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <span className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-[#06e4f9] to-transparent font-mono opacity-80">
+                    {step.number}
+                  </span>
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-400 px-3 py-1 rounded-full border border-white/10 bg-white/5">
+                    {step.tag}
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-neutral-100 mb-3 group-hover:text-[#06e4f9] transition-colors font-inter">
+                  {step.title}
+                </h3>
+                <p className="text-neutral-400 text-sm md:text-base leading-relaxed font-inter">
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 7: EXPERT INSIGHTS & LEADERSHIP (Exact ly / ExpertQuotes Clone) ---------------- */}
+      <section
+        id="expert-quotes"
+        className="py-20 px-4 md:px-12 bg-[#0a0a0f] text-[#f0efe9] relative overflow-hidden border-t border-white/5"
+      >
+        <SectionCanvas dotColor="rgba(240,239,233,0.06)" accentColor="rgba(34,216,122,0.3)" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="mb-12 text-center md:text-left">
+            <span className="text-xs font-mono tracking-widest text-[#22d87a] uppercase font-bold">
+              // E-E-A-T & Industry Authority
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase mt-2 bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent font-inter">
+              Expert Insights & Engineering Leadership
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {EXPERT_QUOTES.map((q, idx) => (
+              <motion.div
+                key={q.author}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                className="p-8 rounded-2xl border border-white/10 bg-neutral-900/40 backdrop-blur-md flex flex-col justify-between"
+              >
+                <p className="text-neutral-300 text-base md:text-lg italic leading-relaxed mb-6 font-inter">
+                  “{q.quote}”
+                </p>
+                <div className="flex justify-between items-end border-t border-white/5 pt-4">
+                  <div>
+                    <h4 className="font-bold text-neutral-100 font-inter">{q.author}</h4>
+                    <p className="text-xs text-neutral-400 font-mono">{q.role}</p>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-[#22d87a] bg-[#22d87a]/10 px-3 py-1 rounded-full border border-[#22d87a]/20">
+                    {q.stats}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 8: AEO & LLM SEARCH OPTIMIZED FAQ (Exact ay / GEOFAQ Clone) ---------------- */}
+      <section
+        id="faq-section"
+        className="py-20 px-4 md:px-12 bg-[#0c0c0f] text-[#f0efe9] relative overflow-hidden border-t border-white/5"
+      >
+        <SectionCanvas dotColor="rgba(240,239,233,0.06)" accentColor="rgba(34,216,122,0.3)" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="mb-12 text-center md:text-left">
+            <span className="text-xs font-mono tracking-widest text-[#22d87a] uppercase font-bold">
+              // AEO & LLM Search Optimized
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase mt-2 bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent font-inter">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-neutral-400 text-sm md:text-base max-w-2xl mt-3 font-inter">
+              Direct answers to critical questions parsed for AI search engines, recruiters, and ambitious engineers.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {FAQ_ITEMS.map((faq, idx) => {
+              const isOpen = openFaq === idx
+              return (
+                <motion.div
+                  key={faq.question}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: idx * 0.08 }}
+                  className="border border-white/10 rounded-2xl bg-neutral-900/40 backdrop-blur-md overflow-hidden transition-all duration-300 hover:border-[#22c55e]/40"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                    className="w-full p-6 text-left flex justify-between items-center gap-4 cursor-pointer"
+                  >
+                    <div>
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-[#06e4f9] block mb-1">
+                        {faq.category}
+                      </span>
+                      <h3 className="text-lg md:text-xl font-bold text-neutral-100 font-inter">
+                        {faq.question}
+                      </h3>
+                    </div>
+                    <div
+                      className={`w-8 h-8 rounded-full border border-white/15 flex items-center justify-center transition-transform duration-300 shrink-0 ${
+                        isOpen ? 'rotate-180 border-[#22c55e] text-[#22c55e]' : 'text-neutral-400'
+                      }`}
+                    >
+                      ↓
+                    </div>
+                  </button>
+                  {isOpen && (
+                    <div className="px-6 pb-6 text-neutral-300 text-sm md:text-base leading-relaxed border-t border-white/5 pt-4 font-inter">
+                      {faq.answer}
+                    </div>
+                  )}
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 9: EXCLUSIVE LEAD MAGNET BANNER (Exact uy / GEOCtaBanner Clone) ---------------- */}
+      <section
+        id="geo-cta-banner"
+        className="py-16 px-4 md:px-12 bg-gradient-to-r from-neutral-950 via-neutral-900 to-neutral-950 text-white border-y border-white/10 relative overflow-hidden"
+      >
+        <div className="absolute -top-24 -left-24 w-72 h-72 bg-[#22c55e]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-[#06e4f9]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <span className="inline-block px-4 py-1.5 rounded-full border border-[#22c55e]/30 bg-[#22c55e]/10 text-[#22c55e] font-mono text-xs uppercase tracking-widest mb-4 font-bold">
+            Exclusive Lead Magnet & Guide
+          </span>
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent mb-4 font-inter">
+            Want to Master LLM & AI Search Optimization?
+          </h2>
+          <p className="text-neutral-400 text-sm md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed font-inter">
+            Get our detailed framework document covering AEO, GEO, LLMO, AISEO, and E-E-A-T. Explore with Geek Interns.
+          </p>
+
+          <div className="flex flex-wrap justify-center items-center gap-4">
+            <Link to="/guidelines">
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#22c55e] text-black font-bold text-sm tracking-wide shadow-[0_0_25px_rgba(34,197,94,0.3)] cursor-pointer font-inter uppercase"
+              >
+                <span>💬 Explore Engineering Framework Guide</span>
+              </motion.div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 10: APPLY CTA SECTION (Exact Jx Clone) ---------------- */}
+      <section
+        id="cta-section"
+        className="relative min-h-screen flex items-center justify-center bg-[#12121e] text-[#f0efe9] overflow-hidden py-24"
+      >
+        <SectionCanvas dotColor="rgba(34,216,122,0.08)" accentColor="rgba(34,216,122,0.4)" />
+
+        {/* Ambient floating green dots */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          {[...Array(20)].map((_, c) => (
+            <motion.div
+              key={c}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                delay: c * 0.05,
+                duration: 1.5,
+                repeat: Infinity,
+                repeatType: 'reverse',
+                repeatDelay: 2,
+              }}
+              className="absolute w-1.5 h-1.5 bg-[#22d87a] rounded-full"
+              style={{ left: `${(c * 13) % 100}%`, top: `${(c * 17) % 100}%` }}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 w-full max-w-[90vw] mx-auto text-center">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.3 }}
+            className="flex flex-col items-center justify-center mb-16"
+          >
+            <div className="overflow-hidden">
+              <motion.h2
+                variants={{
+                  hidden: { y: 100, opacity: 0 },
+                  visible: { y: 0, opacity: 1, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } },
+                }}
+                className="text-4xl md:text-8xl font-black font-inter tracking-tighter mb-4 text-[#f0efe9]"
+              >
+                JOIN THE
+              </motion.h2>
+            </div>
+
+            {/* GEEK with animated underline */}
+            <div className="overflow-hidden relative">
+              <motion.h2
+                variants={{
+                  hidden: { y: 100, opacity: 0 },
+                  visible: { y: 0, opacity: 1, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } },
+                }}
+                className="text-[80px] md:text-[240px] leading-[0.85] font-black font-inter tracking-tighter text-[#f0efe9] uppercase"
+              >
+                GEEK
+              </motion.h2>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute bottom-2 left-0 w-full h-2 md:h-4 bg-[#22d87a] origin-left"
+              />
+            </div>
+
+            <motion.p
+              variants={{
+                hidden: { y: 100, opacity: 0 },
+                visible: { y: 0, opacity: 1, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } },
+              }}
+              className="text-base md:text-3xl font-cormorant italic text-[#f0efe9]/80 max-w-2xl mx-auto mt-8 md:mt-12 font-medium"
+            >
+              Build real projects. Ship production code. Launch your tech career.
+            </motion.p>
+          </motion.div>
+
+          {/* Dual 3D Offset Shadow CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false }}
+            transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center items-center w-full px-4 max-w-[400px] md:max-w-none mx-auto"
+          >
+            {/* Button 1: White 3D Block */}
+            <motion.a
+              href="/apply"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative inline-block cursor-pointer no-underline w-full md:w-auto"
+            >
+              <div className="absolute inset-0 bg-[#0a0a0f] translate-x-2 md:translate-x-3 translate-y-2 md:translate-y-3 transition-transform group-hover:translate-x-3 md:group-hover:translate-x-4 group-hover:translate-y-3 md:group-hover:translate-y-4" />
+              <div className="relative bg-[#ffffff] px-6 py-4 md:px-12 md:py-6 border-2 border-white transition-all w-full flex items-center justify-center">
+                <span className="text-base sm:text-lg md:text-2xl text-black font-black font-inter tracking-tighter uppercase text-center">
+                  APPLY FOR INTERNSHIP
+                </span>
+              </div>
+            </motion.a>
+
+            {/* Button 2: Neon Emerald 3D Block */}
+            <motion.a
+              href="/verify"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative inline-block cursor-pointer no-underline w-full md:w-auto mt-2 md:mt-0"
+            >
+              <div className="absolute inset-0 bg-[#0a0a0f] translate-x-2 md:translate-x-3 translate-y-2 md:translate-y-3 transition-transform group-hover:translate-x-3 md:group-hover:translate-x-4 group-hover:translate-y-3 md:group-hover:translate-y-4" />
+              <div className="relative bg-[#22d87a] px-6 py-4 md:px-12 md:py-6 border-2 border-[#22d87a] transition-all w-full flex items-center justify-center">
+                <span className="text-base sm:text-lg md:text-2xl text-black font-black font-inter tracking-tighter uppercase text-center">
+                  VERIFY CREDENTIALS
+                </span>
+              </div>
+            </motion.a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 11: CONTACT SECTION (Exact ry Clone) ---------------- */}
+      <section
+        id="contact-section"
+        className="min-h-screen bg-[#0a0a0f] text-[#f0efe9] py-20 md:py-28 px-4 md:px-12 relative overflow-hidden flex items-center justify-center border-t border-white/5"
+      >
+        <SectionCanvas dotColor="rgba(240,239,233,0.06)" accentColor="rgba(34,216,122,0.3)" />
+
+        <div className="max-w-[1400px] w-full mx-auto relative z-10">
+          <div className="text-center mb-12 md:mb-20">
+            <motion.h1
+              initial={{ opacity: 0, rotateX: 90, y: -20 }}
+              whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 100, duration: 0.8 }}
+              className="text-3xl md:text-7xl font-light tracking-tight mb-4 md:mb-6 text-[#f0efe9] font-inter"
+            >
+              Get in Touch with Geek Interns
+            </motion.h1>
+            <p className="text-neutral-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed font-medium font-inter">
+              Have a question about internships, applications, or university collaborations?
+              <br />
+              We are here to help.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+            {/* Left Column: Direct Inquiries */}
+            <div className="lg:col-span-5 space-y-10 pt-4">
+              <div className="border-b border-white/10 pb-8">
+                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-400 mb-4 font-inter">
+                  Direct Inquiries
+                </h3>
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 mb-2 font-inter">
+                      Study & Student Enquiry
+                    </p>
+                    <a
+                      href="mailto:support.geekintern@gmail.com"
+                      className="text-xl md:text-2xl font-medium text-[#f0efe9] hover:text-[#06e4f9] transition-colors break-words font-inter"
+                    >
+                      support.geekintern@gmail.com
+                    </a>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 mb-2 font-inter">
+                      Business & Corporate Partners
+                    </p>
+                    <a
+                      href="mailto:contact@geekintern.com"
+                      className="text-xl md:text-2xl font-medium text-[#f0efe9] hover:text-[#22d87a] transition-colors break-words font-inter"
+                    >
+                      contact@geekintern.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-b border-white/10 pb-8">
+                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-400 mb-4 font-inter">
+                  Working Hours
+                </h3>
+                <p className="text-xl font-medium text-[#f0efe9] mb-1 font-inter">
+                  Monday — Friday
+                </p>
+                <span className="text-xs font-mono text-[#22d87a]">
+                  10:00 AM — 07:00 PM IST
+                </span>
+              </div>
+            </div>
+
+            {/* Right Column: Contact Message Form */}
+            <div className="lg:col-span-7">
+              <div className="p-8 sm:p-10 rounded-3xl border border-white/10 bg-[#12121e]/90 backdrop-blur-md">
+                <h3 className="text-2xl font-bold mb-6 font-inter text-white">
+                  Send a Direct Message
+                </h3>
+
+                {contactStatus === 'success' ? (
+                  <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center">
+                    <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
+                    <h4 className="text-lg font-bold text-white font-inter">Message Delivered</h4>
+                    <p className="text-xs text-white/60 mt-1 font-inter">
+                      Thank you for reaching out. An engineering advisor will get back to you within 24 hours.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleContactSubmit} className="space-y-5">
+                    <div>
+                      <label className="block text-xs font-mono uppercase text-white/60 mb-2">
+                        Your Full Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={contactName}
+                        onChange={(e) => setContactName(e.target.value)}
+                        placeholder="John Doe"
+                        className="w-full h-12 px-4 rounded-xl bg-white/[0.04] border border-white/15 text-white font-inter text-sm focus:outline-none focus:border-[#22d87a]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-mono uppercase text-white/60 mb-2">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={contactEmail}
+                        onChange={(e) => setContactEmail(e.target.value)}
+                        placeholder="john@example.com"
+                        className="w-full h-12 px-4 rounded-xl bg-white/[0.04] border border-white/15 text-white font-inter text-sm focus:outline-none focus:border-[#22d87a]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-mono uppercase text-white/60 mb-2">
+                        Your Inquiry or Message
+                      </label>
+                      <textarea
+                        required
+                        rows={4}
+                        value={contactMessage}
+                        onChange={(e) => setContactMessage(e.target.value)}
+                        placeholder="Tell us about your questions or domain interest..."
+                        className="w-full p-4 rounded-xl bg-white/[0.04] border border-white/15 text-white font-inter text-sm focus:outline-none focus:border-[#22d87a]"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={contactStatus === 'submitting'}
+                      className="w-full py-4 rounded-full bg-[#22d87a] text-black font-inter font-black text-xs uppercase tracking-widest hover:bg-emerald-400 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(34,216,122,0.3)]"
+                    >
+                      {contactStatus === 'submitting' ? (
+                        <span>Transmitting...</span>
+                      ) : (
+                        <>
+                          <span>Submit Inquiry</span>
+                          <Send className="w-3.5 h-3.5" />
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 12: FOOTER (Exact Zx Clone) ---------------- */}
+      <footer className="relative bg-[#0a0a0f] text-[#f0efe9] border-t border-white/10 py-16 md:py-32 flex flex-col justify-center overflow-hidden">
+        <div className="max-w-[1600px] mx-auto px-4 md:px-8 w-full relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+            {/* Col 1 */}
+            <div>
+              <h3 className="text-3xl md:text-5xl font-black font-inter mb-4 text-white">
+                GEEK
+              </h3>
+              <p className="text-sm font-cormorant italic text-white/60 leading-relaxed">
+                Learn. Build. Ship.
+                <br />
+                Launch your tech career.
               </p>
             </div>
 
-            {/* 5-Card Bento Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Card 1 (Span 2) */}
-              <div className="md:col-span-2 cyber-card p-8 sm:p-10 rounded-3xl relative overflow-hidden border border-white/10 hover:border-[#06e4f9]/50 group">
-                <div className="absolute top-0 right-0 w-80 h-80 bg-[#2c2cf3]/10 rounded-full blur-3xl pointer-events-none group-hover:bg-[#2c2cf3]/20 transition-all" />
-                <div className="flex items-center justify-between mb-6">
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#06e4f9] font-bold">
-                    01 / THE CORE PROBLEM
-                  </span>
-                  <Badge variant="outline" className="border-white/15 bg-white/5 text-white/80 font-mono text-[11px]">
-                    Experience Paradox
-                  </Badge>
-                </div>
-                <h3 className="font-display font-bold text-2xl sm:text-3xl text-white mb-4">
-                  Why Geek Interns Exists
-                </h3>
-                <p className="text-white/70 font-sans text-base sm:text-lg leading-relaxed max-w-2xl">
-                  Traditional engineering colleges teach syntax from outdated textbooks. The industry hires for
-                  distributed architecture, system design, CI/CD pipelines, and asynchronous pull request reviews.
-                  We eliminate the entry-level experience paradox by giving you genuine production exposure before your first job.
-                </p>
-                <div className="mt-8 flex items-center gap-3">
-                  <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full bg-[#2c2cf3] flex items-center justify-center font-mono text-xs font-bold text-white border-2 border-[#0a0a0f]">G</div>
-                    <div className="w-8 h-8 rounded-full bg-[#06e4f9] flex items-center justify-center font-mono text-xs font-bold text-black border-2 border-[#0a0a0f]">K</div>
-                    <div className="w-8 h-8 rounded-full bg-[#22c55e] flex items-center justify-center font-mono text-xs font-bold text-black border-2 border-[#0a0a0f]">I</div>
-                  </div>
-                  <span className="text-xs font-mono text-white/50">Trusted by students in 500+ universities</span>
-                </div>
-              </div>
+            {/* Col 2 */}
+            <div>
+              <h4 className="text-sm font-bold uppercase tracking-widest mb-6 font-inter text-[#22d87a]">
+                Connect
+              </h4>
+              <ul className="space-y-3 font-inter">
+                {[
+                  { name: 'Engineering Blog', url: '/blog' },
+                  { name: 'LinkedIn', url: 'https://in.linkedin.com/in/geek-intern' },
+                  { name: 'X (Twitter)', url: 'https://twitter.com/geekintern' },
+                  { name: 'Instagram', url: 'https://instagram.com/geekintern' },
+                  { name: 'GitHub', url: 'https://github.com/Anant1822/geekintern-client' },
+                  { name: 'Email', url: 'mailto:support.geekintern@gmail.com' },
+                ].map((item) => (
+                  <li key={item.name}>
+                    <motion.a
+                      whileHover={{ x: 5 }}
+                      href={item.url}
+                      target={item.name === 'Email' ? '_self' : '_blank'}
+                      rel={item.name === 'Email' ? undefined : 'noopener noreferrer'}
+                      className="text-white/60 hover:text-white transition-colors inline-flex items-center gap-2 text-sm"
+                    >
+                      <span className="w-4 h-[1px] bg-white/40" />
+                      {item.name}
+                    </motion.a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              {/* Card 2 */}
-              <div className="cyber-card p-8 rounded-3xl relative overflow-hidden border border-white/10 hover:border-[#06e4f9]/50 group">
-                <div className="flex items-center justify-between mb-6">
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#06e4f9] font-bold">
-                    02 / METHODOLOGY
-                  </span>
-                  <GitBranch className="w-5 h-5 text-[#06e4f9]" />
-                </div>
-                <h3 className="font-display font-bold text-2xl text-white mb-3">
-                  How We Train
-                </h3>
-                <p className="text-white/70 font-sans text-sm sm:text-base leading-relaxed">
-                  No passive video watching. You pull tickets from project sprint boards, write clean typed code, open pull requests, and survive ruthless peer code reviews.
-                </p>
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-[#06e4f9]">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>Agile sprints & Git workflow</span>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="cyber-card p-8 rounded-3xl relative overflow-hidden border border-white/10 hover:border-[#22c55e]/50 group">
-                <div className="flex items-center justify-between mb-6">
-                  <span className="font-mono text-xs uppercase tracking-widest text-emerald-400 font-bold">
-                    03 / DELIVERABLES
-                  </span>
-                  <Terminal className="w-5 h-5 text-emerald-400" />
-                </div>
-                <h3 className="font-display font-bold text-2xl text-white mb-3">
-                  What You Build
-                </h3>
-                <p className="text-white/70 font-sans text-sm sm:text-base leading-relaxed">
-                  Full-stack microservices, autonomous LLM agent pipelines, resilient cloud infrastructure, and high-performance mobile apps with live URLs.
-                </p>
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-emerald-400">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Production-deployed capstones</span>
-                </div>
-              </div>
-
-              {/* Card 4 */}
-              <div className="cyber-card p-8 rounded-3xl relative overflow-hidden border border-white/10 hover:border-[#2c2cf3]/50 group">
-                <div className="flex items-center justify-between mb-6">
-                  <span className="font-mono text-xs uppercase tracking-widest text-indigo-400 font-bold">
-                    04 / IMPACT
-                  </span>
-                  <TrendingUp className="w-5 h-5 text-indigo-400" />
-                </div>
-                <h3 className="font-display font-bold text-2xl text-white mb-3">
-                  Career Outcome
-                </h3>
-                <p className="text-white/70 font-sans text-sm sm:text-base leading-relaxed">
-                  Graduates who speak the language of senior engineers. Resumes backed by live GitHub repositories, tamper-proof CIDs, and recruiter recommendations.
-                </p>
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-indigo-400">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Verifiable developer portfolio</span>
-                </div>
-              </div>
-
-              {/* Card 5 (Span 2) */}
-              <div className="md:col-span-2 cyber-card p-8 sm:p-10 rounded-3xl relative overflow-hidden border border-white/10 hover:border-[#06e4f9]/50 group bg-gradient-to-br from-[#12121e] via-[#12121e] to-[#1a1a2e]">
-                <div className="flex items-center justify-between mb-6">
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#06e4f9] font-bold">
-                    05 / BACKED BY GKK
-                  </span>
-                  <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/10 text-emerald-400 font-mono text-[11px]">
-                    Verified Venture
-                  </Badge>
-                </div>
-                <h3 className="font-display font-bold text-2xl sm:text-3xl text-white mb-3">
-                  A GKK & Bubblesort Venture
-                </h3>
-                <p className="text-white/70 font-sans text-base leading-relaxed max-w-2xl">
-                  Engineered under the umbrella of GKK & Bubblesort, combining rigorous engineering standards with modern product incubation.
-                  Every credential is cryptographically anchored, permanently verifiable, and recognized by hiring managers.
-                </p>
-                <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <Link
-                    to="/verify"
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#06e4f9] hover:underline"
+            {/* Col 3 */}
+            <div>
+              <h4 className="text-sm font-bold uppercase tracking-widest mb-6 font-inter text-[#06e4f9]">
+                Contact
+              </h4>
+              <div className="space-y-4 text-white/60 text-sm font-inter">
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-white/40 mb-1">
+                    Study Enquiry
+                  </p>
+                  <a
+                    href="mailto:support.geekintern@gmail.com"
+                    className="hover:text-white transition-colors"
                   >
-                    <span>Check Verification Portal</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                  <span className="text-white/20">|</span>
-                  <Link
-                    to="/about"
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-white/70 hover:text-white"
+                    support.geekintern@gmail.com
+                  </a>
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-white/40 mb-1">
+                    Business Enquiry
+                  </p>
+                  <a
+                    href="mailto:contact@geekintern.com"
+                    className="hover:text-white transition-colors"
                   >
-                    <span>Learn About the Venture</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
+                    contact@geekintern.com
+                  </a>
+                </div>
+                <div className="pt-2">
+                  <p>India • Remote Engineering Ecosystem</p>
                 </div>
               </div>
             </div>
           </div>
-        </section>
 
-        {/* ---------------- 3. THE COMPARISON SECTION ---------------- */}
-        <section className="py-20 md:py-28 relative bg-[#0a0a0f]/80 border-y border-white/5">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#06e4f9]/10 border border-[#06e4f9]/30 text-xs font-mono uppercase tracking-widest text-[#06e4f9] mb-4">
-                // THE PARADIGM SHIFT
-              </div>
-              <h2 className="font-display font-bold text-3xl sm:text-5xl text-white tracking-tight uppercase mb-3">
-                Why Geek Interns Is Different
-              </h2>
-              <p className="font-serif italic text-2xl sm:text-3xl text-white/60">
-                beyond the surface of traditional bootcamps.
+          {/* Bottom Bar */}
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40 font-inter">
+            <div className="flex flex-col gap-1 text-center md:text-left">
+              <p>© 2026 Geek Interns. All rights reserved.</p>
+              <p className="text-[11px] uppercase tracking-wider text-emerald-400 font-semibold font-mono">
+                A GKK & Bubblesort Venture
               </p>
             </div>
-
-            {/* Comparison Grid */}
-            <div className="max-w-5xl mx-auto cyber-card rounded-3xl overflow-hidden border border-white/10 divide-y divide-white/10 shadow-2xl">
-              {/* Header Row */}
-              <div className="grid grid-cols-12 bg-white/[0.02] p-5 sm:p-6 font-mono text-xs uppercase tracking-wider text-white/50">
-                <div className="col-span-4 sm:col-span-3 font-bold text-white">Dimension</div>
-                <div className="col-span-4 sm:col-span-4 text-rose-400">Traditional Online Courses</div>
-                <div className="col-span-4 sm:col-span-5 text-[#06e4f9] font-bold flex items-center gap-1">
-                  <span>Geek Interns Experience</span>
-                  <Sparkles className="w-3.5 h-3.5" />
-                </div>
-              </div>
-
-              {/* Rows */}
-              {COMPARISONS.map((row, idx) => (
-                <div
-                  key={idx}
-                  className="grid grid-cols-12 p-5 sm:p-6 items-center gap-4 hover:bg-white/[0.02] transition-colors"
-                >
-                  <div className="col-span-4 sm:col-span-3 font-mono text-xs font-bold text-white uppercase tracking-wider">
-                    {row.feature}
-                  </div>
-                  <div className="col-span-4 sm:col-span-4 text-xs sm:text-sm text-white/50 flex items-start gap-2">
-                    <X className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                    <span>{row.traditional}</span>
-                  </div>
-                  <div className="col-span-4 sm:col-span-5 text-xs sm:text-sm text-[#f0efe9] font-medium flex items-start gap-2">
-                    <Check className="w-4 h-4 text-[#06e4f9] shrink-0 mt-0.5" />
-                    <span>{row.geekInterns}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-12 text-center">
-              <Link
-                to="/apply"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white/5 border border-white/15 text-xs font-mono font-bold uppercase tracking-wider text-[#06e4f9] hover:bg-white/10 hover:border-[#06e4f9]/50 transition-all"
-              >
-                <span>Ready to build real software? Apply Now</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+            <div className="flex gap-6">
+              <Link to="/privacy-policy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <Link to="/terms-and-conditions" className="hover:text-white transition-colors">
+                Terms of Service
               </Link>
             </div>
           </div>
-        </section>
-
-        {/* ---------------- 4. ENGINEERING TRACKS & DISCIPLINES ---------------- */}
-        <section id="tracks" className="py-20 md:py-32 relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#06e4f9]/10 border border-[#06e4f9]/30 text-xs font-mono uppercase tracking-widest text-[#06e4f9] mb-4">
-                  // SPECIALIZED DISCIPLINES
-                </div>
-                <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight uppercase">
-                  Engineering Tracks
-                </h2>
-                <p className="font-serif italic text-2xl sm:text-3xl text-white/60 mt-1">
-                  choose your arena and master your craft.
-                </p>
-              </div>
-
-              {/* Category Filter Pills */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-                {CATEGORY_TABS.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => {
-                      setActiveCategory(cat)
-                      setShowAllDomains(false)
-                    }}
-                    className={`px-4 py-2 rounded-full font-mono text-xs uppercase tracking-wider whitespace-nowrap transition-all duration-200 ${
-                      activeCategory === cat
-                        ? 'bg-[#06e4f9] text-black font-bold shadow-[0_0_20px_rgba(6,228,249,0.35)]'
-                        : 'bg-white/[0.04] text-white/70 border border-white/10 hover:bg-white/10 hover:text-white'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Grid of Tracks */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {visiblePrograms.map((program, idx) => {
-                const IconComponent = program.icon
-                const displayIndex = (idx + 1).toString().padStart(2, '0')
-
-                return (
-                  <div
-                    key={program.title}
-                    className="cyber-card p-6 sm:p-8 rounded-3xl relative overflow-hidden border border-white/10 hover:border-[#06e4f9]/50 flex flex-col justify-between group"
-                  >
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#06e4f9]/5 rounded-bl-full pointer-events-none group-hover:bg-[#06e4f9]/10 transition-colors" />
-
-                    <div>
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="font-mono text-xs font-bold text-white/40 tracking-wider">
-                          TRACK {displayIndex}
-                        </span>
-                        <Badge
-                          variant="outline"
-                          className="border-white/15 bg-white/5 text-[#06e4f9] font-mono text-[11px]"
-                        >
-                          {program.badge}
-                        </Badge>
-                      </div>
-
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#06e4f9] group-hover:scale-110 transition-transform">
-                          <IconComponent className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 block">
-                            {program.category}
-                          </span>
-                          <h3 className="font-display font-bold text-xl text-white group-hover:text-[#06e4f9] transition-colors">
-                            {program.title}
-                          </h3>
-                        </div>
-                      </div>
-
-                      <p className="text-white/60 font-sans text-sm leading-relaxed mb-6">
-                        {program.description}
-                      </p>
-
-                      {/* Tech stack pills */}
-                      <div className="flex flex-wrap gap-1.5 mb-6">
-                        {program.stack.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/10 text-[11px] font-mono text-white/70"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                      <Link
-                        to={`/apply?domain=${encodeURIComponent(program.title)}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#06e4f9] hover:text-white transition-colors"
-                      >
-                        <span>Apply For Track</span>
-                        <ArrowUpRight className="w-4 h-4" />
-                      </Link>
-
-                      <span className="text-[11px] font-mono text-white/40">
-                        4-8 WEEKS • REMOTE
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Show All Toggle */}
-            {allFilteredPrograms.length > 9 && (
-              <div className="mt-12 text-center">
-                <Button
-                  onClick={() => setShowAllDomains(!showAllDomains)}
-                  variant="outline"
-                  className="rounded-full px-8 py-3 bg-white/5 border border-white/15 text-white font-mono text-xs uppercase tracking-wider hover:bg-white/10 hover:border-[#06e4f9]/50"
-                >
-                  {showAllDomains
-                    ? 'Show Less Tracks'
-                    : `View All ${allFilteredPrograms.length} Engineering Tracks`}
-                </Button>
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* ---------------- 5. THE 6-STEP STUDENT JOURNEY ---------------- */}
-        <section className="py-20 md:py-32 relative bg-[#0a0a0f]/90 border-y border-white/5">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 text-xs font-mono uppercase tracking-widest text-emerald-400 mb-4">
-                // THE PLAYBOOK
-              </div>
-              <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight uppercase mb-3">
-                How It Works
-              </h2>
-              <p className="font-serif italic text-2xl sm:text-3xl text-white/60">
-                from instant enrollment to verified industry proof.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {JOURNEY_STEPS.map((step, idx) => {
-                const StepIcon = step.icon
-                return (
-                  <div
-                    key={step.step}
-                    className="cyber-card p-8 rounded-3xl relative overflow-hidden border border-white/10 hover:border-[#06e4f9]/50 group"
-                  >
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="font-display font-black text-4xl text-white/20 group-hover:text-[#06e4f9] transition-colors">
-                        {step.step}
-                      </span>
-                      <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#06e4f9]">
-                        <StepIcon className="w-5 h-5" />
-                      </div>
-                    </div>
-
-                    <span className="font-mono text-xs uppercase tracking-widest text-[#06e4f9] font-bold block mb-1">
-                      {step.tagline}
-                    </span>
-                    <h3 className="font-display font-bold text-2xl text-white mb-3">
-                      {step.word}
-                    </h3>
-                    <p className="text-white/60 font-sans text-sm leading-relaxed">
-                      {step.detail}
-                    </p>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ---------------- 6. INSTANT CREDENTIAL VERIFICATION & TRUST CENTER ---------------- */}
-        <section className="py-20 md:py-28 relative">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="cyber-card p-8 sm:p-12 rounded-3xl border border-white/15 relative overflow-hidden shadow-[0_0_50px_rgba(6,228,249,0.1)]">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-[#06e4f9]/10 rounded-full blur-3xl pointer-events-none" />
-
-              <div className="text-center max-w-2xl mx-auto mb-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono uppercase tracking-widest text-emerald-400 mb-4">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>PERMANENT RECRUITER VERIFICATION</span>
-                </div>
-                <h2 className="font-display font-black text-3xl sm:text-4xl text-white uppercase tracking-tight mb-2">
-                  Verify Any Credential
-                </h2>
-                <p className="font-serif italic text-xl sm:text-2xl text-white/60">
-                  cryptographically secured proof of engineering capability.
-                </p>
-              </div>
-
-              {/* Search Form */}
-              <form onSubmit={handleVerifySubmit} className="max-w-2xl mx-auto mb-8">
-                <div className="flex flex-col sm:flex-row items-center gap-3 p-2 rounded-2xl bg-white/[0.04] border border-white/15">
-                  <div className="flex items-center gap-3 px-3 w-full">
-                    <Search className="w-5 h-5 text-white/40 shrink-0" />
-                    <input
-                      type="text"
-                      placeholder="Enter Certificate ID or Offer Letter ID (e.g. GKK-2025-001)"
-                      value={verifyIdInput}
-                      onChange={(e) => setVerifyIdInput(e.target.value)}
-                      className="bg-transparent text-white placeholder-white/40 text-sm font-mono w-full focus:outline-none py-2"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#06e4f9] text-black font-mono font-bold text-xs uppercase tracking-wider hover:bg-cyan-300 transition-colors whitespace-nowrap shadow-[0_0_20px_rgba(6,228,249,0.3)]"
-                  >
-                    Verify Now
-                  </button>
-                </div>
-              </form>
-
-              {/* Trust Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10 text-center">
-                <div className="space-y-1">
-                  <div className="text-white font-mono text-xs font-bold uppercase tracking-wider">
-                    Tamper-Proof CID
-                  </div>
-                  <div className="text-xs text-white/50">Cryptographically unique hash for every issued certificate</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-white font-mono text-xs font-bold uppercase tracking-wider">
-                    Instant Validation
-                  </div>
-                  <div className="text-xs text-white/50">One-click lookup for hiring managers and recruiters</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-white font-mono text-xs font-bold uppercase tracking-wider">
-                    Official Recognition
-                  </div>
-                  <div className="text-xs text-white/50">Accepted by 500+ universities for semester credit</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ---------------- 7. EXPERT QUOTES & MENTORSHIP COUNCIL ---------------- */}
-        <section className="py-20 md:py-28 relative bg-[#0a0a0f]/80 border-t border-white/5">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2c2cf3]/10 border border-[#2c2cf3]/30 text-xs font-mono uppercase tracking-widest text-[#06e4f9] mb-4">
-                // VOICES FROM THE ARENA
-              </div>
-              <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight uppercase mb-3">
-                Voices of Engineering
-              </h2>
-              <p className="font-serif italic text-2xl sm:text-3xl text-white/60">
-                what mentors and developers say about the standard.
-              </p>
-            </div>
-
-            {/* Proof Quotes */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-              {EXPERT_QUOTES.map((quote, idx) => (
-                <div
-                  key={idx}
-                  className="cyber-card p-8 sm:p-10 rounded-3xl border border-white/10 relative overflow-hidden flex flex-col justify-between"
-                >
-                  <p className="text-white/80 font-sans text-base sm:text-lg leading-relaxed italic mb-8">
-                    “{quote.quote}”
-                  </p>
-                  <div>
-                    <div className="font-mono text-xs uppercase tracking-widest text-[#06e4f9] font-bold">
-                      {quote.author}
-                    </div>
-                    <div className="text-xs text-white/50 font-sans mt-0.5">
-                      {quote.role}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Student Reviews */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {STUDENT_TESTIMONIALS.map((review, idx) => (
-                <div
-                  key={idx}
-                  className="cyber-card p-6 rounded-2xl border border-white/10 hover:border-white/20 transition-all"
-                >
-                  <div className="flex items-center gap-1 text-amber-400 mb-3">
-                    {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400" />
-                    ))}
-                  </div>
-                  <p className="text-white/70 font-sans text-xs sm:text-sm leading-relaxed mb-4">
-                    “{review.quote}”
-                  </p>
-                  <div className="pt-3 border-t border-white/10">
-                    <div className="font-mono text-xs font-bold text-white uppercase tracking-wider">
-                      {review.name}
-                    </div>
-                    <div className="text-[11px] font-mono text-[#06e4f9]">
-                      {review.domain} • {review.college}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ---------------- 8. DEVELOPER CAREER TOOLS ---------------- */}
-        <section className="py-20 md:py-28 relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#06e4f9]/10 border border-[#06e4f9]/30 text-xs font-mono uppercase tracking-widest text-[#06e4f9] mb-4">
-                // FREE ECOSYSTEM UTILITIES
-              </div>
-              <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight uppercase mb-3">
-                Developer Career Tools
-              </h2>
-              <p className="font-serif italic text-2xl sm:text-3xl text-white/60">
-                built to accelerate your engineering journey.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {CAREER_TOOLS.map((tool, idx) => {
-                const ToolIcon = tool.icon
-                return (
-                  <div
-                    key={tool.title}
-                    className="cyber-card p-8 rounded-3xl border border-white/10 hover:border-[#06e4f9]/50 flex flex-col justify-between group"
-                  >
-                    <div>
-                      <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#06e4f9] mb-6 group-hover:scale-110 transition-transform">
-                        <ToolIcon className="w-6 h-6" />
-                      </div>
-                      <Badge variant="outline" className="border-white/15 bg-white/5 text-white/70 font-mono text-[10px] uppercase mb-3">
-                        {tool.tag}
-                      </Badge>
-                      <h3 className="font-display font-bold text-2xl text-white mb-3">
-                        {tool.title}
-                      </h3>
-                      <p className="text-white/60 font-sans text-sm leading-relaxed mb-6">
-                        {tool.desc}
-                      </p>
-                    </div>
-
-                    <Link
-                      to={tool.href}
-                      className="inline-flex items-center justify-between px-5 py-3 rounded-xl bg-white/5 border border-white/15 text-xs font-mono font-bold uppercase tracking-wider text-white hover:bg-[#06e4f9] hover:text-black hover:border-transparent transition-all"
-                    >
-                      <span>{tool.actionText}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ---------------- 9. GEO FAQ ACCORDION ---------------- */}
-        <section className="py-20 md:py-28 relative bg-[#0a0a0f]/80 border-t border-white/5">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#06e4f9]/10 border border-[#06e4f9]/30 text-xs font-mono uppercase tracking-widest text-[#06e4f9] mb-4">
-                // INTEL & CLARIFICATIONS
-              </div>
-              <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight uppercase mb-3">
-                Frequently Answered
-              </h2>
-              <p className="font-serif italic text-2xl sm:text-3xl text-white/60">
-                clear answers. zero ambiguity.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {FAQS.map((faq, idx) => {
-                const isOpen = faqOpen === idx
-                return (
-                  <div
-                    key={idx}
-                    className="cyber-card rounded-2xl border border-white/10 overflow-hidden transition-all"
-                  >
-                    <button
-                      onClick={() => setFaqOpen(isOpen ? null : idx)}
-                      className="w-full p-6 text-left flex items-center justify-between gap-4"
-                    >
-                      <span className="font-mono text-sm sm:text-base font-bold text-white">
-                        {faq.question}
-                      </span>
-                      <ChevronDown
-                        className={`w-5 h-5 text-[#06e4f9] shrink-0 transition-transform duration-200 ${
-                          isOpen ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="px-6 pb-6 text-white/70 font-sans text-sm leading-relaxed border-t border-white/5 pt-4"
-                        >
-                          {faq.answer}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ---------------- 10. HIGH-IMPACT CYBER CTA BANNER ---------------- */}
-        <section className="py-20 md:py-32 relative overflow-hidden">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div className="cyber-card p-10 sm:p-16 rounded-3xl border border-white/20 relative overflow-hidden text-center shadow-[0_0_80px_rgba(6,228,249,0.2)]">
-              {/* Internal glowing gradient meshes */}
-              <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-r from-[#2c2cf3]/30 via-[#06e4f9]/30 to-[#22c55e]/20 rounded-full blur-[100px] pointer-events-none" />
-
-              <div className="relative z-10 space-y-6">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/15 text-xs font-mono uppercase tracking-widest text-[#06e4f9]">
-                  <Flame className="w-3.5 h-3.5 text-[#06e4f9]" />
-                  <span>LIMITED SQUAD CAPACITY FOR COHORT 2026</span>
-                </div>
-
-                <h2 className="font-display font-black text-4xl sm:text-6xl text-white uppercase tracking-tight leading-tight">
-                  Ready to Deploy <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#06e4f9] via-white to-sky-300">
-                    Your Future?
-                  </span>
-                </h2>
-
-                <p className="font-serif italic text-2xl sm:text-3xl text-white/70 max-w-xl mx-auto">
-                  step into the arena and ship code that matters.
-                </p>
-
-                <p className="max-w-xl mx-auto text-white/60 font-sans text-sm sm:text-base leading-relaxed">
-                  Join thousands of ambitious developers who transformed their portfolios with production-grade experience and cryptographically verifiable credentials.
-                </p>
-
-                <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Link
-                    to="/apply"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-[#2c2cf3] via-[#06e4f9] to-[#2c2cf3] bg-[length:200%_auto] text-black font-mono font-bold text-sm uppercase tracking-wider shadow-[0_0_35px_rgba(6,228,249,0.4)] hover:shadow-[0_0_50px_rgba(6,228,249,0.7)] hover:scale-105 active:scale-95 transition-all duration-300"
-                  >
-                    <span>Apply for Cohort 2026</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-
-                  <Link
-                    to="/browse"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full cyber-glass text-white font-mono text-sm uppercase tracking-wider hover:bg-white/10 hover:border-[#06e4f9]/50 transition-all duration-300"
-                  >
-                    <span>Browse All Programs</span>
-                    <ArrowUpRight className="w-4 h-4 text-[#06e4f9]" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+        </div>
+      </footer>
     </PublicLayout>
   )
 }
+
 export default Home
