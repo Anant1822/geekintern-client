@@ -1128,7 +1128,7 @@ export function Home() {
 
               <div className="bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700 p-4 mb-4">
                 <p className="text-sm font-serif italic text-slate-800 dark:text-slate-200 leading-relaxed">
-                  {activeJourneyModal.quote}
+                  {activeJourneyModal.heading}
                 </p>
               </div>
 
@@ -1287,13 +1287,13 @@ export function Home() {
                 <Link to="/verify" className="w-full sm:w-auto">
                   <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-6 h-11 rounded-xl shadow-sm inline-flex items-center justify-center gap-2">
                     <ShieldCheck className="w-4 h-4" />
-                    <span>Try Verification Portal</span>
+                    <span>Open Verification Portal</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Button>
                 </Link>
                 <Link to="/apply" className="w-full sm:w-auto">
                   <Button variant="outline" className="w-full sm:w-auto border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs px-5 h-11 rounded-xl shadow-sm">
-                    Start Earning Certificate
+                    Apply for an Internship
                   </Button>
                 </Link>
               </div>
@@ -1311,7 +1311,7 @@ export function Home() {
                       </div>
                       <div>
                         <div className="font-extrabold text-sm text-slate-900 dark:text-white tracking-tight">GEEK INTERN</div>
-                        <div className="text-[9px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">Virtual Internship Academy</div>
+                        <div className="text-[9px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">Virtual Internship Program</div>
                       </div>
                     </div>
                     <div className="text-right">
@@ -1372,7 +1372,7 @@ export function Home() {
 
                     <div className="text-right">
                       <div className="font-serif italic text-base text-slate-800 dark:text-slate-200 font-bold">Geek Intern Directorate</div>
-                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-semibold mt-0.5">Academic Evaluation Board</div>
+                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-semibold mt-0.5">Project Evaluation Team</div>
                       <div className="inline-flex items-center gap-1 text-[9px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
                         <CheckCircle2 className="w-2.5 h-2.5" />
                         <span>Digitally Signed</span>
