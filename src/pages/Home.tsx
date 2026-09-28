@@ -664,10 +664,15 @@ export function Home() {
         <div className="absolute top-1/3 right-1/4 w-[420px] h-[420px] rounded-full bg-cyan-100/40 dark:bg-cyan-900/15 blur-[120px] pointer-events-none -z-10" />
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
-          {/* Top Badge: ✱ OFFICIAL GEEK INTERN PLATFORM */}
-          <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs md:text-sm font-semibold mb-6 sm:mb-8 shadow-xs">
-            <span className="text-base text-blue-600 dark:text-blue-400">✱</span>
-            <span className="tracking-wider uppercase">OFFICIAL GEEK INTERN PLATFORM • LEARN. BUILD. GROW.</span>
+          {/* Top Badge: Modern status pill */}
+          <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-medium mb-6 sm:mb-8 shadow-xs">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600 dark:bg-blue-400"></span>
+            </span>
+            <span className="font-semibold">Virtual Developer Internships</span>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <span className="text-slate-600 dark:text-slate-300 font-normal">Remote & Self-Paced</span>
           </div>
 
           {/* Clean Heading with Serif Accent */}
@@ -680,7 +685,7 @@ export function Home() {
 
           {/* Subtitle */}
           <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal px-2">
-            Welcome to the official website of <span className="font-semibold text-slate-800 dark:text-slate-100">Geek Intern</span> (geekintern.com). Bridge the gap between academic learning and real-world experience with verified virtual internships and industry-standard credentials.
+            Build production-grade projects, collaborate on real GitHub repositories, and earn verifiable completion credentials recognized for university credits and tech hiring.
           </p>
 
           {/* CTAs */}
