@@ -442,7 +442,7 @@ export function WebPortfolio() {
                 How Our Learners Build Industry-Grade Software
               </h2>
               <p className="text-slate-600 text-sm mt-2">
-                We eliminate boilerplate fluff and provide direct exposure to production engineering requirements.
+                We focus on hands-on development and real production engineering requirements.
               </p>
             </div>
 
