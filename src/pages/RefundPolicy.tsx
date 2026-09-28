@@ -62,7 +62,7 @@ export default function RefundPolicy() {
           <p className="text-white/75 text-sm">Last updated: {LAST_UPDATED}</p>
           <p className="text-white/65 text-sm mt-2 max-w-2xl">
             We want to be completely transparent about our refund policy. Please read this carefully before
-            making a payment on the Intership platform.
+            making any payment on the Geek Intern platform.
           </p>
         </div>
       </section>
@@ -112,7 +112,7 @@ export default function RefundPolicy() {
             variant="default"
           >
             <p>
-              <strong>No.</strong> Application fees paid on the Intership platform are{" "}
+              <strong>No.</strong> Any fees paid on the Geek Intern platform are{" "}
               <strong>non-refundable</strong> once payment has been successfully confirmed and your application has
               been submitted.
             </p>
@@ -285,7 +285,7 @@ export default function RefundPolicy() {
             </Button>
           </div>
           <p className="text-xs text-gray-400 mt-4">
-            By using Intership, you agree to our{" "}
+            By using Geek Intern, you agree to our{" "}
             <Link to="/terms" className="text-[#0D9488] underline">Terms and Conditions</Link> and this Refund Policy.
           </p>
         </div>

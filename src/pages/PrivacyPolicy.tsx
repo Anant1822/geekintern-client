@@ -80,7 +80,7 @@ export default function PrivacyPolicy() {
           {/* Main Content */}
           <main className="flex-1 min-w-0">
             <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-8 text-sm text-blue-800">
-              This Privacy Policy explains how Intership Technologies Private Limited collects, uses, and protects
+              This Privacy Policy explains how Geek Intern collects, uses, and protects
               your personal information when you use our platform. We are committed to protecting your privacy
               in accordance with the Information Technology (Amendment) Act, 2008 and applicable data protection principles.
             </div>
@@ -145,7 +145,7 @@ export default function PrivacyPolicy() {
                 </li>
                 <li>
                   <strong>Legal Requirements:</strong> We may disclose information if required by law, court order, or
-                  government authority, or to protect the rights, property, or safety of Intership, our users, or the public.
+                  government authority, or to protect the rights, property, or safety of Geek Intern, our users, or the public.
                 </li>
               </ul>
             </SectionBlock>
@@ -223,7 +223,7 @@ export default function PrivacyPolicy() {
 
             <SectionBlock id="children" title="8. Children's Privacy">
               <p>
-                The Intership Platform is intended for college students who are 18 years of age or older. We do not
+                The Geek Intern Platform is intended for college students who are 18 years of age or older. We do not
                 knowingly collect personal information from individuals under 18 without verifiable parental or guardian consent.
               </p>
               <p>
