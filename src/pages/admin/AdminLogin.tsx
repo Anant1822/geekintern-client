@@ -156,7 +156,7 @@ export default function AdminLogin() {
                 id="email"
                 type="email"
                 autoComplete="email"
-                placeholder="admin@intership.in"
+                placeholder="admin@geekintern.com"
                 {...register('email')}
                 className={cn(
                   'bg-white/10 border-white/20 text-white placeholder:text-white/35 focus:border-brand-teal focus:ring-brand-teal/30',

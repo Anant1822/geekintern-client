@@ -687,7 +687,7 @@ export default function AdminSettings() {
                       {...formSettingsForm.register('whatsapp_share_text')}
                       rows={5}
                       className="mt-1.5 font-mono text-xs"
-                      placeholder="Hey! Apply for internships at Intership → {FORM_URL}"
+                      placeholder="Hey! Apply for internships at Geek Intern → {FORM_URL}"
                     />
                     <p className="text-xs text-muted-foreground mt-1">
                       Use <code className="bg-gray-100 px-1 rounded">{'{FORM_URL}'}</code> as placeholder — it will be replaced with the Google Form URL.
