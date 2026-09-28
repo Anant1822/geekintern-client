@@ -83,15 +83,15 @@ export default function TermsAndConditions() {
           {/* Main Content */}
           <main className="flex-1 min-w-0">
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-sm text-amber-800">
-              Please read these Terms and Conditions carefully before using the Intership platform.
+              Please read these Terms and Conditions carefully before using the Geek Intern platform.
               By accessing or using our services, you agree to be bound by these terms.
             </div>
 
             <SectionBlock id="acceptance" title="1. Acceptance of Terms">
               <p>
                 These Terms and Conditions ("Terms") constitute a legally binding agreement between you ("User", "you", or "your")
-                and Intership Technologies Private Limited ("Intership", "we", "us", or "our"), governing your access to and use
-                of the Intership platform available at <strong>www.intership.in</strong> and related mobile or web applications
+                and Geek Intern Technologies ("Geek Intern", "we", "us", or "our"), governing your access to and use
+                of the Geek Intern platform available at <strong>geekintern.com</strong> and related mobile or web applications
                 (collectively, the "Platform").
               </p>
               <p>
@@ -107,34 +107,31 @@ export default function TermsAndConditions() {
 
             <SectionBlock id="service" title="2. Description of Service">
               <p>
-                Intership is an online intermediary platform that connects college students ("Applicants") with companies and
-                organisations offering internship opportunities ("Internship Providers"). We facilitate the discovery, application,
-                and tracking of internships in various domains across India.
+                Geek Intern is an online developer learning and internship platform that provides college students ("Applicants")
+                with hands-on software development projects, technical milestones, and verifiable credentials.
               </p>
               <p>
-                <strong>Intership is an intermediary platform only.</strong> We do not employ students, we do not guarantee
-                internship placement or selection, and we are not a party to any agreement between an Applicant and an
-                Internship Provider. Our role is limited to facilitating introductions and managing the application process.
+                <strong>Geek Intern is an educational and internship platform.</strong> We do not guarantee employment, job offers,
+                or external company placements. Our role is to provide real-world project tasks, milestone verification, and career tools.
               </p>
               <p>
-                We verify internship listings for basic authenticity before publishing them on the Platform; however, this
-                verification does not constitute an endorsement of any Internship Provider or a guarantee of the quality,
-                duration, stipend, or outcome of any internship.
+                We maintain quality standards for all project tracks and submissions published on the Platform to ensure authentic
+                developer learning and portfolio value.
               </p>
             </SectionBlock>
 
             <SectionBlock id="eligibility" title="3. Eligibility">
               <p>
-                To use the Intership Platform as a student applicant, you must:
+                To use the Geek Intern Platform as a student applicant, you must:
               </p>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Be enrolled in an accredited college or university in India as a full-time or part-time student;</li>
+                <li>Be enrolled in an accredited college or university as a student or a recent graduate;</li>
                 <li>Be at least 18 years of age, or have obtained verifiable parental or guardian consent if you are below 18;</li>
                 <li>Provide accurate, current, and complete information during registration;</li>
                 <li>Not be barred from using our services under applicable laws.</li>
               </ul>
               <p>
-                Intership reserves the right to verify your eligibility at any time and to suspend or terminate accounts where
+                Geek Intern reserves the right to verify your eligibility at any time and to suspend or terminate accounts where
                 eligibility cannot be confirmed.
               </p>
             </SectionBlock>
@@ -151,45 +148,39 @@ export default function TermsAndConditions() {
               </ul>
               <p>
                 You may not share your account credentials with any third party. Each individual must maintain a separate
-                account. Intership shall not be liable for any loss or damage arising from your failure to maintain the security
+                account. Geek Intern shall not be liable for any loss or damage arising from your failure to maintain the security
                 of your account.
               </p>
               <p>
-                Intership reserves the right to disable or delete accounts found to be in violation of these Terms, used
+                Geek Intern reserves the right to disable or delete accounts found to be in violation of these Terms, used
                 fraudulently, or inactive for an extended period.
               </p>
             </SectionBlock>
 
-            <SectionBlock id="fees" title="5. Application Fees">
+            <SectionBlock id="fees" title="5. Application Fees & Access">
               <p>
-                Intership charges a small, one-time, non-refundable application processing fee per internship application.
-                The applicable fee depends on the category of internship:
+                Applications to Geek Intern virtual internship programs and task tracks are free of cost.
               </p>
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 my-3">
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div className="font-semibold text-gray-800">Internship Category</div>
                   <div className="font-semibold text-gray-800">Application Fee</div>
-                  <div className="text-gray-600">Standard Internships</div>
-                  <div className="text-gray-600 font-medium text-[#1E3A5F]">₹100 per application</div>
-                  <div className="text-gray-600">Core Engineering Internships</div>
-                  <div className="text-gray-600 font-medium text-[#1E3A5F]">₹150 per application</div>
+                  <div className="text-gray-600">Standard Virtual Internships</div>
+                  <div className="text-emerald-600 font-semibold">Free (₹0)</div>
+                  <div className="text-gray-600">Core Engineering Tracks</div>
+                  <div className="text-emerald-600 font-semibold">Free (₹0)</div>
                 </div>
               </div>
               <p>
-                Application fees are charged at the time of submission and are <strong>non-refundable</strong> once the payment
-                is confirmed, except as set out in our Refund Policy. The fee covers the cost of processing your application,
-                verifying your documents, and communicating your profile to the Internship Provider.
-              </p>
-              <p>
-                Payment of the application fee does not guarantee selection, interview, or any form of placement. Intership
-                does not retain any additional charges beyond the stated application fee for the internship application process.
+                Applying for an internship does not guarantee selection, interview, or any form of placement. Geek Intern
+                does not charge any hidden fees for standard internship applications.
               </p>
             </SectionBlock>
 
             <SectionBlock id="payments" title="6. Payments and Billing">
               <p>
                 All payments on the Platform are processed through secure third-party payment gateways (such as Razorpay or
-                equivalent) that comply with PCI-DSS standards. Intership does not store your payment card details on its servers.
+                equivalent) that comply with PCI-DSS standards. Geek Intern does not store your payment card details on its servers.
               </p>
               <p>
                 All fees are quoted and charged in Indian Rupees (INR) inclusive of applicable taxes, including Goods and
@@ -205,35 +196,35 @@ export default function TermsAndConditions() {
 
             <SectionBlock id="listings" title="7. Internship Listings">
               <p>
-                Internship listings published on the Platform are provided by Internship Providers. Intership conducts
-                reasonable due diligence to verify the authenticity of Internship Providers and their listings; however,
+                Internship listings published on the Platform are provided by Internship Providers or Geek Intern tracks. Geek Intern conducts
+                reasonable due diligence to verify the authenticity of project tracks and listings; however,
                 we do not warrant, represent, or guarantee:
               </p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>The accuracy, completeness, or currency of any internship description;</li>
                 <li>That any internship will remain available or unfilled at the time of your application;</li>
-                <li>That you will be shortlisted, interviewed, or selected for any internship;</li>
-                <li>The quality, duration, or outcome of any internship experience;</li>
+                <li>That you will be shortlisted, interviewed, or selected for any external internship;</li>
+                <li>The quality, duration, or outcome of any external internship experience;</li>
                 <li>That any stipend mentioned will be paid as described.</li>
               </ul>
               <p>
-                All selection decisions are made solely by the Internship Provider. Intership has no influence over and
-                accepts no responsibility for selection or rejection decisions.
+                All external selection decisions are made solely by the Internship Provider. Geek Intern has no influence over and
+                accepts no responsibility for selection or rejection decisions by third parties.
               </p>
             </SectionBlock>
 
             <SectionBlock id="certificates" title="8. Certificates">
               <p>
-                Upon successful completion of an internship, Intership may issue a digital internship completion certificate
+                Upon successful completion of an internship, Geek Intern may issue a digital internship completion certificate
                 on behalf of or in partnership with the Internship Provider. The issuance of certificates is subject to:
               </p>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Confirmation of satisfactory completion from the Internship Provider;</li>
+                <li>Confirmation of satisfactory completion and milestone submission;</li>
                 <li>Submission of any required completion documentation by the student;</li>
                 <li>The student's account being in good standing.</li>
               </ul>
               <p>
-                Intership is not responsible for delays in certificate issuance caused by Internship Providers failing to
+                Geek Intern is not responsible for delays in certificate issuance caused by external providers failing to
                 confirm completion. Students who believe their certificate has been unreasonably delayed may contact us at{" "}
                 <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>.
                 Certificates issued through the Platform are digital only; physical certificates are not provided.
@@ -257,7 +248,7 @@ export default function TermsAndConditions() {
             <SectionBlock id="ip" title="10. Intellectual Property">
               <p>
                 All content on the Platform, including text, graphics, logos, icons, images, software, and compilations,
-                is the property of Intership or its content suppliers and is protected by Indian and international copyright
+                is the property of Geek Intern or its content suppliers and is protected by Indian and international copyright
                 and intellectual property laws.
               </p>
               <p>
@@ -268,7 +259,7 @@ export default function TermsAndConditions() {
 
             <SectionBlock id="liability" title="11. Limitation of Liability">
               <p>
-                To the maximum extent permitted by applicable law, Intership, its directors, employees, and agents shall
+                To the maximum extent permitted by applicable law, Geek Intern, its directors, employees, and agents shall
                 not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of
                 profits, data, or goodwill, arising out of:
               </p>
@@ -279,7 +270,7 @@ export default function TermsAndConditions() {
                 <li>Unauthorised access, use, or alteration of your transmissions or content.</li>
               </ul>
               <p>
-                In no event shall Intership's aggregate liability exceed the amount paid by you to Intership in the twelve
+                In no event shall Geek Intern's aggregate liability exceed the amount paid by you to Geek Intern in the twelve
                 (12) months preceding the claim.
               </p>
             </SectionBlock>
