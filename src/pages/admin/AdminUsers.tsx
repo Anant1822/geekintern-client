@@ -1032,7 +1032,7 @@ export default function AdminUsers() {
 
                 <div className="flex items-center gap-2">
                   <Button asChild size="sm" variant="outline" className="text-xs gap-1.5 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300">
-                    <a href={`mailto:${selected.email}?subject=Intership Update - ${encodeURIComponent(selected.internship_title || 'Internship')}`}>
+                    <a href={`mailto:${selected.email}?subject=Geek Intern Update - ${encodeURIComponent(selected.internship_title || 'Internship')}`}>
                       <Mail className="h-3.5 w-3.5" /> Email Student
                     </a>
                   </Button>

@@ -862,7 +862,7 @@ export default function AdminSettings() {
                 type="email"
                 value={newAdminEmail}
                 onChange={(e) => setNewAdminEmail(e.target.value)}
-                placeholder="admin@intership.in"
+                placeholder="admin@geekintern.com"
                 className="mt-1.5"
                 required
               />
