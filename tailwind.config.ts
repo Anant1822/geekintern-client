@@ -53,18 +53,6 @@ const config: Config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        gkk: {
-          bg: '#0a0a0f',
-          surface: '#12121e',
-          elevated: '#1a1a2e',
-          primary: '#f0efe9',
-          muted: 'rgba(240, 239, 233, 0.6)',
-          faint: 'rgba(240, 239, 233, 0.3)',
-          border: 'rgba(255, 255, 255, 0.08)',
-          accent: '#2c2cf3',
-          glow: '#06e4f9',
-          emerald: '#22c55e',
-        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -72,17 +60,12 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['"Space Grotesk"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
-        display: ['Syne', '"Space Grotesk"', 'sans-serif'],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
         'card': '0 2px 8px 0 rgba(30, 58, 95, 0.08)',
         'card-hover': '0 8px 24px 0 rgba(30, 58, 95, 0.14)',
         'nav': '0 1px 3px 0 rgba(30, 58, 95, 0.1)',
-        'cyber-cyan': '0 0 25px -5px rgba(6, 228, 249, 0.4)',
-        'cyber-accent': '0 0 30px -5px rgba(44, 44, 243, 0.5)',
-        'cyber-emerald': '0 0 20px -3px rgba(34, 197, 94, 0.4)',
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',

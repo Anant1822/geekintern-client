@@ -1,947 +1,1603 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import React, { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import {
   ArrowRight,
-  ArrowUpRight,
   CheckCircle2,
+  Star,
+  ShieldCheck,
+  Award,
+  Layers,
+  Sparkles,
+  Code2,
+  Terminal,
+  Cpu,
+  Globe,
+  Database,
+  Smartphone,
+  ChevronRight,
+  FileText,
+  TrendingUp,
+  BrainCircuit,
+  Bot,
+  UserCheck,
+  MailCheck,
+  GitBranch,
+  BadgeCheck,
+  Zap,
+  Briefcase,
+  Users,
+  Compass,
   Check,
-  Send,
+  Server,
+  Cloud,
+  BarChart3,
+  Wrench,
+  BatteryCharging,
+  Network,
+  CircuitBoard,
+  Gauge,
+  Building2,
+  Palette,
+  X,
+  QrCode,
+  MessageCircle,
+  HelpCircle,
+  Mail,
+  MessageSquare,
 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
-import { SectionCanvas } from '@/components/common/SectionCanvas'
-import { AlumniFloatingWidget } from '@/components/common/AlumniFloatingWidget'
 
-// ==========================================
-// 1. DATA DEFINITIONS (EXACT GKK MIRROR)
-// ==========================================
-
-const LEFT_NAV_ITEMS = [
-  { name: 'Home', desc: 'Main Page', targetId: 'hero-section' },
-  { name: 'About', desc: 'Our Mission', targetId: 'about-section' },
-  { name: 'Curriculum', desc: 'What We Do', targetId: 'services-section' },
-  { name: 'Alumni', desc: 'Past Interns', targetId: 'alumni-section' },
-  { name: 'Blog', desc: 'Dev Insights', path: '/blog' },
+const STATS = [
+  { target: 80000, decimals: 0, suffix: '+', label: 'Students Joined', sub: 'Across 500+ colleges' },
+  { target: 6500, decimals: 0, suffix: '+', label: 'Certificates Issued', sub: 'Independently verified credentials' },
+  { target: 750, decimals: 0, suffix: '+', label: 'Clients', sub: 'Corporate & startup partners' },
+  { target: 250, decimals: 0, suffix: '+', label: 'Teams', sub: 'Active engineering project squads' },
 ]
 
-const RIGHT_NAV_ITEMS = [
-  { name: 'Apply', desc: 'Join Cohort 2026', path: '/apply' },
-  { name: 'Verify', desc: 'Recruiter CID Portal', path: '/verify' },
-  { name: 'Career Tools', desc: 'AI Resume & Portfolio', path: '/resume-builder' },
-  { name: 'Contact', desc: 'Get In Touch', targetId: 'contact-section' },
-  { name: 'Guidelines', desc: 'Rules & Rubrics', path: '/guidelines' },
+function AnimatedStat({
+  target,
+  decimals = 0,
+  suffix = '',
+  duration = 1800,
+}: {
+  target: number
+  decimals?: number
+  suffix?: string
+  duration?: number
+}) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLDivElement>(null)
+  const [hasStarted, setHasStarted] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          setHasStarted(true)
+        }
+      },
+      { threshold: 0.3 }
+    )
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [hasStarted])
+
+  useEffect(() => {
+    if (!hasStarted) return
+    const frameRate = 1000 / 60
+    const totalFrames = Math.round(duration / frameRate)
+    let frame = 0
+
+    const timer = setInterval(() => {
+      frame++
+      // easeOutExpo function for smooth counting
+      const progress = 1 - Math.pow(2, -10 * (frame / totalFrames))
+      const currentVal = target * Math.min(progress, 1)
+
+      if (frame >= totalFrames) {
+        setCount(target)
+        clearInterval(timer)
+      } else {
+        setCount(currentVal)
+      }
+    }, frameRate)
+
+    return () => clearInterval(timer)
+  }, [hasStarted, target, duration])
+
+  const formattedValue =
+    decimals > 0
+      ? count.toFixed(decimals)
+      : Math.floor(count).toLocaleString('en-US')
+
+  return (
+    <div ref={ref} className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+      {formattedValue}
+      {suffix}
+    </div>
+  )
+}
+
+const PROGRESSION_COMPANIES = [
+  { name: 'Google', domain: 'Cloud & Web' },
+  { name: 'Microsoft', domain: 'Full Stack' },
+  { name: 'Amazon', domain: 'AWS & DevOps' },
+  { name: 'TCS', domain: 'Enterprise Software' },
+  { name: 'Infosys', domain: 'AI & Data' },
+  { name: 'Wipro', domain: 'Cloud Infra' },
+  { name: 'Accenture', domain: 'Digital Engineering' },
+  { name: 'Cognizant', domain: 'Systems Engineering' },
+  { name: 'Capgemini', domain: 'Mobile & Cloud' },
+  { name: 'IBM', domain: 'AI & Security' },
+  { name: 'Oracle', domain: 'Database & Java' },
+  { name: 'Deloitte', domain: 'Data Analytics' },
 ]
 
-const MARQUEE_ITEMS = [
-  'Web Development',
-  '·',
-  'UI/UX Design',
-  '·',
-  'Full Stack Engineering',
-  '·',
-  'App Development',
-  '·',
-  'Generative AI & LLMs',
-  '·',
+const CATEGORY_TABS = [
+  'All Programs',
+  'Software & Web',
+  'AI & Data',
   'Cloud & DevOps',
-  '·',
-  'Data Engineering',
-  '·',
-  'Cybersecurity',
-  '·',
-  'Software Internships',
-  '·',
-  'Design Internships',
-  '·',
-  'Marketing Internships',
-  '·',
+  'Design & Creative',
+  'Core Engineering',
+  'Embedded & IoT',
 ]
 
-const BENTO_CARDS = [
+const DOMAIN_PROGRAMS = [
+  // 1. Web & Software Engineering
   {
-    title: 'Why Geek Interns Exists',
-    text: 'Geek Interns was built to close the gap between classroom theory and industry execution. This is a do-first ecosystem where interns ship real features, contribute to active products, and graduate with proof of work, not just certificates.',
+    title: 'Frontend Development',
+    category: 'Software & Web',
+    description: 'Build responsive, modern web interfaces using HTML5, CSS3, modern JavaScript (ES6+), and React.js.',
+    badge: 'Popular',
+    icon: Globe,
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-100',
   },
   {
-    title: 'How We Train',
-    text: 'We blend structure with creative freedom. Interns work inside design-forward product environments, guided by mentors through practical workflows: planning, coding, reviews, deployment, and iteration.',
+    title: 'Backend Development',
+    category: 'Software & Web',
+    description: 'Design robust server architectures, RESTful APIs, JWT authentication, and relational schemas with Node.js and Express.',
+    badge: 'In Demand',
+    icon: Server,
+    color: 'text-emerald-600',
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-100',
   },
   {
-    title: 'What You Build',
-    text: 'You build production-grade apps, UI systems, automation logic, and data-driven features across full-stack development, AI, UX, and cloud. Every task is selected to grow both technical depth and product thinking.',
+    title: 'Full Stack Development',
+    category: 'Software & Web',
+    description: 'Master end-to-end applications by uniting React frontends with PostgreSQL, REST APIs, and Node backends.',
+    badge: 'Comprehensive',
+    icon: Code2,
+    color: 'text-indigo-600',
+    bg: 'bg-indigo-50',
+    border: 'border-indigo-100',
   },
   {
-    title: 'Career Outcome',
-    text: 'By the end of the residency, you gain technical confidence, collaboration habits, and a portfolio mapped to modern hiring expectations. You learn how teams actually ship software in real timelines.',
+    title: 'Web Development',
+    category: 'Software & Web',
+    description: 'Create interactive websites, dynamic landing pages, and responsive portals using web design fundamentals.',
+    badge: 'Foundational',
+    icon: Globe,
+    color: 'text-sky-600',
+    bg: 'bg-sky-50',
+    border: 'border-sky-100',
   },
   {
-    title: 'Our Mission & Venture',
-    text: 'We are committed to building a high-standard community of engineers and creators who value craft, discipline, and impact. A GKK & Bubblesort Venture where ambitious learners transform into industry-ready builders.',
+    title: 'Android App Development',
+    category: 'Software & Web',
+    description: 'Engineer native mobile applications for Android with Kotlin, Jetpack Compose, state management, and REST integrations.',
+    badge: 'Mobile',
+    icon: Smartphone,
+    color: 'text-green-600',
+    bg: 'bg-green-50',
+    border: 'border-green-100',
+  },
+  {
+    title: 'Python Programming',
+    category: 'Software & Web',
+    description: 'Write clean, modular code for algorithmic problems, backends, automation scripts, and file processing systems.',
+    badge: 'Versatile',
+    icon: Terminal,
+    color: 'text-amber-600',
+    bg: 'bg-amber-50',
+    border: 'border-amber-100',
+  },
+  {
+    title: 'Java Programming',
+    category: 'Software & Web',
+    description: 'Learn enterprise software development, object-oriented design patterns, multithreading, and scalable backend structures.',
+    badge: 'Enterprise',
+    icon: Cpu,
+    color: 'text-orange-600',
+    bg: 'bg-orange-50',
+    border: 'border-orange-100',
+  },
+  {
+    title: 'C++ Programming',
+    category: 'Software & Web',
+    description: 'Build high-performance applications, low-latency system software, and data structures using modern C++ and STL.',
+    badge: 'Systems',
+    icon: Terminal,
+    color: 'text-slate-700',
+    bg: 'bg-slate-100',
+    border: 'border-slate-200',
+  },
+  {
+    title: 'C Programming',
+    category: 'Software & Web',
+    description: 'Master pointers, memory management, algorithmic problem solving, and low-level computing architectures.',
+    badge: 'Core Tech',
+    icon: Terminal,
+    color: 'text-blue-700',
+    bg: 'bg-blue-50',
+    border: 'border-blue-100',
+  },
+  {
+    title: 'Blockchain Development',
+    category: 'Software & Web',
+    description: 'Build decentralized applications (dApps), cryptographic protocols, and Solidity smart contracts on EVM networks.',
+    badge: 'Web3',
+    icon: Code2,
+    color: 'text-violet-600',
+    bg: 'bg-violet-50',
+    border: 'border-violet-100',
+  },
+
+  // 2. AI, Machine Learning & Data
+  {
+    title: 'Artificial Intelligence',
+    category: 'AI & Data',
+    description: 'Develop intelligent systems capable of natural language processing, LLM agent workflows, and cognitive reasoning.',
+    badge: 'Cutting Edge',
+    icon: BrainCircuit,
+    color: 'text-purple-600',
+    bg: 'bg-purple-50',
+    border: 'border-purple-100',
+  },
+  {
+    title: 'Machine Learning',
+    category: 'AI & Data',
+    description: 'Train predictive models, implement neural networks, tune hyperparameters, and solve classification challenges.',
+    badge: 'High Impact',
+    icon: Bot,
+    color: 'text-cyan-600',
+    bg: 'bg-cyan-50',
+    border: 'border-cyan-100',
+  },
+  {
+    title: 'Data Science',
+    category: 'AI & Data',
+    description: 'Extract actionable insights from complex datasets using statistical modeling, Pandas, NumPy, and Scikit-Learn.',
+    badge: 'Analytics',
+    icon: TrendingUp,
+    color: 'text-teal-600',
+    bg: 'bg-teal-50',
+    border: 'border-teal-100',
+  },
+  {
+    title: 'Data Analytics',
+    category: 'AI & Data',
+    description: 'Perform exploratory data analysis, clean structured datasets, run SQL queries, and generate analytical executive summaries.',
+    badge: 'Business Tech',
+    icon: BarChart3,
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-100',
+  },
+  {
+    title: 'Power BI',
+    category: 'AI & Data',
+    description: 'Build interactive executive business dashboards, DAX queries, and KPI reports for enterprise business intelligence.',
+    badge: 'BI Suite',
+    icon: BarChart3,
+    color: 'text-yellow-600',
+    bg: 'bg-yellow-50',
+    border: 'border-yellow-100',
+  },
+
+  // 3. Cloud, DevOps & Security
+  {
+    title: 'Cloud Computing',
+    category: 'Cloud & DevOps',
+    description: 'Architect scalable cloud environments, virtual instances, serverless computing, and distributed storage systems.',
+    badge: 'Cloud Infra',
+    icon: Cloud,
+    color: 'text-sky-600',
+    bg: 'bg-sky-50',
+    border: 'border-sky-100',
+  },
+  {
+    title: 'AWS Cloud',
+    category: 'Cloud & DevOps',
+    description: 'Deploy resilient cloud architectures with AWS EC2, S3, IAM security roles, Lambda functions, and RDS databases.',
+    badge: 'AWS Certified',
+    icon: Cloud,
+    color: 'text-orange-600',
+    bg: 'bg-orange-50',
+    border: 'border-orange-100',
+  },
+  {
+    title: 'DevOps',
+    category: 'Cloud & DevOps',
+    description: 'Automate CI/CD pipelines, Docker containerization, Kubernetes clustering, and infrastructure monitoring.',
+    badge: 'Automation',
+    icon: Sparkles,
+    color: 'text-indigo-600',
+    bg: 'bg-indigo-50',
+    border: 'border-indigo-100',
+  },
+  {
+    title: 'Cyber Security',
+    category: 'Cloud & DevOps',
+    description: 'Protect web applications and infrastructure through vulnerability assessment, network defense, and penetration testing.',
+    badge: 'Security',
+    icon: ShieldCheck,
+    color: 'text-rose-600',
+    bg: 'bg-rose-50',
+    border: 'border-rose-100',
+  },
+
+  // 4. Design & Creative
+  {
+    title: 'UI/UX Design',
+    category: 'Design & Creative',
+    description: 'Craft intuitive user experiences, interactive prototypes, design systems, and mobile wireframes using modern Figma.',
+    badge: 'Creative',
+    icon: Layers,
+    color: 'text-pink-600',
+    bg: 'bg-pink-50',
+    border: 'border-pink-100',
+  },
+  {
+    title: 'Graphic Designing',
+    category: 'Design & Creative',
+    description: 'Create compelling visual assets, digital branding, marketing graphics, vector illustrations, and typography compositions.',
+    badge: 'Visual Arts',
+    icon: Palette,
+    color: 'text-purple-600',
+    bg: 'bg-purple-50',
+    border: 'border-purple-100',
+  },
+
+  // 5. Core Engineering & Simulation
+  {
+    title: 'Civil Engineering & Structural Design',
+    category: 'Core Engineering',
+    description: 'Analyze structural loads, foundation designs, concrete modeling, and civil architectural drawings.',
+    badge: 'Civil Eng',
+    icon: Building2,
+    color: 'text-emerald-700',
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-100',
+  },
+  {
+    title: 'Mechanical Design & Simulation',
+    category: 'Core Engineering',
+    description: 'Model mechanical assemblies, stress analyses, thermal simulations, and kinematic mechanisms for fabrication.',
+    badge: 'Mechanical',
+    icon: Wrench,
+    color: 'text-slate-700',
+    bg: 'bg-slate-100',
+    border: 'border-slate-200',
+  },
+  {
+    title: 'AutoCAD',
+    category: 'Core Engineering',
+    description: 'Generate precision 2D drafting schematics and 3D architectural/mechanical layouts to industrial drafting standards.',
+    badge: 'Drafting',
+    icon: Layers,
+    color: 'text-red-600',
+    bg: 'bg-red-50',
+    border: 'border-red-100',
+  },
+  {
+    title: 'MATLAB',
+    category: 'Core Engineering',
+    description: 'Implement mathematical matrix computations, dynamic signal processing, and control system simulations.',
+    badge: 'Scientific',
+    icon: Gauge,
+    color: 'text-amber-700',
+    bg: 'bg-amber-50',
+    border: 'border-amber-100',
+  },
+  {
+    title: 'Electric Vehicle Technology (EV)',
+    category: 'Core Engineering',
+    description: 'Explore battery management systems (BMS), electric powertrains, regenerative braking, and EV charging architectures.',
+    badge: 'Future Tech',
+    icon: BatteryCharging,
+    color: 'text-emerald-600',
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-100',
+  },
+
+  // 6. Embedded Systems, Hardware & IoT
+  {
+    title: 'VLSI Design',
+    category: 'Embedded & IoT',
+    description: 'Design digital logic circuits, Verilog/VHDL hardware architectures, FPGA synthesis, and semiconductor layout verification.',
+    badge: 'Semiconductor',
+    icon: Cpu,
+    color: 'text-purple-700',
+    bg: 'bg-purple-50',
+    border: 'border-purple-100',
+  },
+  {
+    title: 'Embedded Systems & IoT',
+    category: 'Embedded & IoT',
+    description: 'Interface microcontrollers with sensors, wireless telemetry protocols, and cloud IoT dashboards.',
+    badge: 'Embedded',
+    icon: Network,
+    color: 'text-cyan-600',
+    bg: 'bg-cyan-50',
+    border: 'border-cyan-100',
+  },
+  {
+    title: 'Embedded Systems with Arduino',
+    category: 'Embedded & IoT',
+    description: 'Build real embedded prototypes with C++, Arduino boards, PWM motor drivers, LCDs, and environmental sensors.',
+    badge: 'Hardware',
+    icon: CircuitBoard,
+    color: 'text-teal-600',
+    bg: 'bg-teal-50',
+    border: 'border-teal-100',
+  },
+  {
+    title: 'IoT Fundamentals',
+    category: 'Embedded & IoT',
+    description: 'Learn connected sensor architectures, MQTT/HTTP protocols, edge device communications, and cloud data collection.',
+    badge: 'Connected',
+    icon: Network,
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-100',
+  },
+  {
+    title: 'PLC & SCADA',
+    category: 'Embedded & IoT',
+    description: 'Program industrial automation ladder logic, PLC hardware interfacing, and SCADA supervisory control screens.',
+    badge: 'Automation',
+    icon: Gauge,
+    color: 'text-amber-600',
+    bg: 'bg-amber-50',
+    border: 'border-amber-100',
+  },
+  {
+    title: 'PCB Design',
+    category: 'Embedded & IoT',
+    description: 'Create multi-layer circuit schematics, component footprints, routing topologies, and Gerber files using EDA software.',
+    badge: 'Electronics',
+    icon: CircuitBoard,
+    color: 'text-indigo-600',
+    bg: 'bg-indigo-50',
+    border: 'border-indigo-100',
   },
 ]
 
-const CURRICULUM_TRACKS = [
+const JOURNEY_STEPS = [
   {
-    id: '01',
-    title: 'PROMPT ENGINEERING & LLMs',
-    description: 'Master AI prompt design, LLM workflows, fine-tuning techniques, and autonomous AI-driven automation systems.',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop',
-    domain: 'Generative AI & LLM Systems',
+    step: '01',
+    word: 'Apply',
+    tagline: 'Instant Registration',
+    icon: UserCheck,
+    quote: '“Every great career begins with a single decisive step.”',
+    detail: 'Choose your desired specialization from 32+ tech tracks and submit your details in under 2 minutes with no gatekeeping.',
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
   },
   {
-    id: '02',
-    title: 'FULL STACK WEB DEVELOPMENT',
-    description: 'Build complete web applications from frontend to backend. Master React 19, Node.js, relational databases, and deployment pipelines.',
-    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=800&auto=format&fit=crop',
-    domain: 'Full Stack Development',
+    step: '02',
+    word: 'Onboard',
+    tagline: 'Offer & Task Dossier',
+    icon: MailCheck,
+    quote: '“Clarity precedes mastery. Know what to build and why.”',
+    detail: 'Receive your verified digital Offer Letter alongside curated real-world problem statements, GitHub starter templates, and milestone rubrics within 24 hours.',
+    color: 'text-cyan-600',
+    bg: 'bg-cyan-50',
+    border: 'border-cyan-200',
   },
   {
-    id: '03',
-    title: 'APP DEVELOPMENT',
-    description: 'Create cross-platform mobile apps with React Native and Flutter. Ship to both iOS App Store and Google Play Store.',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop',
-    domain: 'Android App Development',
+    step: '03',
+    word: 'Build',
+    tagline: 'Practical Code Work',
+    icon: GitBranch,
+    quote: '“Talk is cheap. Show me the code.”',
+    detail: 'Develop production-ready modules, implement industry best practices, solve real technical constraints, and maintain a clean public Git commit history.',
+    color: 'text-indigo-600',
+    bg: 'bg-indigo-50',
+    border: 'border-indigo-200',
   },
   {
-    id: '04',
-    title: 'UI/UX & DESIGN SYSTEMS',
-    description: 'Design and implement beautiful, accessible interfaces. Learn Figma, design tokens, interaction states, and frontend architecture.',
-    image: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=800&auto=format&fit=crop',
-    domain: 'UI/UX Design',
+    step: '04',
+    word: 'Submit',
+    tagline: 'Review & Evaluation',
+    icon: Code2,
+    quote: '“Excellence is not an act, but a habit of disciplined delivery.”',
+    detail: 'Push your completed code to GitHub, deploy the live demo, record a quick architectural walkthrough, and submit for mentor evaluation.',
+    color: 'text-purple-600',
+    bg: 'bg-purple-50',
+    border: 'border-purple-200',
   },
   {
-    id: '05',
-    title: 'CLOUD & DEVOPS ENGINEERING',
-    description: 'Architect resilient cloud infrastructure on AWS and Cloudflare with Docker, automated CI/CD pipelines, and zero-downtime releases.',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop',
-    domain: 'DevOps',
+    step: '05',
+    word: 'Verify',
+    tagline: 'Tamper-Proof CID',
+    icon: BadgeCheck,
+    quote: '“Authentic work speaks for itself through verifiable proof.”',
+    detail: 'Receive your official Certificate of Completion equipped with a tamper-proof digital Certificate ID (CID) and QR code verifiable by recruiters worldwide.',
+    color: 'text-emerald-600',
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-200',
   },
   {
-    id: '06',
-    title: 'CYBERSECURITY & DEFENSIVE OPS',
-    description: 'Defend web applications through vulnerability auditing, OWASP Top 10 mitigation, penetration testing, and network security.',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800&auto=format&fit=crop',
-    domain: 'Cyber Security',
+    step: '06',
+    word: 'Accelerate',
+    tagline: 'Career & LOR',
+    icon: Award,
+    quote: '“Your portfolio is your ultimate passport to tech opportunities.”',
+    detail: 'Earn formal Letters of Recommendation (LOR), pass ATS resume filters with our AI scanner, and get showcased on the Geek Intern talent directory.',
+    color: 'text-amber-600',
+    bg: 'bg-amber-50',
+    border: 'border-amber-200',
   },
 ]
 
-const ALUMNI_LIST = [
+const CAREER_TOOLS = [
   {
-    id: 'alum-1',
+    title: 'ATS Resume Score Checker',
+    desc: 'Upload or paste your developer resume to benchmark against real job descriptions. Get instant keyword matching and score insights.',
+    tag: 'Free AI Scanner',
+    actionText: 'Scan Resume Free',
+    href: '/ats-checker',
+    icon: CheckCircle2,
+    accent: 'blue',
+  },
+  {
+    title: 'Developer Resume Builder',
+    desc: 'Create clean, recruiter-approved developer resumes tailored for ATS parsers. Includes live side-by-side preview and PDF download.',
+    tag: 'Interactive Builder',
+    actionText: 'Build My Resume',
+    href: '/resume-builder',
+    icon: FileText,
+    accent: 'purple',
+  },
+  {
+    title: 'Portfolio Website Builder',
+    desc: 'Transform your GitHub repositories and projects into an elegant personal developer portfolio ready to share with hiring managers.',
+    tag: 'Portfolio Generator',
+    actionText: 'Create Portfolio',
+    href: '/portfolio-builder',
+    icon: Layers,
+    accent: 'emerald',
+  },
+]
+
+const PORTFOLIO_PREVIEW = [
+  {
+    title: 'Nexus Modern E-Commerce Storefront',
+    category: 'Full Stack Web',
+    type: 'Web',
+    tags: ['React', 'Next.js', 'PostgreSQL', 'Stripe'],
+    image: 'https://images.unsplash.com/photo-1556742049-0a67e55722c0?q=80&w=800&auto=format&fit=crop',
+    link: '/web-portfolio',
+    desc: 'High-conversion headless storefront with real-time cart state, automated inventory sync, and Stripe checkout authorization.',
+  },
+  {
+    title: 'Pulse AI Workflow Automation Platform',
+    category: 'AI & SaaS',
+    type: 'Web',
+    tags: ['Next.js', 'Python', 'FastAPI', 'LangChain'],
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop',
+    link: '/web-portfolio',
+    desc: 'Multi-tenant SaaS application integrating autonomous LLM agents for document extraction, summarization, and reporting.',
+  },
+  {
+    title: 'FinTrack Crypto & Multi-Currency Wallet',
+    category: 'Mobile Application',
+    type: 'App',
+    tags: ['Flutter', 'Dart', 'Firebase', 'Web3'],
+    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=800&auto=format&fit=crop',
+    link: '/app-portfolio',
+    desc: 'High-security decentralized digital wallet with biometric authentication, candlestick feeds, and asset portfolio analytics.',
+  },
+]
+
+const SERVICES_LIST = [
+  {
+    title: 'Web Application Development',
+    desc: 'Custom, high-performance web applications built using Next.js, React, TypeScript, and modern scalable cloud backends.',
+    icon: Globe,
+  },
+  {
+    title: 'Mobile App Engineering',
+    desc: 'Intuitive cross-platform and native iOS/Android applications developed with Flutter and React Native.',
+    icon: Smartphone,
+  },
+  {
+    title: 'Custom AI & Agent Solutions',
+    desc: 'Autonomous agentic workflows, custom LLM integrations, document search (RAG), and data extraction microservices.',
+    icon: BrainCircuit,
+  },
+  {
+    title: 'Cloud DevOps & Infrastructure',
+    desc: 'Resilient cloud infrastructure, automated CI/CD deployment pipelines, Docker containerization, and zero-downtime releases.',
+    icon: Cpu,
+  },
+]
+
+// CHANGED QUOTES as requested by the user: "(makes change in qoutes only)"
+const STUDENT_TESTIMONIALS = [
+  {
     name: 'Aarav Singhania',
     college: 'IIT Roorkee',
     domain: 'Full Stack Web Development',
-    outcome: 'Software Engineer at Google Cloud',
-    quote: 'The hands-on project tasks mirrored real production tickets. Building a full-stack platform with authentication and database schemas made all the difference during my technical interviews.',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop',
+    rating: 5,
+    quote:
+      'The hands-on project tasks mirrored real production tickets. Building a full-stack platform with authentication and database schemas made all the difference during my technical interviews.',
   },
   {
-    id: 'alum-2',
     name: 'Meera Nambiar',
     college: 'BITS Pilani',
     domain: 'Machine Learning & AI',
-    outcome: 'Applied ML Intern at Microsoft',
-    quote: 'The curriculum pushed me to implement neural network architectures from scratch rather than just running pre-made notebooks. Having a verifiable QR certificate helped me secure an off-campus ML internship.',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop',
+    rating: 5,
+    quote:
+      'The curriculum pushed me to implement neural network architectures from scratch rather than just running pre-made notebooks. Having a verifiable QR certificate helped me secure an off-campus ML internship.',
   },
   {
-    id: 'alum-3',
     name: 'Tanmay Deshmukh',
     college: 'COEP Technological University',
     domain: 'Android App Development',
-    outcome: 'Mobile Systems at Amazon',
-    quote: 'The freedom to complete assignments alongside my university semester exams was fantastic. Geek Intern provided clear task guidelines and prompt credential verification upon submission.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop',
-  },
-  {
-    id: 'alum-4',
-    name: 'Priyanshu Sharma',
-    college: 'VIT Vellore',
-    domain: 'Cloud Native & DevOps',
-    outcome: 'Systems Engineer at TCS Digital',
-    quote: 'Deploying Docker containers and writing GitHub Action pipelines to AWS gave me exact production answers for technical rounds.',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop',
+    rating: 5,
+    quote:
+      'The freedom to complete assignments alongside my university semester exams was fantastic. Geek Intern provided clear task guidelines and prompt credential verification upon submission.',
   },
 ]
 
-const COMPARISON_ROWS = [
+const FAQS = [
   {
-    feature: 'Primary Learning Focus',
-    traditional: 'Pre-recorded lectures & multiple choice quizzes',
-    geek: 'Live codebase contributions & real product features',
-    highlight: true,
+    question: 'How do I apply for a Geek Intern Virtual Internship?',
+    answer:
+      'Simply click "Start Your Internship" or "Apply Now" to navigate to our application page. Select your technical domain, provide your basic details, and submit. There are no prerequisite gatekeepings.',
   },
   {
-    feature: 'Project Complexity',
-    traditional: 'Synthetic toy apps (Todo lists, basic calculators)',
-    geek: 'Scalable full-stack apps, AI microservices, cloud deployments',
+    question: 'Is the virtual internship program remote and self-paced?',
+    answer:
+      'Yes, 100% of our internships are conducted remotely. You can comfortably plan your schedule around college coursework, assignments, and exams while meeting weekly project milestones.',
   },
   {
-    feature: 'Mentorship & Reviews',
-    traditional: 'Automated grading scripts or absent mentors',
-    geek: '1-on-1 senior mentor reviews & engineering feedback',
+    question: 'How are the certificates verified by companies and recruiters?',
+    answer:
+      'Each certificate issued by Geek Intern carries a globally unique Certificate ID (CID) and a QR code. Employers can enter this ID into our Certificate Verification portal (/verify) to validate student authenticity, domain, and completion date.',
   },
   {
-    feature: 'Portfolio Verification',
-    traditional: 'Generic completion certificates without hash',
-    geek: 'Verifiable GitHub pull requests & live product links',
-    highlight: true,
+    question: 'What is the duration of the internship programs?',
+    answer:
+      'Internships are typically 4 weeks or 8 weeks in duration, depending on your preferred pace and project complexity. Fast-track options are available for candidates who submit their tasks early.',
   },
   {
-    feature: 'Career Transition',
-    traditional: 'Theoretical knowledge with unverified experience',
-    geek: 'Production-ready engineering habits & direct hiring network referrals',
+    question: 'Can I get a Letter of Recommendation (LOR)?',
+    answer:
+      'Yes. Top-performing interns who submit clean code, comprehensive GitHub README documentation, and timely task solutions receive a formal Letter of Recommendation alongside their verified certificate.',
   },
 ]
-
-const ROADMAP_STEPS = [
-  {
-    number: '01',
-    title: 'Selective Onboarding & Assessment',
-    description: 'Ambition meets evaluation. Candidates complete practical coding benchmarks testing logic, system design awareness, and problem-solving velocity.',
-    tag: 'Step 1: Onboarding',
-  },
-  {
-    number: '02',
-    title: 'Senior Mentor Pairing & Architecture Briefs',
-    description: 'Receive direct mentorship from senior engineers. Define clean architecture, select modern tech stacks, and set up continuous integration pipelines.',
-    tag: 'Step 2: Architecture',
-  },
-  {
-    number: '03',
-    title: 'Production Sprint Execution & Peer Reviews',
-    description: 'Build features against real product requirements. Submit pull requests, undergo detailed code reviews, and refactor for performance and security.',
-    tag: 'Step 3: Execution',
-  },
-  {
-    number: '04',
-    title: 'Live Deployment & Proof-of-Work Verification',
-    description: 'Deploy live software to cloud infrastructure. Graduate with verifiable GitHub contributions, live URLs, and documented impact metrics.',
-    tag: 'Step 4: Deployment',
-  },
-]
-
-const EXPERT_QUOTES = [
-  {
-    quote: "The single biggest issue with modern tech hiring is that resume keywords don't equal software craftsmanship. At Geek Interns, we train engineers to read diffs, debug live services, and explain architectural tradeoffs.",
-    author: 'Engineering Mentorship Lead',
-    role: 'Geek Interns Technical Council',
-    stats: '100+ Production Code Reviews',
-  },
-  {
-    quote: 'AI search engines prioritize real experience and verifiable stats over generic claims. When our interns present their verified GitHub pull requests, recruiters immediately see true technical depth.',
-    author: 'Bubblesort Ecosystem Advisor',
-    role: 'Core Technical Architect',
-    stats: '98.4% Internship Completion Success',
-  },
-]
-
-const FAQ_ITEMS = [
-  {
-    category: 'Program Overview',
-    question: 'What is Geek Interns and how does it optimize career readiness?',
-    answer: 'Geek Interns is an elite software engineering internship ecosystem. Unlike traditional courses, interns write production code, participate in real code reviews, and ship live software to active users, closing the gap between university theory and high-tech hiring expectations.',
-  },
-  {
-    category: 'Learning & Mentorship',
-    question: 'What tech stack and methodologies do Geek interns work with?',
-    answer: 'Interns master modern full-stack development using React, Next.js, Node.js, Python, Supabase, Tailwind CSS, Docker, and Generative AI APIs. Engineering workflows follow real-world Agile sprints, CI/CD automated deployments, and continuous peer code reviews.',
-  },
-  {
-    category: 'Comparison & Value',
-    question: 'How does Geek Interns differ from standard online courses or internships?',
-    answer: 'Standard courses offer canned projects with synthetic data. Geek Interns provides real project repositories, 1-on-1 expert mentor pairing, actual user data handling, production deployment experience, and a verified proof-of-work portfolio.',
-  },
-  {
-    category: 'AI & Search Optimization',
-    question: 'What is Generative Engine Optimization (GEO) & AEO?',
-    answer: 'Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) structure digital content into direct, highly authoritative Q&A formats, step-by-step guides, and data-rich comparisons so AI models easily cite and recommend your engineering portfolio.',
-  },
-  {
-    category: 'Outcomes & Placement',
-    question: 'What career outcomes can I expect after completing a Geek Internship?',
-    answer: "Graduates exit with real production commits, a verifiable GitHub portfolio, strong system design fundamentals, and direct referral opportunities through Geek Interns and GKK's hiring network.",
-  },
-]
-
-// ==========================================
-// 2. REUSABLE FAST 3D FLIP BUTTON (di)
-// ==========================================
-
-function FlipButton({
-  text,
-  onClick,
-  primary = false,
-  orange = false,
-  className = '',
-}: {
-  text: string
-  onClick?: (e: React.MouseEvent) => void
-  primary?: boolean
-  orange?: boolean
-  className?: string
-}) {
-  let bg = 'bg-white text-black'
-  let shadow = ''
-  let border = 'border-white/10'
-
-  if (primary) {
-    bg = 'bg-[#22d87a] text-black'
-    shadow = 'shadow-[0_0_20px_rgba(34,216,122,0.35)]'
-    border = 'border-transparent'
-  } else if (orange) {
-    bg = 'bg-[#f97316] text-white'
-    shadow = 'shadow-[0_0_20px_rgba(249,115,22,0.35)]'
-    border = 'border-transparent'
-  }
-
-  return (
-    <div
-      onClick={onClick}
-      className={`group relative w-full sm:w-auto cursor-pointer select-none ${className}`}
-    >
-      <div
-        className={`relative overflow-hidden ${bg} w-full sm:w-auto px-5 md:px-8 py-3.5 rounded-full uppercase font-black text-[11px] md:text-xs tracking-[0.1em] border ${border} ${shadow} text-center flex items-center justify-center transition-all duration-200 active:scale-95`}
-      >
-        <div className="relative overflow-hidden w-full font-inter h-4 flex items-center justify-center">
-          <div className="transition-transform duration-300 ease-out group-hover:-translate-y-full">
-            {text}
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out translate-y-full group-hover:translate-y-0">
-            {text}
-          </div>
-        </div>
-      </div>
-      <div
-        className={`absolute inset-0 ${
-          primary ? 'bg-[#22d87a]' : orange ? 'bg-[#f97316]' : 'bg-white'
-        } opacity-0 group-hover:opacity-20 blur-xl rounded-full transition-opacity duration-300 pointer-events-none`}
-      />
-    </div>
-  )
-}
-
-function SideNavItem({
-  name,
-  desc,
-  side,
-  onClick,
-}: {
-  name: string
-  desc: string
-  side: 'left' | 'right'
-  onClick: () => void
-}) {
-  return (
-    <div
-      className="group relative py-2.5 cursor-pointer select-none"
-      onClick={onClick}
-    >
-      <div
-        className={`flex items-center gap-3 ${
-          side === 'right' ? 'flex-row-reverse' : 'flex-row'
-        }`}
-      >
-        <div
-          className="h-[3px] w-5 rounded-full bg-white/25 transition-all duration-300 ease-out group-hover:w-12 group-hover:bg-[#22d87a] shrink-0"
-        />
-        <div
-          className={`flex flex-col justify-center ${
-            side === 'right' ? 'items-end' : 'items-start'
-          }`}
-        >
-          <span
-            className={`text-xs font-black font-inter uppercase tracking-[0.2em] whitespace-nowrap text-[#f0efe9]/70 transition-all duration-300 ease-out group-hover:text-white ${
-              side === 'left' ? 'group-hover:translate-x-1.5' : 'group-hover:-translate-x-1.5'
-            }`}
-          >
-            {name}
-          </span>
-          <div className="max-h-0 overflow-hidden transition-all duration-300 ease-out group-hover:max-h-6 opacity-0 group-hover:opacity-100">
-            <span className="text-[10px] font-bold text-[#22d87a] uppercase tracking-widest mt-0.5 block font-inter whitespace-nowrap">
-              {desc}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ==========================================
-// 3. MAIN COMPONENT EXPORT
-// ==========================================
 
 export function Home() {
-  const navigate = useNavigate()
-  const [openFaq, setOpenFaq] = useState<number | null>(0)
-  const [contactStatus, setContactStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
-  const [contactName, setContactName] = useState('')
-  const [contactEmail, setContactEmail] = useState('')
-  const [contactMessage, setContactMessage] = useState('')
+  const [activeCategory, setActiveCategory] = useState('All Programs')
+  const [showAllDomains, setShowAllDomains] = useState(false)
+  const [faqOpen, setFaqOpen] = useState<number | null>(null)
+  const [activeJourneyModal, setActiveJourneyModal] = useState<typeof JOURNEY_STEPS[0] | null>(null)
 
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
+  const allFilteredPrograms =
+    activeCategory === 'All Programs'
+      ? DOMAIN_PROGRAMS
+      : DOMAIN_PROGRAMS.filter((p) => p.category === activeCategory)
 
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setContactStatus('submitting')
-    setTimeout(() => {
-      setContactStatus('success')
-      setContactName('')
-      setContactEmail('')
-      setContactMessage('')
-    }, 1000)
-  }
+  // 2 rows on a 3-column desktop grid = 6 programs
+  const displayedPrograms = showAllDomains
+    ? allFilteredPrograms
+    : allFilteredPrograms.slice(0, 6)
 
   return (
-    <PublicLayout noPadding>
-      <PageTitle
-        title="Code. Build. Deploy. | A GKK & Bubblesort Venture"
-        suffix="Geek Interns"
-      />
+    <PublicLayout>
+      <PageTitle title="Geek Intern (Official Website) - Virtual Tech Internships & Learning" suffix="geekintern.com" />
 
-      {/* Floating Alumni Widget (matches GKK, clean on all screen sizes) */}
-      <AlumniFloatingWidget onClick={() => scrollTo('alumni-section')} />
+      {/* ========================================================= */}
+      {/* 1. HERO SECTION */}
+      {/* ========================================================= */}
+      <section className="relative min-h-[80vh] flex flex-col justify-center items-center bg-gradient-to-b from-blue-50/60 via-white to-slate-50/40 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 text-slate-900 dark:text-slate-100 pt-16 md:pt-24 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-slate-200/70 dark:border-slate-800 transition-colors duration-200">
+        {/* Subtle background ambient accents */}
+        <div className="absolute top-12 left-1/4 w-96 h-96 rounded-full bg-blue-100/50 dark:bg-blue-900/20 blur-[100px] pointer-events-none -z-10" />
+        <div className="absolute top-1/3 right-1/4 w-[420px] h-[420px] rounded-full bg-cyan-100/40 dark:bg-cyan-900/15 blur-[120px] pointer-events-none -z-10" />
 
-      {/* ---------------- SECTION 1: HERO SECTION (Exact Yx Clone) ---------------- */}
-      <section
-        id="hero-section"
-        className="relative min-h-[92vh] sm:min-h-screen bg-[#0c0c0f] text-[#f0efe9] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 md:pt-36 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.07)" />
-
-        {/* Left Sticky Navigation Widget (Desktop only) */}
-        <div className="absolute left-6 xl:left-12 top-1/2 -translate-y-1/2 flex-col gap-2 z-30 hidden lg:flex">
-          {LEFT_NAV_ITEMS.map((item) => (
-            <SideNavItem
-              key={item.name}
-              name={item.name}
-              desc={item.desc}
-              side="left"
-              onClick={() => {
-                if (item.targetId) scrollTo(item.targetId)
-                else if (item.path) navigate(item.path)
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Right Sticky Navigation Widget (Desktop only) */}
-        <div className="absolute right-6 xl:right-12 top-1/2 -translate-y-1/2 flex-col gap-2 z-30 hidden lg:flex">
-          {RIGHT_NAV_ITEMS.map((item) => (
-            <SideNavItem
-              key={item.name}
-              name={item.name}
-              desc={item.desc}
-              side="right"
-              onClick={() => {
-                if (item.targetId) scrollTo(item.targetId)
-                else if (item.path) navigate(item.path)
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Hero Center Title & Interactive Actions */}
-        <div className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 w-full max-w-4xl mx-auto text-center">
-          <div className="relative flex flex-col items-center leading-none select-none w-full">
-            {/* Ambient blur glow */}
-            <div className="absolute -inset-x-6 top-6 h-20 md:h-28 rounded-full bg-gradient-to-r from-[#22d87a]/20 via-[#06e4f9]/15 to-[#22d87a]/20 blur-3xl pointer-events-none" />
-
-            {/* Line 1: JOIN THE */}
-            <motion.h2
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-2xl sm:text-4xl md:text-6xl font-black font-inter tracking-tighter mb-1 md:mb-2 text-[#f0efe9] uppercase"
-            >
-              JOIN THE
-            </motion.h2>
-
-            {/* Line 2: GEEK INTERNS (Scaled safely for mobile screens) */}
-            <motion.h1
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl sm:text-7xl md:text-8xl lg:text-[140px] leading-[0.9] font-black font-inter tracking-tighter text-[#f0efe9] uppercase [text-shadow:0_8px_30px_rgba(0,0,0,0.5)]"
-            >
-              GEEK
-            </motion.h1>
-
-            {/* Line 3: Italic Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-              className="text-sm sm:text-lg md:text-2xl font-cormorant italic text-[#f0efe9]/80 max-w-xl mx-auto mt-4 md:mt-6 font-medium px-2 text-center leading-relaxed"
-            >
-              Build real projects. Ship production code. Launch your tech career.
-            </motion.p>
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          {/* Top Badge: ✱ OFFICIAL GEEK INTERN PLATFORM */}
+          <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs md:text-sm font-semibold mb-6 sm:mb-8 shadow-xs">
+            <span className="text-base text-blue-600 dark:text-blue-400">✱</span>
+            <span className="tracking-wider uppercase">OFFICIAL GEEK INTERN PLATFORM • LEARN. BUILD. GROW.</span>
           </div>
 
-          {/* Action Buttons (Fast 3D text-flip, stacks on mobile) */}
-          <div className="mt-8 md:mt-12 relative z-30 flex flex-col items-center gap-3 sm:gap-4 w-full px-2 max-w-[420px] md:max-w-none mx-auto">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
-              <FlipButton
-                text="APPLY FOR INTERNSHIP"
-                onClick={() => navigate('/apply')}
+          {/* Clean Heading with Serif Accent */}
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.2] mb-5 font-sans text-slate-950 dark:text-white px-2">
+            Project-Based Internships to Build Your Portfolio and{' '}
+            <span className="font-serif italic text-blue-600 dark:text-blue-400 font-bold">
+              Launch Your Tech Career
+            </span>.
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal px-2">
+            Welcome to the official website of <span className="font-semibold text-slate-800 dark:text-slate-100">Geek Intern</span> (geekintern.com). Bridge the gap between academic learning and real-world experience with verified virtual internships and industry-standard credentials.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none">
+            <Link to="/apply" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-600/25 inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98">
+                <span>Start Your Internship</span>
+                <ArrowRight className="h-4 w-4 stroke-[2.5]" />
+              </Button>
+            </Link>
+
+            <Link to="/verify" className="w-full sm:w-auto">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto h-12 px-8 rounded-full border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>Verify Certificate</span>
+              </Button>
+            </Link>
+          </div>
+
+          {/* Trust Highlights */}
+          <div className="mt-8 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
+            <div className="inline-flex items-center gap-1.5 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Free Application & Instant Offer Letter</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Verifiable QR Certificate ID</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Letter of Recommendation (LOR)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 2. STATS BAR SECTION */}
+      {/* ========================================================= */}
+      <section className="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800 py-10 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+          {STATS.map((stat, i) => (
+            <div key={i} className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+              <AnimatedStat
+                target={stat.target}
+                decimals={stat.decimals}
+                suffix={stat.suffix}
+                duration={1800}
               />
-              <FlipButton
-                text="APPLY FOR TRAINING"
-                primary
-                onClick={() => navigate('/industrial-training')}
-              />
-              <FlipButton
-                text="EXPLORE TRACKS"
-                orange
-                onClick={() => scrollTo('services-section')}
-              />
+              <div className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1">{stat.label}</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">{stat.sub}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 2.5 WHY CHOOSE GEEK INTERN (IMMEDIATELY AFTER HERO & STATS) */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-b border-slate-200/80 dark:border-slate-800 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-4">
+              <Award className="w-3.5 h-3.5" />
+              The Geek Intern Advantage
+            </div>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+              Why Students & Colleges <br className="hidden sm:inline" />
+              <span className="text-blue-600 dark:text-blue-400">Choose Geek Intern</span>
+            </h2>
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm md:text-base mt-3 max-w-2xl mx-auto leading-relaxed">
+              We eliminate theoretical fluff and gatekeeping by giving you direct access to production-grade engineering tasks, industry recognition, and hiring tools.
+            </p>
+          </div>
+
+          {/* 6 Core Pillars Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {/* Pillar 1 */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Terminal className="w-6 h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">100% Practical & Real-World Code</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                  No generic multiple-choice quizzes or boring video playlists. You write real code, architect clean repository trees, and solve industry-standard problem statements.
+                </p>
+              </div>
+              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                  <span>Production-grade GitHub repo standards</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                  <span>Real API & database integrations</span>
+                </li>
+              </ul>
             </div>
 
-            {/* Verification Link */}
-            <Link
-              to="/verify"
-              className="mt-2 text-[#f0efe9] text-xs sm:text-sm font-medium hover:opacity-80 transition-opacity border-b border-transparent hover:border-white/20 pb-0.5 font-inter text-center"
-            >
-              Already Approved or Need Verification?{' '}
-              <span className="text-[#22d87a] font-bold underline decoration-[#22d87a]/50">
-                Verify Document Here
-              </span>
-            </Link>
+            {/* Pillar 2 */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Verifiable Credential Security (CID)</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                  Every completion certificate includes an immutable, unique Certificate ID (CID) verifiable 24/7 by prospective employers and college academic boards.
+                </p>
+              </div>
+              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                  <span>Instant one-click employer verification</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                  <span>Official Letter of Recommendation (LOR)</span>
+                </li>
+              </ul>
+            </div>
 
-            {/* Student Portal Button */}
-            <Link
-              to="/student-portal"
-              className="mt-1 px-5 py-2 bg-transparent border border-white/10 text-[#f0efe9] text-xs font-bold uppercase tracking-widest rounded-full hover:bg-[#13131a] hover:text-[#f0efe9] hover:border-white/30 transition-all flex items-center gap-2 font-inter"
-            >
-              <span>Student Portal</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#22d87a]" />
-            </Link>
+            {/* Pillar 3 */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Zap className="w-6 h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Portfolio & Resume Readiness</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                  Transform raw assignments into impressive portfolio pieces. Evaluate your resume keywords against ATS filters and build interview confidence.
+                </p>
+              </div>
+              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+                  <span>Interactive ATS Resume Checker</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+                  <span>Developer portfolio builder kit</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Pillar 4 */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-cyan-400 dark:hover:border-cyan-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Compass className="w-6 h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Self-Paced Flexible Timelines</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                  Never stress about college exams or conflicting laboratory schedules. Complete your projects at your own pace with responsive mentorship.
+                </p>
+              </div>
+              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 flex-shrink-0" />
+                  <span>Flexible deadlines suited for college students</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 flex-shrink-0" />
+                  <span>100% remote virtual environment</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Pillar 5 */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-amber-400 dark:hover:border-amber-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Globe className="w-6 h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">14+ Engineering Domains</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                  From Modern Web (React, Next.js, Node) and Mobile to Artificial Intelligence, Machine Learning, Cyber Security, and Cloud Infrastructure.
+                </p>
+              </div>
+              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                  <span>Modern software engineering tracks</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                  <span>Open to all college branches & batches</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Pillar 6 */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Users className="w-6 h-6" />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Student Mentorship & Support</h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                  Get dedicated guidance from project mentors and coordinators to help unblock development challenges and review your code repositories.
+                </p>
+              </div>
+              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
+                  <span>Real human review on code submissions</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
+                  <span>College NOC & credit transfer assistance</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Bottom Marquee Ticker */}
-        <div className="relative w-full z-20 border-t border-white/5 bg-[#0c0c0f] py-3.5 overflow-hidden">
-          <div className="marquee-track flex items-center gap-6 sm:gap-8">
-            {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, idx) => (
-              <span
-                key={idx}
-                className={`text-[11px] sm:text-xs font-bold tracking-[0.12em] uppercase font-inter whitespace-nowrap ${
-                  item === '·'
-                    ? 'text-white/20'
-                    : idx % 8 === 0 || idx % 8 === 4
-                    ? 'text-[#22d87a]'
-                    : 'text-white/60'
+      {/* ========================================================= */}
+      {/* 3. EXPLORE OUR INTERNSHIP PROGRAMS */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-4">
+              <Code2 className="w-3.5 h-3.5" />
+              14+ Technical Tracks Available
+            </div>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+              Explore Our <span className="text-blue-600 dark:text-blue-400">Internship Programs</span>
+            </h2>
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm md:text-base mt-3 leading-relaxed max-w-2xl mx-auto">
+              Curated hands-on problem statements designed to transform students and fresh graduates into industry-ready software developers and engineers.
+            </p>
+          </div>
+
+          {/* Category Tabs */}
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mb-10 sm:mb-12">
+            {CATEGORY_TABS.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveCategory(tab)}
+                className={`px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all ${
+                  activeCategory === tab
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                    : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
                 }`}
               >
-                {item}
-              </span>
+                {tab}
+              </button>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ---------------- SECTION 2: BENTO MISSION SECTION (Exact Kx Clone) ---------------- */}
-      <section
-        id="about-section"
-        className="min-h-screen bg-[#0a0a0f] text-[#f0efe9] relative overflow-hidden flex flex-col justify-center py-16 sm:py-20 md:py-28 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.06)" />
-
-        {/* Watermark text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full select-none pointer-events-none z-0 overflow-hidden flex justify-center items-center">
-          <span className="text-[25vw] md:text-[30vw] font-black text-white/[0.02] leading-none tracking-tighter whitespace-nowrap font-inter">
-            GEEK
-          </span>
-        </div>
-
-        <div className="max-w-6xl w-full mx-auto px-4 sm:px-6 md:px-12 relative z-10 flex flex-col justify-center">
-          {/* Headline */}
-          <div className="relative z-10 mb-10 md:mb-16">
-            <h2 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.88] uppercase bg-gradient-to-b from-[#f0efe9] to-[#f0efe9]/50 bg-clip-text text-transparent font-inter">
-              CODE
-              <br />
-              BUILD
-            </h2>
-            <h2 className="text-3xl sm:text-5xl md:text-7xl font-cormorant italic font-light tracking-tight leading-[0.9] text-[#06e4f9] mt-1">
-              deploy & grow.
-            </h2>
-          </div>
-
-          {/* 5-Card Bento Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {BENTO_CARDS.map((card) => (
-              <article
-                key={card.title}
-                className="rounded-2xl border border-white/10 bg-[#12121e]/80 backdrop-blur-sm p-5 sm:p-6 md:p-8 hover:border-[#22d87a]/40 transition-colors"
-              >
-                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2.5 text-[#f0efe9] font-inter">
-                  {card.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-white/60 leading-relaxed font-inter">
-                  {card.text}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- SECTION 3: CURRICULUM & MASTERY (Exact ey / ServicesPage Clone) ---------------- */}
-      <section
-        id="services-section"
-        className="relative min-h-screen bg-[#0a0a0f] text-[#f0efe9] py-16 sm:py-20 md:py-28 px-4 sm:px-6 md:px-12 overflow-hidden border-t border-white/5 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.06)" />
-
-        <div className="max-w-6xl mx-auto pt-4 relative z-20">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 sm:mb-16 gap-4">
-            <div>
-              <span className="text-xs font-bold tracking-widest text-[#22d87a] uppercase mb-2 block font-inter">
-                PROGRAM CURRICULUM
-              </span>
-              <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.95] text-[#f0efe9] font-inter">
-                What You Will Master
-              </h2>
-            </div>
-            <p className="text-xs sm:text-sm text-white/50 max-w-sm font-inter leading-relaxed">
-              Master in-demand tech skills through real projects. Build, ship, and grow with expert mentorship.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {CURRICULUM_TRACKS.map((track) => (
-              <div
-                key={track.id}
-                className="group cursor-pointer rounded-2xl border border-white/10 bg-[#12121e]/60 p-4 sm:p-5 hover:border-[#06e4f9]/50 transition-all"
-                onClick={() => navigate(`/apply?domain=${encodeURIComponent(track.domain)}`)}
-              >
-                <div className="relative aspect-video sm:aspect-square bg-[#0a0a0f] mb-4 overflow-hidden rounded-xl">
-                  <img
-                    src={track.image}
-                    alt={track.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 grayscale group-hover:grayscale-0"
-                    loading="lazy"
-                  />
-                  <span className="absolute bottom-3 right-3 text-4xl sm:text-5xl font-black text-white/15 group-hover:text-white/25 transition-colors font-inter">
-                    {track.id}
-                  </span>
-                </div>
-                <h3 className="text-base sm:text-lg font-black uppercase tracking-tight mb-1.5 group-hover:underline decoration-2 underline-offset-4 text-[#f0efe9] font-inter">
-                  {track.title}
-                </h3>
-                <p className="text-xs text-white/50 leading-relaxed font-inter">
-                  {track.description}
-                </p>
-              </div>
-            ))}
-
-            {/* Ready to Start Coding Card */}
-            <div className="relative aspect-video sm:aspect-square bg-gradient-to-br from-[#12121e] to-black p-6 sm:p-8 flex flex-col justify-between group overflow-hidden rounded-2xl border border-white/15 hover:border-[#22d87a]/60 transition-colors">
-              <div>
-                <h3 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-tighter leading-tight mb-3 font-inter">
-                  Ready to
-                  <br />
-                  Start Coding?
-                </h3>
-                <p className="text-white/60 text-xs sm:text-sm leading-relaxed font-inter">
-                  Applications are reviewed on a rolling basis. Build verifiable production experience starting today.
-                </p>
-              </div>
-
-              <div className="pt-4">
-                <FlipButton
-                  text="APPLY NOW"
-                  primary
-                  onClick={() => navigate('/apply')}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- SECTION 4: OUR ALUMNI (Desktop Horizontal + Mobile Responsive) ---------------- */}
-      <section
-        id="alumni-section"
-        className="relative bg-[#0c0c0f] text-[#f0efe9] border-t border-white/5 py-16 sm:py-20 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.06)" />
-
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-12 relative z-10">
-          <div className="mb-10 sm:mb-14">
-            <h2 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter text-white uppercase font-inter">
-              OUR ALUMNI
-            </h2>
-            <p className="text-xs sm:text-base text-white/60 mt-2 max-w-md font-inter">
-              Your spot is waiting. Join Geek Interns and become our next verified success story.
-            </p>
-          </div>
-
-          {/* Responsive Cards for All Screens (Zero scroll freeze or layout bugs) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {ALUMNI_LIST.map((alum) => (
-              <div
-                key={alum.id}
-                className="rounded-3xl border border-white/10 bg-[#12121e]/90 p-6 sm:p-8 flex flex-col justify-between shadow-xl hover:border-[#22d87a]/40 transition-colors"
-              >
-                <div>
-                  <div className="flex items-center gap-4 mb-4">
-                    <img
-                      src={alum.avatar}
-                      alt={alum.name}
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover border-2 border-[#22d87a]"
-                      loading="lazy"
-                    />
-                    <div>
-                      <h4 className="font-bold text-base sm:text-lg text-white font-inter">{alum.name}</h4>
-                      <p className="text-xs font-mono text-[#06e4f9]">{alum.college}</p>
-                      <span className="text-[10px] sm:text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded mt-1 inline-block">
-                        {alum.outcome}
+          {/* Domain Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {displayedPrograms.map((prog, idx) => {
+              const IconComp = prog.icon
+              return (
+                <div
+                  key={idx}
+                  className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-slate-950/50 group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-12 h-12 rounded-xl ${prog.bg} dark:bg-opacity-20 ${prog.color} flex items-center justify-center`}>
+                        <IconComp className="w-6 h-6" />
+                      </div>
+                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        {prog.badge}
                       </span>
                     </div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {prog.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                      {prog.description}
+                    </p>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-white/70 italic leading-relaxed font-inter mb-4">
-                    “{alum.quote}”
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">4–8 Weeks Duration</span>
+                    <Link
+                      to={`/apply?domain=${encodeURIComponent(prog.title)}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 group-hover:underline"
+                    >
+                      <span>Apply Now</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* View All Domains Button */}
+          <div className="text-center mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3">
+            {allFilteredPrograms.length > 6 && (
+              <Button
+                onClick={() => setShowAllDomains(!showAllDomains)}
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-7 h-11 rounded-xl shadow-sm inline-flex items-center justify-center gap-2"
+              >
+                <span>{showAllDomains ? 'Show Less' : 'View All Domains'}</span>
+                <ArrowRight className={`w-3.5 h-3.5 transition-transform ${showAllDomains ? '-rotate-90' : 'rotate-90'}`} />
+              </Button>
+            )}
+            <Link to="/browse" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs px-6 h-11 rounded-xl shadow-sm">
+                Browse All Categories Catalog →
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 4. SIX-STEP INTERNSHIP JOURNEY */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/40 text-slate-900 dark:text-slate-100 border-y border-slate-200/80 dark:border-slate-800 relative overflow-hidden transition-colors duration-200">
+        <div className="max-w-6xl mx-auto relative">
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-4 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+              Interactive Internship Roadmap
+            </div>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+              Internship <span className="text-blue-600 dark:text-blue-400">Journey</span>
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-3">
+              Click any stage number to open its milestone quote and action briefing.
+            </p>
+          </div>
+
+          {/* Connected Single-Word Flowchart */}
+          <div className="relative">
+            {/* Desktop connecting gradient bar behind circles */}
+            <div className="hidden lg:block absolute top-10 left-[8%] right-[8%] h-0.5 bg-gradient-to-r from-blue-300 dark:from-blue-700 via-indigo-300 dark:via-indigo-700 to-amber-300 dark:to-amber-700 z-0" />
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-4 relative z-10">
+              {JOURNEY_STEPS.map((step, idx) => {
+                const IconComp = step.icon
+                const isSelected = activeJourneyModal?.step === step.step
+
+                return (
+                  <div key={idx} className="flex flex-col items-center text-center group">
+                    <button
+                      type="button"
+                      onClick={() => setActiveJourneyModal(step)}
+                      aria-label={`Open stage ${step.step}: ${step.word}`}
+                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white dark:bg-slate-900 border-2 flex flex-col items-center justify-center transition-all duration-300 shadow-sm cursor-pointer hover:scale-105 sm:hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/40 ${
+                        isSelected
+                          ? 'border-blue-600 dark:border-blue-400 shadow-lg shadow-blue-500/25 ring-4 ring-blue-50 dark:ring-blue-950'
+                          : 'border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400'
+                      }`}
+                    >
+                      <span className="absolute -top-2 px-2 py-0.5 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-mono text-[10px] font-bold shadow-xs tracking-wider">
+                        {step.step}
+                      </span>
+                      <IconComp className={`w-5 h-5 sm:w-6 sm:h-6 transition-colors ${step.color} group-hover:scale-110 duration-200`} />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveJourneyModal(step)}
+                      className="mt-3 sm:mt-4 focus:outline-none group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+                    >
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight">
+                        {step.word}
+                      </h3>
+                      <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                        {step.tagline}
+                      </p>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveJourneyModal(step)}
+                      className="mt-1 sm:mt-2 text-[10px] font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 inline-flex items-center gap-0.5 hover:underline"
+                    >
+                      <span>Read Quote</span>
+                      <ChevronRight className="w-3 h-3" />
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Quick Callout Below Flow */}
+          <div className="mt-12 sm:mt-14 p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                Ready to embark on Stage 1? Applications are open with instant enrollment on all 32 tracks.
+              </p>
+            </div>
+            <Link to="/apply" className="flex-shrink-0 w-full sm:w-auto">
+              <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-xs px-5 h-10 rounded-xl font-semibold shadow-sm">
+                Apply Now →
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Modal / Popup Message on Clicking Each Number */}
+        {activeJourneyModal && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-xs animate-in fade-in duration-200"
+            onClick={() => setActiveJourneyModal(null)}
+          >
+            <div
+              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl shadow-slate-950/20 animate-in zoom-in-95 duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveJourneyModal(null)}
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                aria-label="Close dialog"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-5">
+                <div className={`w-12 h-12 rounded-xl ${activeJourneyModal.bg} dark:bg-opacity-20 flex items-center justify-center border ${activeJourneyModal.border} dark:border-slate-700`}>
+                  {React.createElement(activeJourneyModal.icon, {
+                    className: `w-6 h-6 ${activeJourneyModal.color}`,
+                  })}
+                </div>
+                <div>
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    Stage {activeJourneyModal.step}
+                  </span>
+                  <h4 className="text-xl font-extrabold text-slate-950 dark:text-white tracking-tight">
+                    {activeJourneyModal.word}
+                  </h4>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700 p-4 mb-4">
+                <p className="text-sm font-serif italic text-slate-800 dark:text-slate-200 leading-relaxed">
+                  {activeJourneyModal.quote}
+                </p>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                {activeJourneyModal.detail}
+              </p>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <Button
+                  variant="outline"
+                  onClick={() => setActiveJourneyModal(null)}
+                  className="text-xs h-9 rounded-xl border-slate-300 dark:border-slate-700 dark:text-slate-300"
+                >
+                  Close
+                </Button>
+                <Link to="/apply">
+                  <Button
+                    onClick={() => setActiveJourneyModal(null)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white text-xs h-9 rounded-xl font-semibold shadow-xs"
+                  >
+                    Start Stage 1 →
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* ========================================================= */}
+      {/* 4.5 COMPANIES WHERE OUR LEARNERS HAVE PROGRESSED */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 border-b border-slate-200/80 dark:border-slate-800 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3 shadow-xs">
+              <Building2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+              Alumni Success
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+              Companies Where Our <span className="text-blue-600 dark:text-blue-400">Learners Have Progressed</span>
+            </h2>
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+              Our interns have leveraged verified project milestones, GitHub repositories, and verifiable credentials to progress into industry roles.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+            {PROGRESSION_COMPANIES.map((company, idx) => (
+              <div
+                key={idx}
+                className="rounded-xl bg-slate-50/70 dark:bg-slate-900/60 border border-slate-200/90 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-white dark:hover:bg-slate-900 hover:shadow-md p-3 sm:p-4 text-center transition-all duration-200 group flex flex-col items-center justify-center min-h-[85px] sm:min-h-[96px]"
+              >
+                <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {company.name}
+                </span>
+                <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+                  {company.domain}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 sm:mt-10 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-center gap-4 sm:gap-12 text-xs text-slate-600 dark:text-slate-400">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+              <span>Over <strong className="text-slate-900 dark:text-white font-semibold">1,200+</strong> hiring partner networks</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+              <span>Verifiable QR credentials trusted by recruiters</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+              <span>Recognized across MNCs, startups & research labs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 5. EARN A RECOGNIZED CERTIFICATE OF COMPLETION */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 border-b border-slate-200/80 dark:border-slate-800 relative overflow-hidden transition-colors duration-200">
+        <div className="max-w-7xl mx-auto relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            {/* Left Column: Information & Value Proposition */}
+            <div className="lg:col-span-6 space-y-5 sm:space-y-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider shadow-xs">
+                <Award className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                Industry-Recognized Certification
+              </div>
+
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-tight">
+                Earn a Recognized <br />
+                <span className="text-blue-600 dark:text-blue-400">Certificate of Completion</span>
+              </h2>
+
+              <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed">
+                Validate your practical software engineering milestones with an official, tamper-proof digital credential. Each certificate is backed by verifiable project commits, unique Certificate IDs (CID), and scannable QR verification.
+              </p>
+
+              {/* 4 Feature Points */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2">
+                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                      <ShieldCheck className="w-4 h-4" />
+                    </div>
+                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Tamper-Proof CID</h3>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Permanent cryptographic digital record verifiable on /verify 24/7.
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-white/50">
-                  <span>{alum.domain}</span>
-                  <span className="font-bold text-white flex items-center gap-1">
-                    Verified <Check className="w-3.5 h-3.5 text-[#22d87a]" />
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- SECTION 5: COMPARISON SECTION (Desktop Table + Mobile Stacked Cards) ---------------- */}
-      <section
-        id="comparison-section"
-        className="py-16 sm:py-20 px-4 sm:px-6 md:px-12 bg-[#0a0a0f] text-[#f0efe9] relative overflow-hidden border-t border-white/5 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.06)" />
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="mb-10 sm:mb-14 text-center md:text-left">
-            <span className="text-xs font-mono tracking-widest text-[#22d87a] uppercase font-bold">
-              // COMPARATIVE GEO ANALYSIS
-            </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight uppercase mt-2 bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent font-inter">
-              Traditional vs. Geek Real-World Ecosystem
-            </h2>
-            <p className="text-neutral-400 text-xs sm:text-sm md:text-base max-w-2xl mt-2 font-inter">
-              A side-by-side comparison formatted for direct indexing by search engines, recruiters, and engineering teams.
-            </p>
-          </div>
-
-          {/* Desktop Table View */}
-          <div className="hidden md:block overflow-x-auto rounded-2xl border border-white/10 bg-neutral-950/70 backdrop-blur-xl">
-            <table className="w-full text-left border-collapse min-w-[650px]">
-              <thead>
-                <tr className="border-b border-white/10 bg-white/5">
-                  <th className="p-4 sm:p-5 font-mono text-xs uppercase tracking-wider text-neutral-400">
-                    Evaluation Criteria
-                  </th>
-                  <th className="p-4 sm:p-5 font-mono text-xs uppercase tracking-wider text-neutral-400">
-                    Traditional Internships / Courses
-                  </th>
-                  <th className="p-4 sm:p-5 font-mono text-xs uppercase tracking-wider text-[#22d87a] font-bold">
-                    Geek Real-World Ecosystem
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5 text-sm font-inter">
-                {COMPARISON_ROWS.map((row) => (
-                  <tr
-                    key={row.feature}
-                    className={`hover:bg-white/[0.02] transition-colors ${
-                      row.highlight ? 'bg-[#22d87a]/[0.03]' : ''
-                    }`}
-                  >
-                    <td className="p-4 sm:p-5 font-semibold text-neutral-200">{row.feature}</td>
-                    <td className="p-4 sm:p-5 text-neutral-400">{row.traditional}</td>
-                    <td className="p-4 sm:p-5 font-bold text-[#22d87a] flex items-center gap-2">
-                      <span>✓</span> {row.geek}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile Stacked Cards (Clean, zero horizontal scroll blowout) */}
-          <div className="block md:hidden space-y-4">
-            {COMPARISON_ROWS.map((row) => (
-              <div
-                key={row.feature}
-                className="rounded-2xl border border-white/10 bg-[#12121e]/80 p-5 space-y-3"
-              >
-                <div className="font-mono text-xs font-bold text-white uppercase tracking-wider">
-                  {row.feature}
-                </div>
-                <div className="text-xs text-white/50 flex items-start gap-2">
-                  <span className="text-rose-500 font-bold shrink-0">✕</span>
-                  <span>{row.traditional}</span>
-                </div>
-                <div className="text-xs text-[#22d87a] font-semibold flex items-start gap-2 pt-1 border-t border-white/5">
-                  <span className="shrink-0">✓</span>
-                  <span>{row.geek}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- SECTION 6: THE ENGINEERING ROADMAP (Exact oy Clone) ---------------- */}
-      <section
-        id="guide-section"
-        className="py-16 sm:py-20 px-4 sm:px-6 md:px-12 bg-[#0c0c0f] text-[#f0efe9] relative overflow-hidden border-t border-white/5 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.06)" />
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="mb-10 sm:mb-14 text-center md:text-left">
-            <span className="text-xs font-mono tracking-widest text-[#06e4f9] uppercase font-bold">
-              // Step-by-Step GEO Framework
-            </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight uppercase mt-2 bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent font-inter">
-              The Geek Engineering Roadmap
-            </h2>
-            <p className="text-neutral-400 text-xs sm:text-sm md:text-base max-w-2xl mt-2 font-inter">
-              A structured, step-by-step breakdown of how Geek Interns transforms software learners into production-ready engineers.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {ROADMAP_STEPS.map((step) => (
-              <div
-                key={step.number}
-                className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-neutral-950/60 backdrop-blur-lg relative group hover:border-[#06e4f9]/50 transition-all"
-              >
-                <div className="flex justify-between items-start mb-4 sm:mb-6">
-                  <span className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-[#06e4f9] to-transparent font-mono opacity-80">
-                    {step.number}
-                  </span>
-                  <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-neutral-400 px-3 py-1 rounded-full border border-white/10 bg-white/5">
-                    {step.tag}
-                  </span>
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-neutral-100 mb-2 group-hover:text-[#06e4f9] transition-colors font-inter">
-                  {step.title}
-                </h3>
-                <p className="text-neutral-400 text-xs sm:text-sm md:text-base leading-relaxed font-inter">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- SECTION 7: EXPERT INSIGHTS & LEADERSHIP (Exact ly Clone) ---------------- */}
-      <section
-        id="expert-quotes"
-        className="py-16 sm:py-20 px-4 sm:px-6 md:px-12 bg-[#0a0a0f] text-[#f0efe9] relative overflow-hidden border-t border-white/5 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.06)" />
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="mb-10 sm:mb-12 text-center md:text-left">
-            <span className="text-xs font-mono tracking-widest text-[#22d87a] uppercase font-bold">
-              // E-E-A-T & Industry Authority
-            </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight uppercase mt-2 bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent font-inter">
-              Expert Insights & Engineering Leadership
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {EXPERT_QUOTES.map((q) => (
-              <div
-                key={q.author}
-                className="p-6 sm:p-8 rounded-2xl border border-white/10 bg-neutral-900/40 backdrop-blur-md flex flex-col justify-between"
-              >
-                <p className="text-neutral-300 text-sm sm:text-base md:text-lg italic leading-relaxed mb-6 font-inter">
-                  “{q.quote}”
-                </p>
-                <div className="flex justify-between items-end border-t border-white/5 pt-4">
-                  <div>
-                    <h4 className="font-bold text-sm sm:text-base text-neutral-100 font-inter">{q.author}</h4>
-                    <p className="text-[11px] sm:text-xs text-neutral-400 font-mono">{q.role}</p>
+                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                      <QrCode className="w-4 h-4" />
+                    </div>
+                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Instant QR Scan</h3>
                   </div>
-                  <span className="text-[10px] sm:text-xs font-mono font-bold text-[#22d87a] bg-[#22d87a]/10 px-2.5 sm:px-3 py-1 rounded-full border border-[#22d87a]/20">
-                    {q.stats}
-                  </span>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Hiring managers scan directly to authenticate completion and performance grade.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
+                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">College NOC / Credits</h3>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Widely accepted by university academic boards for mandatory internship credits.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                      <Award className="w-4 h-4" />
+                    </div>
+                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Letter of Recommendation</h3>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Top contributors receive an official LOR for higher studies and job applications.
+                  </p>
                 </div>
               </div>
-            ))}
+
+              {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-3 pt-4">
+                <Link to="/verify" className="w-full sm:w-auto">
+                  <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-6 h-11 rounded-xl shadow-sm inline-flex items-center justify-center gap-2">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>Try Verification Portal</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Button>
+                </Link>
+                <Link to="/apply" className="w-full sm:w-auto">
+                  <Button variant="outline" className="w-full sm:w-auto border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs px-5 h-11 rounded-xl shadow-sm">
+                    Start Earning Certificate
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Realistic Demo Certificate Mockup */}
+            <div className="lg:col-span-6 relative">
+              <div className="rounded-2xl border-4 border-double border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+                <div className="relative z-10 text-center space-y-4">
+                  {/* Issuer Brand Header */}
+                  <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-3">
+                    <div className="flex items-center gap-2 text-left">
+                      <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                        GI
+                      </div>
+                      <div>
+                        <div className="font-extrabold text-sm text-slate-900 dark:text-white tracking-tight">GEEK INTERN</div>
+                        <div className="text-[9px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">Virtual Internship Academy</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="inline-block px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold border border-emerald-200 dark:border-emerald-800 uppercase tracking-wider">
+                        Official Credential
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Certificate Title */}
+                  <div className="pt-2">
+                    <div className="text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 font-bold">Certificate of Completion</div>
+                    <h3 className="text-xl sm:text-2xl font-serif italic font-bold text-slate-900 dark:text-white mt-1">
+                      Virtual Internship Excellence
+                    </h3>
+                  </div>
+
+                  {/* Recipient Details */}
+                  <div className="py-2">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">This is proudly awarded to</p>
+                    <div className="text-xl sm:text-2xl font-extrabold text-blue-600 dark:text-blue-400 tracking-tight mt-1 font-sans border-b-2 border-slate-200 dark:border-slate-700 pb-1 max-w-xs mx-auto">
+                      Aarav Singhania
+                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 max-w-md mx-auto leading-relaxed">
+                      for outstanding performance and successful milestone completion in the{' '}
+                      <strong className="text-slate-900 dark:text-white font-semibold">Full Stack Web Development</strong> program.
+                    </p>
+                  </div>
+
+                  {/* Technical Meta Grid */}
+                  <div className="grid grid-cols-3 gap-2 bg-slate-50/80 dark:bg-slate-800/60 rounded-xl p-3 border border-slate-200/80 dark:border-slate-750 text-left">
+                    <div>
+                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Duration</div>
+                      <div className="text-[11px] font-bold text-slate-800 dark:text-slate-200 mt-0.5">8 Weeks (Remote)</div>
+                    </div>
+                    <div>
+                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Grade / Status</div>
+                      <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">Grade A+ (Distinction)</div>
+                    </div>
+                    <div>
+                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Issue Date</div>
+                      <div className="text-[11px] font-bold text-slate-800 dark:text-slate-200 mt-0.5">September 2026</div>
+                    </div>
+                  </div>
+
+                  {/* Footer Signatures & QR Code */}
+                  <div className="pt-3 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-left">
+                    <div className="flex items-center gap-3">
+                      <div className="w-14 h-14 p-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs flex items-center justify-center flex-shrink-0">
+                        <QrCode className="w-12 h-12 text-slate-800 dark:text-slate-200" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-mono font-bold text-slate-900 dark:text-white tracking-wider">CID: CF-2026-WD101</div>
+                        <div className="text-[9px] text-slate-500 dark:text-slate-400 font-medium">Scan to verify authenticity</div>
+                        <div className="text-[9px] text-blue-600 dark:text-blue-400 font-semibold mt-0.5">geekintern.com/verify</div>
+                      </div>
+                    </div>
+
+                    <div className="text-right">
+                      <div className="font-serif italic text-base text-slate-800 dark:text-slate-200 font-bold">Geek Intern Directorate</div>
+                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-semibold mt-0.5">Academic Evaluation Board</div>
+                      <div className="inline-flex items-center gap-1 text-[9px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+                        <CheckCircle2 className="w-2.5 h-2.5" />
+                        <span>Digitally Signed</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ---------------- SECTION 8: AEO & LLM SEARCH OPTIMIZED FAQ (Exact ay Clone) ---------------- */}
-      <section
-        id="faq-section"
-        className="py-16 sm:py-20 px-4 sm:px-6 md:px-12 bg-[#0c0c0f] text-[#f0efe9] relative overflow-hidden border-t border-white/5 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.06)" />
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="mb-10 sm:mb-12 text-center md:text-left">
-            <span className="text-xs font-mono tracking-widest text-[#22d87a] uppercase font-bold">
-              // AEO & LLM Search Optimized
-            </span>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight uppercase mt-2 bg-gradient-to-r from-white via-neutral-200 to-neutral-500 bg-clip-text text-transparent font-inter">
-              Frequently Asked Questions
+      {/* ========================================================= */}
+      {/* 6. ACCELERATE YOUR JOB HUNT: FREE CAREER TOOLS */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-b border-slate-200/80 dark:border-slate-800 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+              Free Developer Tooling
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+              Supercharge Your Job Search with <span className="text-blue-600 dark:text-blue-400">Free Career Tools</span>
             </h2>
-            <p className="text-neutral-400 text-xs sm:text-sm md:text-base max-w-2xl mt-2 font-inter">
-              Direct answers to critical questions parsed for AI search engines, recruiters, and ambitious engineers.
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed">
+              Equip yourself with the same developer tooling used by candidates landing tech roles. Free to use for every learner.
             </p>
           </div>
 
-          <div className="space-y-3.5">
-            {FAQ_ITEMS.map((faq, idx) => {
-              const isOpen = openFaq === idx
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {CAREER_TOOLS.map((tool, idx) => {
+              const IconComp = tool.icon
               return (
                 <div
-                  key={faq.question}
-                  className="border border-white/10 rounded-2xl bg-neutral-900/40 backdrop-blur-md overflow-hidden transition-all hover:border-[#22c55e]/40"
+                  key={idx}
+                  className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-xl dark:hover:shadow-slate-950/50 transition-all duration-300 group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <IconComp className="w-6 h-6" />
+                      </div>
+                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 uppercase tracking-wider">
+                        {tool.tag}
+                      </span>
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {tool.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                      {tool.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <Link to={tool.href}>
+                      <Button className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 hover:bg-blue-600 dark:hover:bg-slate-200 font-semibold text-xs h-10 rounded-xl transition-all shadow-xs flex items-center justify-center gap-2">
+                        <span>{tool.actionText}</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 7. AUTHENTIC STUDENT TESTIMONIALS */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 border-b border-slate-200/80 dark:border-slate-800 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-xs font-semibold uppercase tracking-wider mb-3">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+              Real Student Reviews
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+              Loved by Thousands of <span className="text-blue-600 dark:text-blue-400">Ambitious Learners</span>
+            </h2>
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed">
+              Read authentic feedback from undergraduate engineers who gained industry-grade skills and certified credentials through Geek Intern.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {STUDENT_TESTIMONIALS.map((testimonial, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-200 group"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex text-amber-400">
+                      {Array.from({ length: testimonial.rating }).map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" />
+                      <span>Verified Alumni</span>
+                    </span>
+                  </div>
+
+                  <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 italic">
+                    "{testimonial.quote}"
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <div>
+                    <div className="font-bold text-sm text-slate-950 dark:text-white">{testimonial.name}</div>
+                    <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">{testimonial.domain}</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{testimonial.college}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 sm:mt-12 text-center">
+            <Link to="/student-reviews">
+              <Button variant="outline" className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs px-6 h-11 rounded-xl shadow-xs inline-flex items-center gap-2">
+                <span>Read 500+ More Student Reviews</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 9. FREQUENTLY ASKED QUESTIONS */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10 sm:mb-12">
+            <Badge className="bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 uppercase tracking-widest text-[11px] mb-3 px-3 py-1">
+              Have Questions?
+            </Badge>
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+              Frequently Asked <span className="text-blue-600 dark:text-blue-400">Questions</span>
+            </h2>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:gap-4">
+            {FAQS.map((faq, idx) => {
+              const isOpen = faqOpen === idx
+              return (
+                <div
+                  key={idx}
+                  className="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-colors"
                 >
                   <button
                     type="button"
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full p-5 sm:p-6 text-left flex justify-between items-center gap-3 cursor-pointer"
+                    onClick={() => setFaqOpen(isOpen ? null : idx)}
+                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
                   >
-                    <div>
-                      <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-[#06e4f9] block mb-1">
-                        {faq.category}
-                      </span>
-                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-neutral-100 font-inter">
-                        {faq.question}
-                      </h3>
-                    </div>
-                    <div
-                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-white/15 flex items-center justify-center transition-transform duration-200 shrink-0 text-xs ${
-                        isOpen ? 'rotate-180 border-[#22c55e] text-[#22c55e]' : 'text-neutral-400'
+                    <span>{faq.question}</span>
+                    <ChevronRight
+                      className={`w-4 h-4 text-slate-400 transition-transform ${
+                        isOpen ? 'rotate-90 text-blue-600 dark:text-blue-400' : ''
                       }`}
-                    >
-                      ↓
-                    </div>
+                    />
                   </button>
                   {isOpen && (
-                    <div className="px-5 sm:px-6 pb-5 sm:pb-6 text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed border-t border-white/5 pt-4 font-inter">
+                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800">
                       {faq.answer}
                     </div>
                   )}
@@ -952,225 +1608,109 @@ export function Home() {
         </div>
       </section>
 
-      {/* ---------------- SECTION 9: EXCLUSIVE LEAD MAGNET BANNER (Exact uy Clone) ---------------- */}
-      <section
-        id="geo-cta-banner"
-        className="py-14 sm:py-16 px-4 sm:px-6 md:px-12 bg-gradient-to-r from-neutral-950 via-neutral-900 to-neutral-950 text-white border-y border-white/10 relative overflow-hidden w-full max-w-full"
-      >
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <span className="inline-block px-3.5 py-1 rounded-full border border-[#22c55e]/30 bg-[#22c55e]/10 text-[#22c55e] font-mono text-[11px] uppercase tracking-widest mb-3 font-bold">
-            Exclusive Lead Magnet & Guide
-          </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent mb-3 font-inter">
-            Want to Master LLM & AI Search Optimization?
+      {/* ========================================================= */}
+      {/* 10. FINAL CALL TO ACTION BANNER */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 text-white relative overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider mb-4">
+            Accelerate Your Career
+          </div>
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-white">
+            Ready to Build Real Projects & Get Certified?
           </h2>
-          <p className="text-neutral-400 text-xs sm:text-base max-w-2xl mx-auto mb-6 leading-relaxed font-inter">
-            Get our detailed framework document covering AEO, GEO, LLMO, AISEO, and E-E-A-T. Explore with Geek Interns.
+          <p className="text-blue-100 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+            Join thousands of developers and engineering students who leveled up their skills with Geek Intern. Applications are open for upcoming cohorts.
           </p>
 
-          <Link to="/guidelines" className="inline-block">
-            <div className="inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 rounded-full bg-[#22d87a] text-black font-bold text-xs sm:text-sm tracking-wide shadow-[0_0_20px_rgba(34,216,122,0.3)] cursor-pointer font-inter uppercase">
-              <span>💬 Explore Engineering Framework Guide</span>
-            </div>
-          </Link>
-        </div>
-      </section>
-
-      {/* ---------------- SECTION 10: APPLY CTA SECTION (Exact Jx Clone) ---------------- */}
-      <section
-        id="cta-section"
-        className="relative min-h-[70vh] sm:min-h-screen flex items-center justify-center bg-[#12121e] text-[#f0efe9] overflow-hidden py-16 sm:py-24 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(34,216,122,0.08)" />
-
-        <div className="relative z-10 w-full max-w-[90vw] mx-auto text-center">
-          <div className="flex flex-col items-center justify-center mb-10 sm:mb-16">
-            <h2 className="text-3xl sm:text-6xl md:text-8xl font-black font-inter tracking-tighter mb-2 text-[#f0efe9]">
-              JOIN THE
-            </h2>
-
-            {/* GEEK with expanding green underline */}
-            <div className="relative inline-block">
-              <h2 className="text-6xl sm:text-8xl md:text-[180px] leading-[0.88] font-black font-inter tracking-tighter text-[#f0efe9] uppercase">
-                GEEK
-              </h2>
-              <div className="absolute bottom-1 sm:bottom-2 left-0 w-full h-1.5 sm:h-3 bg-[#22d87a]" />
-            </div>
-
-            <p className="text-sm sm:text-2xl font-cormorant italic text-[#f0efe9]/80 max-w-xl mx-auto mt-6 sm:mt-8 font-medium">
-              Build real projects. Ship production code. Launch your tech career.
-            </p>
-          </div>
-
-          {/* Dual 3D Offset Shadow CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center w-full px-4 max-w-[360px] sm:max-w-none mx-auto">
-            <Link
-              to="/apply"
-              className="group relative inline-block cursor-pointer no-underline w-full sm:w-auto"
-            >
-              <div className="absolute inset-0 bg-[#0a0a0f] translate-x-2 translate-y-2 transition-transform group-hover:translate-x-3 group-hover:translate-y-3" />
-              <div className="relative bg-[#ffffff] px-6 py-3.5 sm:px-10 sm:py-5 border-2 border-white transition-all w-full flex items-center justify-center">
-                <span className="text-sm sm:text-xl text-black font-black font-inter tracking-tighter uppercase text-center">
-                  APPLY FOR INTERNSHIP
-                </span>
-              </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <Link to="/apply" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-white hover:bg-slate-100 text-blue-700 font-bold text-sm shadow-xl inline-flex items-center justify-center gap-2">
+                <span>Start Your Internship Now</span>
+                <ArrowRight className="h-4 w-4" />
+              </Button>
             </Link>
-
-            <Link
-              to="/verify"
-              className="group relative inline-block cursor-pointer no-underline w-full sm:w-auto"
-            >
-              <div className="absolute inset-0 bg-[#0a0a0f] translate-x-2 translate-y-2 transition-transform group-hover:translate-x-3 group-hover:translate-y-3" />
-              <div className="relative bg-[#22d87a] px-6 py-3.5 sm:px-10 sm:py-5 border-2 border-[#22d87a] transition-all w-full flex items-center justify-center">
-                <span className="text-sm sm:text-xl text-black font-black font-inter tracking-tighter uppercase text-center">
-                  VERIFY CREDENTIALS
-                </span>
-              </div>
+            <Link to="/browse" className="w-full sm:w-auto">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto h-12 px-8 rounded-full border-white/40 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold"
+              >
+                Explore All Tracks
+              </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ---------------- SECTION 11: CONTACT SECTION (Exact ry Clone) ---------------- */}
-      <section
-        id="contact-section"
-        className="min-h-screen bg-[#0a0a0f] text-[#f0efe9] py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative overflow-hidden flex items-center justify-center border-t border-white/5 w-full max-w-full"
-      >
-        <SectionCanvas dotColor="rgba(240,239,233,0.06)" />
+      {/* ========================================================= */}
+      {/* 11. TALK TO SUPPORT SECTION */}
+      {/* ========================================================= */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-200/80 dark:border-slate-800 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+        <div className="max-w-5xl mx-auto">
+          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 lg:p-12 shadow-sm relative overflow-hidden">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              <div className="lg:col-span-7">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3">
+                  <HelpCircle className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                  We Are Here to Help
+                </div>
 
-        <div className="max-w-6xl w-full mx-auto relative z-10">
-          <div className="text-center mb-10 sm:mb-16">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-light tracking-tight mb-3 text-[#f0efe9] font-inter">
-              Get in Touch with Geek Interns
-            </h1>
-            <p className="text-neutral-400 text-xs sm:text-base max-w-xl mx-auto leading-relaxed font-inter">
-              Have a question about internships, applications, or university collaborations?
-              <br className="hidden sm:block" />
-              We are here to help.
-            </p>
-          </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white mb-3">
+                  Have Questions? <span className="text-blue-600 dark:text-blue-400">Talk to Our Support Team</span>
+                </h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-            {/* Left: Direct Inquiries */}
-            <div className="lg:col-span-5 space-y-6 sm:space-y-8">
-              <div className="border-b border-white/10 pb-6">
-                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-400 mb-3 font-inter">
-                  Direct Inquiries
-                </h3>
-                <div className="space-y-4">
+                <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+                  Need help with domain selection, offer letter dispatch, project submission, college NOC, or verification? Our dedicated student helpdesk is here to assist you.
+                </p>
+
+                {/* Email Support Card */}
+                <div className="p-4 rounded-2xl bg-blue-50/60 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+                    <Mail className="w-6 h-6" />
+                  </div>
                   <div>
-                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 mb-1 font-inter">
-                      Study & Student Enquiry
-                    </p>
+                    <span className="text-slate-500 dark:text-slate-400 block text-[11px] uppercase font-bold tracking-wider">Official Support Email</span>
                     <a
                       href="mailto:support.geekintern@gmail.com"
-                      className="text-base sm:text-xl font-medium text-[#f0efe9] hover:text-[#06e4f9] transition-colors break-all font-inter"
+                      className="font-bold text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:underline break-all"
                     >
                       support.geekintern@gmail.com
                     </a>
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 mb-1 font-inter">
-                      Business & Corporate Partners
-                    </p>
-                    <a
-                      href="mailto:contact@geekintern.com"
-                      className="text-base sm:text-xl font-medium text-[#f0efe9] hover:text-[#22d87a] transition-colors break-all font-inter"
-                    >
-                      contact@geekintern.com
-                    </a>
+                    <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">We reply to every query promptly within 24 hours.</p>
                   </div>
                 </div>
               </div>
 
-              <div>
-                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-400 mb-2 font-inter">
-                  Working Hours
-                </h3>
-                <p className="text-base sm:text-lg font-medium text-[#f0efe9] mb-1 font-inter">
-                  Monday — Friday
+              {/* Right CTA Box */}
+              <div className="lg:col-span-5 bg-slate-50/80 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 p-5 sm:p-7 flex flex-col items-center text-center">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mb-4 shadow-md shadow-blue-500/20">
+                  <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7" />
+                </div>
+                <h3 className="font-bold text-base text-slate-900 dark:text-white mb-1">Online Help Desk</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
+                  Have an urgent inquiry, verification question, or feedback? Send us a direct message anytime.
                 </p>
-                <span className="text-xs font-mono text-[#22d87a]">
-                  10:00 AM — 07:00 PM IST
-                </span>
-              </div>
-            </div>
 
-            {/* Right: Message Form */}
-            <div className="lg:col-span-7">
-              <div className="p-6 sm:p-8 rounded-3xl border border-white/10 bg-[#12121e]/90 backdrop-blur-md">
-                <h3 className="text-xl sm:text-2xl font-bold mb-4 font-inter text-white">
-                  Send a Direct Message
-                </h3>
+                <div className="w-full bg-blue-50/90 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 rounded-xl px-3 py-2 mb-4 text-[11px] text-blue-950 dark:text-blue-200 font-medium flex items-center justify-center gap-2 text-center">
+                  <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
+                  <span><strong>Quick Tip:</strong> For fastest resolution, reach out via the message box.</span>
+                </div>
 
-                {contactStatus === 'success' ? (
-                  <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center">
-                    <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto mb-2" />
-                    <h4 className="text-base font-bold text-white font-inter">Message Delivered</h4>
-                    <p className="text-xs text-white/60 mt-1 font-inter">
-                      Thank you for reaching out. We will get back to you within 24 hours.
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleContactSubmit} className="space-y-4">
-                    <div>
-                      <label className="block text-[11px] font-mono uppercase text-white/60 mb-1.5">
-                        Your Full Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={contactName}
-                        onChange={(e) => setContactName(e.target.value)}
-                        placeholder="John Doe"
-                        className="w-full h-11 px-3.5 rounded-xl bg-white/[0.04] border border-white/15 text-white font-inter text-sm focus:outline-none focus:border-[#22d87a]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-mono uppercase text-white/60 mb-1.5">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={contactEmail}
-                        onChange={(e) => setContactEmail(e.target.value)}
-                        placeholder="john@example.com"
-                        className="w-full h-11 px-3.5 rounded-xl bg-white/[0.04] border border-white/15 text-white font-inter text-sm focus:outline-none focus:border-[#22d87a]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-mono uppercase text-white/60 mb-1.5">
-                        Your Inquiry or Message
-                      </label>
-                      <textarea
-                        required
-                        rows={3}
-                        value={contactMessage}
-                        onChange={(e) => setContactMessage(e.target.value)}
-                        placeholder="Tell us about your questions..."
-                        className="w-full p-3.5 rounded-xl bg-white/[0.04] border border-white/15 text-white font-inter text-sm focus:outline-none focus:border-[#22d87a]"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={contactStatus === 'submitting'}
-                      className="w-full py-3.5 rounded-full bg-[#22d87a] text-black font-inter font-black text-xs uppercase tracking-widest hover:bg-emerald-400 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(34,216,122,0.3)]"
+                <div className="w-full flex flex-col gap-2.5">
+                  <Link to="/contact" className="w-full">
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold h-10 sm:h-11 rounded-xl shadow-xs">
+                      Send Support Message →
+                    </Button>
+                  </Link>
+                  <a href="mailto:support.geekintern@gmail.com" className="w-full">
+                    <Button
+                      variant="outline"
+                      className="w-full border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold h-10 sm:h-11 rounded-xl"
                     >
-                      {contactStatus === 'submitting' ? (
-                        <span>Transmitting...</span>
-                      ) : (
-                        <>
-                          <span>Submit Inquiry</span>
-                          <Send className="w-3.5 h-3.5" />
-                        </>
-                      )}
-                    </button>
-                  </form>
-                )}
+                      Email Us Directly
+                    </Button>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
