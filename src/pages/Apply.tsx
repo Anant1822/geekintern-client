@@ -633,9 +633,8 @@ export default function Apply() {
                         </div>
 
                         <div>
-                          <Label htmlFor="password" className="text-slate-700 font-medium text-sm flex items-center justify-between">
-                            <span>Set Password <span className="text-red-500">*</span></span>
-                            <span className="text-[11px] text-blue-600 font-normal">For future portal login</span>
+                          <Label htmlFor="password" className="text-slate-700 font-medium text-sm">
+                            Set Password <span className="text-red-500">*</span>
                           </Label>
                           <div className="relative mt-1.5">
                             <Input
