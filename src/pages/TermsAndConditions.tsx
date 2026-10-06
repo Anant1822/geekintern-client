@@ -27,8 +27,8 @@ interface SectionBlockProps { id: string; title: string; children: React.ReactNo
 function SectionBlock({ id, title, children }: SectionBlockProps) {
   return (
     <section id={id} className="mb-10 scroll-mt-24">
-      <h2 className="text-xl font-bold text-[#1E3A5F] mb-3 pb-2 border-b border-gray-200">{title}</h2>
-      <div className="text-gray-700 leading-relaxed space-y-3 text-sm">{children}</div>
+      <h2 className="text-xl font-bold text-[#1A1715] mb-3 pb-2 border-b border-[#E2DDD2]">{title}</h2>
+      <div className="text-[#57534E] leading-relaxed space-y-3 text-sm">{children}</div>
     </section>
   );
 }
@@ -45,11 +45,11 @@ export default function TermsAndConditions() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1E3A5F] to-[#0a3352] text-white py-16 px-4">
+      <section className="bg-[#F5F2EB] text-[#1A1715] py-16 px-4 border-b border-[#E2DDD2]">
         <div className="max-w-4xl mx-auto">
-          <p className="text-teal-300 text-sm font-medium mb-2">Legal</p>
+          <p className="text-[#8C4325] text-sm font-medium mb-2">Legal</p>
           <h1 className="text-3xl md:text-4xl font-extrabold mb-3">Terms and Conditions</h1>
-          <p className="text-white/75 text-sm">Last updated: {LAST_UPDATED}</p>
+          <p className="text-[#57534E] text-sm">Last updated: {LAST_UPDATED}</p>
         </div>
       </section>
 
@@ -59,7 +59,7 @@ export default function TermsAndConditions() {
 
           {/* Sidebar TOC */}
           <aside className="lg:w-64 flex-shrink-0">
-            <div className="sticky top-24 bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div className="sticky top-24 bg-[#FAF7F2] border border-[#E2DDD2] rounded-xl p-4 shadow-xs">
               <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Contents</p>
               <nav className="space-y-1">
                 {SECTIONS.map((s) => (
@@ -69,8 +69,8 @@ export default function TermsAndConditions() {
                     className={cn(
                       "w-full text-left text-sm px-3 py-2 rounded-lg transition-colors",
                       activeSection === s.id
-                        ? "bg-[#1E3A5F] text-white font-medium"
-                        : "text-gray-600 hover:bg-gray-100"
+                        ? "bg-[#181615] text-[#FAF7F2] font-medium"
+                        : "text-[#57534E] hover:bg-[#EAE4D7]"
                     )}
                   >
                     {s.title}
@@ -82,7 +82,7 @@ export default function TermsAndConditions() {
 
           {/* Main Content */}
           <main className="flex-1 min-w-0">
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 text-sm text-amber-800">
+            <div className="bg-[#F0E6DC] border border-[#E4D5C7] rounded-xl p-4 mb-8 text-sm text-[#8C4325]">
               Please read these Terms and Conditions carefully before using the Geek Intern platform.
               By accessing or using our services, you agree to be bound by these terms.
             </div>

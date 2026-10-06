@@ -25,14 +25,14 @@ interface QACardProps {
 
 function QACard({ icon, question, children, variant = "default" }: QACardProps) {
   const variantStyles = {
-    default: "border-gray-200",
-    warning: "border-amber-200 bg-amber-50",
-    success: "border-teal-200 bg-teal-50",
+    default: "border-[#E2DDD2] bg-[#FAF7F2]",
+    warning: "border-[#E4D5C7] bg-[#F0E6DC]/40",
+    success: "border-[#C2E0D1] bg-[#E8F3ED]/40",
   };
   const iconBg = {
-    default: "bg-[#1E3A5F]/10 text-[#1E3A5F]",
-    warning: "bg-amber-100 text-amber-600",
-    success: "bg-teal-100 text-teal-600",
+    default: "bg-[#EBE6DC] text-[#181615]",
+    warning: "bg-[#F0E6DC] text-[#8C4325]",
+    success: "bg-[#E8F3ED] text-[#2D6A4F]",
   };
   return (
     <Card className={`border ${variantStyles[variant]} shadow-sm`}>
@@ -42,8 +42,8 @@ function QACard({ icon, question, children, variant = "default" }: QACardProps) 
             {icon}
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-[#1E3A5F] mb-2">{question}</h3>
-            <div className="text-gray-600 text-sm leading-relaxed space-y-2">{children}</div>
+            <h3 className="font-semibold text-[#1A1715] mb-2">{question}</h3>
+            <div className="text-[#57534E] text-sm leading-relaxed space-y-2">{children}</div>
           </div>
         </div>
       </CardContent>
@@ -55,11 +55,11 @@ export default function RefundPolicy() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1E3A5F] to-[#0a3352] text-white py-16 px-4">
+      <section className="bg-[#F5F2EB] text-[#1A1715] py-16 px-4 border-b border-[#E2DDD2]">
         <div className="max-w-4xl mx-auto">
-          <p className="text-teal-300 text-sm font-medium mb-2">Legal</p>
+          <p className="text-[#8C4325] text-sm font-medium mb-2">Legal</p>
           <h1 className="text-3xl md:text-4xl font-extrabold mb-3">Refund Policy</h1>
-          <p className="text-white/75 text-sm">Last updated: {LAST_UPDATED}</p>
+          <p className="text-[#57534E] text-sm">Last updated: {LAST_UPDATED}</p>
           <p className="text-white/65 text-sm mt-2 max-w-2xl">
             We want to be completely transparent about our refund policy. Please read this carefully before
             making any payment on the Geek Intern platform.
@@ -77,7 +77,7 @@ export default function RefundPolicy() {
               </div>
               <div>
                 <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">General Rule</p>
-                <p className="text-sm font-semibold text-[#1E3A5F]">Non-refundable</p>
+                <p className="text-sm font-semibold text-[#1A1715]">Non-refundable</p>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
@@ -86,7 +86,7 @@ export default function RefundPolicy() {
               </div>
               <div>
                 <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Exceptions</p>
-                <p className="text-sm font-semibold text-[#1E3A5F]">Technical errors only</p>
+                <p className="text-sm font-semibold text-[#1A1715]">Technical errors only</p>
               </div>
             </div>
             <div className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
@@ -95,7 +95,7 @@ export default function RefundPolicy() {
               </div>
               <div>
                 <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Processing</p>
-                <p className="text-sm font-semibold text-[#1E3A5F]">7–10 business days</p>
+                <p className="text-sm font-semibold text-[#1A1715]">7–10 business days</p>
               </div>
             </div>
           </div>
@@ -268,9 +268,9 @@ export default function RefundPolicy() {
       <section className="py-12 px-4 bg-gray-50 border-t border-gray-200">
         <div className="max-w-3xl mx-auto text-center">
           <div className="w-14 h-14 rounded-2xl bg-[#1E3A5F]/10 flex items-center justify-center mx-auto mb-4">
-            <HelpCircle className="w-7 h-7 text-[#1E3A5F]" />
+            <HelpCircle className="w-7 h-7 text-[#1A1715]" />
           </div>
-          <h2 className="text-xl font-bold text-[#1E3A5F] mb-2">Still Have Questions?</h2>
+          <h2 className="text-xl font-bold text-[#1A1715] mb-2">Still Have Questions?</h2>
           <p className="text-gray-500 text-sm mb-5">
             If your situation is not covered above or you need further clarification, our support team is happy to help.
           </p>
@@ -280,7 +280,7 @@ export default function RefundPolicy() {
                 <Mail className="w-4 h-4 mr-2" /> Email Support
               </a>
             </Button>
-            <Button asChild variant="outline" className="border-[#1E3A5F] text-[#1E3A5F] hover:bg-[#1E3A5F] hover:text-white">
+            <Button asChild variant="outline" className="border-[#1E3A5F] text-[#1A1715] hover:bg-[#1E3A5F] hover:text-white">
               <Link to="/contact">Visit Contact Page</Link>
             </Button>
           </div>

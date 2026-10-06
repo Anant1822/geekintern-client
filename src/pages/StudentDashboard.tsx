@@ -63,7 +63,7 @@ function StatusBadge({ status }: { status: string }) {
 
 function SkeletonCard() {
   return (
-    <div className="rounded-xl border bg-white p-5 space-y-3">
+    <div className="rounded-xl border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs p-5 space-y-3">
       <Skeleton className="h-4 w-3/4" />
       <Skeleton className="h-3 w-1/2" />
       <Skeleton className="h-3 w-2/3" />
@@ -106,7 +106,7 @@ function OverviewTab({ profile, applications, loadingApps }: {
   return (
     <div className="space-y-6">
       {/* Welcome */}
-      <div className="rounded-xl bg-gradient-to-r from-[#1E3A5F] to-[#0D9488] p-6 text-white">
+      <div className="rounded-xl bg-[#181615] border border-[#2A2724] p-6 text-white">
         <h2 className="text-xl font-bold mb-1">Hello, {firstName}! 👋</h2>
         <p className="text-white/80 text-sm">Ready to find your next internship? Your profile is {completion}% complete.</p>
       </div>
@@ -130,16 +130,16 @@ function OverviewTab({ profile, applications, loadingApps }: {
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
-          { label: 'Applications', value: loadingApps ? '–' : applications.length, icon: Briefcase, color: 'text-[#1E3A5F] bg-blue-50' },
-          { label: 'Profile Complete', value: `${completion}%`, icon: CheckCircle2, color: 'text-[#0D9488] bg-teal-50' },
-          { label: 'Active Reviews', value: loadingApps ? '–' : applications.filter((a) => a.status === 'reviewing' || a.status === 'pending').length, icon: Clock, color: 'text-amber-600 bg-amber-50' },
+          { label: 'Applications', value: loadingApps ? '–' : applications.length, icon: Briefcase, color: 'text-[#181615] bg-[#EBE6DC]' },
+          { label: 'Profile Complete', value: `${completion}%`, icon: CheckCircle2, color: 'text-[#2D6A4F] bg-[#E8F3ED]' },
+          { label: 'Active Reviews', value: loadingApps ? '–' : applications.filter((a) => a.status === 'reviewing' || a.status === 'pending').length, icon: Clock, color: 'text-[#8C4325] bg-[#F0E6DC]' },
         ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl border bg-white p-5 flex items-center gap-4">
+          <div key={label} className="rounded-xl border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs p-5 flex items-center gap-4">
             <div className={cn('h-10 w-10 rounded-full flex items-center justify-center', color)}>
               <Icon className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-[#1E3A5F]">{value}</p>
+              <p className="text-2xl font-bold text-[#1A1715]">{value}</p>
               <p className="text-xs text-muted-foreground">{label}</p>
             </div>
           </div>
@@ -147,10 +147,10 @@ function OverviewTab({ profile, applications, loadingApps }: {
       </div>
 
       {/* Profile completion bar */}
-      <div className="rounded-xl border bg-white p-5 space-y-2">
+      <div className="rounded-xl border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs p-5 space-y-2">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold">Profile Completion</p>
-          <span className="text-sm font-bold text-[#0D9488]">{completion}%</span>
+          <span className="text-sm font-bold text-[#2D6A4F]">{completion}%</span>
         </div>
         <Progress value={completion} className="h-2" />
         <p className="text-xs text-muted-foreground">
@@ -161,17 +161,17 @@ function OverviewTab({ profile, applications, loadingApps }: {
       </div>
 
       {/* Recent applications */}
-      <div className="rounded-xl border bg-white p-5">
+      <div className="rounded-xl border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-[#1E3A5F]">Recent Applications</h3>
-          <Link to="?tab=applications" className="text-xs text-[#0D9488] hover:underline">View all</Link>
+          <h3 className="font-semibold text-[#1A1715]">Recent Applications</h3>
+          <Link to="?tab=applications" className="text-xs text-[#2D6A4F] hover:underline">View all</Link>
         </div>
         {loadingApps ? (
           <div className="space-y-3">{[1,2].map((i) => <SkeletonCard key={i} />)}</div>
         ) : applications.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-6">
             No applications yet.{' '}
-            <Link to="/browse" className="text-[#0D9488] hover:underline">Browse internships →</Link>
+            <Link to="/browse" className="text-[#2D6A4F] hover:underline">Browse internships →</Link>
           </p>
         ) : (
           <div className="space-y-3">
@@ -214,7 +214,7 @@ function ApplicationsTab({ applications, loading }: { applications: Application[
         icon={Briefcase}
         title="No applications yet"
         description="Browse internships and apply to get started on your career journey."
-        action={<Link to="/browse"><Button className="bg-[#1E3A5F] hover:bg-[#16304f] text-white">Browse Internships</Button></Link>}
+        action={<Link to="/browse"><Button className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs">Browse Internships</Button></Link>}
       />
     )
   }
@@ -223,11 +223,11 @@ function ApplicationsTab({ applications, loading }: { applications: Application[
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">{applications.length} application{applications.length !== 1 ? 's' : ''} found</p>
       {applications.map((app) => (
-        <div key={app.id} className="rounded-xl border bg-white p-5">
+        <div key={app.id} className="rounded-xl border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs p-5">
           <div className="flex flex-col sm:flex-row sm:items-start gap-4">
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-2 mb-1">
-                <h3 className="font-semibold text-[#1E3A5F] truncate">{app.internship?.title ?? 'Internship'}</h3>
+                <h3 className="font-semibold text-[#1A1715] truncate">{app.internship?.title ?? 'Internship'}</h3>
                 <StatusBadge status={app.status} />
               </div>
               <p className="text-sm text-muted-foreground mb-1">{app.internship?.provider_name ?? '–'}</p>
@@ -266,7 +266,7 @@ function SavedTab() {
       icon={Bookmark}
       title="No saved internships"
       description="Browse internships and save the ones you like to find them easily later."
-      action={<Link to="/browse"><Button className="bg-[#1E3A5F] hover:bg-[#16304f] text-white">Browse Internships</Button></Link>}
+      action={<Link to="/browse"><Button className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs">Browse Internships</Button></Link>}
     />
   )
 }
@@ -370,17 +370,17 @@ function ProfileTab({ profile, onSaved }: { profile: Student | null; onSaved: ()
         <div className="relative">
           <Avatar className="h-20 w-20">
             <AvatarImage src={profile.avatar_url} />
-            <AvatarFallback className="bg-[#1E3A5F] text-white text-xl">
+            <AvatarFallback className="bg-[#181615] text-white text-xl">
               {getInitials(profile.full_name)}
             </AvatarFallback>
           </Avatar>
-          <label htmlFor="avatarUpload" className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-[#0D9488] text-white flex items-center justify-center cursor-pointer hover:bg-[#0b8278] transition-colors" aria-label="Upload photo">
+          <label htmlFor="avatarUpload" className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-[#181615] text-white flex items-center justify-center cursor-pointer hover:bg-[#0b8278] transition-colors" aria-label="Upload photo">
             <Camera className="h-3.5 w-3.5" />
             <input id="avatarUpload" type="file" accept="image/*" className="sr-only" />
           </label>
         </div>
         <div>
-          <p className="font-semibold text-[#1E3A5F] text-lg">{profile.full_name}</p>
+          <p className="font-semibold text-[#1A1715] text-lg">{profile.full_name}</p>
           <p className="text-sm text-muted-foreground">{profile.email}</p>
           {profile.college_name && <p className="text-xs text-muted-foreground">{profile.college_name}</p>}
         </div>
@@ -390,7 +390,7 @@ function ProfileTab({ profile, onSaved }: { profile: Student | null; onSaved: ()
 
       {/* Edit toggle */}
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-[#1E3A5F]">Profile Details</h3>
+        <h3 className="font-semibold text-[#1A1715]">Profile Details</h3>
         {!editMode ? (
           <Button variant="outline" size="sm" onClick={() => setEditMode(true)}>
             <Edit2 className="h-4 w-4 mr-1.5" /> Edit Profile
@@ -455,7 +455,7 @@ function ProfileTab({ profile, onSaved }: { profile: Student | null; onSaved: ()
             </div>
           </div>
           <div className="flex justify-end">
-            <Button type="submit" className="bg-[#0D9488] hover:bg-[#0b8278] text-white" disabled={isSubmitting || isLoading}>
+            <Button type="submit" className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs" disabled={isSubmitting || isLoading}>
               {isSubmitting || isLoading
                 ? <span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />Saving…</span>
                 : <><Save className="h-4 w-4 mr-1.5" />Save Changes</>}
@@ -463,7 +463,7 @@ function ProfileTab({ profile, onSaved }: { profile: Student | null; onSaved: ()
           </div>
         </form>
       ) : (
-        <dl className="rounded-xl border bg-white p-4">
+        <dl className="rounded-xl border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs p-4">
           <SectionRow label="Full Name" value={profile.full_name} />
           <SectionRow label="Email" value={profile.email} />
           <SectionRow label="Mobile" value={profile.phone} />
@@ -481,7 +481,7 @@ function ProfileTab({ profile, onSaved }: { profile: Student | null; onSaved: ()
 
       {/* Resume */}
       <div>
-        <h3 className="font-semibold text-[#1E3A5F] mb-3">Resume</h3>
+        <h3 className="font-semibold text-[#1A1715] mb-3">Resume</h3>
         {profile.resume_filename ? (
           <div className="flex items-center gap-3 rounded-lg border border-dashed p-4">
             <div className="h-10 w-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600 font-bold text-xs">PDF</div>
@@ -497,7 +497,7 @@ function ProfileTab({ profile, onSaved }: { profile: Student | null; onSaved: ()
             </label>
           </div>
         ) : (
-          <label htmlFor="resumeUploadNew" className="flex flex-col items-center justify-center rounded-lg border border-dashed border-input p-8 cursor-pointer hover:border-[#0D9488] hover:bg-teal-50/30 transition-colors">
+          <label htmlFor="resumeUploadNew" className="flex flex-col items-center justify-center rounded-lg border border-dashed border-input p-8 cursor-pointer hover:border-[#181615] hover:bg-[#EBE6DC]/40 transition-colors">
             <Plus className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-sm font-medium text-muted-foreground">Upload your resume</p>
             <p className="text-xs text-muted-foreground mt-1">PDF, DOC, or DOCX — max 5 MB</p>
@@ -557,8 +557,8 @@ function SettingsTab() {
   return (
     <div className="space-y-8 max-w-xl">
       {/* Change Password */}
-      <div className="rounded-xl border bg-white p-6">
-        <h3 className="font-semibold text-[#1E3A5F] mb-4 flex items-center gap-2">
+      <div className="rounded-xl border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs p-6">
+        <h3 className="font-semibold text-[#1A1715] mb-4 flex items-center gap-2">
           <Lock className="h-4 w-4" /> Change Password
         </h3>
         {pwSuccess && (
@@ -598,7 +598,7 @@ function SettingsTab() {
             </div>
             {errors.confirmPassword && <p className="text-xs text-red-500">{errors.confirmPassword.message}</p>}
           </div>
-          <Button type="submit" className="bg-[#1E3A5F] hover:bg-[#16304f] text-white" disabled={isSubmitting}>
+          <Button type="submit" className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs" disabled={isSubmitting}>
             {isSubmitting
               ? <span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />Updating…</span>
               : 'Update Password'}
@@ -607,8 +607,8 @@ function SettingsTab() {
       </div>
 
       {/* Email Preferences (placeholder) */}
-      <div className="rounded-xl border bg-white p-6">
-        <h3 className="font-semibold text-[#1E3A5F] mb-4">Email Preferences</h3>
+      <div className="rounded-xl border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs p-6">
+        <h3 className="font-semibold text-[#1A1715] mb-4">Email Preferences</h3>
         <div className="space-y-3">
           {[
             'New internship recommendations',
@@ -618,7 +618,7 @@ function SettingsTab() {
           ].map((label) => (
             <label key={label} className="flex items-center justify-between">
               <span className="text-sm">{label}</span>
-              <input type="checkbox" defaultChecked className="h-4 w-4 rounded accent-[#0D9488]" />
+              <input type="checkbox" defaultChecked className="h-4 w-4 rounded accent-[#181615]" />
             </label>
           ))}
         </div>
@@ -710,7 +710,7 @@ export default function StudentDashboard() {
           onValueChange={(val) => setSearchParams({ tab: val })}
           className="space-y-6"
         >
-          <TabsList className="bg-white border p-1 rounded-xl flex flex-wrap gap-1">
+          <TabsList className="bg-[#FAF7F2] border border-[#E2DDD2] p-1 rounded-xl flex flex-wrap gap-1">
             <TabsTrigger value="overview" className="flex items-center gap-2 text-xs sm:text-sm">
               <LayoutDashboard className="h-4 w-4" /> Overview
             </TabsTrigger>

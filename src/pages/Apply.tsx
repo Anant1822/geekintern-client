@@ -499,61 +499,61 @@ export default function Apply() {
 
   return (
     <PublicLayout>
-      <div className="min-h-screen bg-slate-50/70 py-10 sm:py-14">
+      <div className="min-h-screen bg-[#F5F2EB] dark:bg-[#151311] py-10 sm:py-14 text-[#1A1715] dark:text-[#FAF7F2]">
         <div className="container max-w-4xl">
           {/* Header Bar */}
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 border-blue-200 px-3 py-1 mb-3 text-xs font-semibold gap-1 inline-flex">
-              <Sparkles className="h-3.5 w-3.5" /> Geek Intern Virtual Internship Program
+            <Badge className="bg-[#FAF7F2] dark:bg-[#1C1A17] text-[#57534E] dark:text-stone-300 border-[#E2DDD2] dark:border-stone-800 px-3 py-1 mb-3 text-xs font-semibold gap-1 inline-flex rounded-full">
+              <Sparkles className="h-3.5 w-3.5 text-emerald-600" /> Geek Intern Virtual Internship Program
             </Badge>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Start Your Virtual Internship
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1A1715] dark:text-[#FAF7F2] tracking-tight">
+              Start Your <span className="font-serif italic">Virtual Internship</span>
             </h1>
-            <p className="mt-3 text-slate-600 text-base sm:text-lg">
+            <p className="mt-3 text-[#57534E] dark:text-stone-400 text-base sm:text-lg">
               Gain real-world experience, build industry-standard portfolio projects, and earn a verifiable certificate with a Letter of Recommendation.
             </p>
           </div>
 
           {/* Success View */}
           {isSubmitted ? (
-            <Card className="border-0 shadow-lg bg-white overflow-hidden text-center p-8 sm:p-12 animate-in fade-in zoom-in-95 duration-300">
-              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5">
+            <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] overflow-hidden text-center p-8 sm:p-12 animate-in fade-in zoom-in-95 duration-300 rounded-3xl">
+              <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-5">
                 <CheckCircle2 className="h-10 w-10" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#1A1715] dark:text-[#FAF7F2] mb-2">
                 Application Received Successfully!
               </h2>
-              <p className="text-slate-600 max-w-xl mx-auto text-base mb-6">
-                Congratulations <span className="font-semibold text-slate-900">{submittedData?.full_name}</span>! You have taken the first step toward advancing your tech career in <span className="font-semibold text-blue-600">{submittedData?.internship_title}</span>.
+              <p className="text-[#57534E] dark:text-stone-300 max-w-xl mx-auto text-base mb-6">
+                Congratulations <span className="font-semibold text-[#1A1715] dark:text-white">{submittedData?.full_name}</span>! You have taken the first step toward advancing your tech career in <span className="font-semibold text-[#9E4A2B]">{submittedData?.internship_title}</span>.
               </p>
 
               {/* What happens next box */}
-              <div className="bg-blue-50/60 border border-blue-100 rounded-xl p-6 text-left max-w-xl mx-auto mb-8">
-                <h3 className="font-semibold text-slate-900 text-sm flex items-center gap-2 mb-3">
-                  <Clock className="h-4 w-4 text-blue-600" /> What Happens Next?
+              <div className="bg-[#EBE6DC] dark:bg-stone-900/60 border border-[#E2DDD2] dark:border-stone-700 rounded-2xl p-6 text-left max-w-xl mx-auto mb-8">
+                <h3 className="font-semibold text-[#1A1715] dark:text-white text-sm flex items-center gap-2 mb-3">
+                  <Clock className="h-4 w-4 text-[#1A1715] dark:text-stone-300" /> What Happens Next?
                 </h3>
-                <ul className="space-y-3 text-sm text-slate-700">
+                <ul className="space-y-3 text-sm text-[#57534E] dark:text-stone-300">
                   <li className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+                    <span className="w-5 h-5 rounded-full bg-[#181615] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
                     <span><strong>Offer Letter & Task Kit:</strong> Our onboarding team will send your official offer letter and task guidelines to <strong>{submittedData?.email}</strong> within 24–48 hours.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+                    <span className="w-5 h-5 rounded-full bg-[#181615] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
                     <span><strong>Build & Push to GitHub:</strong> Work through project milestones at your own pace and submit your GitHub repository links for evaluation.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+                    <span className="w-5 h-5 rounded-full bg-[#181615] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
                     <span><strong>Certification:</strong> Receive your verified digital certificate with QR code verification and performance-based Letter of Recommendation (LOR).</span>
                   </li>
                 </ul>
               </div>
 
               {/* Student Portal Account Confirmation */}
-              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-left max-w-xl mx-auto mb-6 text-sm text-emerald-800 flex items-start gap-3">
+              <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-2xl p-4 text-left max-w-xl mx-auto mb-6 text-sm text-emerald-800 dark:text-emerald-300 flex items-start gap-3">
                 <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-emerald-900">Student Portal Account Initialized!</p>
-                  <p className="text-xs text-emerald-700 mt-0.5">
+                  <p className="font-semibold text-emerald-900 dark:text-emerald-200">Student Portal Account Initialized!</p>
+                  <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">
                     You can log in to your Student Portal anytime with your email (<strong>{submittedData?.email}</strong>) and the password you set to track your application, offer letter, and certificate.
                   </p>
                 </div>
@@ -561,17 +561,17 @@ export default function Apply() {
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Link to={`/student-portal?email=${encodeURIComponent(submittedData?.email || '')}`}>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto shadow-sm gap-1.5">
+                  <Button className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full w-full sm:w-auto shadow-xs gap-1.5 font-semibold">
                     Login to Student Portal <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
                 <Link to="/browse">
-                  <Button variant="outline" className="w-full sm:w-auto">
+                  <Button variant="outline" className="border-[#D6CFC4] bg-[#FAF8F5] text-[#1A1715] rounded-full w-full sm:w-auto">
                     Explore Other Domains
                   </Button>
                 </Link>
                 <Link to="/">
-                  <Button variant="ghost" className="w-full sm:w-auto text-slate-600">
+                  <Button variant="ghost" className="w-full sm:w-auto text-[#57534E] hover:text-[#1A1715]">
                     Return to Homepage
                   </Button>
                 </Link>
@@ -581,12 +581,12 @@ export default function Apply() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Left Column: Form */}
               <div className="lg:col-span-8">
-                <Card className="border border-slate-200 shadow-sm bg-white">
-                  <CardHeader className="border-b border-slate-100 pb-5">
-                    <CardTitle className="text-xl font-bold text-slate-900">
+                <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] rounded-3xl">
+                  <CardHeader className="border-b border-[#E2DDD2] dark:border-stone-800 pb-5">
+                    <CardTitle className="text-xl font-bold text-[#1A1715] dark:text-[#FAF7F2]">
                       Applicant Information
                     </CardTitle>
-                    <CardDescription className="text-slate-500">
+                    <CardDescription className="text-[#57534E] dark:text-stone-400">
                       Fill out this quick form. No resume or sign-up is mandatory to get started.
                     </CardDescription>
                   </CardHeader>
@@ -775,7 +775,7 @@ export default function Apply() {
                             onValueChange={(val) => setFormData((prev) => ({ ...prev, internship_title: val }))}
                             disabled={!selectedCategory}
                           >
-                            <SelectTrigger className={`mt-1.5 ${!selectedCategory ? 'opacity-60 cursor-not-allowed bg-slate-50 dark:bg-slate-900' : ''}`}>
+                            <SelectTrigger className={`mt-1.5 ${!selectedCategory ? 'opacity-60 cursor-not-allowed bg-[#EBE6DC]/40 dark:bg-[#1C1A17]' : ''}`}>
                               <SelectValue placeholder={selectedCategory ? "Select Track / Domain" : "First select category"} />
                             </SelectTrigger>
                             <SelectContent className="max-h-72">
@@ -884,22 +884,22 @@ export default function Apply() {
                       </div>
 
                       {/* Follow Geek Intern on LinkedIn Verification Section (Placed after Learning Goals) */}
-                      <div className="rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/60 dark:bg-blue-950/20 p-4 transition-all">
+                      <div className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#EBE6DC] dark:bg-stone-900/60 p-4 transition-all">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                           <div className="flex items-center gap-2.5">
-                            <div className="p-2 rounded-lg bg-[#0A66C2] text-white shadow-xs shrink-0">
+                            <div className="p-2 rounded-lg bg-[#181615] text-white shadow-xs shrink-0">
                               <Linkedin className="h-5 w-5" />
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
-                                <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                                <h4 className="text-sm font-bold text-[#1A1715] dark:text-[#FAF7F2]">
                                   Follow Geek Intern on LinkedIn
                                 </h4>
-                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#FAF7F2] text-[#1A1715] border border-[#E2DDD2] dark:bg-stone-800 dark:text-stone-300">
                                   Official Page
                                 </span>
                               </div>
-                              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                              <p className="text-xs text-[#57534E] dark:text-stone-400 mt-0.5">
                                 Follow our official page to receive cohort announcements, project updates, and certificate notifications.
                               </p>
                             </div>
@@ -909,12 +909,12 @@ export default function Apply() {
                             type="button"
                             onClick={handleOpenLinkedin}
                             disabled={isVerifyingLinkedin || isLinkedinFollowed}
-                            className={`inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold shadow-xs transition-colors shrink-0 ${
+                            className={`inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold shadow-xs transition-colors shrink-0 ${
                               isLinkedinFollowed
                                 ? 'bg-emerald-600 text-white cursor-default'
                                 : isVerifyingLinkedin
-                                ? 'bg-blue-600/90 text-white cursor-wait'
-                                : 'bg-[#0A66C2] hover:bg-[#004182] text-white cursor-pointer'
+                                ? 'bg-[#181615]/80 text-white cursor-wait'
+                                : 'bg-[#181615] hover:bg-[#2A2724] text-white cursor-pointer'
                             }`}
                           >
                             {isLinkedinFollowed ? (
@@ -939,13 +939,13 @@ export default function Apply() {
 
                         {/* Status bar during verification */}
                         {isVerifyingLinkedin && (
-                          <div className="mb-3 p-2.5 rounded-lg bg-blue-100/70 dark:bg-blue-900/30 border border-blue-200/80 dark:border-blue-800 flex items-center gap-2 text-xs text-blue-900 dark:text-blue-200">
-                            <Loader2 className="h-4 w-4 animate-spin text-blue-600 shrink-0" />
+                          <div className="mb-3 p-2.5 rounded-lg bg-[#FAF7F2] dark:bg-stone-800 border border-[#E2DDD2] dark:border-stone-700 flex items-center gap-2 text-xs text-[#1A1715] dark:text-stone-200">
+                            <Loader2 className="h-4 w-4 animate-spin text-[#181615] shrink-0" />
                             <span>Confirming follow on LinkedIn... Please follow our page.</span>
                           </div>
                         )}
 
-                        <div className="pt-2.5 border-t border-blue-100 dark:border-blue-900/40">
+                        <div className="pt-2.5 border-t border-[#E2DDD2] dark:border-stone-700">
                           <label
                             className={`flex items-start gap-2.5 ${
                               isLinkedinFollowed ? 'cursor-pointer' : 'cursor-not-allowed opacity-75'
@@ -970,26 +970,26 @@ export default function Apply() {
                                   setIsLinkedinFollowed(e.target.checked)
                                 }
                               }}
-                              className="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
+                              className="mt-0.5 h-4 w-4 rounded border-[#D6CFC4] text-[#181615] focus:ring-[#181615] cursor-pointer disabled:cursor-not-allowed"
                             />
-                            <div className="text-xs text-slate-700 dark:text-slate-300 leading-snug">
-                              <span className="font-semibold text-slate-900 dark:text-white">
+                            <div className="text-xs text-[#57534E] dark:text-stone-300 leading-snug">
+                              <span className="font-semibold text-[#1A1715] dark:text-white">
                                 I confirm that I am following Geek Intern on LinkedIn
                               </span>{' '}
-                              <span className="text-slate-500 dark:text-slate-400">
+                              <span className="text-[#78716C] dark:text-stone-400">
                                 (linkedin.com/in/geek-intern)
                               </span>
                               {isLinkedinFollowed ? (
-                                <span className="ml-2 inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                                <span className="ml-2 inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
                                   <Check className="h-3 w-3 stroke-[3]" /> Verified
                                 </span>
                               ) : isVerifyingLinkedin ? (
-                                <span className="ml-2 inline-flex items-center gap-1 text-[11px] font-medium text-amber-600 dark:text-amber-400">
+                                <span className="ml-2 inline-flex items-center gap-1 text-[11px] font-medium text-amber-700 dark:text-amber-400">
                                   Verifying follow...
                                 </span>
                               ) : (
-                                <span className="block mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
-                                  (Click the blue button above to open LinkedIn and automatically verify)
+                                <span className="block mt-0.5 text-[11px] text-[#78716C] dark:text-stone-400">
+                                  (Click the button above to open LinkedIn and automatically verify)
                                 </span>
                               )}
                             </div>
@@ -1000,44 +1000,44 @@ export default function Apply() {
                       {/* ------------------------------------------------------------- */}
                       {/* URGENT CERTIFICATION & FAST-TRACK APPLICATION BOX              */}
                       {/* ------------------------------------------------------------- */}
-                      <div className="rounded-xl border-2 border-amber-500 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 p-4 shadow-sm border-dashed">
+                      <div className="rounded-2xl border-2 border-[#9E4A2B] bg-[#F0E6DC] dark:bg-stone-900/80 p-4 shadow-xs border-dashed">
                         <div className="flex items-start gap-3 mb-3">
-                          <div className="p-2 rounded-xl bg-amber-500 text-white shadow-sm shrink-0 mt-0.5 animate-pulse">
+                          <div className="p-2 rounded-xl bg-[#9E4A2B] text-white shadow-xs shrink-0 mt-0.5">
                             <AlertCircle className="h-5 w-5" />
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center justify-between gap-2">
-                              <span className="text-xs font-extrabold text-amber-950 uppercase tracking-wider">
+                              <span className="text-xs font-extrabold text-[#8C4325] dark:text-amber-200 uppercase tracking-wider">
                                 Urgent Certification Request
                               </span>
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-600 text-white shadow-xs">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#9E4A2B] text-white shadow-xs">
                                 FAST TRACK
                               </span>
                             </div>
-                            <p className="text-xs text-amber-900 mt-0.5 font-medium">
+                            <p className="text-xs text-[#8C4325] dark:text-stone-300 mt-0.5 font-medium">
                               Need your verified certificate expedited for college submissions, semester credits, or imminent job interviews?
                             </p>
                           </div>
                         </div>
 
                         {/* Interactive Urgent Certification Checkbox */}
-                        <div className="bg-white/80 border border-amber-200 rounded-lg p-3 space-y-2.5">
+                        <div className="bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E4D5C7] dark:border-stone-700 rounded-xl p-3 space-y-2.5">
                           <label className="flex items-center gap-2.5 cursor-pointer select-none">
                             <input
                               type="checkbox"
                               name="is_urgent"
                               checked={formData.is_urgent}
                               onChange={(e) => setFormData((prev) => ({ ...prev, is_urgent: e.target.checked }))}
-                              className="h-4 w-4 rounded border-amber-400 text-amber-600 focus:ring-amber-500 cursor-pointer"
+                              className="h-4 w-4 rounded border-[#9E4A2B] text-[#9E4A2B] focus:ring-[#9E4A2B] cursor-pointer"
                             />
-                            <span className="text-xs font-bold text-slate-800">
+                            <span className="text-xs font-bold text-[#1A1715] dark:text-[#FAF7F2]">
                               Mark as Priority / Apply for Urgent Certification
                             </span>
                           </label>
 
                           {formData.is_urgent && (
-                            <div className="pt-2 border-t border-amber-100 animate-in fade-in duration-200">
-                              <Label htmlFor="urgent_reason" className="text-[11px] font-semibold text-amber-900 block mb-1">
+                            <div className="pt-2 border-t border-[#E4D5C7] dark:border-stone-700 animate-in fade-in duration-200">
+                              <Label htmlFor="urgent_reason" className="text-[11px] font-semibold text-[#8C4325] dark:text-amber-300 block mb-1">
                                 Urgent Reason / Student Comment <span className="text-red-500">*</span>
                               </Label>
                               <Input
@@ -1046,21 +1046,21 @@ export default function Apply() {
                                 placeholder="e.g. Urgent college submission by Friday, need fast-track evaluation..."
                                 value={formData.urgent_reason}
                                 onChange={handleChange}
-                                className="h-9 text-xs border-amber-300 focus:border-amber-500 focus:ring-amber-500 bg-white"
+                                className="h-9 text-xs border-[#E4D5C7] focus:border-[#9E4A2B] focus:ring-[#9E4A2B] bg-white dark:bg-stone-900"
                                 required={formData.is_urgent}
                               />
-                              <p className="text-[10px] text-amber-800/80 mt-1">
+                              <p className="text-[10px] text-[#8C4325] dark:text-stone-400 mt-1">
                                 Mentors will review your urgency note and expedite task assignments and certificate generation.
                               </p>
                             </div>
                           )}
 
                           {/* 2-Line Urgent Terms & Conditions */}
-                          <div className="pt-2 border-t border-amber-200/70 text-[11px] text-amber-950/90 leading-snug">
-                            <p className="font-semibold text-amber-900">
+                          <div className="pt-2 border-t border-[#E4D5C7] dark:border-stone-700 text-[11px] text-[#8C4325] dark:text-stone-400 leading-snug">
+                            <p className="font-semibold text-[#8C4325] dark:text-stone-300">
                               * Terms & Conditions: Only select this if you genuinely have an impending college submission or job deadline.
                             </p>
-                            <p className="text-amber-800/85 mt-0.5">
+                            <p className="mt-0.5">
                               Please do not mark urgent for routine applications so our evaluation team can prioritize critical student cases.
                             </p>
                           </div>
@@ -1083,7 +1083,7 @@ export default function Apply() {
                         <Button
                           type="submit"
                           disabled={isSubmitting}
-                          className="w-full text-white font-semibold py-3 h-12 text-base rounded-lg shadow-md transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                          className="w-full text-white font-semibold py-3 h-12 text-base rounded-full shadow-xs transition-all flex items-center justify-center gap-2 bg-[#181615] hover:bg-[#2A2724]"
                         >
                           {isSubmitting ? (
                             <span>Submitting Application...</span>
@@ -1094,7 +1094,7 @@ export default function Apply() {
                             </>
                           )}
                         </Button>
-                        <p className="text-center text-xs text-slate-500 mt-2.5">
+                        <p className="text-center text-xs text-[#78716C] dark:text-stone-400 mt-2.5">
                           By submitting, you agree to receive internship updates, task kits, and offer letters from Geek Intern.
                         </p>
                       </div>
@@ -1105,45 +1105,45 @@ export default function Apply() {
 
               {/* Right Column: Perks & Program Highlights */}
               <div className="lg:col-span-4 space-y-5">
-                <Card className="border border-blue-100 bg-gradient-to-br from-blue-50/50 to-indigo-50/30 p-5 shadow-xs">
-                  <h3 className="font-bold text-slate-900 text-base mb-3 flex items-center gap-2">
-                    <Award className="h-5 w-5 text-blue-600" /> Program Perks
+                <Card className="border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 shadow-xs rounded-3xl">
+                  <h3 className="font-bold text-[#1A1715] dark:text-[#FAF7F2] text-base mb-3 flex items-center gap-2">
+                    <Award className="h-5 w-5 text-emerald-600" /> Program Perks
                   </h3>
-                  <ul className="space-y-3 text-xs text-slate-600">
+                  <ul className="space-y-3 text-xs text-[#57534E] dark:text-stone-300">
                     <li className="flex items-start gap-2">
                       <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                       <span><strong>Verifiable Certificate:</strong> QR-coded digital certificate shareable on LinkedIn and resumes.</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <FileText className="h-4 w-4 text-blue-600 shrink-0 mt-0.5" />
+                      <FileText className="h-4 w-4 text-[#1A1715] dark:text-stone-300 shrink-0 mt-0.5" />
                       <span><strong>Letter of Recommendation (LOR):</strong> Awarded to outstanding performers based on submission quality.</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Laptop className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
+                      <Laptop className="h-4 w-4 text-[#1A1715] dark:text-stone-300 shrink-0 mt-0.5" />
                       <span><strong>100% Virtual & Self-Paced:</strong> Work on tasks at your convenience without conflicting with college schedules.</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Briefcase className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+                      <Briefcase className="h-4 w-4 text-[#9E4A2B] shrink-0 mt-0.5" />
                       <span><strong>GitHub Portfolio:</strong> Build 3-4 real project deliverables to showcase directly to tech recruiters.</span>
                     </li>
                   </ul>
                 </Card>
 
-                <Card className="border border-slate-200 bg-white p-5 shadow-xs">
-                  <h3 className="font-bold text-slate-900 text-base mb-3">
+                <Card className="border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 shadow-xs rounded-3xl">
+                  <h3 className="font-bold text-[#1A1715] dark:text-[#FAF7F2] text-base mb-3">
                     Frequently Asked
                   </h3>
-                  <div className="space-y-3 text-xs text-slate-600">
+                  <div className="space-y-3 text-xs text-[#57534E] dark:text-stone-300">
                     <div>
-                      <p className="font-semibold text-slate-800">When will I get my offer letter?</p>
+                      <p className="font-semibold text-[#1A1715] dark:text-white">When will I get my offer letter?</p>
                       <p className="mt-0.5">Offer letters and task guidelines are sent via email within 24 to 48 hours of submitting this form.</p>
                     </div>
                     <div>
-                      <p className="font-semibold text-slate-800">Is this internship completely online?</p>
+                      <p className="font-semibold text-[#1A1715] dark:text-white">Is this internship completely online?</p>
                       <p className="mt-0.5">Yes! All Geek Intern internships are 100% remote. You can complete tasks from anywhere in India.</p>
                     </div>
                     <div>
-                      <p className="font-semibold text-slate-800">Are beginners eligible?</p>
+                      <p className="font-semibold text-[#1A1715] dark:text-white">Are beginners eligible?</p>
                       <p className="mt-0.5">Yes, projects range from beginner-friendly tasks to advanced modules with step-by-step briefs.</p>
                     </div>
                   </div>

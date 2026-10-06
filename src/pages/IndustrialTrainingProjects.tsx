@@ -49,28 +49,28 @@ export function IndustrialTrainingProjects() {
       <PageTitle title="Industrial Training Capstone Projects | Geek Intern" />
 
       {/* Header */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/40 text-slate-900 border-b border-slate-200">
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge className="bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
+          <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
             Student Showcase
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-950">
-            Industrial Training <span className="text-[#FF4D5A]">Capstone Projects</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+            Industrial Training <span className="italic font-serif text-[#8C4325]">Capstone Projects</span>
           </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Real-world capstones built by engineering students under senior industry mentors during their university-mandated training period.
           </p>
         </div>
       </section>
 
       {/* Projects */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white text-slate-900">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {CAPSTONES.map((cap, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl bg-white border border-slate-200 overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-xl transition-all"
+                className="rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] hover:border-[#181615] overflow-hidden flex flex-col justify-between shadow-xs hover:shadow-sm transition-all"
               >
                 <div className="aspect-[16/10] overflow-hidden bg-slate-100">
                   <img src={cap.image} alt={cap.title} className="w-full h-full object-cover" />
@@ -78,24 +78,24 @@ export function IndustrialTrainingProjects() {
                 <div className="p-6 flex flex-col flex-grow justify-between">
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-2">
-                      <span className="text-xs font-bold text-blue-600">{cap.track}</span>
+                      <span className="text-xs font-bold text-[#8C4325]">{cap.track}</span>
                       <span className="text-[11px] text-slate-500">{cap.college}</span>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-3">{cap.title}</h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                    <h3 className="text-xl font-bold text-[#1A1715] mb-3">{cap.title}</h3>
+                    <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed mb-4">
                       {cap.description}
                     </p>
                     <div className="flex flex-wrap gap-1.5 mb-4">
                       {cap.tech.map((t) => (
-                        <span key={t} className="px-2.5 py-0.5 rounded bg-slate-100 text-slate-700 text-[11px] font-semibold border border-slate-200">
+                        <span key={t} className="px-2.5 py-0.5 rounded bg-[#EBE6DC] text-[#57534E] text-[11px] font-semibold border border-[#E2DDD2]">
                           {t}
                         </span>
                       ))}
                     </div>
                   </div>
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-xs text-emerald-600 font-semibold">Verified Capstone</span>
-                    <Link to="/apply?program=industrial-training" className="text-xs font-bold text-blue-600 hover:underline">
+                    <span className="text-xs text-[#2D6A4F] font-semibold">Verified Capstone</span>
+                    <Link to="/apply?program=industrial-training" className="text-xs font-bold text-[#8C4325] hover:underline">
                       Enroll in Track →
                     </Link>
                   </div>

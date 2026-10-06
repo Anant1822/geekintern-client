@@ -45,18 +45,18 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="px-4 py-5 border-b">
+      <div className="px-4 py-5 border-b border-[#E2DDD2] dark:border-stone-800">
         <Link to="/">
           <Logo size="sm" />
         </Link>
       </div>
 
       {/* User info */}
-      <div className="px-4 py-4 border-b bg-muted/30">
+      <div className="px-4 py-4 border-b border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1917]">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
             <AvatarImage src={profile?.avatar_url} />
-            <AvatarFallback className="bg-brand-navy text-white text-sm">
+            <AvatarFallback className="bg-[#181615] text-[#FAF7F2] text-sm font-semibold">
               {getInitials(profile?.full_name ?? user?.email ?? 'U')}
             </AvatarFallback>
           </Avatar>
@@ -79,7 +79,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
                 isActive(link.href)
-                  ? 'bg-brand-navy text-white'
+                  ? 'bg-[#181615] dark:bg-[#FAF7F2] text-white dark:text-[#181615]'
                   : 'text-foreground/70 hover:bg-muted hover:text-foreground'
               )}
             >
@@ -91,7 +91,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       </nav>
 
       {/* Bottom actions */}
-      <div className="px-3 pb-4 space-y-1 border-t pt-3">
+      <div className="px-3 pb-4 space-y-1 border-t border-[#E2DDD2] dark:border-stone-800 pt-3">
         <Link
           to="/browse"
           className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
@@ -111,9 +111,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   )
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2]">
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 bg-white border-r shadow-sm fixed inset-y-0 left-0 z-30">
+      <aside className="hidden lg:flex flex-col w-64 bg-[#FAF7F2] dark:bg-[#1C1917] border-r border-[#E2DDD2] dark:border-stone-800 shadow-xs fixed inset-y-0 left-0 z-30">
         <SidebarContent />
       </aside>
 
@@ -128,7 +128,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Mobile sidebar drawer */}
       <div
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl lg:hidden transition-transform duration-300',
+          'fixed inset-y-0 left-0 z-50 w-64 bg-[#FAF7F2] dark:bg-[#1C1917] border-r border-[#E2DDD2] dark:border-stone-800 shadow-xl lg:hidden transition-transform duration-300',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
@@ -145,7 +145,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Main content */}
       <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
         {/* Top bar */}
-        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b bg-white px-4 shadow-sm">
+        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1917] px-4 shadow-xs">
           <Button
             variant="ghost"
             size="icon-sm"

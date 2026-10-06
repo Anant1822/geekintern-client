@@ -212,35 +212,35 @@ export function CorePortfolio() {
       <PageTitle title="Core Engineering & Hardware Portfolio | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/40 text-slate-900 border-b border-slate-200">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
         <div className="max-w-5xl mx-auto text-center">
-          <Badge className="bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
+          <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Hardware, Firmware & Systems
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-950">
-            Core Engineering <span className="text-blue-600">Portfolio</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+            Core Engineering <span className="italic font-serif text-[#8C4325]">Portfolio</span>
           </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
             Showcase of synthesizable Verilog RISC-V cores, FreeRTOS CAN telemetry firmware, Industrial IoT edge nodes, ROS 2 autonomous rovers, and FEA mechanical assemblies built by our core engineering interns.
           </p>
 
           {/* Key Stats Bar */}
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-slate-900">VLSI & FPGA</div>
-              <div className="text-xs font-semibold text-blue-600 mt-0.5">Synthesizable RTL</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
+              <div className="text-2xl font-extrabold text-[#1A1715]">VLSI & FPGA</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Synthesizable RTL</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-slate-900">FreeRTOS</div>
-              <div className="text-xs font-semibold text-blue-600 mt-0.5">Real-Time Kernels</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
+              <div className="text-2xl font-extrabold text-[#1A1715]">FreeRTOS</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Real-Time Kernels</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-slate-900">ROS 2 & SLAM</div>
-              <div className="text-xs font-semibold text-blue-600 mt-0.5">Autonomous Robotics</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
+              <div className="text-2xl font-extrabold text-[#1A1715]">ROS 2 & SLAM</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Autonomous Robotics</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-slate-900">100%</div>
-              <div className="text-xs font-semibold text-blue-600 mt-0.5">NOC Lab Verified</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
+              <div className="text-2xl font-extrabold text-[#1A1715]">100%</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">NOC Lab Verified</div>
             </div>
           </div>
 
@@ -252,14 +252,14 @@ export function CorePortfolio() {
               placeholder="Search by track, tool, or branch (e.g. Verilog, STM32, ROS 2, FEA)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-11 h-12 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-2xl shadow-sm text-sm focus:border-blue-500"
+              className="pl-11 h-12 bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] placeholder:text-[#57534E]/60 rounded-full shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
             />
           </div>
         </div>
       </section>
 
       {/* Category Pills & Project Grid */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white text-slate-900 min-h-[60vh]">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] min-h-[60vh]">
         <div className="max-w-7xl mx-auto">
           {/* Categories */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
@@ -269,8 +269,8 @@ export function CorePortfolio() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                   selectedCategory === cat
-                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/20'
-                    : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/80 border border-slate-200'
+                    ? 'bg-[#181615] text-white shadow-xs'
+                    : 'bg-[#EBE6DC] text-[#57534E] hover:text-[#1A1715] hover:bg-[#EAE4D7] border border-[#E2DDD2]'
                 }`}
               >
                 {cat}
@@ -279,10 +279,10 @@ export function CorePortfolio() {
           </div>
 
           {/* Results indicator */}
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-6 font-medium">
-            <span>Showing <strong className="text-slate-900 font-bold">{filteredProjects.length}</strong> core engineering capstones</span>
+          <div className="flex items-center justify-between text-xs text-[#57534E] mb-6 font-medium">
+            <span>Showing <strong className="text-[#1A1715] font-bold">{filteredProjects.length}</strong> core engineering capstones</span>
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="text-blue-600 hover:underline">
+              <button onClick={() => setSearchQuery('')} className="text-[#2D6A4F] hover:underline">
                 Clear search
               </button>
             )}
@@ -293,7 +293,7 @@ export function CorePortfolio() {
             {filteredProjects.map((project) => (
               <article
                 key={project.id}
-                className="group rounded-3xl bg-white border border-slate-200 hover:border-blue-300 overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-xs"
+                className="group rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] hover:border-[#181615] overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm shadow-xs"
               >
                 <div>
                   {/* Image with overlay badge */}
@@ -304,11 +304,11 @@ export function CorePortfolio() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
-                    <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[11px] font-bold text-slate-900 border border-slate-200 shadow-xs">
+                    <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-[#FAF7F2]/95 backdrop-blur-md text-[11px] font-bold text-[#1A1715] border border-[#E2DDD2] shadow-xs">
                       {project.category}
                     </div>
                     {project.featured && (
-                      <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-blue-600 text-white text-[10px] font-extrabold tracking-wider uppercase shadow-sm">
+                      <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-[#181615] text-white text-[10px] font-extrabold tracking-wider uppercase shadow-xs">
                         Flagship
                       </div>
                     )}
@@ -316,36 +316,36 @@ export function CorePortfolio() {
 
                   {/* Body Content */}
                   <div className="p-6 sm:p-7">
-                    <div className="flex items-center justify-between text-[11px] text-slate-500 mb-2 font-medium">
+                    <div className="flex items-center justify-between text-[11px] text-[#57534E] mb-2 font-medium">
                       <span>Target Branch: <strong className="text-slate-800">{project.branch}</strong></span>
                     </div>
 
-                    <h2 className="text-lg font-extrabold text-slate-950 mb-1.5 group-hover:text-blue-600 transition-colors leading-snug">
+                    <h2 className="text-lg font-extrabold text-[#1A1715] mb-1.5 group-hover:text-[#8C4325] transition-colors leading-snug">
                       {project.title}
                     </h2>
 
-                    <p className="text-xs font-semibold text-blue-600 mb-3">
+                    <p className="text-xs font-semibold text-[#8C4325] mb-3">
                       {project.subtitle}
                     </p>
 
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5">
+                    <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed mb-5">
                       {project.description}
                     </p>
 
                     {/* Key Engineering Deliverables */}
-                    <div className="mb-5 p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1.5">
+                    <div className="mb-5 p-3.5 rounded-xl bg-[#F5F2EB] border border-[#E2DDD2] space-y-1.5">
                       <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Technical Deliverables</div>
                       {project.keyDeliverables.map((feat, fIdx) => (
-                        <div key={fIdx} className="flex items-start gap-2 text-[11px] text-slate-700 leading-tight">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                        <div key={fIdx} className="flex items-start gap-2 text-[11px] text-[#57534E] leading-tight">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#2D6A4F] shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </div>
                       ))}
                     </div>
 
                     {/* Performance / Benchmark Metric */}
-                    <div className="mb-5 flex items-center gap-2 text-[11px] font-semibold text-slate-700 bg-blue-50/70 border border-blue-100 rounded-lg px-3 py-1.5">
-                      <TrendingUp className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                    <div className="mb-5 flex items-center gap-2 text-[11px] font-semibold text-[#57534E] bg-[#E8F3ED] border border-[#C2E0D1] rounded-lg px-3 py-1.5">
+                      <TrendingUp className="w-3.5 h-3.5 text-[#2D6A4F] shrink-0" />
                       <span>{project.metrics}</span>
                     </div>
 
@@ -354,7 +354,7 @@ export function CorePortfolio() {
                       {project.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200"
+                          className="px-2.5 py-1 rounded-md bg-[#EBE6DC] text-[#57534E] text-[11px] font-medium border border-[#E2DDD2]"
                         >
                           {tech}
                         </span>
@@ -368,7 +368,7 @@ export function CorePortfolio() {
                   <div className="flex items-center gap-2 pt-4">
                     <Link
                       to={`/apply?domain=${encodeURIComponent(project.category)}`}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 text-xs font-semibold transition-colors shadow-xs"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white px-4 py-2.5 text-xs font-semibold transition-colors shadow-xs"
                     >
                       <Sparkles className="w-3.5 h-3.5" />
                       <span>Apply For Core Track</span>
@@ -378,7 +378,7 @@ export function CorePortfolio() {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center justify-center p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 hover:text-blue-600 transition-colors"
+                        className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#E2DDD2] hover:bg-[#EBE6DC] text-[#57534E] hover:text-[#1A1715] transition-colors"
                         title="View Hardware Specs & Code"
                       >
                         <Github className="w-4 h-4" />
@@ -391,15 +391,15 @@ export function CorePortfolio() {
           </div>
 
           {/* Engineering Pillars Section */}
-          <div className="mt-24 pt-16 border-t border-slate-200">
+          <div className="mt-24 pt-16 border-t border-[#E2DDD2]">
             <div className="text-center max-w-3xl mx-auto mb-14">
-              <Badge className="bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-widest text-[11px] mb-3 px-3 py-1 font-semibold">
+              <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-3 px-3 py-1 font-semibold">
                 Core Engineering Standard
               </Badge>
-              <h2 className="text-3xl font-extrabold text-slate-950 tracking-tight">
+              <h2 className="text-3xl font-extrabold text-[#1A1715] tracking-tight">
                 Designed for Non-CS & Hardware Disciplines
               </h2>
-              <p className="text-slate-600 text-sm mt-2">
+              <p className="text-[#57534E] text-sm mt-2">
                 Gain verified practical experience in electronics, semiconductors, embedded systems, automotive firmware, and mechanical simulation.
               </p>
             </div>
@@ -408,12 +408,12 @@ export function CorePortfolio() {
               {CORE_ADVANTAGES.map((p, idx) => {
                 const Icon = p.icon
                 return (
-                  <div key={idx} className="p-6 rounded-2xl bg-slate-50/70 border border-slate-200/90 shadow-xs">
-                    <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-4 shadow-xs">
+                  <div key={idx} className="p-6 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-[#181615] text-white flex items-center justify-center mb-4 shadow-xs">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="font-bold text-sm text-slate-900 mb-2">{p.title}</h3>
-                    <p className="text-xs text-slate-600 leading-relaxed">{p.desc}</p>
+                    <h3 className="font-bold text-sm text-[#1A1715] mb-2">{p.title}</h3>
+                    <p className="text-xs text-[#57534E] leading-relaxed">{p.desc}</p>
                   </div>
                 )
               })}
@@ -421,16 +421,16 @@ export function CorePortfolio() {
           </div>
 
           {/* CTA Box */}
-          <div className="mt-20 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white p-8 md:p-14 text-center max-w-4xl mx-auto shadow-lg relative overflow-hidden">
+          <div className="mt-20 rounded-3xl bg-[#181615] text-[#FAF7F2] p-8 md:p-14 text-center max-w-4xl mx-auto shadow-sm border border-[#2A2724] relative overflow-hidden rounded-3xl">
             <div className="relative z-10">
               <h3 className="text-2xl sm:text-4xl font-extrabold mb-3 text-white tracking-tight">
                 Accelerate Your Core Engineering Career
               </h3>
-              <p className="text-blue-100 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
+              <p className="text-[#D6CFC4] text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
                 Join our specialized core internships. Build hardware models, flash real microcontrollers, and obtain your verified certificate for university credits.
               </p>
               <Link to="/apply">
-                <Button className="h-12 px-8 rounded-full bg-white hover:bg-slate-100 text-blue-700 font-bold text-xs shadow-md">
+                <Button className="h-12 px-8 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#1A1715] font-bold text-xs shadow-xs">
                   Apply for Core Internships Now →
                 </Button>
               </Link>

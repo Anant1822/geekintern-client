@@ -183,33 +183,33 @@ export function FAQ() {
       <PageTitle title="Frequently Asked Questions | Geek Intern" />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/40 text-slate-900 border-b border-slate-200">
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge className="bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
+          <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Help Center & Guidelines
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-950">
-            Frequently Asked <span className="text-blue-600">Questions</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+            Frequently Asked <span className="italic font-serif text-[#8C4325]">Questions</span>
           </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Everything you need to know about our virtual internship tracks, offer letter dispatch, project submissions, college NOCs, and verifiable certificate credentials.
           </p>
 
           {/* Quick Search */}
           <div className="mt-8 max-w-md mx-auto relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#78716C]" />
             <Input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search questions by keyword (e.g. certificate, college, NOC, tasks)..."
-              className="pl-11 h-12 rounded-2xl border-slate-200 bg-white shadow-sm text-sm focus:border-blue-500"
+              className="pl-11 h-12 rounded-2xl border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
             />
           </div>
         </div>
       </section>
 
       {/* Main FAQ Content */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white text-slate-900 min-h-[60vh]">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] min-h-[60vh]">
         <div className="max-w-4xl mx-auto">
           {/* Category Filter Pills */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
@@ -219,8 +219,8 @@ export function FAQ() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                   activeCategory === cat
-                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/20'
-                    : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/80 border border-slate-200'
+                    ? 'bg-[#181615] text-white shadow-xs'
+                    : 'bg-[#EBE6DC] text-[#57534E] hover:text-[#1A1715] hover:bg-[#EAE4D7] border border-[#E2DDD2]'
                 }`}
               >
                 {cat}
@@ -230,10 +230,10 @@ export function FAQ() {
 
           {/* FAQ Accordion List */}
           {filteredFaqs.length === 0 ? (
-            <div className="py-16 text-center text-slate-500">
+            <div className="py-16 text-center text-[#57534E]">
               <HelpCircle className="w-12 h-12 text-slate-300 mx-auto mb-3" />
               <p className="text-base font-semibold">No questions found matching "{searchQuery}"</p>
-              <p className="text-xs text-slate-400 mt-1">Try searching for broader terms or reset filters.</p>
+              <p className="text-xs text-[#78716C] mt-1">Try searching for broader terms or reset filters.</p>
               <Button
                 variant="outline"
                 onClick={() => {
@@ -254,31 +254,31 @@ export function FAQ() {
                     key={faq.id}
                     className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
                       isOpen
-                        ? 'border-blue-300 bg-blue-50/20 shadow-sm'
-                        : 'border-slate-200 bg-white hover:border-slate-300'
+                        ? 'border-[#181615] bg-[#FAF7F2] shadow-xs'
+                        : 'border-[#E2DDD2] bg-[#FAF7F2] hover:border-[#D6CFC4]'
                     }`}
                   >
                     <button
                       type="button"
                       onClick={() => toggleFaq(faq.id)}
-                      className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-slate-900 hover:text-blue-600 transition-colors"
+                      className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-[#1A1715] hover:text-[#8C4325] transition-colors"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0" />
+                        <span className="w-2 h-2 rounded-full bg-[#2D6A4F] shrink-0" />
                         <span>{faq.question}</span>
                       </div>
                       <ChevronDown
-                        className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${
-                          isOpen ? 'rotate-180 text-blue-600' : ''
+                        className={`w-4 h-4 text-[#78716C] transition-transform duration-200 shrink-0 ${
+                          isOpen ? 'rotate-180 text-[#181615]' : ''
                         }`}
                       />
                     </button>
 
                     {isOpen && (
-                      <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 bg-white/70">
+                      <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-[#57534E] leading-relaxed border-t border-[#E2DDD2] bg-[#F5F2EB]/60">
                         <p>{faq.answer}</p>
                         <div className="mt-3 inline-block">
-                          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] uppercase font-bold tracking-wider text-[#57534E] bg-[#EBE6DC] px-2 py-0.5 rounded-md">
                             {faq.category}
                           </span>
                         </div>
@@ -291,14 +291,14 @@ export function FAQ() {
           )}
 
           {/* Need More Assistance Support Card */}
-          <div className="mt-16 rounded-3xl bg-slate-50 border border-slate-200 p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+          <div className="mt-16 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-[#181615] text-[#FAF7F2] flex items-center justify-center shrink-0 shadow-xs">
                 <Mail className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-slate-900">Still Have Questions?</h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <h3 className="font-bold text-base text-[#1A1715]">Still Have Questions?</h3>
+                <p className="text-xs text-[#57534E] mt-0.5">
                   Our student support helpdesk is available to assist you with any specific queries.
                 </p>
               </div>
@@ -306,12 +306,12 @@ export function FAQ() {
 
             <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
               <a href="mailto:support.geekintern@gmail.com" className="w-full md:w-auto">
-                <Button className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold h-10 px-5 rounded-xl shadow-xs">
+                <Button className="w-full md:w-auto bg-[#181615] hover:bg-[#2A2724] text-white text-xs font-semibold h-10 px-5 rounded-full shadow-xs">
                   Email Support Team
                 </Button>
               </a>
               <Link to="/contact" className="w-full md:w-auto">
-                <Button variant="outline" className="w-full md:w-auto border-slate-300 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold h-10 px-5 rounded-xl">
+                <Button variant="outline" className="w-full md:w-auto border-[#D6CFC4] bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#1A1715] text-xs font-semibold h-10 px-5 rounded-full">
                   Contact Page →
                 </Button>
               </Link>

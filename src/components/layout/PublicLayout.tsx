@@ -7,7 +7,7 @@ interface PublicLayoutProps {
 
 export function PublicLayout({ children }: PublicLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-[#F9FAF7] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
+    <div className="flex min-h-screen flex-col bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] transition-colors duration-200">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />

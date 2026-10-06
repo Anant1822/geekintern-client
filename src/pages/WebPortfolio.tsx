@@ -251,35 +251,35 @@ export function WebPortfolio() {
       <PageTitle title="Production Web Development Portfolio | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/40 text-slate-900 border-b border-slate-200">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
         <div className="max-w-5xl mx-auto text-center">
-          <Badge className="bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
+          <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Engineering Excellence & Capstones
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-950">
-            Web Development <span className="text-blue-600">Portfolio</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+            Web Development <span className="italic font-serif text-[#8C4325]">Portfolio</span>
           </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
             Explore battle-tested full-stack web applications, microservices, and AI-enabled software architectures engineered by Geek Intern developers and verified interns.
           </p>
 
           {/* Key Stats Bar */}
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-slate-900">100%</div>
-              <div className="text-xs font-semibold text-blue-600 mt-0.5">Production Code</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
+              <div className="text-2xl font-extrabold text-[#1A1715]">100%</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Production Code</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-slate-900">Next.js 14</div>
-              <div className="text-xs font-semibold text-blue-600 mt-0.5">Modern App Router</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
+              <div className="text-2xl font-extrabold text-[#1A1715]">Next.js 14</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Modern App Router</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-slate-900">PostgreSQL</div>
-              <div className="text-xs font-semibold text-blue-600 mt-0.5">Relational Schemas</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
+              <div className="text-2xl font-extrabold text-[#1A1715]">PostgreSQL</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Relational Schemas</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-slate-900">Verified</div>
-              <div className="text-xs font-semibold text-blue-600 mt-0.5">GitHub Repositories</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
+              <div className="text-2xl font-extrabold text-[#1A1715]">Verified</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">GitHub Repositories</div>
             </div>
           </div>
 
@@ -291,14 +291,14 @@ export function WebPortfolio() {
               placeholder="Search by tech or keyword (e.g. Next.js, Stripe, Docker, AI)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-11 h-12 bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-2xl shadow-sm text-sm focus:border-blue-500"
+              className="pl-11 h-12 bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] placeholder:text-[#57534E]/60 rounded-full shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
             />
           </div>
         </div>
       </section>
 
       {/* Category Pills & Project Grid */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white text-slate-900 min-h-[60vh]">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] min-h-[60vh]">
         <div className="max-w-7xl mx-auto">
           {/* Categories */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
@@ -308,8 +308,8 @@ export function WebPortfolio() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                   selectedCategory === cat
-                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/20'
-                    : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/80 border border-slate-200'
+                    ? 'bg-[#181615] text-white shadow-xs'
+                    : 'bg-[#EBE6DC] text-[#57534E] hover:text-[#1A1715] hover:bg-[#EAE4D7] border border-[#E2DDD2]'
                 }`}
               >
                 {cat}
@@ -318,10 +318,10 @@ export function WebPortfolio() {
           </div>
 
           {/* Results indicator */}
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-6 font-medium">
-            <span>Showing <strong className="text-slate-900 font-bold">{filteredProjects.length}</strong> engineering projects</span>
+          <div className="flex items-center justify-between text-xs text-[#57534E] mb-6 font-medium">
+            <span>Showing <strong className="text-[#1A1715] font-bold">{filteredProjects.length}</strong> engineering projects</span>
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="text-blue-600 hover:underline">
+              <button onClick={() => setSearchQuery('')} className="text-[#2D6A4F] hover:underline">
                 Clear search
               </button>
             )}
@@ -332,7 +332,7 @@ export function WebPortfolio() {
             {filteredProjects.map((project) => (
               <article
                 key={project.id}
-                className="group rounded-3xl bg-white border border-slate-200 hover:border-blue-300 overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-xs"
+                className="group rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] hover:border-[#181615] overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-sm shadow-xs"
               >
                 <div>
                   {/* Image with overlay badge */}
@@ -343,11 +343,11 @@ export function WebPortfolio() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
-                    <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[11px] font-bold text-slate-900 border border-slate-200 shadow-xs">
+                    <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-[#FAF7F2]/95 backdrop-blur-md text-[11px] font-bold text-[#1A1715] border border-[#E2DDD2] shadow-xs">
                       {project.category}
                     </div>
                     {project.featured && (
-                      <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-blue-600 text-white text-[10px] font-extrabold tracking-wider uppercase shadow-sm">
+                      <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-[#181615] text-white text-[10px] font-extrabold tracking-wider uppercase shadow-xs">
                         Featured Build
                       </div>
                     )}
@@ -355,39 +355,39 @@ export function WebPortfolio() {
 
                   {/* Body Content */}
                   <div className="p-6 sm:p-7">
-                    <div className="flex items-center justify-between text-[11px] text-slate-500 mb-2 font-medium">
-                      <span>Industry: <strong className="text-slate-800">{project.industry}</strong></span>
+                    <div className="flex items-center justify-between text-[11px] text-[#57534E] mb-2 font-medium">
+                      <span>Industry: <strong className="text-[#1A1715]">{project.industry}</strong></span>
                       <span className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full text-[10px] font-semibold">
                         Verified Capstone
                       </span>
                     </div>
 
-                    <h2 className="text-lg font-extrabold text-slate-950 mb-1.5 group-hover:text-blue-600 transition-colors leading-snug">
+                    <h2 className="text-lg font-extrabold text-[#1A1715] mb-1.5 group-hover:text-[#2D6A4F] transition-colors leading-snug">
                       {project.title}
                     </h2>
 
-                    <p className="text-xs font-semibold text-blue-600 mb-3">
+                    <p className="text-xs font-semibold text-[#2D6A4F] mb-3">
                       {project.subtitle}
                     </p>
 
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5">
+                    <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed mb-5">
                       {project.description}
                     </p>
 
                     {/* Key Architectural Highlights */}
-                    <div className="mb-5 p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1.5">
+                    <div className="mb-5 p-3.5 rounded-xl bg-[#F5F2EB] border border-[#E2DDD2] space-y-1.5">
                       <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Key Engineering Capabilities</div>
                       {project.keyFeatures.map((feat, fIdx) => (
-                        <div key={fIdx} className="flex items-start gap-2 text-[11px] text-slate-700 leading-tight">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                        <div key={fIdx} className="flex items-start gap-2 text-[11px] text-[#57534E] leading-tight">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#2D6A4F] shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </div>
                       ))}
                     </div>
 
                     {/* Performance / Architectural Metric */}
-                    <div className="mb-5 flex items-center gap-2 text-[11px] font-semibold text-slate-700 bg-blue-50/70 border border-blue-100 rounded-lg px-3 py-1.5">
-                      <TrendingUp className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                    <div className="mb-5 flex items-center gap-2 text-[11px] font-semibold text-[#57534E] bg-[#F0E6DC] border border-[#E4D5C7] rounded-lg px-3 py-1.5">
+                      <TrendingUp className="w-3.5 h-3.5 text-[#2D6A4F] shrink-0" />
                       <span>{project.metrics}</span>
                     </div>
 
@@ -396,7 +396,7 @@ export function WebPortfolio() {
                       {project.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200"
+                          className="px-2.5 py-1 rounded-md bg-[#EBE6DC] text-[#57534E] text-[11px] font-medium border border-[#E2DDD2]"
                         >
                           {tech}
                         </span>
@@ -410,7 +410,7 @@ export function WebPortfolio() {
                   <div className="flex items-center gap-2 pt-4">
                     <Link
                       to={`/apply?domain=Full Stack Web Development`}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 text-xs font-semibold transition-colors shadow-xs"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white px-4 py-2.5 text-xs font-semibold transition-colors shadow-xs"
                     >
                       <Sparkles className="w-3.5 h-3.5" />
                       <span>Build Similar Project</span>
@@ -420,7 +420,7 @@ export function WebPortfolio() {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center justify-center p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 hover:text-blue-600 transition-colors"
+                        className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#D6CFC4] hover:bg-[#EAE4D7] text-[#1A1715] transition-colors"
                         title="View GitHub Repository"
                       >
                         <Github className="w-4 h-4" />
@@ -433,15 +433,15 @@ export function WebPortfolio() {
           </div>
 
           {/* Architectural Pillars Section */}
-          <div className="mt-24 pt-16 border-t border-slate-200">
+          <div className="mt-24 pt-16 border-t border-[#E2DDD2]">
             <div className="text-center max-w-3xl mx-auto mb-14">
-              <Badge className="bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-widest text-[11px] mb-3 px-3 py-1 font-semibold">
+              <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-3 px-3 py-1 font-semibold">
                 Geek Intern Standard
               </Badge>
-              <h2 className="text-3xl font-extrabold text-slate-950 tracking-tight">
+              <h2 className="text-3xl font-extrabold text-[#1A1715] tracking-tight">
                 How Our Learners Build Industry-Grade Software
               </h2>
-              <p className="text-slate-600 text-sm mt-2">
+              <p className="text-[#57534E] text-sm mt-2">
                 We focus on hands-on development and real production engineering requirements.
               </p>
             </div>
@@ -450,12 +450,12 @@ export function WebPortfolio() {
               {ARCHITECTURE_PILLARS.map((p, idx) => {
                 const Icon = p.icon
                 return (
-                  <div key={idx} className="p-6 rounded-2xl bg-slate-50/70 border border-slate-200/90 shadow-xs">
-                    <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-4 shadow-xs">
+                  <div key={idx} className="p-6 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-[#181615] text-white flex items-center justify-center mb-4 shadow-xs">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="font-bold text-sm text-slate-900 mb-2">{p.title}</h3>
-                    <p className="text-xs text-slate-600 leading-relaxed">{p.desc}</p>
+                    <h3 className="font-bold text-sm text-[#1A1715] mb-2">{p.title}</h3>
+                    <p className="text-xs text-[#57534E] leading-relaxed">{p.desc}</p>
                   </div>
                 )
               })}
@@ -463,16 +463,16 @@ export function WebPortfolio() {
           </div>
 
           {/* CTA Box */}
-          <div className="mt-20 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white p-8 md:p-14 text-center max-w-4xl mx-auto shadow-lg relative overflow-hidden">
+          <div className="mt-20 rounded-3xl bg-[#181615] text-[#FAF7F2] p-8 md:p-14 text-center max-w-4xl mx-auto shadow-sm border border-[#2A2724] relative overflow-hidden rounded-3xl">
             <div className="relative z-10">
               <h3 className="text-2xl sm:text-4xl font-extrabold mb-3 text-white tracking-tight">
                 Ready to Build Your Own Production Portfolio?
               </h3>
-              <p className="text-blue-100 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
+              <p className="text-[#D6CFC4] text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
                 Enroll in the Geek Intern Web Development Virtual Internship track. Build full-stack applications with verified GitHub code proofs and earn your industry credential.
               </p>
               <Link to="/apply?domain=Full Stack Web Development">
-                <Button className="h-12 px-8 rounded-full bg-white hover:bg-slate-100 text-blue-700 font-bold text-xs shadow-md">
+                <Button className="h-12 px-8 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#1A1715] font-bold text-xs shadow-xs">
                   Apply for Web Internship Now →
                 </Button>
               </Link>

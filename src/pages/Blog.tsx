@@ -78,7 +78,7 @@ function FormattedContent({ text, className }: { text: string; className?: strin
           <Link
             key={match.index}
             to={targetPath}
-            className="text-blue-600 dark:text-blue-400 font-semibold underline underline-offset-2 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+            className="text-[#2D6A4F] font-semibold underline underline-offset-2 hover:text-[#181615] dark:hover:text-[#FAF7F2] transition-colors"
           >
             {label}
           </Link>
@@ -90,7 +90,7 @@ function FormattedContent({ text, className }: { text: string; className?: strin
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 font-semibold underline underline-offset-2 hover:text-blue-800 dark:hover:text-blue-300 transition-colors inline-flex items-center gap-0.5"
+            className="text-[#2D6A4F] font-semibold underline underline-offset-2 hover:text-[#181615] dark:hover:text-[#FAF7F2] transition-colors inline-flex items-center gap-0.5"
           >
             {label}
             <ExternalLink className="h-3 w-3 inline ml-0.5" />
@@ -106,7 +106,7 @@ function FormattedContent({ text, className }: { text: string; className?: strin
           <Link
             key={match.index}
             to={targetPath}
-            className="text-blue-600 dark:text-blue-400 font-semibold underline underline-offset-2 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+            className="text-[#2D6A4F] font-semibold underline underline-offset-2 hover:text-[#181615] dark:hover:text-[#FAF7F2] transition-colors"
           >
             {rawUrl}
           </Link>
@@ -118,7 +118,7 @@ function FormattedContent({ text, className }: { text: string; className?: strin
             href={rawUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 font-semibold underline underline-offset-2 hover:text-blue-800 dark:hover:text-blue-300 transition-colors inline-flex items-center gap-0.5"
+            className="text-[#2D6A4F] font-semibold underline underline-offset-2 hover:text-[#181615] dark:hover:text-[#FAF7F2] transition-colors inline-flex items-center gap-0.5"
           >
             {rawUrl}
             <ExternalLink className="h-3 w-3 inline ml-0.5" />
@@ -910,7 +910,7 @@ export default function Blog() {
         }
       />
 
-      <div className="min-h-screen bg-slate-50/70 dark:bg-slate-950 py-10 sm:py-16 transition-colors duration-200">
+      <div className="min-h-screen bg-[#F5F2EB] py-10 sm:py-16 transition-colors duration-200">
         <div className="container max-w-6xl px-4 sm:px-6">
           {/* ARTICLE VIEW */}
           {activePost ? (
@@ -921,7 +921,7 @@ export default function Blog() {
                   variant="ghost"
                   size="sm"
                   onClick={() => navigate('/blog')}
-                  className="gap-2 text-slate-600 dark:text-slate-300 hover:text-blue-600 text-xs font-semibold pl-1"
+                  className="gap-2 text-[#57534E] hover:text-[#181615] text-xs font-semibold pl-1"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   Back to All Articles
@@ -931,7 +931,7 @@ export default function Blog() {
                     size="sm"
                     variant="outline"
                     onClick={handleShare}
-                    className="text-xs h-8 gap-1.5 border-slate-200 dark:border-slate-800"
+                    className="text-xs h-8 gap-1.5 border-[#E2DDD2] dark:border-[#292524] rounded-full bg-[#FAF8F5] text-[#1A1715]"
                   >
                     <Share2 className="h-3.5 w-3.5" />
                     {copiedLink ? 'Link Copied!' : 'Share Article'}
@@ -940,29 +940,29 @@ export default function Blog() {
               </div>
 
               {/* Main Article Container */}
-              <article className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-12 shadow-sm space-y-8">
+              <article className="bg-[#FAF7F2] rounded-3xl border border-[#E2DDD2] p-6 sm:p-12 shadow-xs space-y-8">
                 {/* Header */}
-                <div className="space-y-4 border-b border-slate-100 dark:border-slate-800 pb-8">
+                <div className="space-y-4 border-b border-[#E2DDD2] dark:border-[#292524] pb-8">
                   <div className="flex flex-wrap items-center gap-2">
-                    <Badge className="bg-blue-600 text-white hover:bg-blue-700 text-xs px-2.5 py-0.5">
+                    <Badge className="bg-[#181615] text-white hover:bg-[#2A2724] text-xs px-2.5 py-0.5 rounded-full">
                       {activePost.category}
                     </Badge>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                    <span className="text-xs text-[#57534E] flex items-center gap-1">
                       <Clock className="h-3.5 w-3.5" />
                       {activePost.readTime}
                     </span>
                     <span className="text-slate-300 dark:text-slate-700">•</span>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                    <span className="text-xs text-[#57534E] flex items-center gap-1">
                       <Calendar className="h-3.5 w-3.5" />
                       {activePost.date}
                     </span>
                   </div>
 
-                  <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+                  <h1 className="text-2xl sm:text-4xl font-extrabold text-[#1A1715] tracking-tight leading-tight">
                     {activePost.title}
                   </h1>
 
-                  <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                  <p className="text-base sm:text-lg text-[#57534E] leading-relaxed font-normal">
                     {activePost.subtitle}
                   </p>
 
@@ -971,13 +971,13 @@ export default function Blog() {
                     <img
                       src={activePost.author.avatar}
                       alt={activePost.author.name}
-                      className="h-11 w-11 rounded-full object-cover border-2 border-blue-500/20 shadow-xs"
+                      className="h-11 w-11 rounded-full object-cover border-2 border-[#E2DDD2] shadow-xs"
                     />
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                      <h4 className="text-sm font-bold text-[#1A1715]">
                         {activePost.author.name}
                       </h4>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                      <p className="text-xs text-[#57534E]">
                         {activePost.author.role}
                       </p>
                     </div>
@@ -985,8 +985,8 @@ export default function Blog() {
                 </div>
 
                 {/* Introduction */}
-                <div className="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 text-base leading-relaxed">
-                  <div className="text-lg leading-relaxed text-slate-800 dark:text-slate-200 font-medium bg-blue-50/50 dark:bg-blue-950/20 p-5 rounded-2xl border-l-4 border-blue-600">
+                <div className="prose prose-slate dark:prose-invert max-w-none text-[#57534E] text-base leading-relaxed">
+                  <div className="text-lg leading-relaxed text-[#1A1715] font-medium bg-[#EBE6DC]/40 p-5 rounded-2xl border-l-4 border-[#181615]">
                     <FormattedContent text={activePost.content.introduction} />
                   </div>
                 </div>
@@ -995,18 +995,18 @@ export default function Blog() {
                 <div className="space-y-8 pt-2">
                   {activePost.content.sections.map((section, idx) => (
                     <div key={idx} className="space-y-3.5">
-                      <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+                      <h2 className="text-xl sm:text-2xl font-bold text-[#1A1715] tracking-tight">
                         {section.heading}
                       </h2>
-                      <div className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                      <div className="text-sm sm:text-base text-[#57534E] leading-relaxed">
                         <FormattedContent text={section.body} />
                       </div>
 
                       {section.bulletPoints && (
                         <ul className="space-y-2.5 my-3 pl-2">
                           {section.bulletPoints.map((pt, ptIdx) => (
-                            <li key={ptIdx} className="flex items-start gap-2.5 text-sm text-slate-700 dark:text-slate-300">
-                              <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                            <li key={ptIdx} className="flex items-start gap-2.5 text-sm text-[#57534E]">
+                              <CheckCircle2 className="h-4 w-4 text-[#2D6A4F] shrink-0 mt-0.5" />
                               <div>
                                 <FormattedContent text={pt} />
                               </div>
@@ -1016,10 +1016,10 @@ export default function Blog() {
                       )}
 
                       {section.codeSnippet && (
-                        <div className="rounded-xl overflow-hidden bg-slate-950 text-slate-100 border border-slate-800 shadow-md my-4">
-                          <div className="bg-slate-900 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400 font-mono">
+                        <div className="rounded-xl overflow-hidden bg-[#181615] text-[#FAF7F2] border border-[#292524] shadow-md my-4">
+                          <div className="bg-[#181615] px-4 py-2 border-b border-[#292524] flex items-center justify-between text-xs text-[#FAF7F2]/70 font-mono">
                             <span>{section.codeSnippet.language}</span>
-                            <span className="text-[11px] text-slate-500">Official Reference</span>
+                            <span className="text-[11px] text-[#D6CFC4]">Official Reference</span>
                           </div>
                           <pre className="p-4 text-xs sm:text-sm font-mono overflow-x-auto leading-relaxed text-emerald-400">
                             <code>{section.codeSnippet.code}</code>
@@ -1031,15 +1031,15 @@ export default function Blog() {
                 </div>
 
                 {/* Key Takeaways Box */}
-                <div className="rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 dark:from-slate-800 dark:to-slate-800/60 border border-blue-100 dark:border-slate-700 p-6 sm:p-8 space-y-4">
-                  <div className="flex items-center gap-2 text-blue-900 dark:text-blue-300 font-bold text-base">
-                    <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <div className="rounded-2xl bg-[#EBE6DC]/40 border border-[#E2DDD2] p-6 sm:p-8 space-y-4">
+                  <div className="flex items-center gap-2 text-[#1A1715] font-bold text-base">
+                    <Sparkles className="h-5 w-5 text-[#8C4325]" />
                     Key Takeaways & Action Items
                   </div>
                   <ul className="space-y-2.5">
                     {activePost.content.takeaways.map((item, tIdx) => (
-                      <li key={tIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-800 dark:text-slate-200">
-                        <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                      <li key={tIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#1A1715]">
+                        <span className="w-5 h-5 rounded-full bg-[#181615] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                           {tIdx + 1}
                         </span>
                         <div>
@@ -1052,7 +1052,7 @@ export default function Blog() {
 
                 {/* Tags */}
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                  <span className="text-xs font-bold text-[#57534E] flex items-center gap-1">
                     <Tag className="h-3.5 w-3.5" /> Tags:
                   </span>
                   {activePost.tags.map((tag) => (
@@ -1066,24 +1066,24 @@ export default function Blog() {
                 </div>
 
                 {/* Quick Portals Reference Bar for Readers & AI Crawlers */}
-                <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-3 text-xs">
-                  <span className="font-semibold text-slate-700 dark:text-slate-300">
+                <div className="p-4 rounded-xl bg-[#EBE6DC]/40 border border-[#E2DDD2] flex flex-wrap items-center justify-between gap-3 text-xs">
+                  <span className="font-semibold text-[#1A1715]">
                     Official GeekIntern Portals:
                   </span>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Link to="/apply" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                    <Link to="/apply" className="text-[#2D6A4F] font-bold hover:underline">
                       Apply Online →
                     </Link>
-                    <span className="text-slate-300 dark:text-slate-600">•</span>
-                    <Link to="/verify" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                    <span className="text-[#D6CFC4]">•</span>
+                    <Link to="/verify" className="text-[#2D6A4F] font-bold hover:underline">
                       Verify Certificate →
                     </Link>
-                    <span className="text-slate-300 dark:text-slate-600">•</span>
-                    <Link to="/verify-offer-letter" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                    <span className="text-[#D6CFC4]">•</span>
+                    <Link to="/verify-offer-letter" className="text-[#2D6A4F] font-bold hover:underline">
                       Verify Offer Letter →
                     </Link>
-                    <span className="text-slate-300 dark:text-slate-600">•</span>
-                    <Link to="/browse" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                    <span className="text-[#D6CFC4]">•</span>
+                    <Link to="/browse" className="text-[#2D6A4F] font-bold hover:underline">
                       Browse Internships →
                     </Link>
                   </div>
@@ -1091,15 +1091,15 @@ export default function Blog() {
 
                 {/* Internship Track Call to Action */}
                 {activePost.content.recommendedTrack && (
-                  <div className="p-6 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
+                  <div className="p-6 rounded-2xl bg-[#181615] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
                     <div>
-                      <span className="text-xs uppercase font-extrabold tracking-wider text-blue-200">
+                      <span className="text-xs uppercase font-extrabold tracking-wider text-[#D6CFC4]">
                         Ready to apply this in practice?
                       </span>
                       <h3 className="text-lg font-bold mt-0.5">
                         Build real projects in {activePost.content.recommendedTrack.title}
                       </h3>
-                      <p className="text-xs text-blue-100 mt-1 max-w-md">
+                      <p className="text-xs text-[#D6CFC4] mt-1 max-w-md">
                         Join GeekIntern's verified virtual internship program. Receive real problem statements, mentor reviews, and verified ISO credentials.
                       </p>
                     </div>
@@ -1107,7 +1107,7 @@ export default function Blog() {
                       to={`/apply?domain=${encodeURIComponent(activePost.content.recommendedTrack.domain)}`}
                       className="shrink-0"
                     >
-                      <Button className="bg-white hover:bg-slate-100 text-blue-700 font-bold text-xs h-10 px-5 gap-1.5 shadow-sm">
+                      <Button className="bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#1A1715] font-bold text-xs h-10 px-5 gap-1.5 shadow-xs rounded-full">
                         Apply for Track
                         <ArrowRight className="h-4 w-4" />
                       </Button>
@@ -1121,30 +1121,30 @@ export default function Blog() {
             <div className="space-y-12">
               {/* Header Hero */}
               <div className="text-center max-w-3xl mx-auto space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-blue-700 dark:text-blue-300 text-xs font-semibold">
-                  <Newspaper className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F0E6DC] border border-[#E4D5C7] text-[#8C4325] text-xs font-semibold">
+                  <Newspaper className="h-4 w-4 text-[#8C4325]" />
                   GeekIntern Official Knowledge Base & Career Guides
                 </div>
-                <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                <h1 className="text-3xl sm:text-5xl font-extrabold text-[#1A1715] tracking-tight">
                   Tech Insights & Career Roadmaps for Geeks
                 </h1>
-                <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-                  Curated technical playbooks, architectural walkthroughs, and step-by-step career guidance designed to help college students and engineering interns build industry-ready portfolios with GeekIntern (<Link to="/" className="text-blue-600 hover:underline">geekintern.com</Link>).
+                <p className="text-[#57534E] text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+                  Curated technical playbooks, architectural walkthroughs, and step-by-step career guidance designed to help college students and engineering interns build industry-ready portfolios with GeekIntern (<Link to="/" className="text-[#2D6A4F] hover:underline">geekintern.com</Link>).
                 </p>
 
                 {/* Search Input */}
                 <div className="relative max-w-xl mx-auto pt-3">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#57534E]" />
                   <Input
                     placeholder="Search by keywords: internship, geek, geekintern, react, python..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 h-11 bg-white dark:bg-slate-900 text-sm shadow-xs border-slate-200 dark:border-slate-800"
+                    className="pl-10 h-11 bg-[#FAF7F2] text-[#1A1715] text-sm shadow-xs border-[#D6CFC4] rounded-full"
                   />
                   {searchQuery && (
                     <button
                       onClick={() => setSearchQuery('')}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-[#57534E] hover:text-[#1A1715]"
                     >
                       Clear
                     </button>
@@ -1160,8 +1160,8 @@ export default function Blog() {
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                       selectedCategory === cat
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
+                        ? 'bg-[#181615] text-white shadow-xs'
+                        : 'bg-[#EBE6DC] text-[#57534E] hover:text-[#1A1715] border border-[#E2DDD2]'
                     }`}
                   >
                     {cat}
@@ -1171,32 +1171,32 @@ export default function Blog() {
 
               {/* Featured Post Card (shown when category is 'All' and no search filter) */}
               {selectedCategory === 'All' && !searchQuery && featuredPost && (
-                <Card className="border border-blue-200 dark:border-blue-900 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 dark:from-slate-900 dark:to-slate-900 shadow-sm overflow-hidden rounded-3xl">
+                <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs overflow-hidden rounded-3xl">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 sm:p-10 items-center">
                     <div className="lg:col-span-8 space-y-4">
                       <div className="flex items-center gap-2">
-                        <Badge className="bg-amber-500 text-white text-[11px] font-bold">
+                        <Badge className="bg-[#181615] text-white text-[11px] font-bold rounded-full">
                           Featured Guide
                         </Badge>
-                        <Badge variant="outline" className="text-blue-700 dark:text-blue-300 border-blue-200 text-[11px]">
+                        <Badge variant="outline" className="text-[#2D6A4F] border-[#C2E0D1] bg-[#E8F3ED] text-[11px] rounded-full">
                           {featuredPost.category}
                         </Badge>
-                        <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                        <span className="text-xs text-[#57534E] flex items-center gap-1">
                           <Clock className="h-3 w-3" />
                           {featuredPost.readTime}
                         </span>
                       </div>
 
-                      <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A1715] leading-tight">
                         <Link
                           to={`/blog/${featuredPost.slug}`}
-                          className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          className="hover:text-[#8C4325] transition-colors"
                         >
                           {featuredPost.title}
                         </Link>
                       </h2>
 
-                      <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
+                      <p className="text-sm sm:text-base text-[#57534E] leading-relaxed line-clamp-3">
                         {featuredPost.subtitle}
                       </p>
 
@@ -1205,20 +1205,20 @@ export default function Blog() {
                           <img
                             src={featuredPost.author.avatar}
                             alt={featuredPost.author.name}
-                            className="h-9 w-9 rounded-full object-cover border"
+                            className="h-9 w-9 rounded-full object-cover border border-[#E2DDD2]"
                           />
                           <div>
-                            <p className="text-xs font-bold text-slate-900 dark:text-white">
+                            <p className="text-xs font-bold text-[#1A1715]">
                               {featuredPost.author.name}
                             </p>
-                            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                            <p className="text-[11px] text-[#57534E]">
                               {featuredPost.date}
                             </p>
                           </div>
                         </div>
 
                         <Link to={`/blog/${featuredPost.slug}`}>
-                          <Button className="bg-blue-600 hover:bg-blue-700 text-white text-xs h-9 px-4 gap-1.5 font-semibold">
+                          <Button className="bg-[#181615] hover:bg-[#2A2724] text-white text-xs h-9 px-4 gap-1.5 font-semibold rounded-full shadow-xs">
                             Read Guide
                             <ArrowRight className="h-3.5 w-3.5" />
                           </Button>
@@ -1226,19 +1226,19 @@ export default function Blog() {
                       </div>
                     </div>
 
-                    <div className="lg:col-span-4 hidden lg:flex items-center justify-center p-6 bg-blue-100/50 dark:bg-slate-800/80 rounded-2xl border border-blue-200/60 dark:border-slate-700 text-center">
+                    <div className="lg:col-span-4 hidden lg:flex items-center justify-center p-6 bg-[#EBE6DC]/40 rounded-2xl border border-[#E2DDD2] text-center">
                       <div className="space-y-3">
-                        <div className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center mx-auto shadow-md">
+                        <div className="w-12 h-12 rounded-xl bg-[#181615] text-white flex items-center justify-center mx-auto shadow-xs">
                           <BookOpen className="h-6 w-6" />
                         </div>
-                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                        <h4 className="text-sm font-bold text-[#1A1715]">
                           Verified Engineering Track
                         </h4>
-                        <p className="text-xs text-slate-600 dark:text-slate-400">
+                        <p className="text-xs text-[#57534E]">
                           Complete real project problem statements, submit GitHub repositories, and get verified ISO credentials on GeekIntern.
                         </p>
                         <Link to="/apply" className="inline-block pt-1">
-                          <span className="text-xs font-bold text-blue-600 hover:underline">
+                          <span className="text-xs font-bold text-[#2D6A4F] hover:underline">
                             Explore Internship Tracks ↗
                           </span>
                         </Link>
@@ -1251,21 +1251,21 @@ export default function Blog() {
               {/* Grid of Articles */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                  <h3 className="text-lg font-bold text-[#1A1715]">
                     {selectedCategory === 'All' ? 'Latest Publications' : `${selectedCategory} Articles`}
-                    <span className="ml-2 text-xs font-normal text-slate-500">
+                    <span className="ml-2 text-xs font-normal text-[#57534E]">
                       ({filteredPosts.length} {filteredPosts.length === 1 ? 'article' : 'articles'})
                     </span>
                   </h3>
                 </div>
 
                 {filteredPosts.length === 0 ? (
-                  <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-8">
-                    <Newspaper className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-                    <h4 className="text-base font-bold text-slate-800 dark:text-slate-200">
+                  <div className="text-center py-16 bg-[#FAF7F2] rounded-2xl border border-[#E2DDD2] p-8">
+                    <Newspaper className="h-10 w-10 text-[#57534E] mx-auto mb-3" />
+                    <h4 className="text-base font-bold text-[#1A1715]">
                       No matching articles found
                     </h4>
-                    <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                    <p className="text-xs text-[#57534E] mt-1 max-w-sm mx-auto">
                       We couldn't find any articles matching "{searchQuery}". Try searching for terms like "internship", "geek", "geekintern", "react", or "resume".
                     </p>
                     <Button
@@ -1275,7 +1275,7 @@ export default function Blog() {
                         setSelectedCategory('All')
                         setSearchQuery('')
                       }}
-                      className="mt-4 text-xs"
+                      className="mt-4 text-xs rounded-full border-[#D6CFC4] bg-[#FAF8F5] text-[#1A1715]"
                     >
                       Reset Filters
                     </Button>
@@ -1285,45 +1285,45 @@ export default function Blog() {
                     {filteredPosts.map((post) => (
                       <Card
                         key={post.slug}
-                        className="flex flex-col justify-between border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-800 transition-all rounded-2xl overflow-hidden group"
+                        className="flex flex-col justify-between border border-[#E2DDD2] bg-[#FAF7F2] hover:shadow-sm hover:border-[#181615]/40 transition-all rounded-2xl overflow-hidden group"
                       >
                         <CardHeader className="p-5 pb-3 space-y-2.5">
                           <div className="flex items-center justify-between">
                             <Badge
                               variant="secondary"
-                              className="text-[11px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                              className="text-[11px] font-semibold bg-[#EBE6DC] text-[#57534E] border border-[#E2DDD2] rounded-full"
                             >
                               {post.category}
                             </Badge>
-                            <span className="text-[11px] text-slate-400 flex items-center gap-1">
+                            <span className="text-[11px] text-[#57534E] flex items-center gap-1">
                               <Clock className="h-3 w-3" />
                               {post.readTime}
                             </span>
                           </div>
 
-                          <CardTitle className="text-base font-bold text-slate-900 dark:text-white leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          <CardTitle className="text-base font-bold text-[#1A1715] leading-snug group-hover:text-[#8C4325] transition-colors">
                             <Link to={`/blog/${post.slug}`}>
                               {post.title}
                             </Link>
                           </CardTitle>
 
-                          <CardDescription className="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                          <CardDescription className="text-xs text-[#57534E] line-clamp-3 leading-relaxed">
                             {post.subtitle}
                           </CardDescription>
                         </CardHeader>
 
-                        <CardContent className="p-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between mt-auto">
+                        <CardContent className="p-5 pt-3 border-t border-[#E2DDD2] flex items-center justify-between mt-auto">
                           <div className="flex items-center gap-2.5">
                             <img
                               src={post.author.avatar}
                               alt={post.author.name}
-                              className="h-7 w-7 rounded-full object-cover border"
+                              className="h-7 w-7 rounded-full object-cover border border-[#E2DDD2]"
                             />
                             <div>
-                              <p className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 leading-none">
+                              <p className="text-[11px] font-semibold text-[#1A1715] leading-none">
                                 {post.author.name}
                               </p>
-                              <p className="text-[10px] text-slate-400 mt-0.5">
+                              <p className="text-[10px] text-[#57534E] mt-0.5">
                                 {post.date}
                               </p>
                             </div>
@@ -1331,7 +1331,7 @@ export default function Blog() {
 
                           <Link
                             to={`/blog/${post.slug}`}
-                            className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                            className="inline-flex items-center gap-1 text-xs font-bold text-[#2D6A4F] hover:text-[#181615]"
                           >
                             <span>Read</span>
                             <ArrowRight className="h-3 w-3" />
@@ -1344,24 +1344,24 @@ export default function Blog() {
               </div>
 
               {/* Newsletter / Updates Section */}
-              <div className="rounded-3xl bg-slate-900 dark:bg-slate-900 text-white p-8 sm:p-12 border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="rounded-3xl bg-[#FAF7F2] text-[#1A1715] p-8 sm:p-12 border border-[#E2DDD2] shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="max-w-xl space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#8C4325]">
                     Stay Ahead in Tech
                   </span>
                   <h3 className="text-xl sm:text-2xl font-bold">
                     Receive Weekly Engineering & Career Briefs from GeekIntern
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed">
                     Get hand-picked GitHub problem statements, interview breakdown guides, and announcements about upcoming virtual internship batches delivered to your inbox.
                   </p>
                 </div>
                 <div className="w-full md:w-auto shrink-0 flex flex-col sm:flex-row gap-2">
                   <Input
                     placeholder="Enter your college or personal email"
-                    className="h-10 text-xs bg-slate-800 border-slate-700 text-white w-full sm:w-64"
+                    className="h-10 text-xs bg-white border-[#D6CFC4] text-[#1A1715] placeholder:text-[#57534E]/60 w-full sm:w-64 rounded-full"
                   />
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white text-xs h-10 px-5 font-semibold">
+                  <Button className="bg-[#181615] hover:bg-[#2A2724] text-white text-xs h-10 px-5 font-semibold rounded-full shadow-xs">
                     Subscribe
                   </Button>
                 </div>

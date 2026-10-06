@@ -20,8 +20,8 @@ export function Logo({ variant = 'auto', compact = false, className, size = 'md'
     variant === 'light'
       ? 'text-white'
       : variant === 'dark'
-      ? 'text-slate-900'
-      : 'text-slate-900 dark:text-white'
+      ? 'text-[#1A1715]'
+      : 'text-[#1A1715] dark:text-[#FAF7F2]'
 
   return (
     <div className={cn('flex items-center gap-2.5 select-none group', className)}>
@@ -40,16 +40,16 @@ export function Logo({ variant = 'auto', compact = false, className, size = 'md'
         >
           <defs>
             <linearGradient id="geekintern-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#059669" />
-              <stop offset="60%" stopColor="#10B981" />
-              <stop offset="100%" stopColor="#047857" />
+              <stop offset="0%" stopColor="#1A1715" />
+              <stop offset="60%" stopColor="#2A2622" />
+              <stop offset="100%" stopColor="#141210" />
             </linearGradient>
             <linearGradient id="geekintern-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#34D399" />
-              <stop offset="100%" stopColor="#10B981" />
+              <stop offset="0%" stopColor="#E07A5F" />
+              <stop offset="100%" stopColor="#9E4A2B" />
             </linearGradient>
             <filter id="cf-shadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#059669" floodOpacity="0.25" />
+              <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#1A1715" floodOpacity="0.2" />
             </filter>
           </defs>
 
@@ -72,7 +72,7 @@ export function Logo({ variant = 'auto', compact = false, className, size = 'md'
             height="84"
             rx="22"
             stroke="white"
-            strokeOpacity="0.25"
+            strokeOpacity="0.15"
             strokeWidth="2"
           />
 
@@ -104,7 +104,7 @@ export function Logo({ variant = 'auto', compact = false, className, size = 'md'
           />
 
           {/* Core tech dot */}
-          <circle cx="50" cy="50" r="3" fill="white" />
+          <circle cx="50" cy="50" r="3" fill="#E07A5F" />
         </svg>
       </div>
 
@@ -113,10 +113,10 @@ export function Logo({ variant = 'auto', compact = false, className, size = 'md'
         <div className="flex flex-col leading-tight">
           <div className="flex items-center">
             <span className={cn('font-extrabold tracking-tight font-sans', text, textColor)}>
-              Geek<span className="text-emerald-600 dark:text-emerald-400">Intern</span>
+              Geek<span className="text-[#9E4A2B] dark:text-[#E07A5F]">Intern</span>
             </span>
           </div>
-          <span className={cn('font-semibold uppercase tracking-[0.2em] text-zinc-500 mt-0.5', subText)}>
+          <span className={cn('font-semibold uppercase tracking-[0.2em] text-[#78716C] dark:text-stone-400 mt-0.5', subText)}>
             Build. Innovate. Excel
           </span>
         </div>

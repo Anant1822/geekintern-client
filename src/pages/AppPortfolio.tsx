@@ -119,15 +119,15 @@ export function AppPortfolio() {
       <PageTitle title="Mobile App Portfolio | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/40 text-slate-900 border-b border-slate-200">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
         <div className="max-w-5xl mx-auto text-center">
-          <Badge className="bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
+          <Badge className="bg-[#E8F3ED] text-[#2D6A4F] border border-[#C2E0D1] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
             Mobile Solutions
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-950">
-            Mobile Application <span className="text-[#FF4D5A]">Portfolio</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+            Mobile Application <span className="italic font-serif text-[#8C4325]">Portfolio</span>
           </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             High-performance cross-platform and native iOS & Android applications engineered for speed, offline reliability, and delightful mobile UX.
           </p>
 
@@ -139,14 +139,14 @@ export function AppPortfolio() {
               placeholder="Search apps by stack (Flutter, Kotlin, React Native...)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-11 bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 rounded-xl shadow-sm"
+              className="pl-10 h-11 bg-white border-slate-300 text-[#1A1715] placeholder:text-slate-400 rounded-xl shadow-sm"
             />
           </div>
         </div>
       </section>
 
       {/* Filter Tabs & App Grid */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white text-slate-900 min-h-[60vh]">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] min-h-[60vh]">
         <div className="max-w-7xl mx-auto">
           {/* Platform Tabs */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
@@ -156,8 +156,8 @@ export function AppPortfolio() {
                 onClick={() => setSelectedPlatform(plat)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                   selectedPlatform === plat
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                    : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 border border-slate-200'
+                    ? 'bg-[#181615] text-white shadow-xs'
+                    : 'bg-[#FAF7F2] text-[#57534E] hover:text-[#1A1715] hover:bg-[#EBE6DC] border border-[#E2DDD2]'
                 }`}
               >
                 {plat}
@@ -170,20 +170,20 @@ export function AppPortfolio() {
             {filteredApps.map((app) => (
               <article
                 key={app.id}
-                className="group rounded-2xl bg-white border border-slate-200 hover:border-emerald-400 overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-sm"
+                className="group rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] hover:border-[#181615]/40 overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md shadow-xs"
               >
                 {/* Image */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                <div className="relative aspect-[16/10] overflow-hidden bg-[#EBE6DC]">
                   <img
                     src={app.imageUrl}
                     alt={app.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[11px] font-bold text-slate-900 border border-slate-200 shadow-sm">
+                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#FAF7F2]/95 backdrop-blur-md text-[11px] font-bold text-[#1A1715] border border-[#E2DDD2] shadow-xs">
                     {app.category}
                   </div>
                   {app.featured && (
-                    <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-extrabold tracking-wide uppercase shadow">
+                    <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] text-[10px] font-extrabold tracking-wide uppercase shadow-xs">
                       Featured
                     </div>
                   )}
@@ -197,17 +197,17 @@ export function AppPortfolio() {
                       {app.platforms.map((p) => (
                         <span
                           key={p}
-                          className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200"
+                          className="px-2 py-0.5 rounded-full bg-[#E8F3ED] text-[#2D6A4F] text-[10px] font-bold border border-[#C2E0D1]"
                         >
                           {p}
                         </span>
                       ))}
                     </div>
 
-                    <h2 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">
+                    <h2 className="text-xl font-bold text-[#1A1715] mb-2 group-hover:text-[#8C4325] transition-colors">
                       {app.name}
                     </h2>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                    <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed mb-4 line-clamp-3">
                       {app.description}
                     </p>
 
@@ -216,7 +216,7 @@ export function AppPortfolio() {
                       {app.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 text-[11px] font-semibold border border-slate-200"
+                          className="px-2.5 py-1 rounded-full bg-[#EBE6DC] text-[#57534E] text-[11px] font-semibold border border-[#E2DDD2]"
                         >
                           {tech}
                         </span>
@@ -225,10 +225,10 @@ export function AppPortfolio() {
                   </div>
 
                   {/* Actions */}
-                  <div className="pt-4 border-t border-slate-100 flex items-center gap-2">
+                  <div className="pt-4 border-t border-[#E2DDD2] flex items-center gap-2">
                     <Link
                       to={`/apply?domain=Android App Development`}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2.5 text-xs font-semibold transition-colors shadow-sm"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white px-3 py-2.5 text-xs font-semibold transition-colors shadow-xs"
                     >
                       <Sparkles className="w-3.5 h-3.5" />
                       <span>Learn Mobile Dev</span>
@@ -238,7 +238,7 @@ export function AppPortfolio() {
                         href={app.githubUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center justify-center p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors"
+                        className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#E2DDD2] hover:bg-[#EBE6DC] text-[#57534E] hover:text-[#1A1715] transition-colors"
                         title="View GitHub Repository"
                       >
                         <Github className="w-4 h-4" />
@@ -251,13 +251,13 @@ export function AppPortfolio() {
           </div>
 
           {/* CTA Box */}
-          <div className="mt-20 rounded-2xl bg-gradient-to-r from-emerald-50 via-slate-50 to-teal-50 border border-emerald-200 p-8 md:p-12 text-center max-w-4xl mx-auto shadow-sm">
-            <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-slate-950">Want to Build Android or Flutter Apps?</h3>
-            <p className="text-slate-600 text-sm max-w-xl mx-auto mb-6">
+          <div className="mt-20 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 md:p-12 text-center max-w-4xl mx-auto shadow-xs">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-[#1A1715]">Want to Build Android or Flutter Apps?</h3>
+            <p className="text-[#57534E] text-sm max-w-xl mx-auto mb-6">
               Join Geek Intern mobile internship track and learn native Android, Kotlin, or Flutter architecture with real project deliverables.
             </p>
             <Link to="/apply?domain=Android App Development">
-              <Button className="h-11 px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-lg shadow-emerald-600/20">
+              <Button className="h-11 px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs shadow-xs">
                 Apply for Mobile Internship →
               </Button>
             </Link>

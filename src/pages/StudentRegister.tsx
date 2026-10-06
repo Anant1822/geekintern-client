@@ -110,7 +110,7 @@ function SkillInput({ value, onChange }: { value: string[]; onChange: (v: string
       {value.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {value.map((s) => (
-            <span key={s} className="inline-flex items-center gap-1 rounded-full bg-[#1E3A5F]/10 text-[#1E3A5F] text-xs px-2.5 py-1 font-medium">
+            <span key={s} className="inline-flex items-center gap-1 rounded-full bg-[#EBE6DC] text-[#57534E] border border-[#E2DDD2] text-xs px-2.5 py-1 font-medium">
               {s}
               <button type="button" onClick={() => removeSkill(s)} aria-label={`Remove ${s}`}><X className="h-3 w-3" /></button>
             </span>
@@ -166,9 +166,9 @@ export default function StudentRegister() {
       <PublicLayout>
         <PageTitle title="Verify Email – Geek Intern" />
         <div className="min-h-[calc(100vh-10rem)] flex items-center justify-center px-4 py-12">
-          <div className="w-full max-w-md text-center bg-white rounded-2xl shadow-lg border border-gray-100 p-10">
-            <CheckCircle2 className="h-16 w-16 text-[#0D9488] mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-[#1E3A5F] mb-2">Almost there!</h1>
+          <div className="w-full max-w-md text-center bg-[#FAF7F2] rounded-2xl shadow-xs border border-[#E2DDD2] p-10">
+            <CheckCircle2 className="h-16 w-16 text-[#2D6A4F] mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-[#1A1715] mb-2">Almost there!</h1>
             <p className="text-muted-foreground mb-6">
               We've sent a verification link to{' '}
               <span className="font-semibold text-foreground">{step1Data?.email}</span>.
@@ -176,9 +176,9 @@ export default function StudentRegister() {
             </p>
             <p className="text-sm text-muted-foreground mb-8">
               Didn&apos;t receive it? Check your spam folder or contact{' '}
-              <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] hover:underline">support.geekintern@gmail.com</a>
+              <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] hover:underline">support.geekintern@gmail.com</a>
             </p>
-            <Button onClick={() => navigate('/dashboard')} className="bg-[#1E3A5F] hover:bg-[#16304f] text-white w-full">
+            <Button onClick={() => navigate('/dashboard')} className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs w-full">
               Go to Dashboard
             </Button>
           </div>
@@ -192,9 +192,9 @@ export default function StudentRegister() {
       <PageTitle title="Create Account – Geek Intern" />
       <div className="min-h-[calc(100vh-10rem)] flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-2xl">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-10">
+          <div className="bg-[#FAF7F2] rounded-2xl shadow-xs border border-[#E2DDD2] p-8 sm:p-10">
             <div className="flex justify-center mb-6"><Logo size="md" /></div>
-            <h1 className="text-2xl font-bold text-center text-[#1E3A5F] mb-1">Create your account</h1>
+            <h1 className="text-2xl font-bold text-center text-[#1A1715] mb-1">Create your account</h1>
             <p className="text-sm text-muted-foreground text-center mb-6">
               Step {step} of 3 — {step === 1 ? 'Basic Information' : step === 2 ? 'Academic Details' : 'Preferences'}
             </p>
@@ -288,7 +288,7 @@ export default function StudentRegister() {
                   </div>
                 </div>
                 <div className="flex justify-end pt-2">
-                  <Button type="submit" className="bg-[#1E3A5F] hover:bg-[#16304f] text-white min-w-[140px]">
+                  <Button type="submit" className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs min-w-[140px]">
                     Next <ChevronRight className="h-4 w-4 ml-1" />
                   </Button>
                 </div>
@@ -351,7 +351,7 @@ export default function StudentRegister() {
                   <div className="space-y-1.5">
                     <Label htmlFor="resumeFile">Resume (optional)</Label>
                     <label htmlFor="resumeFile"
-                      className="flex items-center gap-2 cursor-pointer h-10 w-full rounded-md border border-dashed border-input bg-background px-3 py-2 text-sm text-muted-foreground hover:border-[#0D9488] hover:text-[#0D9488] transition-colors">
+                      className="flex items-center gap-2 cursor-pointer h-10 w-full rounded-md border border-dashed border-input bg-background px-3 py-2 text-sm text-muted-foreground hover:border-[#0D9488] hover:text-[#2D6A4F] transition-colors">
                       <Upload className="h-4 w-4 shrink-0" />
                       <span className="truncate">
                         {form2.watch('resumeFile')?.[0]?.name ?? 'Upload PDF / DOC / DOCX (max 5 MB)'}
@@ -365,7 +365,7 @@ export default function StudentRegister() {
                   <Button type="button" variant="outline" onClick={() => setStep(1)}>
                     <ChevronLeft className="h-4 w-4 mr-1" /> Back
                   </Button>
-                  <Button type="submit" className="bg-[#1E3A5F] hover:bg-[#16304f] text-white min-w-[140px]">
+                  <Button type="submit" className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs min-w-[140px]">
                     Next <ChevronRight className="h-4 w-4 ml-1" />
                   </Button>
                 </div>
@@ -388,13 +388,13 @@ export default function StudentRegister() {
                     render={({ field }) => (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 max-h-56 overflow-y-auto rounded-lg border border-input p-3">
                         {DOMAINS.map((domain) => (
-                          <label key={domain} className="flex items-center gap-2 text-sm cursor-pointer hover:text-[#0D9488] transition-colors">
+                          <label key={domain} className="flex items-center gap-2 text-sm cursor-pointer hover:text-[#2D6A4F] transition-colors">
                             <input type="checkbox" value={domain} checked={field.value?.includes(domain)}
                               onChange={(e) => {
                                 const current = field.value ?? []
                                 field.onChange(e.target.checked ? [...current, domain] : current.filter((d) => d !== domain))
                               }}
-                              className="h-4 w-4 rounded border-gray-300 accent-[#0D9488]" />
+                              className="h-4 w-4 rounded border-[#D6CFC4] accent-[#181615]" />
                             {domain}
                           </label>
                         ))}
@@ -433,13 +433,13 @@ export default function StudentRegister() {
                 </div>
                 <div>
                   <label className="flex items-start gap-3 cursor-pointer">
-                    <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-[#0D9488]"
+                    <input type="checkbox" className="mt-0.5 h-4 w-4 rounded border-[#D6CFC4] accent-[#181615]"
                       {...form3.register('consent')} />
                     <span className="text-sm text-muted-foreground">
                       I agree to the{' '}
-                      <Link to="/terms" target="_blank" className="text-[#0D9488] hover:underline font-medium">Terms and Conditions</Link>{' '}
+                      <Link to="/terms" target="_blank" className="text-[#2D6A4F] hover:underline font-medium">Terms and Conditions</Link>{' '}
                       and{' '}
-                      <Link to="/privacy" target="_blank" className="text-[#0D9488] hover:underline font-medium">Privacy Policy</Link>{' '}
+                      <Link to="/privacy" target="_blank" className="text-[#2D6A4F] hover:underline font-medium">Privacy Policy</Link>{' '}
                       of Geek Intern. *
                     </span>
                   </label>
@@ -449,7 +449,7 @@ export default function StudentRegister() {
                   <Button type="button" variant="outline" onClick={() => setStep(2)}>
                     <ChevronLeft className="h-4 w-4 mr-1" /> Back
                   </Button>
-                  <Button type="submit" className="bg-[#0D9488] hover:bg-[#0b8278] text-white min-w-[160px]"
+                  <Button type="submit" className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs min-w-[160px]"
                     disabled={form3.formState.isSubmitting}>
                     {form3.formState.isSubmitting
                       ? <span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />Creating…</span>

@@ -156,37 +156,37 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
       <PageTitle title="ATS Resume Score Checker | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="relative pt-24 pb-14 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/40 text-slate-900 border-b border-slate-200">
+      <section className="relative pt-24 pb-14 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge className="bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
+          <Badge className="bg-[#E8F3ED] text-[#2D6A4F] border border-[#C2E0D1] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
             Applicant Tracking System Scanner
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 text-slate-950">
-            Check Your <span className="text-[#FF4D5A]">ATS Score</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 text-[#1A1715]">
+            Check Your <span className="italic font-serif text-[#8C4325]">ATS Score</span>
           </h1>
-          <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
             Over 75% of resumes are discarded by automated applicant tracking filters. Scan your resume text now and get instant keyword matching and scoring.
           </p>
         </div>
       </section>
 
       {/* Main Scanner Section */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white text-slate-900 min-h-[70vh]">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] min-h-[70vh]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Input Column (7 Cols) */}
             <div className="lg:col-span-7 flex flex-col gap-6">
               {/* Resume text card */}
-              <div className="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+              <div className="rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-6 shadow-xs">
                 <div className="flex items-center justify-between mb-3">
-                  <label className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-blue-600" />
+                  <label className="text-sm font-bold text-[#1A1715] flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-[#2D6A4F]" />
                     <span>Paste Your Resume Content</span>
                   </label>
                   <button
                     type="button"
                     onClick={loadSampleResume}
-                    className="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+                    className="text-xs font-semibold text-[#2D6A4F] hover:text-[#181615] hover:underline"
                   >
                     Load Sample Resume
                   </button>
@@ -196,37 +196,37 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
                   placeholder="Paste your plain resume text here (Personal details, summary, experience bullet points, skills, projects)..."
                   value={resumeText}
                   onChange={(e) => setResumeText(e.target.value)}
-                  className="bg-slate-50 border-slate-300 text-slate-900 font-mono text-xs leading-relaxed rounded-xl placeholder:text-slate-400 focus:bg-white"
+                  className="bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] font-mono text-xs leading-relaxed rounded-xl placeholder:text-[#57534E]/60 focus:bg-[#FAF7F2] focus:border-[#181615] focus:ring-[#181615]"
                 />
               </div>
 
               {/* Target Job Description card */}
-              <div className="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
+              <div className="rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-6 shadow-xs">
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                  <label className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                    <Search className="w-4 h-4 text-purple-600" />
+                  <label className="text-sm font-bold text-[#1A1715] flex items-center gap-2">
+                    <Search className="w-4 h-4 text-[#8C4325]" />
                     <span>Target Job Description</span>
                   </label>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs text-slate-500">Presets:</span>
+                    <span className="text-xs text-[#57534E]">Presets:</span>
                     <button
                       type="button"
                       onClick={() => setJobDescription(PRESET_JOB_DESCRIPTIONS['fullstack'])}
-                      className="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[11px] text-slate-700 font-medium"
+                      className="px-2.5 py-1 rounded-md bg-[#EBE6DC] hover:bg-[#EAE4D7] text-[11px] text-[#1A1715] font-medium"
                     >
                       Full Stack
                     </button>
                     <button
                       type="button"
                       onClick={() => setJobDescription(PRESET_JOB_DESCRIPTIONS['frontend'])}
-                      className="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[11px] text-slate-700 font-medium"
+                      className="px-2.5 py-1 rounded-md bg-[#EBE6DC] hover:bg-[#EAE4D7] text-[11px] text-[#1A1715] font-medium"
                     >
                       Frontend
                     </button>
                     <button
                       type="button"
                       onClick={() => setJobDescription(PRESET_JOB_DESCRIPTIONS['python'])}
-                      className="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[11px] text-slate-700 font-medium"
+                      className="px-2.5 py-1 rounded-md bg-[#EBE6DC] hover:bg-[#EAE4D7] text-[11px] text-[#1A1715] font-medium"
                     >
                       Python
                     </button>
@@ -237,7 +237,7 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
                   placeholder="Paste the job requirements from LinkedIn, Indeed, or the company portal..."
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
-                  className="bg-slate-50 border-slate-300 text-slate-900 font-mono text-xs leading-relaxed rounded-xl placeholder:text-slate-400 focus:bg-white"
+                  className="bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] font-mono text-xs leading-relaxed rounded-xl placeholder:text-[#57534E]/60 focus:bg-[#FAF7F2] focus:border-[#181615] focus:ring-[#181615]"
                 />
               </div>
 
@@ -245,7 +245,7 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
               <Button
                 onClick={handleScan}
                 disabled={analyzing}
-                className="h-12 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-md shadow-blue-600/25 inline-flex items-center justify-center gap-2"
+                className="h-12 bg-[#181615] hover:bg-[#2A2724] text-white font-bold text-sm rounded-full shadow-xs inline-flex items-center justify-center gap-2"
               >
                 {analyzing ? (
                   <>
@@ -264,9 +264,9 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
             {/* Results Column (5 Cols) */}
             <div className="lg:col-span-5">
               {results ? (
-                <div className="rounded-2xl bg-white border border-slate-200 p-6 flex flex-col gap-6 sticky top-24 shadow-xl">
+                <div className="rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-6 flex flex-col gap-6 sticky top-24 shadow-sm">
                   {/* Score circle */}
-                  <div className="flex items-center gap-5 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                  <div className="flex items-center gap-5 p-4 rounded-xl bg-[#F5F2EB] border border-[#E2DDD2]">
                     <div
                       className={`w-20 h-20 rounded-full flex flex-col items-center justify-center border-4 ${
                         results.score >= 80
@@ -280,14 +280,14 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
                       <span className="text-[9px] uppercase font-bold tracking-wider">Score</span>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-slate-900">
+                      <h3 className="text-lg font-bold text-[#1A1715]">
                         {results.score >= 80
                           ? 'Excellent ATS Match'
                           : results.score >= 60
                           ? 'Moderate Compatibility'
                           : 'Requires Optimization'}
                       </h3>
-                      <p className="text-xs text-slate-600 mt-1">
+                      <p className="text-xs text-[#57534E] mt-1">
                         {results.score >= 80
                           ? 'Your resume contains strong technical keywords and clear structure.'
                           : 'Implement the recommendations below to pass automatic algorithmic filtering.'}
@@ -297,23 +297,23 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
 
                   {/* Sub Scores */}
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                      <div className="text-xs text-slate-500">Keywords</div>
-                      <div className="text-base font-bold text-blue-600 mt-1">{results.keywordScore}%</div>
+                    <div className="p-3 rounded-xl bg-[#F5F2EB] border border-[#E2DDD2] text-center">
+                      <div className="text-xs text-[#57534E]">Keywords</div>
+                      <div className="text-base font-bold text-[#2D6A4F] mt-1">{results.keywordScore}%</div>
                     </div>
-                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                      <div className="text-xs text-slate-500">Impact Verbs</div>
-                      <div className="text-base font-bold text-purple-600 mt-1">{results.impactScore}%</div>
+                    <div className="p-3 rounded-xl bg-[#F5F2EB] border border-[#E2DDD2] text-center">
+                      <div className="text-xs text-[#57534E]">Impact Verbs</div>
+                      <div className="text-base font-bold text-[#8C4325] mt-1">{results.impactScore}%</div>
                     </div>
-                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                      <div className="text-xs text-slate-500">Readability</div>
+                    <div className="p-3 rounded-xl bg-[#F5F2EB] border border-[#E2DDD2] text-center">
+                      <div className="text-xs text-[#57534E]">Readability</div>
                       <div className="text-base font-bold text-emerald-600 mt-1">{results.formatScore}%</div>
                     </div>
                   </div>
 
                   {/* Matched Keywords */}
                   <div>
-                    <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <h4 className="text-xs font-bold text-[#57534E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       <span>Detected Technical Keywords ({results.matchedKeywords.length})</span>
                     </h4>
@@ -329,7 +329,7 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
                   {/* Missing Keywords */}
                   {results.missingKeywords.length > 0 && (
                     <div>
-                      <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <h4 className="text-xs font-bold text-[#57534E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                         <XCircle className="w-4 h-4 text-rose-600" />
                         <span>Recommended Keywords to Add</span>
                       </h4>
@@ -345,14 +345,14 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
 
                   {/* Suggestions list */}
                   <div>
-                    <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <h4 className="text-xs font-bold text-[#57534E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                       <AlertTriangle className="w-4 h-4 text-amber-500" />
                       <span>Actionable Improvements</span>
                     </h4>
                     <ul className="flex flex-col gap-2">
                       {results.suggestions.map((sug, i) => (
-                        <li key={i} className="text-xs text-slate-700 flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                          <span className="text-blue-600 font-bold">•</span>
+                        <li key={i} className="text-xs text-[#57534E] flex items-start gap-2 bg-[#F5F2EB] p-2.5 rounded-lg border border-[#E2DDD2]">
+                          <span className="text-[#2D6A4F] font-bold">•</span>
                           <span>{sug}</span>
                         </li>
                       ))}
@@ -362,25 +362,25 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
                   {/* Link to Resume Builder */}
                   <div className="pt-2">
                     <Link to="/resume-builder">
-                      <Button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold text-xs h-10 rounded-xl shadow-md">
+                      <Button className="w-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs h-10 rounded-full shadow-xs">
                         Open Resume Builder to Fix Issues →
                       </Button>
                     </Link>
                   </div>
                 </div>
               ) : (
-                <div className="rounded-2xl bg-white border border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[360px] shadow-sm">
-                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 border border-blue-100">
+                <div className="rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 text-center flex flex-col items-center justify-center min-h-[360px] shadow-xs">
+                  <div className="w-14 h-14 rounded-2xl bg-[#EBE6DC] text-[#181615] flex items-center justify-center mb-4 border border-[#E2DDD2]">
                     <FileCheck className="w-7 h-7" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">Ready to Scan</h3>
-                  <p className="text-xs text-slate-500 max-w-sm leading-relaxed mb-6">
+                  <h3 className="text-lg font-bold text-[#1A1715] mb-2">Ready to Scan</h3>
+                  <p className="text-xs text-[#57534E] max-w-sm leading-relaxed mb-6">
                     Paste your resume text and optional target job requirements on the left, then click "Scan ATS Compatibility Score Now".
                   </p>
                   <Button
                     variant="outline"
                     onClick={loadSampleResume}
-                    className="border-slate-300 bg-white text-slate-700 text-xs shadow-sm hover:bg-slate-50"
+                    className="border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] text-xs shadow-xs hover:bg-[#EAE4D7] rounded-full"
                   >
                     Try with Demo Resume
                   </Button>

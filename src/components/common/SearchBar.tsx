@@ -36,7 +36,7 @@ export function SearchBar({ className, compact = false }: SearchBarProps) {
   return (
     <div className={cn('w-full', className)}>
       <div className={cn(
-        'flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-card-hover border border-gray-100',
+        'flex flex-col gap-3 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] p-4 shadow-xs border border-[#E2DDD2] dark:border-[#292524]',
         !compact && 'sm:flex-row sm:items-end sm:gap-3 sm:p-5'
       )}>
         {/* Search input */}
@@ -115,7 +115,7 @@ export function SearchBar({ className, compact = false }: SearchBarProps) {
         <Button
           onClick={handleSearch}
           size={compact ? 'default' : 'lg'}
-          className="shrink-0 bg-brand-navy hover:bg-brand-navy/90"
+          className="shrink-0 bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-medium shadow-xs"
         >
           <Search className="mr-2 h-4 w-4" />
           Search

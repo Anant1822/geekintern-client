@@ -1,4 +1,4 @@
-﻿import { type ClassValue, clsx } from 'clsx'
+import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { format, formatDistanceToNow, isPast, parseISO } from 'date-fns'
 import type { ApplicationStatus, WorkMode, PaymentStatus } from '@/types'
@@ -73,24 +73,24 @@ export function getStatusLabel(status: ApplicationStatus | string): string {
 /** Get Tailwind color class for application status */
 export function getStatusColor(status: ApplicationStatus | string): string {
   const colors: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    reviewing: 'bg-blue-100 text-blue-800 border-blue-200',
-    accepted: 'bg-green-100 text-green-800 border-green-200',
-    rejected: 'bg-red-100 text-red-800 border-red-200',
-    withdrawn: 'bg-gray-100 text-gray-600 border-gray-200',
+    pending: 'bg-[#F0E6DC] text-[#8C4325] border-[#E4D5C7]',
+    reviewing: 'bg-[#EBE6DC] text-[#57534E] border-[#E2DDD2]',
+    accepted: 'bg-[#E8F3ED] text-[#2D6A4F] border-[#C2E0D1]',
+    rejected: 'bg-red-50 text-red-700 border-red-200',
+    withdrawn: 'bg-[#FAF7F2] text-[#57534E] border-[#E2DDD2]',
   }
-  return colors[status] ?? 'bg-gray-100 text-gray-600 border-gray-200'
+  return colors[status] ?? 'bg-[#FAF7F2] text-[#57534E] border-[#E2DDD2]'
 }
 
 /** Get Tailwind color class for payment status */
 export function getPaymentStatusColor(status: PaymentStatus | string): string {
   const colors: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800',
-    paid: 'bg-green-100 text-green-800',
-    failed: 'bg-red-100 text-red-800',
-    refunded: 'bg-blue-100 text-blue-800',
+    pending: 'bg-[#F0E6DC] text-[#8C4325]',
+    paid: 'bg-[#E8F3ED] text-[#2D6A4F]',
+    failed: 'bg-red-50 text-red-700',
+    refunded: 'bg-[#EBE6DC] text-[#57534E]',
   }
-  return colors[status] ?? 'bg-gray-100 text-gray-600'
+  return colors[status] ?? 'bg-[#FAF7F2] text-[#57534E]'
 }
 
 /** Truncate text to a max length */

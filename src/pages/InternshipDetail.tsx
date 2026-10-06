@@ -83,13 +83,13 @@ export default function InternshipDetail() {
             <div>
               <div className="flex items-center gap-2 flex-wrap mb-2">
                 {internship.is_verified && (
-                  <div className="flex items-center gap-1 text-brand-teal text-sm font-medium">
+                  <div className="flex items-center gap-1 text-[#2D6A4F] text-sm font-medium">
                     <BadgeCheck className="h-4 w-4" />
                     Verified
                   </div>
                 )}
-                {internship.is_featured && <Badge variant="amber">Featured</Badge>}
-                {internship.category && <Badge variant="teal">{internship.category.name}</Badge>}
+                {internship.is_featured && <Badge variant="secondary">Featured</Badge>}
+                {internship.category && <Badge variant="outline">{internship.category.name}</Badge>}
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">{internship.title}</h1>
               <p className="text-lg text-muted-foreground">{internship.provider_name}</p>
@@ -103,7 +103,7 @@ export default function InternshipDetail() {
                 { icon: IndianRupee, label: 'Stipend', value: internship.is_paid && internship.stipend_amount ? formatCurrency(internship.stipend_amount) + '/mo' : 'Unpaid' },
                 { icon: MapPin, label: 'Location', value: internship.location ?? 'Flexible' },
               ].map(({ icon: Icon, label, value }) => (
-                <Card key={label}>
+                <Card key={label} className="border-[#E2DDD2] bg-[#FAF7F2]">
                   <CardContent className="p-3 flex flex-col items-center text-center">
                     <Icon className="h-4 w-4 text-muted-foreground mb-1" />
                     <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-0.5">{label}</p>
@@ -125,7 +125,7 @@ export default function InternshipDetail() {
                 <ul className="space-y-2">
                   {internship.responsibilities.map((r, i) => (
                     <li key={i} className="flex gap-2 text-sm text-foreground/80">
-                      <span className="text-brand-teal mt-0.5">&#10003;</span>
+                      <span className="text-[#2D6A4F] mt-0.5">&#10003;</span>
                       {r}
                     </li>
                   ))}
@@ -139,7 +139,7 @@ export default function InternshipDetail() {
                 <ul className="space-y-2">
                   {internship.requirements.map((r, i) => (
                     <li key={i} className="flex gap-2 text-sm text-foreground/80">
-                      <span className="text-brand-navy mt-0.5">&#8226;</span>
+                      <span className="text-[#181615] mt-0.5">&#8226;</span>
                       {r}
                     </li>
                   ))}
@@ -153,7 +153,7 @@ export default function InternshipDetail() {
                 <h2 className="text-lg font-semibold mb-3">Skills Required</h2>
                 <div className="flex flex-wrap gap-2">
                   {(internship.required_skills || internship.skills_required || []).map((skill: string) => (
-                    <Badge key={skill} variant="outline">{skill}</Badge>
+                    <Badge key={skill} variant="outline" className="border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715]">{skill}</Badge>
                   ))}
                 </div>
               </div>
@@ -162,7 +162,7 @@ export default function InternshipDetail() {
 
           {/* Sidebar */}
           <div className="space-y-4">
-            <Card className="sticky top-24">
+            <Card className="sticky top-24 border-[#E2DDD2] bg-[#FAF7F2] shadow-xs">
               <CardContent className="p-5 space-y-4">
                 {/* Deadline */}
                 <div className="flex items-center gap-2">
@@ -188,51 +188,35 @@ export default function InternshipDetail() {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="bg-[#E2DDD2]" />
 
                 {/* Program Enrollment Info */}
-                <div className="rounded-xl bg-blue-50/70 border border-blue-100 p-3.5">
-                  <div className="flex items-center gap-2 mb-1 text-blue-700 font-semibold text-xs uppercase tracking-wider">
+                <div className="rounded-xl bg-[#F5F2EB] border border-[#E2DDD2] p-3.5">
+                  <div className="flex items-center gap-2 mb-1 text-[#2D6A4F] font-semibold text-xs uppercase tracking-wider">
                     <BadgeCheck className="w-4 h-4" />
                     <span>Open Enrollment</span>
                   </div>
-                  <p className="text-sm font-bold text-slate-900">Virtual Internship Track</p>
-                  <p className="text-xs text-slate-500 mt-1">Self-paced project kit with verified CID credential</p>
+                  <p className="text-sm font-bold text-[#1A1715]">Virtual Internship Track</p>
+                  <p className="text-xs text-[#57534E] mt-1">Self-paced project kit with verified CID credential</p>
                 </div>
 
-                {/* ------------------------------------------------------------- */}
-                {/* URGENT ADMISSION & VERIFICATION NOTICE (ATTENTION COLOR)      */}
-                {/* ------------------------------------------------------------- */}
-                <div className="rounded-xl border-2 border-amber-500 bg-gradient-to-r from-amber-50 to-orange-50 p-3.5 shadow-xs border-dashed">
+                {/* URGENT ADMISSION NOTICE */}
+                <div className="rounded-xl border border-[#E4D5C7] bg-[#F0E6DC]/70 p-3.5 shadow-xs">
                   <div className="flex items-center justify-between gap-2 mb-1.5">
                     <div className="flex items-center gap-1.5">
-                      <PhoneCall className="h-4 w-4 text-amber-600 animate-pulse" />
-                      <span className="text-xs font-bold text-amber-950 uppercase tracking-wide">
+                      <PhoneCall className="h-4 w-4 text-[#8C4325]" />
+                      <span className="text-xs font-bold text-[#8C4325] uppercase tracking-wide">
                         Urgent Admission Notice
                       </span>
                     </div>
-                    <span className="text-[10px] font-bold bg-amber-600 text-white px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold bg-[#8C4325] text-white px-2 py-0.5 rounded-full">
                       URGENT
                     </span>
                   </div>
-                  <p className="text-[11px] text-amber-900 mb-1 font-medium">
+                  <p className="text-[11px] text-[#57534E] mb-1 font-medium">
                     Limited seats available for current cohort. Applications are prioritized upon submission.
                   </p>
-
-                  {/* 
-                    // Urgent WhatsApp Message Link (Commented out as requested):
-                    // <a
-                    //   href="https://wa.me/919876543210?text=Hi%20GeekIntern%2C%20I%20have%20an%20urgent%20query%20about%20the%20internship%20admission."
-                    //   target="_blank"
-                    //   rel="noopener noreferrer"
-                    // >
-                    //   <Button type="button" size="sm" className="w-full bg-emerald-600 text-white text-xs font-bold">
-                    //     Urgent Contact
-                    //   </Button>
-                    // </a>
-                  */}
                 </div>
-                {/* ------------------------------------------------------------- */}
 
                 {deadlinePassed ? (
                   <Alert variant="warning">
@@ -244,7 +228,7 @@ export default function InternshipDetail() {
                   </Alert>
                 ) : (
                   <Button
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold"
+                    className="w-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold rounded-full shadow-xs"
                     size="lg"
                     onClick={handleApply}
                   >
@@ -253,10 +237,10 @@ export default function InternshipDetail() {
                 )}
 
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="flex-1">
+                  <Button variant="outline" size="sm" className="flex-1 rounded-full border-[#D6CFC4] hover:bg-[#EAE4D7] text-[#1A1715]">
                     <Bookmark className="mr-1.5 h-4 w-4" />Save
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
+                  <Button variant="outline" size="sm" className="flex-1 rounded-full border-[#D6CFC4] hover:bg-[#EAE4D7] text-[#1A1715]">
                     <Share2 className="mr-1.5 h-4 w-4" />Share
                   </Button>
                 </div>

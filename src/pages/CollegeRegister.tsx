@@ -72,13 +72,13 @@ interface BenefitCardProps {
 
 function BenefitCard({ icon, title, description }: BenefitCardProps) {
   return (
-    <Card className="border-0 shadow-md hover:shadow-lg transition-shadow duration-300">
+    <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs hover:shadow-sm transition-shadow duration-300">
       <CardContent className="pt-6 pb-6 flex flex-col items-center text-center gap-3">
-        <div className="w-14 h-14 rounded-full bg-teal-50 flex items-center justify-center text-teal-600">
+        <div className="w-14 h-14 rounded-full bg-[#E8F3ED] flex items-center justify-center text-[#2D6A4F]">
           {icon}
         </div>
-        <h3 className="font-semibold text-[#1E3A5F] text-lg">{title}</h3>
-        <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+        <h3 className="font-semibold text-[#1A1715] text-lg">{title}</h3>
+        <p className="text-[#57534E] text-sm leading-relaxed">{description}</p>
       </CardContent>
     </Card>
   );
@@ -175,17 +175,17 @@ export default function CollegeRegister() {
               <div className="w-20 h-20 rounded-full bg-teal-50 flex items-center justify-center">
                 <CheckCircle className="w-10 h-10 text-teal-600" />
               </div>
-              <h2 className="text-2xl font-bold text-[#1E3A5F]">Thank You!</h2>
+              <h2 className="text-2xl font-bold text-[#1A1715]">Thank You!</h2>
               <p className="text-gray-600 leading-relaxed">
                 Your college partnership inquiry has been received. Our team will review your
                 details and get in touch within{" "}
-                <span className="font-semibold text-[#1E3A5F]">2–3 business days</span>.
+                <span className="font-semibold text-[#1A1715]">2–3 business days</span>.
               </p>
               <p className="text-sm text-gray-400">
                 A confirmation email will be sent to your official email address.
               </p>
               <Button
-                className="mt-2 bg-[#1E3A5F] hover:bg-[#162d4a] text-white"
+                className="mt-2 bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs"
                 onClick={() => (window.location.href = "/")}
               >
                 Back to Home
@@ -217,7 +217,7 @@ export default function CollegeRegister() {
       {/* Benefits */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-[#1E3A5F] mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-[#1A1715] mb-10">
             Why Partner With Us?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -244,10 +244,10 @@ export default function CollegeRegister() {
       <section className="py-16 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="mb-10 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-[#1E3A5F] mb-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#1A1715] mb-2">
               Register Your College
             </h2>
-            <p className="text-gray-500">
+            <p className="text-[#57534E]">
               Fill in the details below and our partnership team will reach out to you shortly.
             </p>
           </div>
@@ -375,7 +375,7 @@ export default function CollegeRegister() {
                       Phone Number <span className="text-red-500">*</span>
                     </Label>
                     <div className="flex">
-                      <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-gray-50 text-sm text-gray-500">
+                      <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-gray-50 text-sm text-[#57534E]">
                         +91
                       </span>
                       <Input
@@ -520,7 +520,7 @@ export default function CollegeRegister() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-12 text-base font-semibold bg-[#1E3A5F] hover:bg-[#162d4a] text-white transition-colors"
+                  className="w-full h-12 text-base font-semibold bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs transition-colors"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">

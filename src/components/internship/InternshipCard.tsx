@@ -63,31 +63,31 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
   const isAlmostFull = seatsTotal > 0 && seatsLeft <= 3 && seatsLeft > 0
 
   return (
-    <Card className={cn('internship-card flex flex-col h-full overflow-hidden', className)}>
+    <Card className={cn('internship-card flex flex-col h-full overflow-hidden bg-[#FAF7F2] dark:bg-[#1C1A17] border-[#E2DDD2] dark:border-[#292524] rounded-2xl shadow-xs hover:border-[#181615]/40 transition-all', className)}>
       <CardContent className="pt-5 pb-3 flex-1">
         {/* Header row */}
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap mb-1">
               {internship.is_verified && (
-                <BadgeCheck className="h-4 w-4 text-brand-teal shrink-0" aria-label="Verified" />
+                <BadgeCheck className="h-4 w-4 text-[#2D6A4F] shrink-0" aria-label="Verified" />
               )}
               {internship.is_featured && (
-                <Badge variant="amber" className="text-[10px] py-0">Featured</Badge>
+                <Badge variant="amber" className="text-[10px] py-0 bg-[#F0E6DC] text-[#8C4325] border-[#E4D5C7]">Featured</Badge>
               )}
               {internship.category && (
-                <Badge variant="teal" className="text-[10px] py-0">{internship.category.name}</Badge>
+                <Badge variant="teal" className="text-[10px] py-0 bg-[#E8F3ED] text-[#2D6A4F] border-[#C2E0D1]">{internship.category.name}</Badge>
               )}
             </div>
-            <h3 className="font-semibold text-base text-foreground leading-snug">
+            <h3 className="font-semibold text-base text-[#1A1715] dark:text-[#FAF7F2] leading-snug">
               <Link
                 to={`/internship/${internship.id}`}
-                className="hover:text-brand-navy transition-colors line-clamp-2"
+                className="hover:text-[#8C4325] transition-colors line-clamp-2"
               >
                 {internship.title}
               </Link>
             </h3>
-            <p className="text-sm text-muted-foreground mt-0.5 truncate">{internship.provider_name}</p>
+            <p className="text-sm text-[#57534E] dark:text-[#A8A29E] mt-0.5 truncate">{internship.provider_name}</p>
           </div>
           {isAuthenticated && (
             <button
@@ -112,13 +112,13 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
             {skills.slice(0, 3).map((skill: string) => (
               <span
                 key={skill}
-                className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground"
+                className="inline-flex items-center rounded-full bg-[#EBE6DC] dark:bg-[#292524] px-2.5 py-0.5 text-[11px] font-medium text-[#57534E] dark:text-[#A8A29E]"
               >
                 {skill}
               </span>
             ))}
             {skills.length > 3 && (
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-[11px] text-[#57534E] dark:text-[#A8A29E]">
                 +{skills.length - 3} more
               </span>
             )}
@@ -128,25 +128,25 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
         {/* Meta info */}
         <div className="grid grid-cols-2 gap-y-1.5 gap-x-3">
           {/* Work mode + location */}
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-xs text-[#57534E] dark:text-[#A8A29E]">
             <WorkModeIcon mode={internship.work_mode} />
             <span>{getWorkModeLabel(internship.work_mode)}</span>
           </div>
           {internship.location && (
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1.5 text-xs text-[#57534E] dark:text-[#A8A29E]">
               <MapPin className="h-3 w-3 shrink-0" />
               <span className="truncate">{internship.location}</span>
             </div>
           )}
           {/* Duration */}
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-xs text-[#57534E] dark:text-[#A8A29E]">
             <Clock className="h-3 w-3 shrink-0" />
             <span>{formatDuration(internship.duration_weeks)}</span>
           </div>
           {/* Stipend */}
           <div className="flex items-center gap-1.5 text-xs font-medium">
-            <IndianRupee className="h-3 w-3 shrink-0 text-brand-teal" />
-            <span className={internship.is_paid ? 'text-brand-teal' : 'text-muted-foreground'}>
+            <IndianRupee className="h-3 w-3 shrink-0 text-[#2D6A4F]" />
+            <span className={internship.is_paid ? 'text-[#2D6A4F]' : 'text-[#57534E] dark:text-[#A8A29E]'}>
               {internship.is_paid && internship.stipend_amount
                 ? `${formatCurrency(internship.stipend_amount)}/mo`
                 : 'Unpaid'}
@@ -156,8 +156,8 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
 
         {/* Deadline */}
         <div className="flex items-center gap-1.5 mt-2.5">
-          <Calendar className="h-3 w-3 text-muted-foreground shrink-0" />
-          <span className={cn('text-xs', deadlinePassed ? 'text-red-500 font-medium' : 'text-muted-foreground')}>
+          <Calendar className="h-3 w-3 text-[#57534E] dark:text-[#A8A29E] shrink-0" />
+          <span className={cn('text-xs', deadlinePassed ? 'text-red-500 font-medium' : 'text-[#57534E] dark:text-[#A8A29E]')}>
             {deadlinePassed ? 'Deadline passed' : `Apply by ${formatDate(internship.application_deadline)}`}
           </span>
         </div>
@@ -170,8 +170,8 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
         )}
       </CardContent>
 
-      <CardFooter className="pt-0 pb-4 px-6 flex items-center justify-between gap-2 border-t mt-0 pt-3">
-        <div className="text-xs text-muted-foreground flex items-center gap-1.5 font-medium text-emerald-600">
+      <CardFooter className="pt-3 pb-4 px-6 flex items-center justify-between gap-2 border-t border-[#E2DDD2] dark:border-[#292524] mt-0">
+        <div className="text-xs flex items-center gap-1.5 font-medium text-[#2D6A4F]">
           <BadgeCheck className="w-3.5 h-3.5" />
           <span>Verified Program</span>
         </div>
@@ -180,7 +180,7 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
             size="sm"
             variant="outline"
             asChild
-            className="text-xs h-8 text-slate-600"
+            className="text-xs h-8 rounded-full border-[#D6CFC4] bg-[#FAF8F5] hover:bg-[#EAE4D7] text-[#1A1715]"
           >
             <Link to={`/internship/${internship.id}`}>
               Details
@@ -192,7 +192,7 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
             disabled={deadlinePassed || internship.has_applied}
             className={cn(
               deadlinePassed && 'opacity-50 cursor-not-allowed',
-              !deadlinePassed && 'bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs h-8'
+              !deadlinePassed && 'bg-[#181615] hover:bg-[#2A2724] text-white font-medium text-xs h-8 rounded-full shadow-xs'
             )}
           >
             <Link to={`/apply?domain=${encodeURIComponent(internship.title)}&internshipId=${internship.id}`}>

@@ -27,9 +27,7 @@ const SERVICES = [
       'PostgreSQL, Supabase & MongoDB databases',
       'Automated CI/CD deployment pipelines',
     ],
-    color: 'text-blue-600',
-    bg: 'bg-blue-50',
-    border: 'border-blue-200',
+    color: 'text-[#181615]', bg: 'bg-[#EBE6DC]', border: 'border-[#E2DDD2]',
   },
   {
     icon: Smartphone,
@@ -42,9 +40,7 @@ const SERVICES = [
       'Biometric authentication & local encryption',
       'App Store & Play Store publishing support',
     ],
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-200',
+    color: 'text-[#2D6A4F]', bg: 'bg-[#E8F3ED]', border: 'border-[#E2DDD2]',
   },
   {
     icon: BrainCircuit,
@@ -57,9 +53,7 @@ const SERVICES = [
       'Vector database setups (pgvector, Pinecone)',
       'Human-in-the-loop task execution workflows',
     ],
-    color: 'text-purple-600',
-    bg: 'bg-purple-50',
-    border: 'border-purple-200',
+    color: 'text-[#8C4325]', bg: 'bg-[#F0E6DC]', border: 'border-[#E2DDD2]',
   },
   {
     icon: Cpu,
@@ -72,9 +66,7 @@ const SERVICES = [
       'Microservice load balancing & caching',
       'Observability, logging & Prometheus alerts',
     ],
-    color: 'text-cyan-600',
-    bg: 'bg-cyan-50',
-    border: 'border-cyan-200',
+    color: 'text-[#181615]', bg: 'bg-[#EBE6DC]', border: 'border-[#E2DDD2]',
   },
   {
     icon: Layers,
@@ -87,9 +79,7 @@ const SERVICES = [
       'Mobile-first responsive UX audits',
       'User journey mapping & friction elimination',
     ],
-    color: 'text-pink-600',
-    bg: 'bg-pink-50',
-    border: 'border-pink-200',
+    color: 'text-[#8C4325]', bg: 'bg-[#F0E6DC]', border: 'border-[#E2DDD2]',
   },
   {
     icon: Megaphone,
@@ -121,25 +111,25 @@ export function Services() {
       <PageTitle title="Professional Digital Solutions & Services | Geek Intern" />
 
       {/* Hero */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/40 text-slate-900 border-b border-slate-200">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge className="bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
+          <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 rounded-full">
             Digital Solutions
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-950">
-            Our Core <span className="text-[#FF4D5A]">Services</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+            Our Core <span className="font-serif italic text-[#8C4325]">Services</span>
           </h1>
-          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             We engineer high-impact software, mobile products, and AI solutions designed to accelerate growth, modernize operations, and elevate your brand.
           </p>
           <div className="mt-8 flex items-center justify-center gap-4">
             <Link to="/contact">
-              <Button className="h-11 px-6 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-md shadow-blue-600/25">
+              <Button className="h-11 px-6 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white text-xs font-semibold shadow-xs">
                 Discuss Your Project →
               </Button>
             </Link>
             <Link to="/web-portfolio">
-              <Button variant="outline" className="h-11 px-6 rounded-full border-slate-300 bg-white text-slate-700 text-xs font-semibold shadow-sm hover:bg-slate-50">
+              <Button variant="outline" className="h-11 px-6 rounded-full border-[#D6CFC4] bg-[#FAF8F5] text-[#1A1715] text-xs font-semibold shadow-xs hover:bg-[#EAE4D7]">
                 View Past Client Work
               </Button>
             </Link>
@@ -148,7 +138,7 @@ export function Services() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white text-slate-900">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white text-[#1A1715]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {SERVICES.map((srv, idx) => {
@@ -165,8 +155,8 @@ export function Services() {
                     <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
                       {srv.subtitle}
                     </span>
-                    <h2 className="text-2xl font-bold text-slate-900 mb-3">{srv.title}</h2>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                    <h2 className="text-2xl font-bold text-[#1A1715] mb-3">{srv.title}</h2>
+                    <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed mb-6">
                       {srv.desc}
                     </p>
 
@@ -176,8 +166,8 @@ export function Services() {
                       </h4>
                       <ul className="flex flex-col gap-2">
                         {srv.deliverables.map((item, dIdx) => (
-                          <li key={dIdx} className="flex items-center gap-2 text-xs text-slate-600">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                          <li key={dIdx} className="flex items-center gap-2 text-xs text-[#57534E]">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#2D6A4F] shrink-0" />
                             <span>{item}</span>
                           </li>
                         ))}
@@ -201,32 +191,32 @@ export function Services() {
               <Badge className="bg-purple-50 text-purple-700 border border-purple-200 uppercase tracking-widest text-[11px] mb-3 px-3 py-1">
                 How We Deliver
               </Badge>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950">
-                Our Engineering <span className="text-blue-600">Process</span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1A1715]">
+                Our Engineering <span className="text-[#2D6A4F]">Process</span>
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {PROCESS_STEPS.map((step, idx) => (
                 <div key={idx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-3xl font-extrabold text-blue-600/30 mb-3 font-mono">
+                  <div className="text-3xl font-extrabold text-[#2D6A4F]/30 mb-3 font-mono">
                     {step.step}
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 mb-2">{step.title}</h3>
-                  <p className="text-xs text-slate-600 leading-relaxed">{step.desc}</p>
+                  <h3 className="text-base font-bold text-[#1A1715] mb-2">{step.title}</h3>
+                  <p className="text-xs text-[#57534E] leading-relaxed">{step.desc}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-20 rounded-2xl bg-gradient-to-r from-blue-50 via-slate-50 to-indigo-50 border border-blue-200 p-10 text-center max-w-4xl mx-auto shadow-sm">
-            <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-slate-950">Ready to Build Something Exceptional?</h3>
-            <p className="text-slate-600 text-sm max-w-lg mx-auto mb-6">
+          <div className="mt-20 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-10 text-center max-w-4xl mx-auto shadow-xs">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-[#1A1715]">Ready to Build Something Exceptional?</h3>
+            <p className="text-[#57534E] text-sm max-w-lg mx-auto mb-6">
               Get in touch with our engineering architects today for a free project scoping and technical estimate.
             </p>
             <Link to="/contact">
-              <Button className="h-11 px-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-lg shadow-blue-600/20">
+              <Button className="h-11 px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs shadow-xs">
                 Contact Us Now →
               </Button>
             </Link>

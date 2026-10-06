@@ -38,13 +38,13 @@ export function FAQAccordion({ faqs = PLACEHOLDER_FAQS, className }: FAQAccordio
   const activeFaqs = faqs.filter((f) => f.is_active).sort((a, b) => a.order_index - b.order_index)
 
   return (
-    <Accordion type="single" collapsible className={cn('w-full', className)}>
+    <Accordion type="single" collapsible className={cn('w-full divide-y divide-[#E2DDD2] dark:divide-[#292524]', className)}>
       {activeFaqs.map((faq) => (
-        <AccordionItem key={faq.id} value={faq.id}>
-          <AccordionTrigger className="text-left font-medium text-foreground hover:text-brand-navy">
+        <AccordionItem key={faq.id} value={faq.id} className="border-[#E2DDD2] dark:border-[#292524]">
+          <AccordionTrigger className="text-left font-medium text-[#1A1715] dark:text-[#FAF7F2] hover:text-[#8C4325] dark:hover:text-[#FAF7F2] transition-colors py-4">
             {faq.question}
           </AccordionTrigger>
-          <AccordionContent className="text-muted-foreground leading-relaxed">
+          <AccordionContent className="text-[#57534E] dark:text-[#A8A29E] leading-relaxed pb-4">
             {faq.answer}
           </AccordionContent>
         </AccordionItem>

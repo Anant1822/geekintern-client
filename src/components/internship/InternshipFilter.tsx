@@ -86,7 +86,7 @@ export function InternshipFilter({ className, onClose }: InternshipFilterProps) 
           <Filter className="h-4 w-4 text-muted-foreground" />
           <span className="font-semibold text-sm">Filters</span>
           {activeFilterCount > 0 && (
-            <Badge variant="teal" className="text-[10px]">{activeFilterCount} active</Badge>
+            <Badge variant="teal" className="text-[10px] bg-[#E8F3ED] text-[#2D6A4F] border-[#C2E0D1]">{activeFilterCount} active</Badge>
           )}
         </div>
         {onClose && (
@@ -136,8 +136,8 @@ export function InternshipFilter({ className, onClose }: InternshipFilterProps) 
               className={cn(
                 'px-3 py-1.5 rounded-full text-xs font-medium border transition-all',
                 filters.work_mode === mode.value
-                  ? 'bg-brand-navy text-white border-brand-navy'
-                  : 'border-input text-muted-foreground hover:border-brand-navy hover:text-brand-navy'
+                  ? 'bg-[#181615] text-white border-[#181615]'
+                  : 'border-[#E2DDD2] dark:border-[#292524] text-[#57534E] dark:text-[#A8A29E] hover:border-[#181615] hover:text-[#181615] dark:hover:border-white dark:hover:text-white'
               )}
             >
               {mode.label}
@@ -189,8 +189,8 @@ export function InternshipFilter({ className, onClose }: InternshipFilterProps) 
               className={cn(
                 'flex-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-all',
                 filters.is_paid === opt.value
-                  ? 'bg-brand-teal text-white border-brand-teal'
-                  : 'border-input text-muted-foreground hover:border-brand-teal hover:text-brand-teal'
+                  ? 'bg-[#181615] text-white border-[#181615]'
+                  : 'border-[#E2DDD2] dark:border-[#292524] text-[#57534E] dark:text-[#A8A29E] hover:border-[#181615] hover:text-[#181615] dark:hover:border-white dark:hover:text-white'
               )}
             >
               {opt.label}
@@ -200,7 +200,7 @@ export function InternshipFilter({ className, onClose }: InternshipFilterProps) 
       </div>
 
       {/* Reset */}
-      <Button variant="outline" className="w-full" onClick={handleReset}>
+      <Button variant="outline" className="w-full rounded-full border-[#D6CFC4] bg-[#FAF8F5] hover:bg-[#EAE4D7] text-[#1A1715]" onClick={handleReset}>
         <X className="mr-2 h-4 w-4" />
         Clear All Filters
       </Button>

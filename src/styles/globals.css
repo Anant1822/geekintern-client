@@ -4,62 +4,65 @@
 
 @layer base {
   :root {
-    /* Off-white background #F9FAF7 */
-    --background: 80 14% 97.5%;
-    /* Dark grey foreground #18181B */
-    --foreground: 240 6% 10%;
+    /* Aixentrix warm linen/parchment background #F5F2EB */
+    --background: 42 27% 94%;
+    /* Aixentrix deep charcoal ink #1A1715 */
+    --foreground: 24 11% 9%;
 
-    /* Crisp white cards floating on off-white */
-    --card: 0 0% 100%;
-    --card-foreground: 240 6% 10%;
+    /* Aixentrix soft ivory card #FAF7F2 */
+    --card: 38 38% 97%;
+    --card-foreground: 24 11% 9%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 6% 10%;
+    --popover: 38 38% 97%;
+    --popover-foreground: 24 11% 9%;
 
-    /* Emerald green accent #059669 (used selectively) */
-    --primary: 158 82% 31%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary CTA: deep charcoal pill #1A1715 */
+    --primary: 24 11% 9%;
+    --primary-foreground: 38 38% 97%;
 
-    /* Subtle grey */
-    --secondary: 80 8% 92%;
-    --secondary-foreground: 240 6% 15%;
+    /* Secondary: warm sand #EBE6DC */
+    --secondary: 40 25% 89%;
+    --secondary-foreground: 24 11% 15%;
 
-    --muted: 80 8% 93%;
-    --muted-foreground: 240 5% 45%;
+    --muted: 40 20% 90%;
+    --muted-foreground: 33 6% 40%;
 
-    --accent: 158 82% 31%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent: terracotta / warm rust #9E4A2B */
+    --accent: 16 57% 39%;
+    --accent-foreground: 38 38% 97%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 240 6% 88%;
-    --input: 240 6% 88%;
-    --ring: 158 82% 31%;
+    /* Delicate sandstone border #E2DDD2 */
+    --border: 41 22% 85%;
+    --input: 41 22% 85%;
+    --ring: 24 11% 9%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 120 5% 8%;
-    --foreground: 60 10% 96%;
-    --card: 120 4% 12%;
-    --card-foreground: 60 10% 96%;
-    --popover: 120 4% 12%;
-    --popover-foreground: 60 10% 96%;
-    --primary: 158 75% 42%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 120 4% 16%;
-    --secondary-foreground: 60 10% 96%;
-    --muted: 120 4% 16%;
-    --muted-foreground: 120 3% 65%;
-    --accent: 158 75% 42%;
-    --accent-foreground: 0 0% 100%;
+    /* Aixentrix dark mode: deep warm bistre/charcoal #151311 */
+    --background: 25 15% 7%;
+    --foreground: 38 38% 96%;
+    --card: 26 10% 11%;
+    --card-foreground: 38 38% 96%;
+    --popover: 26 10% 11%;
+    --popover-foreground: 38 38% 96%;
+    --primary: 38 38% 96%;
+    --primary-foreground: 24 11% 9%;
+    --secondary: 27 10% 15%;
+    --secondary-foreground: 38 38% 96%;
+    --muted: 27 10% 15%;
+    --muted-foreground: 30 6% 65%;
+    --accent: 13 68% 62%;
+    --accent-foreground: 24 11% 9%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 120 4% 18%;
-    --input: 120 4% 18%;
-    --ring: 158 75% 42%;
+    --border: 27 10% 18%;
+    --input: 27 10% 18%;
+    --ring: 38 38% 96%;
   }
 }
 

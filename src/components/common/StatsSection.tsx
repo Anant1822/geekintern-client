@@ -80,13 +80,13 @@ export function StatsSection({ stats = DEFAULT_STATS, className, dark = false }:
             <div key={i} className="text-center">
               <p className={cn(
                 'text-4xl sm:text-5xl font-extrabold mb-2',
-                dark ? 'text-white' : 'text-brand-navy'
+                dark ? 'text-white' : 'text-[#1A1715] dark:text-[#FAF7F2]'
               )}>
                 <StatCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
               </p>
               <p className={cn(
                 'text-sm font-medium',
-                dark ? 'text-white/70' : 'text-muted-foreground'
+                dark ? 'text-white/70' : 'text-[#57534E] dark:text-[#A8A29E]'
               )}>
                 {stat.label}
               </p>

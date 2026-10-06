@@ -199,8 +199,8 @@ export function Header() {
     <>
       <header
         className={cn(
-          'fixed top-0 inset-x-0 z-50 transition-colors duration-200 bg-[#F9FAF7]/95 dark:bg-zinc-900/95 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800',
-          scrolled ? 'shadow-sm shadow-zinc-900/5' : 'shadow-xs'
+          'fixed top-0 inset-x-0 z-50 transition-colors duration-200 bg-[#F5F2EB]/95 dark:bg-[#151311]/95 backdrop-blur-md border-b border-[#E2DDD2] dark:border-stone-800',
+          scrolled ? 'shadow-xs shadow-stone-900/5' : ''
         )}
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -209,7 +209,7 @@ export function Header() {
             <div className="flex shrink-0 items-center">
               <Link
                 to="/"
-                className="flex items-center outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-lg transition-transform hover:scale-105 duration-200"
+                className="flex items-center outline-none focus-visible:ring-2 focus-visible:ring-stone-400 rounded-lg transition-transform hover:scale-105 duration-200"
               >
                 <Logo variant="auto" size="md" />
               </Link>
@@ -232,18 +232,18 @@ export function Header() {
                       <button
                         type="button"
                         className={cn(
-                          'inline-flex h-9 items-center justify-center rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200 gap-1 select-none',
+                          'inline-flex h-9 items-center justify-center rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-all duration-200 gap-1 select-none',
                           active || isOpen
-                            ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50/80 dark:bg-emerald-950/50 border border-emerald-200/80 dark:border-emerald-900 font-semibold'
-                            : 'text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/80 dark:hover:bg-zinc-800'
+                            ? 'text-[#1A1715] dark:text-[#FAF7F2] bg-[#EBE6DC] dark:bg-stone-800 border border-[#DCD5C9] dark:border-stone-700 font-semibold'
+                            : 'text-[#57534E] dark:text-stone-300 hover:text-[#1A1715] dark:hover:text-white hover:bg-[#EBE6DC]/60 dark:hover:bg-stone-800'
                         )}
                         aria-expanded={isOpen}
                       >
                         <span>{item.label}</span>
                         <ChevronDown
                           className={cn(
-                            'h-3.5 w-3.5 transition-transform duration-200 text-zinc-400',
-                            isOpen && 'rotate-180 text-emerald-600 dark:text-emerald-400'
+                            'h-3.5 w-3.5 transition-transform duration-200 text-stone-400',
+                            isOpen && 'rotate-180 text-[#1A1715] dark:text-[#FAF7F2]'
                           )}
                         />
                       </button>
@@ -251,7 +251,7 @@ export function Header() {
                       {/* Dropdown Menu */}
                       {isOpen && (
                         <div className="absolute left-0 top-full pt-2 z-50 min-w-[300px] max-w-sm animate-in fade-in slide-in-from-top-2 duration-150">
-                          <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-2.5 shadow-xl ring-1 ring-black/5">
+                          <div className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1917] p-2.5 shadow-xl ring-1 ring-black/5">
                             <div className="flex flex-col gap-1">
                               {item.items.map((sub) => {
                                 const IconComponent = sub.icon || Award
@@ -262,21 +262,21 @@ export function Header() {
                                     to={sub.href}
                                     onClick={() => setOpenDropdown(null)}
                                     className={cn(
-                                      'flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors group',
+                                      'flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors group',
                                       subActive
-                                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
-                                        : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-emerald-700 dark:hover:text-emerald-400'
+                                        ? 'bg-[#EBE6DC] dark:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2]'
+                                        : 'text-[#57534E] dark:text-stone-300 hover:bg-[#EBE6DC]/70 dark:hover:bg-stone-800/80 hover:text-[#1A1715] dark:hover:text-white'
                                     )}
                                   >
-                                    <div className="p-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 group-hover:bg-emerald-600 group-hover:text-white transition-colors mt-0.5">
+                                    <div className="p-1.5 rounded-lg bg-[#EBE6DC] dark:bg-stone-800 text-[#57534E] dark:text-stone-300 group-hover:bg-[#1A1715] group-hover:text-white transition-colors mt-0.5">
                                       <IconComponent className="h-4 w-4" />
                                     </div>
                                     <div className="flex flex-col text-left">
-                                      <span className="text-xs font-semibold text-zinc-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 leading-tight">
+                                      <span className="text-xs font-semibold text-[#1A1715] dark:text-[#FAF7F2] leading-tight">
                                         {sub.label}
                                       </span>
                                       {sub.description && (
-                                        <span className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug mt-0.5">
+                                        <span className="text-[11px] text-[#78716C] dark:text-stone-400 leading-snug mt-0.5">
                                           {sub.description}
                                         </span>
                                       )}
@@ -297,10 +297,10 @@ export function Header() {
                     key={item.label}
                     to={item.href || '/'}
                     className={cn(
-                      'inline-flex h-9 items-center justify-center rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200 select-none',
+                      'inline-flex h-9 items-center justify-center rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-all duration-200 select-none',
                       active
-                        ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50/80 dark:bg-emerald-950/50 border border-emerald-200/80 dark:border-emerald-900 font-semibold'
-                        : 'text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/80 dark:hover:bg-zinc-800'
+                        ? 'text-[#1A1715] dark:text-[#FAF7F2] bg-[#EBE6DC] dark:bg-stone-800 border border-[#DCD5C9] dark:border-stone-700 font-semibold'
+                        : 'text-[#57534E] dark:text-stone-300 hover:text-[#1A1715] dark:hover:text-white hover:bg-[#EBE6DC]/60 dark:hover:bg-stone-800'
                     )}
                   >
                     {item.label}
@@ -317,12 +317,12 @@ export function Header() {
                 onClick={toggleTheme}
                 title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                 aria-label="Toggle dark mode"
-                className="p-2 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 transition-colors"
+                className="p-2 rounded-full text-[#57534E] dark:text-stone-300 hover:bg-[#EBE6DC] dark:hover:bg-stone-800 border border-[#D6CFC4] dark:border-stone-700 transition-colors"
               >
                 {theme === 'dark' ? (
                   <Sun className="h-4 w-4 text-amber-400" />
                 ) : (
-                  <Moon className="h-4 w-4 text-zinc-700" />
+                  <Moon className="h-4 w-4 text-stone-700" />
                 )}
               </button>
 
@@ -330,16 +330,16 @@ export function Header() {
               <Link to="/login">
                 <Button
                   variant="outline"
-                  className="h-9 px-3.5 rounded-lg border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-xs font-semibold inline-flex items-center gap-1.5 transition-all"
+                  className="h-9 px-4 rounded-full border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5]/80 dark:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] hover:bg-[#EAE4D7] dark:hover:bg-stone-700 text-xs font-semibold inline-flex items-center gap-1.5 transition-all"
                 >
-                  <Award className="h-3.5 w-3.5 text-zinc-500 dark:text-zinc-400" />
+                  <Award className="h-3.5 w-3.5 text-[#78716C] dark:text-stone-400" />
                   <span>Student Portal</span>
                 </Button>
               </Link>
 
-              {/* Apply Now button with green accent */}
+              {/* Apply Now button with Aixentrix solid dark pill */}
               <Link to="/apply">
-                <Button className="h-9 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs inline-flex items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                <Button className="h-9 px-4.5 rounded-full bg-[#181615] hover:bg-[#2A2724] dark:bg-[#FAF7F2] dark:hover:bg-white text-white dark:text-[#181615] text-xs font-semibold shadow-xs inline-flex items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]">
                   <span>Apply Now</span>
                   <ArrowUpRight className="h-3.5 w-3.5 stroke-[2.5]" />
                 </Button>
@@ -352,37 +352,37 @@ export function Header() {
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
                     className="flex items-center gap-1.5 rounded-lg p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                   >
-                    <Avatar className="h-8 w-8 border border-zinc-200">
+                    <Avatar className="h-8 w-8 border border-[#E2DDD2] dark:border-[#292524]">
                       <AvatarImage src={profile?.avatar_url} />
-                      <AvatarFallback className="text-xs bg-zinc-800 text-white">
+                      <AvatarFallback className="text-xs bg-[#181615] text-[#FAF7F2]">
                         {getInitials(profile?.full_name ?? user?.email ?? 'U')}
                       </AvatarFallback>
                     </Avatar>
-                    <ChevronDown className={cn('h-3.5 w-3.5 text-zinc-500 transition-transform', userMenuOpen && 'rotate-180')} />
+                    <ChevronDown className={cn('h-3.5 w-3.5 text-[#57534E] transition-transform', userMenuOpen && 'rotate-180')} />
                   </button>
 
                   {userMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl p-1 z-50">
+                    <div className="absolute right-0 top-full mt-2 w-52 rounded-2xl border border-[#E2DDD2] dark:border-[#292524] bg-[#FAF7F2] dark:bg-[#1C1A17] shadow-xl p-1.5 z-50">
                       {isAdmin || user?.email === 'admin@geekintern.com' ? (
                         <Link
                           to="/admin"
-                          className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-[#1A1715] dark:text-[#FAF7F2] hover:bg-[#EBE6DC] dark:hover:bg-[#292524] rounded-xl transition-colors"
                         >
-                          <LayoutDashboard className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                          <LayoutDashboard className="h-3.5 w-3.5 text-[#2D6A4F]" />
                           Admin Console
                         </Link>
                       ) : (
                         <Link
                           to="/login"
-                          className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-[#1A1715] dark:text-[#FAF7F2] hover:bg-[#EBE6DC] dark:hover:bg-[#292524] rounded-xl transition-colors"
                         >
-                          <Award className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                          <Award className="h-3.5 w-3.5 text-[#2D6A4F]" />
                           My Certificates & Portal
                         </Link>
                       )}
                       <button
                         onClick={handleSignOut}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50 rounded-lg transition-colors"
+                        className="flex w-full items-center gap-2 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl transition-colors"
                       >
                         <LogOut className="h-3.5 w-3.5" />
                         Sign Out
@@ -400,23 +400,23 @@ export function Header() {
                 onClick={toggleTheme}
                 title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                 aria-label="Toggle dark mode"
-                className="p-2 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 transition-colors"
+                className="p-2 rounded-full text-[#57534E] dark:text-stone-300 hover:bg-[#EBE6DC] dark:hover:bg-stone-800 border border-[#D6CFC4] dark:border-stone-700 transition-colors"
               >
                 {theme === 'dark' ? (
                   <Sun className="h-4 w-4 text-amber-400" />
                 ) : (
-                  <Moon className="h-4 w-4 text-zinc-700" />
+                  <Moon className="h-4 w-4 text-stone-700" />
                 )}
               </button>
 
               <Link to="/apply">
-                <Button size="sm" className="h-9 px-3 sm:px-3.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs">
+                <Button size="sm" className="h-9 px-3.5 sm:px-4 rounded-full bg-[#181615] hover:bg-[#2A2724] dark:bg-[#FAF7F2] text-white dark:text-[#181615] text-xs font-semibold shadow-xs">
                   Apply ↗
                 </Button>
               </Link>
 
               <button
-                className="p-2 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 transition-colors"
+                className="p-2 rounded-full text-[#1A1715] dark:text-[#FAF7F2] hover:bg-[#EBE6DC] dark:hover:bg-stone-800 border border-[#D6CFC4] dark:border-stone-700 transition-colors"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               >
@@ -438,7 +438,7 @@ export function Header() {
       {/* Mobile Navigation Drawer with Smooth Slide & Touch friendly items */}
       <div
         className={cn(
-          'fixed top-16 md:top-20 inset-x-0 z-50 bg-[#F9FAF7] dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 max-h-[85vh] overflow-y-auto xl:hidden transition-all duration-300 ease-in-out px-4 py-5 shadow-2xl',
+          'fixed top-16 md:top-20 inset-x-0 z-50 bg-[#F5F2EB] dark:bg-[#151311] border-b border-[#E2DDD2] dark:border-stone-800 max-h-[85vh] overflow-y-auto xl:hidden transition-all duration-300 ease-in-out px-4 py-5 shadow-2xl',
           mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         )}
       >
@@ -447,26 +447,26 @@ export function Header() {
             if (item.items) {
               const isExpanded = mobileExpanded === item.label
               return (
-                <div key={item.label} className="border-b border-zinc-200/60 dark:border-zinc-800/80 pb-1">
+                <div key={item.label} className="border-b border-[#E2DDD2]/80 dark:border-stone-800/80 pb-1">
                   <button
                     type="button"
                     onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
-                    className="flex w-full items-center justify-between py-2.5 px-3 rounded-lg text-sm font-semibold text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                    className="flex w-full items-center justify-between py-2.5 px-3 rounded-xl text-sm font-semibold text-[#1A1715] dark:text-[#FAF7F2] hover:bg-[#EBE6DC] dark:hover:bg-stone-800 transition-colors"
                   >
                     <span>{item.label}</span>
-                    <ChevronDown className={cn('h-4 w-4 text-zinc-400 transition-transform', isExpanded && 'rotate-180 text-emerald-600 dark:text-emerald-400')} />
+                    <ChevronDown className={cn('h-4 w-4 text-stone-400 transition-transform', isExpanded && 'rotate-180 text-[#9E4A2B]')} />
                   </button>
 
                   {isExpanded && (
-                    <div className="pl-3 py-1.5 flex flex-col gap-1 bg-white dark:bg-zinc-800/50 rounded-lg border border-zinc-200/80 dark:border-zinc-700/60 my-1">
+                    <div className="pl-3 py-1.5 flex flex-col gap-1 bg-[#FAF7F2] dark:bg-stone-800/50 rounded-xl border border-[#E2DDD2] dark:border-stone-700/60 my-1">
                       {item.items.map((sub) => (
                         <Link
                           key={sub.label}
                           to={sub.href}
                           onClick={() => setMobileOpen(false)}
-                          className="flex items-center gap-2.5 py-2 px-3 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                          className="flex items-center gap-2.5 py-2 px-3 rounded-lg text-xs font-medium text-[#57534E] dark:text-stone-300 hover:text-[#1A1715] dark:hover:text-white hover:bg-[#EBE6DC] dark:hover:bg-stone-800 transition-colors"
                         >
-                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#9E4A2B] shrink-0" />
                           <span>{sub.label}</span>
                         </Link>
                       ))}
@@ -481,22 +481,22 @@ export function Header() {
                 key={item.label}
                 to={item.href || '/'}
                 onClick={() => setMobileOpen(false)}
-                className="py-2.5 px-3 rounded-lg text-sm font-semibold text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                className="py-2.5 px-3 rounded-xl text-sm font-semibold text-[#1A1715] dark:text-[#FAF7F2] hover:bg-[#EBE6DC] dark:hover:bg-stone-800 transition-colors"
               >
                 {item.label}
               </Link>
             )
           })}
 
-          <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex flex-col gap-2.5">
+          <div className="pt-4 border-t border-[#E2DDD2] dark:border-stone-800 flex flex-col gap-2.5">
             <Link to="/login" onClick={() => setMobileOpen(false)}>
-              <Button variant="outline" className="w-full h-11 border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-semibold flex items-center justify-center gap-2 text-xs">
-                <Award className="h-4 w-4 text-zinc-500 dark:text-zinc-400" />
+              <Button variant="outline" className="w-full h-11 rounded-full border-[#D6CFC4] dark:border-stone-700 text-[#1A1715] dark:text-[#FAF7F2] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 font-semibold flex items-center justify-center gap-2 text-xs">
+                <Award className="h-4 w-4 text-[#78716C]" />
                 Student Certificate Portal
               </Button>
             </Link>
             <Link to="/apply" onClick={() => setMobileOpen(false)}>
-              <Button className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-xs">
+              <Button className="w-full h-11 rounded-full bg-[#181615] hover:bg-[#2A2724] dark:bg-[#FAF7F2] text-white dark:text-[#181615] font-semibold text-xs shadow-xs">
                 Start Your Internship ↗
               </Button>
             </Link>

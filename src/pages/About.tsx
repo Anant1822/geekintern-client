@@ -12,17 +12,17 @@ import { cn } from "@/lib/utils";
 interface MissionCardProps { icon: React.ReactNode; title: string; description: string; accent: "teal" | "amber" | "navy"; }
 function MissionCard({ icon, title, description, accent }: MissionCardProps) {
   const colors = {
-    teal:  { bar: "bg-[#0D9488]", icon: "bg-teal-50 text-teal-600" },
-    amber: { bar: "bg-[#F59E0B]", icon: "bg-amber-50 text-amber-600" },
-    navy:  { bar: "bg-[#1E3A5F]", icon: "bg-blue-50 text-[#1E3A5F]" },
+    teal:  { bar: "bg-[#2D6A4F]", icon: "bg-[#E8F3ED] text-[#2D6A4F]" },
+    amber: { bar: "bg-[#8C4325]", icon: "bg-[#F0E6DC] text-[#8C4325]" },
+    navy:  { bar: "bg-[#181615]", icon: "bg-[#EBE6DC] text-[#181615]" },
   };
   return (
-    <Card className="border-0 shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+    <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs hover:shadow-sm transition-shadow duration-300 overflow-hidden">
       <div className={cn("h-1.5 w-full", colors[accent].bar)} />
       <CardContent className="pt-6 pb-6 flex flex-col gap-3">
         <div className={cn("w-12 h-12 rounded-lg flex items-center justify-center", colors[accent].icon)}>{icon}</div>
-        <h3 className="font-bold text-[#1E3A5F] text-lg">{title}</h3>
-        <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+        <h3 className="font-bold text-[#1A1715] text-lg">{title}</h3>
+        <p className="text-[#57534E] text-sm leading-relaxed">{description}</p>
       </CardContent>
     </Card>
   );
@@ -31,9 +31,9 @@ function MissionCard({ icon, title, description, accent }: MissionCardProps) {
 interface PainPointProps { icon: React.ReactNode; text: string; }
 function PainPoint({ icon, text }: PainPointProps) {
   return (
-    <div className="flex items-start gap-4 bg-white rounded-xl p-5 shadow-sm border border-red-50">
+    <div className="flex items-start gap-4 bg-[#FAF7F2] rounded-xl p-5 shadow-xs border border-[#E2DDD2]">
       <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500 flex-shrink-0 mt-0.5">{icon}</div>
-      <p className="text-gray-700 font-medium leading-relaxed">{text}</p>
+      <p className="text-[#57534E] font-medium leading-relaxed">{text}</p>
     </div>
   );
 }
@@ -42,9 +42,9 @@ interface StepCardProps { step: number; title: string; description: string; }
 function StepCard({ step, title, description }: StepCardProps) {
   return (
     <div className="flex flex-col items-center text-center">
-      <div className="w-12 h-12 rounded-full bg-[#1E3A5F] text-white font-bold text-lg flex items-center justify-center mb-4 shadow-md">{step}</div>
-      <h4 className="font-semibold text-[#1E3A5F] mb-2">{title}</h4>
-      <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+      <div className="w-12 h-12 rounded-full bg-[#181615] text-[#FAF7F2] font-bold text-lg flex items-center justify-center mb-4 shadow-xs">{step}</div>
+      <h4 className="font-semibold text-[#1A1715] mb-2">{title}</h4>
+      <p className="text-[#57534E] text-sm leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -54,8 +54,8 @@ function CompareList({ items, color }: CompareListProps) {
   return (
     <ul className="space-y-3">
       {items.map((item) => (
-        <li key={item} className="flex items-start gap-2 text-sm text-gray-700">
-          <CheckCircle2 className={cn("w-4 h-4 flex-shrink-0 mt-0.5", color === "navy" ? "text-[#1E3A5F]" : "text-[#0D9488]")} />
+        <li key={item} className="flex items-start gap-2 text-sm text-[#57534E]">
+          <CheckCircle2 className={cn("w-4 h-4 flex-shrink-0 mt-0.5", color === "navy" ? "text-[#181615]" : "text-[#2D6A4F]")} />
           {item}
         </li>
       ))}
@@ -67,15 +67,15 @@ export default function About() {
   return (
     <PublicLayout>
       {/* 1. Hero */}
-      <section className="relative bg-gradient-to-br from-[#1E3A5F] via-[#1a4f6e] to-[#0D9488] text-white overflow-hidden">
+      <section className="relative bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden">
         <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-56 h-56 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4 pointer-events-none" />
         <div className="relative max-w-5xl mx-auto px-4 py-24 text-center">
-          <Badge className="bg-white/20 text-white hover:bg-white/20 border-0 mb-5 text-xs tracking-widest uppercase">Our Story</Badge>
+          <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] mb-5 text-xs tracking-widest uppercase">Our Story</Badge>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-5 leading-tight">
-            About <span className="text-[#F59E0B]">Geek Intern</span>
+            About <span className="italic font-serif text-[#8C4325]">Geek Intern</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/85 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-[#57534E] max-w-3xl mx-auto leading-relaxed">
             A practical engineering internship platform built for college students and graduates — project-focused, verified, and accessible.
           </p>
         </div>
@@ -85,41 +85,41 @@ export default function About() {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <Badge className="bg-teal-50 text-[#0D9488] border-teal-200 mb-4">How It Started</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-5 leading-tight">
+            <Badge className="bg-[#F0E6DC] text-[#8C4325] border-[#E4D5C7] mb-4">How It Started</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1A1715] mb-5 leading-tight">
               Built to Solve Real Engineering Challenges
             </h2>
-            <div className="space-y-4 text-gray-600 leading-relaxed">
+            <div className="space-y-4 text-[#57534E] leading-relaxed">
               <p>
                 Geek Intern was founded to help engineering students build real-world software projects that employers actually care about. Students from universities across India often struggle to bridge the gap between textbook theory and practical repository development.
               </p>
               <p>
                 We built Geek Intern to change that. Our platform offers{" "}
-                <span className="font-semibold text-[#1E3A5F]">domain-specific technical tracks</span> — covering full stack development, Python, AI, embedded systems, VLSI, and cloud engineering with real GitHub deliverables.
+                <span className="font-semibold text-[#1A1715]">domain-specific technical tracks</span> — covering full stack development, Python, AI, embedded systems, VLSI, and cloud engineering with real GitHub deliverables.
               </p>
               <p>
                 Every internship project on Geek Intern is{" "}
-                <span className="font-semibold text-[#1E3A5F]">evaluated on quality code and documentation</span>. We provide transparent milestones, official offer letters, and verifiable credentials with unique QR verification.
+                <span className="font-semibold text-[#1A1715]">evaluated on quality code and documentation</span>. We provide transparent milestones, official offer letters, and verifiable credentials with unique QR verification.
               </p>
             </div>
           </div>
           <div className="relative flex items-center justify-center">
-            <div className="w-full max-w-md aspect-square rounded-3xl bg-gradient-to-br from-teal-50 to-blue-50 border border-teal-100 flex flex-col items-center justify-center gap-4 p-8">
-              <div className="w-20 h-20 rounded-2xl bg-[#1E3A5F] flex items-center justify-center shadow-lg">
+            <div className="w-full max-w-md aspect-square rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs flex flex-col items-center justify-center gap-4 p-8">
+              <div className="w-20 h-20 rounded-2xl bg-[#181615] text-white flex items-center justify-center shadow-lg">
                 <Briefcase className="w-10 h-10 text-white" />
               </div>
               <div className="text-center">
-                <p className="text-4xl font-extrabold text-[#1E3A5F]">500+</p>
-                <p className="text-gray-500 text-sm mt-1">Verified Internships Listed</p>
+                <p className="text-4xl font-extrabold text-[#1A1715]">500+</p>
+                <p className="text-[#57534E] text-sm mt-1">Verified Internships Listed</p>
               </div>
               <div className="grid grid-cols-2 gap-4 w-full mt-4">
-                <div className="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100">
-                  <p className="text-2xl font-bold text-[#0D9488]">200+</p>
-                  <p className="text-xs text-gray-500 mt-1">Partner Colleges</p>
+                <div className="bg-[#F5F2EB] rounded-xl p-4 text-center shadow-xs border border-[#E2DDD2]">
+                  <p className="text-2xl font-bold text-[#2D6A4F]">200+</p>
+                  <p className="text-xs text-[#57534E] mt-1">Partner Colleges</p>
                 </div>
-                <div className="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100">
-                  <p className="text-2xl font-bold text-[#F59E0B]">15+</p>
-                  <p className="text-xs text-gray-500 mt-1">Branches Covered</p>
+                <div className="bg-[#F5F2EB] rounded-xl p-4 text-center shadow-xs border border-[#E2DDD2]">
+                  <p className="text-2xl font-bold text-[#8C4325]">15+</p>
+                  <p className="text-xs text-[#57534E] mt-1">Branches Covered</p>
                 </div>
               </div>
             </div>
@@ -128,13 +128,13 @@ export default function About() {
       </section>
 
       {/* 3. Our Mission */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-[#EBE6DC]">
         <div className="max-w-5xl mx-auto text-center mb-12">
-          <Badge className="bg-[#1E3A5F]/10 text-[#1E3A5F] border-0 mb-4">Our Mission</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-4">
+          <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] mb-4">Our Mission</Badge>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1A1715] mb-4">
             Connecting Every Student to Opportunity
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto">
+          <p className="text-[#57534E] max-w-2xl mx-auto">
             We believe that every college student in India deserves a fair shot at a quality internship —
             regardless of which city they study in or which college they attend.
           </p>
@@ -165,11 +165,11 @@ export default function About() {
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <Badge className="bg-red-50 text-red-600 border-red-100 mb-4">The Problem</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-4">
+            <Badge className="bg-red-50 text-red-700 border-red-200 mb-4">The Problem</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1A1715] mb-4">
               What Students Face Today
             </h2>
-            <p className="text-gray-500 max-w-2xl mx-auto">
+            <p className="text-[#57534E] max-w-2xl mx-auto">
               The internship search in India is broken for most students. Here's what we set out to fix.
             </p>
           </div>
@@ -191,9 +191,9 @@ export default function About() {
       </section>
 
       {/* 5. How Geek Intern Works */}
-      <section className="py-20 px-4 bg-gradient-to-br from-[#1E3A5F] to-[#0a3352] text-white">
+      <section className="py-20 px-4 bg-[#181615] text-[#FAF7F2]">
         <div className="max-w-5xl mx-auto text-center mb-14">
-          <Badge className="bg-white/20 text-white border-0 mb-4 hover:bg-white/20">How It Works</Badge>
+          <Badge className="bg-[#FAF7F2]/20 text-white border-0 mb-4">How It Works</Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">How Geek Intern Works</h2>
           <p className="text-white/75 max-w-2xl mx-auto">A straightforward 4-stage process from onboarding to certified completion.</p>
         </div>
@@ -207,26 +207,26 @@ export default function About() {
       </section>
 
       {/* 6. For Students vs For Colleges */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-[#EBE6DC]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1A1715] mb-4">
               Built for Engineering Students & Institutions
             </h2>
-            <p className="text-gray-500 max-w-xl mx-auto">
+            <p className="text-[#57534E] max-w-xl mx-auto">
               Whether you're a student looking for hands-on project experience or a college placement coordinator,
               Geek Intern provides the right framework.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="border-0 shadow-md overflow-hidden">
+            <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs overflow-hidden">
               <div className="h-2 bg-[#0D9488]" />
               <CardContent className="pt-6 pb-8">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
-                    <UserCheck className="w-5 h-5 text-[#0D9488]" />
+                    <UserCheck className="w-5 h-5 text-[#2D6A4F]" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#1E3A5F]">For Students</h3>
+                  <h3 className="text-xl font-bold text-[#1A1715]">For Students</h3>
                 </div>
                 <CompareList color="teal" items={[
                   "Domain-specific engineering project tracks",
@@ -238,19 +238,19 @@ export default function About() {
                   "Accepted by universities for internship credits",
                   "Mobile-friendly student portal",
                 ]} />
-                <Button asChild className="mt-6 bg-[#0D9488] hover:bg-teal-700 text-white w-full">
+                <Button asChild className="mt-6 bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs w-full">
                   <Link to="/browse">Browse Tracks <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
             </Card>
-            <Card className="border-0 shadow-md overflow-hidden">
-              <div className="h-2 bg-[#1E3A5F]" />
+            <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs overflow-hidden">
+              <div className="h-2 bg-[#181615]" />
               <CardContent className="pt-6 pb-8">
                 <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
-                    <Search className="w-5 h-5 text-[#1E3A5F]" />
+                  <div className="w-10 h-10 rounded-xl bg-[#EBE6DC] flex items-center justify-center">
+                    <Search className="w-5 h-5 text-[#1A1715]" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#1E3A5F]">For Colleges</h3>
+                  <h3 className="text-xl font-bold text-[#1A1715]">For Colleges</h3>
                 </div>
                 <CompareList color="navy" items={[
                   "Placement coordinator dashboard",
@@ -262,7 +262,7 @@ export default function About() {
                   "Free partnership onboarding for colleges",
                   "Direct priority support channel",
                 ]} />
-                <Button asChild className="mt-6 bg-[#1E3A5F] hover:bg-[#162d4a] text-white w-full">
+                <Button asChild className="mt-6 bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs w-full">
                   <Link to="/college-register">Partner With Us <ArrowRight className="w-4 h-4 ml-1" /></Link>
                 </Button>
               </CardContent>
@@ -272,20 +272,20 @@ export default function About() {
       </section>
 
       {/* 7. CTA */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-[#FAF7F2] border-t border-[#E2DDD2]">
         <div className="max-w-3xl mx-auto text-center">
           <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-6">
-            <FileText className="w-8 h-8 text-[#F59E0B]" />
+            <FileText className="w-8 h-8 text-[#8C4325]" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-4">Ready to Build Real Projects?</h2>
-          <p className="text-gray-500 mb-8 leading-relaxed">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1A1715] mb-4">Ready to Build Real Projects?</h2>
+          <p className="text-[#57534E] mb-8 leading-relaxed">
             Join thousands of engineering students who leveled up their skills and built portfolios with Geek Intern.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-[#0D9488] hover:bg-teal-700 text-white font-semibold px-8">
+            <Button asChild size="lg" className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs px-8">
               <Link to="/browse">Explore Tracks <ArrowRight className="w-4 h-4 ml-2" /></Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-[#1E3A5F] text-[#1E3A5F] hover:bg-[#1E3A5F] hover:text-white font-semibold px-8">
+            <Button asChild size="lg" variant="outline" className="border-[#D6CFC4] text-[#1A1715] hover:bg-[#EAE4D7] rounded-full font-semibold px-8">
               <Link to="/college-register">Partner as College</Link>
             </Button>
           </div>

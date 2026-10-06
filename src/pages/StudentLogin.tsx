@@ -651,7 +651,7 @@ export default function StudentLogin() {
       case 'completed':
         return <Badge className="bg-emerald-600 hover:bg-emerald-600 text-white font-medium">Completed & Certified</Badge>
       case 'selected':
-        return <Badge className="bg-blue-600 hover:bg-blue-600 text-white font-medium">Selected / In Progress</Badge>
+        return <Badge className="bg-[#181615] hover:bg-[#2A2724] text-white font-medium">Selected / In Progress</Badge>
       case 'under_review':
         return <Badge className="bg-amber-500 hover:bg-amber-500 text-white font-medium">Under Review</Badge>
       case 'rejected':
@@ -665,7 +665,7 @@ export default function StudentLogin() {
     <PublicLayout>
       <PageTitle title="Student Login & Certificate Portal | Geek Intern" />
 
-      <div className="min-h-[80vh] bg-slate-50/50 py-10 md:py-16">
+      <div className="min-h-[80vh] bg-[#F5F2EB] py-10 md:py-16">
         {/* Email Not Registered / Applied Popup Modal */}
         <Dialog
           open={showNotRegisteredModal}
@@ -677,17 +677,17 @@ export default function StudentLogin() {
             }
           }}
         >
-          <DialogContent className="sm:max-w-md p-6 bg-white border border-slate-200 shadow-2xl rounded-2xl">
+          <DialogContent className="sm:max-w-md p-6 bg-[#FAF7F2] border border-[#E2DDD2] shadow-2xl rounded-2xl">
             <DialogHeader className="space-y-3 text-center sm:text-center items-center">
               <div className="h-16 w-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto shadow-inner">
                 <AlertCircle className="h-8 w-8" />
               </div>
-              <DialogTitle className="text-xl font-bold text-slate-900">
+              <DialogTitle className="text-xl font-bold text-[#1A1715]">
                 Email Not Registered / Applied
               </DialogTitle>
-              <DialogDescription className="text-sm text-slate-600 leading-relaxed text-center">
+              <DialogDescription className="text-sm text-[#57534E] leading-relaxed text-center">
                 The email address{' '}
-                <span className="font-semibold text-slate-900 bg-slate-100 px-2 py-0.5 rounded break-all">
+                <span className="font-semibold text-[#1A1715] bg-[#EBE6DC] px-2 py-0.5 rounded break-all">
                   {notRegisteredEmail || email}
                 </span>{' '}
                 was not found in our records. No internship application or enrolled student account exists with this email.
@@ -713,13 +713,13 @@ export default function StudentLogin() {
                   setOtpSent(false)
                   setOtp('')
                 }}
-                className="w-full sm:w-1/2 border-slate-300 text-slate-700 hover:bg-slate-100 font-medium"
+                className="w-full sm:w-1/2 border-[#D6CFC4] text-[#57534E] hover:bg-[#EBE6DC] font-medium"
               >
                 Try Another Email
               </Button>
               <Button
                 asChild
-                className="w-full sm:w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md shadow-blue-600/20"
+                className="w-full sm:w-1/2 bg-[#181615] hover:bg-[#2A2724] text-white font-semibold rounded-full shadow-xs"
               >
                 <Link to={`/apply?email=${encodeURIComponent(notRegisteredEmail || email)}`}>
                   Apply for Internship <ArrowRight className="h-4 w-4 ml-1" />
@@ -732,27 +732,27 @@ export default function StudentLogin() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header Banner */}
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-4">
-              <ShieldCheck className="h-4 w-4 text-blue-600" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#EBE6DC] border border-[#E2DDD2] text-[#2D6A4F] text-xs font-semibold mb-4">
+              <ShieldCheck className="h-4 w-4 text-[#2D6A4F]" />
               <span>Encrypted Student Credential Portal</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1A1715] tracking-tight">
               Student Login & Certificate Access
             </h1>
-            <p className="mt-3 text-sm sm:text-base text-slate-600">
+            <p className="mt-3 text-sm sm:text-base text-[#57534E]">
               Sign in with your registered email and password to access your verified internship certificates, offer letters, and academic credentials.
             </p>
           </div>
 
           {!portalData ? (
             /* Student Authentication Card */
-            <Card className="max-w-md mx-auto border-slate-200 shadow-xl bg-white rounded-2xl overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-5 text-white">
+            <Card className="max-w-md mx-auto border-[#E2DDD2] shadow-xl bg-[#FAF7F2] rounded-2xl overflow-hidden">
+              <div className="bg-[#181615] px-6 py-5 text-white">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-bold flex items-center gap-2">
                     {authMode === 'login' ? (
                       <>
-                        <Lock className="h-5 w-5 text-blue-200" />
+                        <Lock className="h-5 w-5 text-[#E2DDD2]" />
                         Student Account Login
                       </>
                     ) : (
@@ -762,9 +762,9 @@ export default function StudentLogin() {
                       </>
                     )}
                   </h2>
-                  <Badge className="bg-white/20 text-white text-[10px] border-0">256-bit Encrypted</Badge>
+                  <Badge className="bg-[#FAF7F2]/20 text-white text-[10px] border-0">256-bit Encrypted</Badge>
                 </div>
-                <p className="text-xs text-blue-100 mt-1">
+                <p className="text-xs text-[#D6CFC4] mt-1">
                   {authMode === 'login'
                     ? 'Enter your email and password to access your credentials'
                     : 'Verify your identity via 6-digit OTP sent to your email'}
@@ -790,7 +790,7 @@ export default function StudentLogin() {
                   /* Standard Email & Password Login Form */
                   <form onSubmit={handlePasswordLogin} className="space-y-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-semibold text-slate-700">
+                      <label className="text-xs font-semibold text-[#57534E]">
                         Email Address <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
@@ -799,11 +799,11 @@ export default function StudentLogin() {
                           placeholder="name@example.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="pr-10 h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                          className="pr-10 h-11 border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] focus:border-[#181615] focus:ring-[#181615] text-sm"
                           disabled={isLoading}
                           required
                         />
-                        <div className="absolute right-3 top-3 text-slate-400">
+                        <div className="absolute right-3 top-3 text-[#78716C]">
                           <Mail className="h-5 w-5" />
                         </div>
                       </div>
@@ -811,7 +811,7 @@ export default function StudentLogin() {
 
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <label className="text-xs font-semibold text-slate-700">
+                        <label className="text-xs font-semibold text-[#57534E]">
                           Password <span className="text-red-500">*</span>
                         </label>
                         <button
@@ -823,7 +823,7 @@ export default function StudentLogin() {
                             setErrorMsg(null)
                             setSuccessMsg(null)
                           }}
-                          className="text-[11px] text-blue-600 hover:text-blue-700 hover:underline font-semibold"
+                          className="text-[11px] text-[#2D6A4F] hover:text-[#2D6A4F] hover:underline font-semibold"
                         >
                           Forgot Password?
                         </button>
@@ -834,14 +834,14 @@ export default function StudentLogin() {
                           placeholder="Enter your password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="pr-10 h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                          className="pr-10 h-11 border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] focus:border-[#181615] focus:ring-[#181615] text-sm"
                           disabled={isLoading}
                           required
                         />
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                          className="absolute right-3 top-3 text-[#78716C] hover:text-[#57534E]"
                         >
                           {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                         </button>
@@ -851,7 +851,7 @@ export default function StudentLogin() {
                     <Button
                       type="submit"
                       disabled={isLoading || !email.trim() || !password.trim()}
-                      className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md shadow-blue-600/20 text-sm transition-all mt-2"
+                      className="w-full h-11 bg-[#181615] hover:bg-[#2A2724] text-white font-semibold rounded-full shadow-xs text-sm transition-all mt-2"
                     >
                       {isLoading ? (
                         <span className="flex items-center gap-2">
@@ -872,7 +872,7 @@ export default function StudentLogin() {
                     {forgotStep === 'request_otp' ? (
                       <form onSubmit={handleSendForgotPasswordOtp} className="space-y-4">
                         <div className="space-y-1.5">
-                          <label className="text-xs font-semibold text-slate-700">
+                          <label className="text-xs font-semibold text-[#57534E]">
                             Registered Email Address <span className="text-red-500">*</span>
                           </label>
                           <div className="relative">
@@ -881,15 +881,15 @@ export default function StudentLogin() {
                               placeholder="Enter your registered email"
                               value={forgotEmail || email}
                               onChange={(e) => setForgotEmail(e.target.value)}
-                              className="pr-10 h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                              className="pr-10 h-11 border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] focus:border-[#181615] focus:ring-[#181615] text-sm"
                               disabled={isLoading}
                               required
                             />
-                            <div className="absolute right-3 top-3 text-slate-400">
+                            <div className="absolute right-3 top-3 text-[#78716C]">
                               <Mail className="h-5 w-5" />
                             </div>
                           </div>
-                          <p className="text-[11px] text-slate-500">
+                          <p className="text-[11px] text-[#57534E]">
                             We will send a 6-digit verification code to reset your password.
                           </p>
                         </div>
@@ -897,7 +897,7 @@ export default function StudentLogin() {
                         <Button
                           type="submit"
                           disabled={isLoading || !(forgotEmail || email).trim()}
-                          className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md shadow-blue-600/20 text-sm transition-all"
+                          className="w-full h-11 bg-[#181615] hover:bg-[#2A2724] text-white font-semibold rounded-full shadow-xs text-sm transition-all"
                         >
                           {isLoading ? (
                             <span className="flex items-center gap-2">
@@ -914,7 +914,7 @@ export default function StudentLogin() {
                       </form>
                     ) : (
                       <form onSubmit={handleResetPasswordWithOtp} className="space-y-3.5">
-                        <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-3 text-xs text-blue-800 flex items-center justify-between">
+                        <div className="bg-[#EBE6DC]/70 border border-[#E2DDD2] rounded-xl p-3 text-xs text-[#1A1715] flex items-center justify-between">
                           <div className="truncate mr-2">
                             Reset code sent to: <span className="font-semibold">{forgotEmail}</span>
                           </div>
@@ -925,14 +925,14 @@ export default function StudentLogin() {
                               setForgotOtp('')
                               setErrorMsg(null)
                             }}
-                            className="text-blue-600 font-semibold underline shrink-0 hover:text-blue-800"
+                            className="text-[#2D6A4F] font-semibold underline shrink-0 hover:text-[#181615]"
                           >
                             Change
                           </button>
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-xs font-semibold text-slate-700">
+                          <label className="text-xs font-semibold text-[#57534E]">
                             Enter 6-Digit OTP Code <span className="text-red-500">*</span>
                           </label>
                           <Input
@@ -941,7 +941,7 @@ export default function StudentLogin() {
                             placeholder="• • • • • •"
                             value={forgotOtp}
                             onChange={(e) => setForgotOtp(e.target.value.replace(/[^0-9]/g, ''))}
-                            className="h-11 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-center font-mono text-lg tracking-[0.3em] font-bold"
+                            className="h-11 border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] focus:border-[#181615] focus:ring-[#181615] text-center font-mono text-lg tracking-[0.3em] font-bold"
                             disabled={isLoading}
                             autoFocus
                             required
@@ -949,7 +949,7 @@ export default function StudentLogin() {
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-xs font-semibold text-slate-700">
+                          <label className="text-xs font-semibold text-[#57534E]">
                             New Password <span className="text-red-500">*</span>
                           </label>
                           <div className="relative">
@@ -958,14 +958,14 @@ export default function StudentLogin() {
                               placeholder="Minimum 6 characters"
                               value={newPassword}
                               onChange={(e) => setNewPassword(e.target.value)}
-                              className="pr-10 h-10 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                              className="pr-10 h-10 border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] focus:border-[#181615] focus:ring-[#181615] text-sm"
                               disabled={isLoading}
                               required
                             />
                             <button
                               type="button"
                               onClick={() => setShowNewPassword(!showNewPassword)}
-                              className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                              className="absolute right-3 top-2.5 text-[#78716C] hover:text-[#57534E]"
                             >
                               {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                             </button>
@@ -973,7 +973,7 @@ export default function StudentLogin() {
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-xs font-semibold text-slate-700">
+                          <label className="text-xs font-semibold text-[#57534E]">
                             Confirm New Password <span className="text-red-500">*</span>
                           </label>
                           <Input
@@ -981,7 +981,7 @@ export default function StudentLogin() {
                             placeholder="Re-type your new password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="h-10 border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
+                            className="h-10 border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] focus:border-[#181615] focus:ring-[#181615] text-sm"
                             disabled={isLoading}
                             required
                           />
@@ -1010,7 +1010,7 @@ export default function StudentLogin() {
                             type="button"
                             disabled={otpTimer > 0 || isLoading}
                             onClick={() => handleSendForgotPasswordOtp()}
-                            className="text-xs text-blue-600 hover:underline disabled:text-slate-400 font-medium"
+                            className="text-xs text-[#2D6A4F] hover:underline disabled:text-[#78716C] font-medium"
                           >
                             {otpTimer > 0 ? `Resend OTP in ${otpTimer}s` : 'Resend Verification Code'}
                           </button>
@@ -1026,7 +1026,7 @@ export default function StudentLogin() {
                           setErrorMsg(null)
                           setSuccessMsg(null)
                         }}
-                        className="text-xs text-slate-600 hover:text-slate-900 inline-flex items-center gap-1 font-medium"
+                        className="text-xs text-[#57534E] hover:text-[#1A1715] inline-flex items-center gap-1 font-medium"
                       >
                         <ArrowLeft className="h-3.5 w-3.5" /> Back to Password Sign In
                       </button>
@@ -1034,16 +1034,16 @@ export default function StudentLogin() {
                   </div>
                 )}
 
-                <div className="pt-4 border-t border-slate-100 flex flex-col gap-2.5 text-center">
-                  <p className="text-xs text-slate-500">
+                <div className="pt-4 border-t border-[#E2DDD2] flex flex-col gap-2.5 text-center">
+                  <p className="text-xs text-[#57534E]">
                     Need to submit an internship application?{' '}
-                    <Link to="/apply" className="font-semibold text-blue-600 hover:underline">
+                    <Link to="/apply" className="font-semibold text-[#2D6A4F] hover:underline">
                       Apply Now ↗
                     </Link>
                   </p>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-[#57534E]">
                     Recruiter or Verification Agency?{' '}
-                    <Link to="/verify" className="font-semibold text-blue-600 hover:underline">
+                    <Link to="/verify" className="font-semibold text-[#2D6A4F] hover:underline">
                       Public Certificate Verification ↗
                     </Link>
                   </p>
@@ -1054,26 +1054,26 @@ export default function StudentLogin() {
             /* Student Portal Dashboard View */
             <div className="space-y-8">
               {/* Profile Card & Back Button */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#FAF7F2] border border-[#E2DDD2] rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center gap-4">
-                  <div className="h-14 w-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                  <div className="h-14 w-14 rounded-2xl bg-[#181615] text-white flex items-center justify-center font-bold text-xl shadow-md">
                     {portalData.student.name.charAt(0).toUpperCase()}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h2 className="text-xl font-bold text-slate-900">{portalData.student.name}</h2>
+                      <h2 className="text-xl font-bold text-[#1A1715]">{portalData.student.name}</h2>
                       <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-[11px]">
                         Verified Student
                       </Badge>
                     </div>
-                    <div className="flex flex-wrap items-center gap-y-1 gap-x-4 text-xs text-slate-500 mt-1">
+                    <div className="flex flex-wrap items-center gap-y-1 gap-x-4 text-xs text-[#57534E] mt-1">
                       <span className="flex items-center gap-1">
-                        <Mail className="h-3.5 w-3.5 text-slate-400" />
+                        <Mail className="h-3.5 w-3.5 text-[#78716C]" />
                         {portalData.student.email}
                       </span>
                       {portalData.student.college && (
                         <span className="flex items-center gap-1">
-                          <GraduationCap className="h-3.5 w-3.5 text-slate-400" />
+                          <GraduationCap className="h-3.5 w-3.5 text-[#78716C]" />
                           {portalData.student.college}
                         </span>
                       )}
@@ -1091,7 +1091,7 @@ export default function StudentLogin() {
                         await authSignOut()
                       }
                     }}
-                    className="text-xs text-slate-600 border-slate-200 hover:bg-slate-50"
+                    className="text-xs text-[#57534E] border-[#E2DDD2] hover:bg-[#F5F2EB]"
                   >
                     <ArrowLeft className="h-3.5 w-3.5 mr-1.5" />
                     Sign Out / Switch Student
@@ -1100,14 +1100,14 @@ export default function StudentLogin() {
               </div>
 
               {/* Navigation Tabs */}
-              <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+              <div className="flex items-center gap-2 border-b border-[#E2DDD2] pb-2">
                 <button
                   type="button"
                   onClick={() => setActiveTab('certificates')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                     activeTab === 'certificates'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? 'bg-[#181615] text-white shadow-xs'
+                      : 'text-[#57534E] hover:bg-[#EBE6DC]'
                   }`}
                 >
                   <Award className="h-4 w-4" />
@@ -1118,8 +1118,8 @@ export default function StudentLogin() {
                   onClick={() => setActiveTab('offer_letters')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                     activeTab === 'offer_letters'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? 'bg-[#181615] text-white shadow-xs'
+                      : 'text-[#57534E] hover:bg-[#EBE6DC]'
                   }`}
                 >
                   <Send className="h-4 w-4" />
@@ -1130,8 +1130,8 @@ export default function StudentLogin() {
                   onClick={() => setActiveTab('applications')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                     activeTab === 'applications'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? 'bg-[#181615] text-white shadow-xs'
+                      : 'text-[#57534E] hover:bg-[#EBE6DC]'
                   }`}
                 >
                   <BookOpen className="h-4 w-4" />
@@ -1143,17 +1143,17 @@ export default function StudentLogin() {
               {activeTab === 'certificates' && (
                 <div className="space-y-6">
                   {portalData.certificates.length === 0 ? (
-                    <Card className="border-dashed border-2 border-slate-200 bg-white p-8 text-center rounded-2xl">
-                      <Award className="h-12 w-12 text-slate-300 mx-auto mb-3" />
-                      <h3 className="text-base font-bold text-slate-800">Certificate In Progress</h3>
-                      <p className="text-xs text-slate-500 max-w-md mx-auto mt-1 mb-4">
+                    <Card className="border-dashed border-2 border-[#E2DDD2] bg-[#FAF7F2] p-8 text-center rounded-2xl">
+                      <Award className="h-12 w-12 text-[#A8A29E] mx-auto mb-3" />
+                      <h3 className="text-base font-bold text-[#1A1715]">Certificate In Progress</h3>
+                      <p className="text-xs text-[#57534E] max-w-md mx-auto mt-1 mb-4">
                         Your internship application is active. Your verifiable certificate will automatically appear
                         here upon internship completion and review by the Geek Intern mentors.
                       </p>
                       <Button
                         size="sm"
                         onClick={() => setActiveTab('applications')}
-                        className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
+                        className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs text-xs"
                       >
                         Check Application Status
                       </Button>
@@ -1163,7 +1163,7 @@ export default function StudentLogin() {
                       {/* Certificate Selector List (if multiple) */}
                       {portalData.certificates.length > 1 && (
                         <div className="space-y-3 lg:col-span-1">
-                          <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                          <h4 className="text-xs font-bold text-[#57534E] uppercase tracking-wider">
                             Available Credentials
                           </h4>
                           {portalData.certificates.map((cert) => (
@@ -1172,16 +1172,16 @@ export default function StudentLogin() {
                               onClick={() => setSelectedCert(cert)}
                               className={`p-4 rounded-xl border cursor-pointer transition-all ${
                                 selectedCert?.certificate_id === cert.certificate_id
-                                  ? 'border-blue-500 bg-blue-50/50 shadow-sm'
-                                  : 'border-slate-200 bg-white hover:border-slate-300'
+                                  ? 'border-[#181615] bg-[#EBE6DC]/60 shadow-sm'
+                                  : 'border-[#E2DDD2] bg-[#FAF7F2] hover:border-[#D6CFC4]'
                               }`}
                             >
                               <div className="flex items-center justify-between">
-                                <span className="font-bold text-sm text-slate-900">{cert.domain}</span>
+                                <span className="font-bold text-sm text-[#1A1715]">{cert.domain}</span>
                                 <Badge className="bg-emerald-600 text-white text-[10px]">Verified</Badge>
                               </div>
-                              <p className="text-xs text-slate-500 mt-1 font-mono">ID: {cert.certificate_id}</p>
-                              <p className="text-xs text-slate-400 mt-0.5">Issued: {cert.issue_date}</p>
+                              <p className="text-xs text-[#57534E] mt-1 font-mono">ID: {cert.certificate_id}</p>
+                              <p className="text-xs text-[#78716C] mt-0.5">Issued: {cert.issue_date}</p>
                             </div>
                           ))}
                         </div>
@@ -1192,17 +1192,17 @@ export default function StudentLogin() {
                         {selectedCert && (
                           <div className="space-y-4">
                             {/* Actions toolbar */}
-                            <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                            <div className="flex flex-wrap items-center justify-between gap-3 bg-[#FAF7F2] p-4 rounded-xl border border-[#E2DDD2] shadow-sm">
                               <div>
-                                <h3 className="text-sm font-bold text-slate-900">Certificate Actions</h3>
-                                <p className="text-xs text-slate-500">Official Geek Intern Certified Document</p>
+                                <h3 className="text-sm font-bold text-[#1A1715]">Certificate Actions</h3>
+                                <p className="text-xs text-[#57534E]">Official Geek Intern Certified Document</p>
                               </div>
                               <div className="flex items-center gap-2">
                                 <Button
                                   size="sm"
                                   variant="outline"
                                   onClick={() => handleShare(selectedCert.certificate_id)}
-                                  className="text-xs border-slate-300 text-slate-700 hover:bg-slate-50"
+                                  className="text-xs border-[#D6CFC4] text-[#57534E] hover:bg-[#F5F2EB]"
                                 >
                                   <Share2 className="h-3.5 w-3.5 mr-1.5" />
                                   {copiedLink ? 'Link Copied!' : 'Share'}
@@ -1228,7 +1228,7 @@ export default function StudentLogin() {
                                   size="sm"
                                   onClick={handlePrint}
                                   variant={selectedCert.image_url ? 'outline' : 'default'}
-                                  className={selectedCert.image_url ? 'text-xs border-slate-300' : 'bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm'}
+                                  className={selectedCert.image_url ? 'text-xs border-[#D6CFC4]' : 'bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs text-xs font-semibold shadow-sm'}
                                 >
                                   <Download className="h-3.5 w-3.5 mr-1.5" />
                                   Print / Save PDF
@@ -1248,24 +1248,24 @@ export default function StudentLogin() {
 
                             {/* Cloud Certificate Image Banner (if uploaded by Admin to cloud library) */}
                             {selectedCert.image_url && (
-                              <div className="bg-white rounded-2xl border-2 border-emerald-500/40 p-4 sm:p-6 shadow-md">
-                                <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+                              <div className="bg-[#FAF7F2] rounded-2xl border-2 border-emerald-500/40 p-4 sm:p-6 shadow-md">
+                                <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#E2DDD2]">
                                   <div className="flex items-center gap-2">
                                     <Badge className="bg-emerald-600 text-white text-xs">
                                       Official Cloud Credential
                                     </Badge>
-                                    <span className="text-xs text-slate-500">Issued by Geek Intern</span>
+                                    <span className="text-xs text-[#57534E]">Issued by Geek Intern</span>
                                   </div>
                                   <a
                                     href={selectedCert.image_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-xs text-blue-600 hover:underline font-semibold inline-flex items-center gap-1"
+                                    className="text-xs text-[#2D6A4F] hover:underline font-semibold inline-flex items-center gap-1"
                                   >
                                     Open Full Size ↗
                                   </a>
                                 </div>
-                                <div className="rounded-xl overflow-hidden bg-slate-50 border border-slate-200 flex items-center justify-center p-2">
+                                <div className="rounded-xl overflow-hidden bg-[#F5F2EB] border border-[#E2DDD2] flex items-center justify-center p-2">
                                   <img
                                     src={selectedCert.image_url}
                                     alt={`Certificate ${selectedCert.certificate_id}`}
@@ -1278,21 +1278,21 @@ export default function StudentLogin() {
                             {/* Print / Visual Certificate Paper */}
                             <div
                               ref={certPrintRef}
-                              className="bg-white border-8 border-double border-slate-300 rounded-2xl p-8 sm:p-12 shadow-xl relative overflow-hidden text-center"
+                              className="bg-[#FAF7F2] border-8 border-double border-[#D6CFC4] rounded-2xl p-8 sm:p-12 shadow-xl relative overflow-hidden text-center"
                               style={{ minHeight: '520px' }}
                             >
                               {/* Watermark Logo Background */}
                               <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none select-none">
-                                <Award className="h-96 w-96 text-blue-900" />
+                                <Award className="h-96 w-96 text-[#1A1715]" />
                               </div>
 
                               {/* Corner Badges */}
-                              <div className="flex items-center justify-between border-b-2 border-slate-200 pb-4 mb-6">
+                              <div className="flex items-center justify-between border-b-2 border-[#E2DDD2] pb-4 mb-6">
                                 <div className="text-left">
-                                  <span className="font-extrabold text-blue-600 tracking-wider text-sm sm:text-base">
+                                  <span className="font-extrabold text-[#2D6A4F] tracking-wider text-sm sm:text-base">
                                     GEEK INTERN
                                   </span>
-                                  <p className="text-[10px] text-slate-400 uppercase tracking-widest">
+                                  <p className="text-[10px] text-[#78716C] uppercase tracking-widest">
                                     Virtual Internship Program
                                   </p>
                                 </div>
@@ -1303,34 +1303,34 @@ export default function StudentLogin() {
 
                               {/* Certificate Header */}
                               <div className="space-y-2 my-4">
-                                <h2 className="text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold">
+                                <h2 className="text-xs uppercase tracking-[0.25em] text-[#57534E] font-semibold">
                                   Certificate of Completion
                                 </h2>
-                                <p className="text-xs text-slate-400 italic">This is to certify that</p>
-                                <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight my-2">
+                                <p className="text-xs text-[#78716C] italic">This is to certify that</p>
+                                <h1 className="text-2xl sm:text-4xl font-extrabold text-[#1A1715] tracking-tight my-2">
                                   {selectedCert.student_name}
                                 </h1>
-                                <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
+                                <p className="text-xs sm:text-sm text-[#57534E] max-w-xl mx-auto leading-relaxed">
                                   has successfully completed the intensive practical virtual internship in{' '}
-                                  <span className="font-bold text-blue-700">{selectedCert.domain}</span> over a duration
-                                  of <span className="font-semibold text-slate-800">{selectedCert.duration}</span> with an
+                                  <span className="font-bold text-[#2D6A4F]">{selectedCert.domain}</span> over a duration
+                                  of <span className="font-semibold text-[#1A1715]">{selectedCert.duration}</span> with an
                                   overall evaluation grade of{' '}
                                   <span className="font-bold text-emerald-600">Grade {selectedCert.grade}</span>.
                                 </p>
                               </div>
 
                               {/* Details Grid */}
-                              <div className="grid grid-cols-3 gap-4 my-8 py-4 border-y border-slate-200/80 max-w-lg mx-auto text-xs">
+                              <div className="grid grid-cols-3 gap-4 my-8 py-4 border-y border-[#E2DDD2]/80 max-w-lg mx-auto text-xs">
                                 <div>
-                                  <span className="text-slate-400 block text-[10px] uppercase">Domain</span>
-                                  <span className="font-bold text-slate-800">{selectedCert.domain}</span>
+                                  <span className="text-[#78716C] block text-[10px] uppercase">Domain</span>
+                                  <span className="font-bold text-[#1A1715]">{selectedCert.domain}</span>
                                 </div>
                                 <div>
-                                  <span className="text-slate-400 block text-[10px] uppercase">Issue Date</span>
-                                  <span className="font-bold text-slate-800">{selectedCert.issue_date}</span>
+                                  <span className="text-[#78716C] block text-[10px] uppercase">Issue Date</span>
+                                  <span className="font-bold text-[#1A1715]">{selectedCert.issue_date}</span>
                                 </div>
                                 <div>
-                                  <span className="text-slate-400 block text-[10px] uppercase">Performance</span>
+                                  <span className="text-[#78716C] block text-[10px] uppercase">Performance</span>
                                   <span className="font-bold text-emerald-600">Grade {selectedCert.grade}</span>
                                 </div>
                               </div>
@@ -1339,9 +1339,9 @@ export default function StudentLogin() {
                               <div className="flex items-center justify-between pt-6 max-w-xl mx-auto text-xs">
                                 <div className="text-center">
                                   <div className="h-8 border-b border-slate-400 flex items-end justify-center pb-1">
-                                    <span className="font-serif italic font-bold text-blue-900 text-sm">Geek Intern Mentor</span>
+                                    <span className="font-serif italic font-bold text-[#1A1715] text-sm">Geek Intern Mentor</span>
                                   </div>
-                                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block mt-1">
+                                  <span className="text-[10px] text-[#78716C] uppercase tracking-wider block mt-1">
                                     Program Director
                                   </span>
                                 </div>
@@ -1353,9 +1353,9 @@ export default function StudentLogin() {
 
                                 <div className="text-center">
                                   <div className="h-8 border-b border-slate-400 flex items-end justify-center pb-1">
-                                    <span className="font-serif italic font-bold text-blue-900 text-sm">Academic Board</span>
+                                    <span className="font-serif italic font-bold text-[#1A1715] text-sm">Academic Board</span>
                                   </div>
-                                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block mt-1">
+                                  <span className="text-[10px] text-[#78716C] uppercase tracking-wider block mt-1">
                                     Evaluation Committee
                                   </span>
                                 </div>
@@ -1373,16 +1373,16 @@ export default function StudentLogin() {
               {activeTab === 'offer_letters' && (
                 <div className="space-y-6">
                   {(!portalData.offer_letters || portalData.offer_letters.length === 0) ? (
-                    <Card className="border-dashed border-2 border-slate-200 bg-white p-8 text-center rounded-2xl">
-                      <Send className="h-12 w-12 text-slate-300 mx-auto mb-3" />
-                      <h3 className="text-base font-bold text-slate-800">Offer Letter Under Processing</h3>
-                      <p className="text-xs text-slate-500 max-w-md mx-auto mt-1 mb-4">
+                    <Card className="border-dashed border-2 border-[#E2DDD2] bg-[#FAF7F2] p-8 text-center rounded-2xl">
+                      <Send className="h-12 w-12 text-[#A8A29E] mx-auto mb-3" />
+                      <h3 className="text-base font-bold text-[#1A1715]">Offer Letter Under Processing</h3>
+                      <p className="text-xs text-[#57534E] max-w-md mx-auto mt-1 mb-4">
                         Your application is currently under review by our mentors. Once selected, your official internship offer letter with verification code will appear here for instant download.
                       </p>
                       <Button
                         size="sm"
                         onClick={() => setActiveTab('applications')}
-                        className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
+                        className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs text-xs"
                       >
                         Check Application Progression
                       </Button>
@@ -1392,7 +1392,7 @@ export default function StudentLogin() {
                       {/* Offer Letter Selector (if multiple) */}
                       {portalData.offer_letters.length > 1 && (
                         <div className="space-y-3 lg:col-span-1">
-                          <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                          <h4 className="text-xs font-bold text-[#57534E] uppercase tracking-wider">
                             Available Offer Letters
                           </h4>
                           {portalData.offer_letters.map((letter) => (
@@ -1401,16 +1401,16 @@ export default function StudentLogin() {
                               onClick={() => setSelectedOfferLetter(letter)}
                               className={`p-4 rounded-xl border cursor-pointer transition-all ${
                                 selectedOfferLetter?.letter_id === letter.letter_id
-                                  ? 'border-blue-500 bg-blue-50/50 shadow-sm'
-                                  : 'border-slate-200 bg-white hover:border-slate-300'
+                                  ? 'border-[#181615] bg-[#EBE6DC]/60 shadow-sm'
+                                  : 'border-[#E2DDD2] bg-[#FAF7F2] hover:border-[#D6CFC4]'
                               }`}
                             >
                               <div className="flex items-center justify-between">
-                                <span className="font-bold text-sm text-slate-900">{letter.domain}</span>
-                                <Badge className="bg-blue-600 text-white text-[10px]">Official</Badge>
+                                <span className="font-bold text-sm text-[#1A1715]">{letter.domain}</span>
+                                <Badge className="bg-[#181615] text-white text-[10px]">Official</Badge>
                               </div>
-                              <p className="text-xs text-slate-500 mt-1 font-mono">ID: {letter.letter_id}</p>
-                              <p className="text-xs text-slate-400 mt-0.5">Start: {letter.start_date || 'Immediate'}</p>
+                              <p className="text-xs text-[#57534E] mt-1 font-mono">ID: {letter.letter_id}</p>
+                              <p className="text-xs text-[#78716C] mt-0.5">Start: {letter.start_date || 'Immediate'}</p>
                             </div>
                           ))}
                         </div>
@@ -1421,10 +1421,10 @@ export default function StudentLogin() {
                         {selectedOfferLetter && (
                           <div className="space-y-4">
                             {/* Actions toolbar */}
-                            <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                            <div className="flex flex-wrap items-center justify-between gap-3 bg-[#FAF7F2] p-4 rounded-xl border border-[#E2DDD2] shadow-sm">
                               <div>
-                                <h3 className="text-sm font-bold text-slate-900">Internship Offer Letter</h3>
-                                <p className="text-xs text-slate-500">Official Geek Intern Onboarding & Acceptance Document</p>
+                                <h3 className="text-sm font-bold text-[#1A1715]">Internship Offer Letter</h3>
+                                <p className="text-xs text-[#57534E]">Official Geek Intern Onboarding & Acceptance Document</p>
                               </div>
                               <div className="flex items-center gap-2">
                                 {selectedOfferLetter.image_url && (
@@ -1437,7 +1437,7 @@ export default function StudentLogin() {
                                   >
                                     <Button
                                       size="sm"
-                                      className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm"
+                                      className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs text-xs font-semibold shadow-sm"
                                     >
                                       <Download className="h-3.5 w-3.5 mr-1.5" />
                                       Download Official Document
@@ -1448,7 +1448,7 @@ export default function StudentLogin() {
                                   size="sm"
                                   onClick={handlePrint}
                                   variant="outline"
-                                  className="text-xs border-slate-300 text-slate-700 hover:bg-slate-50"
+                                  className="text-xs border-[#D6CFC4] text-[#57534E] hover:bg-[#F5F2EB]"
                                 >
                                   <Printer className="h-3.5 w-3.5 mr-1.5" />
                                   Print / Save PDF
@@ -1457,9 +1457,9 @@ export default function StudentLogin() {
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    className="text-xs border-blue-300 text-blue-700 hover:bg-blue-50"
+                                    className="text-xs border-[#D6CFC4] text-[#2D6A4F] hover:bg-[#EBE6DC]"
                                   >
-                                    <ShieldCheck className="h-3.5 w-3.5 mr-1.5 text-blue-600" />
+                                    <ShieldCheck className="h-3.5 w-3.5 mr-1.5 text-[#2D6A4F]" />
                                     Public Verification Page ↗
                                   </Button>
                                 </Link>
@@ -1468,13 +1468,13 @@ export default function StudentLogin() {
 
                             {/* Cloud Offer Letter Image Banner (if uploaded by Admin) */}
                             {selectedOfferLetter.image_url ? (
-                              <div className="bg-white rounded-2xl border-2 border-blue-500/40 p-4 sm:p-6 shadow-md">
-                                <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+                              <div className="bg-[#FAF7F2] rounded-2xl border-2 border-[#181615]/30 p-4 sm:p-6 shadow-md">
+                                <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#E2DDD2]">
                                   <div className="flex items-center gap-2">
-                                    <Badge className="bg-blue-600 text-white text-xs">
+                                    <Badge className="bg-[#181615] text-white text-xs">
                                       Official Offer Letter
                                     </Badge>
-                                    <span className="text-xs text-slate-500 font-mono font-bold text-blue-700">
+                                    <span className="text-xs text-[#57534E] font-mono font-bold text-[#2D6A4F]">
                                       Code: {selectedOfferLetter.letter_id}
                                     </span>
                                   </div>
@@ -1482,12 +1482,12 @@ export default function StudentLogin() {
                                     href={selectedOfferLetter.image_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-xs text-blue-600 hover:underline font-semibold inline-flex items-center gap-1"
+                                    className="text-xs text-[#2D6A4F] hover:underline font-semibold inline-flex items-center gap-1"
                                   >
                                     Open Full Size ↗
                                   </a>
                                 </div>
-                                <div className="rounded-xl overflow-hidden bg-slate-50 border border-slate-200 flex items-center justify-center p-2">
+                                <div className="rounded-xl overflow-hidden bg-[#F5F2EB] border border-[#E2DDD2] flex items-center justify-center p-2">
                                   {selectedOfferLetter.image_url.endsWith('.pdf') ? (
                                     <iframe
                                       src={selectedOfferLetter.image_url}
@@ -1506,46 +1506,46 @@ export default function StudentLogin() {
                             ) : null}
 
                             {/* Letter Details Card */}
-                            <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
-                              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                            <div className="bg-[#FAF7F2] rounded-2xl border border-[#E2DDD2] p-6 sm:p-8 shadow-sm space-y-6">
+                              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#E2DDD2] pb-4">
                                 <div>
-                                  <span className="text-xs font-bold text-blue-600 tracking-wider uppercase">
+                                  <span className="text-xs font-bold text-[#2D6A4F] tracking-wider uppercase">
                                     Letter of Engagement / Internship Offer
                                   </span>
-                                  <h2 className="text-xl font-bold text-slate-900 mt-1">
+                                  <h2 className="text-xl font-bold text-[#1A1715] mt-1">
                                     {selectedOfferLetter.domain}
                                   </h2>
                                 </div>
                                 <div className="text-right">
-                                  <span className="text-[11px] text-slate-400 block uppercase">Reference Code</span>
-                                  <span className="font-mono font-bold text-blue-600 text-sm">
+                                  <span className="text-[11px] text-[#78716C] block uppercase">Reference Code</span>
+                                  <span className="font-mono font-bold text-[#2D6A4F] text-sm">
                                     {selectedOfferLetter.letter_id}
                                   </span>
                                 </div>
                               </div>
 
-                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50/60 p-4 rounded-xl border border-slate-100 text-xs">
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-[#F5F2EB] p-4 rounded-xl border border-[#E2DDD2] text-xs">
                                 <div>
-                                  <span className="text-slate-400 block text-[10px] uppercase">Candidate</span>
-                                  <span className="font-bold text-slate-800">{selectedOfferLetter.student_name}</span>
+                                  <span className="text-[#78716C] block text-[10px] uppercase">Candidate</span>
+                                  <span className="font-bold text-[#1A1715]">{selectedOfferLetter.student_name}</span>
                                 </div>
                                 <div>
-                                  <span className="text-slate-400 block text-[10px] uppercase">Duration</span>
-                                  <span className="font-bold text-slate-800">{selectedOfferLetter.duration || '4 Weeks'}</span>
+                                  <span className="text-[#78716C] block text-[10px] uppercase">Duration</span>
+                                  <span className="font-bold text-[#1A1715]">{selectedOfferLetter.duration || '4 Weeks'}</span>
                                 </div>
                                 <div>
-                                  <span className="text-slate-400 block text-[10px] uppercase">Start Date</span>
-                                  <span className="font-bold text-slate-800">{selectedOfferLetter.start_date || 'Immediate'}</span>
+                                  <span className="text-[#78716C] block text-[10px] uppercase">Start Date</span>
+                                  <span className="font-bold text-[#1A1715]">{selectedOfferLetter.start_date || 'Immediate'}</span>
                                 </div>
                                 <div>
-                                  <span className="text-slate-400 block text-[10px] uppercase">Stipend</span>
+                                  <span className="text-[#78716C] block text-[10px] uppercase">Stipend</span>
                                   <span className="font-bold text-emerald-600">{selectedOfferLetter.stipend || 'Performance Based'}</span>
                                 </div>
                               </div>
 
                                 {!selectedOfferLetter.image_url && (
-                                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center gap-3">
-                                    <ShieldCheck className="h-5 w-5 text-blue-600 shrink-0" />
+                                  <div className="p-4 rounded-xl bg-[#F5F2EB] border border-[#E2DDD2] text-xs text-[#57534E] flex items-center gap-3">
+                                    <ShieldCheck className="h-5 w-5 text-[#2D6A4F] shrink-0" />
                                     <span>Your official internship offer letter has been recorded by Geek Intern administration. The physical/digital copy will be provided by your coordinators.</span>
                                   </div>
                                 )}
@@ -1562,14 +1562,14 @@ export default function StudentLogin() {
               {activeTab === 'applications' && (
                 <div className="space-y-4">
                   {portalData.applications.length === 0 ? (
-                    <Card className="border-slate-200 bg-white p-8 text-center rounded-2xl">
-                      <BookOpen className="h-12 w-12 text-slate-300 mx-auto mb-3" />
-                      <h3 className="text-base font-bold text-slate-800">No Applications Found</h3>
-                      <p className="text-xs text-slate-500 mt-1 mb-4">
+                    <Card className="border-[#E2DDD2] bg-[#FAF7F2] p-8 text-center rounded-2xl">
+                      <BookOpen className="h-12 w-12 text-[#A8A29E] mx-auto mb-3" />
+                      <h3 className="text-base font-bold text-[#1A1715]">No Applications Found</h3>
+                      <p className="text-xs text-[#57534E] mt-1 mb-4">
                         You have not submitted an application yet or your record was registered under another email.
                       </p>
                       <Link to="/apply">
-                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white text-xs">
+                        <Button size="sm" className="bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs text-xs">
                           Apply for Internship Now ↗
                         </Button>
                       </Link>
@@ -1577,14 +1577,14 @@ export default function StudentLogin() {
                   ) : (
                     <div className="grid grid-cols-1 gap-4">
                       {portalData.applications.map((app) => (
-                        <Card key={app.id} className="border-slate-200 shadow-sm bg-white rounded-2xl overflow-hidden">
-                          <div className="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100">
+                        <Card key={app.id} className="border-[#E2DDD2] shadow-sm bg-[#FAF7F2] rounded-2xl overflow-hidden">
+                          <div className="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#E2DDD2]">
                             <div>
                               <div className="flex items-center gap-2">
-                                <h3 className="text-base font-bold text-slate-900">{app.internship_title}</h3>
+                                <h3 className="text-base font-bold text-[#1A1715]">{app.internship_title}</h3>
                                 {getStatusBadge(app.status)}
                               </div>
-                              <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+                              <p className="text-xs text-[#57534E] mt-1 flex items-center gap-2">
                                 <span>Duration: {app.duration}</span>
                                 <span>•</span>
                                 <span>Applied on: {new Date(app.created_at).toLocaleDateString()}</span>
@@ -1610,8 +1610,8 @@ export default function StudentLogin() {
                           </div>
 
                           {/* Progress Stages Tracker */}
-                          <div className="p-5 sm:p-6 bg-slate-50/50">
-                            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-3 block">
+                          <div className="p-5 sm:p-6 bg-[#F5F2EB]">
+                            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#78716C] mb-3 block">
                               Application Progression
                             </span>
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1620,45 +1620,45 @@ export default function StudentLogin() {
                                   ['applied', 'submitted', 'under_review', 'selected', 'completed'].includes(
                                     app.status.toLowerCase()
                                   )
-                                    ? 'bg-blue-50 border-blue-200 text-blue-700 font-semibold'
-                                    : 'bg-white border-slate-200 text-slate-400'
+                                    ? 'bg-[#EBE6DC] border-[#E2DDD2] text-[#2D6A4F] font-semibold'
+                                    : 'bg-[#FAF7F2] border-[#E2DDD2] text-[#78716C]'
                                 }`}
                               >
                                 <span className="text-xs block">1. Applied</span>
-                                <span className="text-[10px] text-slate-500 font-normal">Details Received</span>
+                                <span className="text-[10px] text-[#57534E] font-normal">Details Received</span>
                               </div>
 
                               <div
                                 className={`p-3 rounded-xl border text-center ${
                                   ['under_review', 'selected', 'completed'].includes(app.status.toLowerCase())
-                                    ? 'bg-blue-50 border-blue-200 text-blue-700 font-semibold'
-                                    : 'bg-white border-slate-200 text-slate-400'
+                                    ? 'bg-[#EBE6DC] border-[#E2DDD2] text-[#2D6A4F] font-semibold'
+                                    : 'bg-[#FAF7F2] border-[#E2DDD2] text-[#78716C]'
                                 }`}
                               >
                                 <span className="text-xs block">2. Under Review</span>
-                                <span className="text-[10px] text-slate-500 font-normal">Profile Evaluation</span>
+                                <span className="text-[10px] text-[#57534E] font-normal">Profile Evaluation</span>
                               </div>
 
                               <div
                                 className={`p-3 rounded-xl border text-center ${
                                   ['selected', 'completed'].includes(app.status.toLowerCase())
-                                    ? 'bg-blue-50 border-blue-200 text-blue-700 font-semibold'
-                                    : 'bg-white border-slate-200 text-slate-400'
+                                    ? 'bg-[#EBE6DC] border-[#E2DDD2] text-[#2D6A4F] font-semibold'
+                                    : 'bg-[#FAF7F2] border-[#E2DDD2] text-[#78716C]'
                                 }`}
                               >
                                 <span className="text-xs block">3. In Progress</span>
-                                <span className="text-[10px] text-slate-500 font-normal">Project & Tasks</span>
+                                <span className="text-[10px] text-[#57534E] font-normal">Project & Tasks</span>
                               </div>
 
                               <div
                                 className={`p-3 rounded-xl border text-center ${
                                   app.status.toLowerCase() === 'completed'
                                     ? 'bg-emerald-50 border-emerald-200 text-emerald-700 font-semibold'
-                                    : 'bg-white border-slate-200 text-slate-400'
+                                    : 'bg-[#FAF7F2] border-[#E2DDD2] text-[#78716C]'
                                 }`}
                               >
                                 <span className="text-xs block">4. Certified</span>
-                                <span className="text-[10px] text-slate-500 font-normal">Certificate Issued</span>
+                                <span className="text-[10px] text-[#57534E] font-normal">Certificate Issued</span>
                               </div>
                             </div>
                           </div>
