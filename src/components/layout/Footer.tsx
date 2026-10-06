@@ -167,10 +167,6 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500 dark:text-zinc-400">
           <div className="flex items-center gap-3">
             <p>&copy; {currentYear} Geek Intern. All rights reserved.</p>
-            <span>•</span>
-            <Link to="/admin/login" className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors">
-              Admin Portal
-            </Link>
           </div>
           <div className="flex items-center gap-4 text-zinc-500 dark:text-zinc-400">
             <a href="https://www.linkedin.com/in/geek-intern" target="_blank" rel="noreferrer" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors" title="Follow Geek Intern on LinkedIn">
