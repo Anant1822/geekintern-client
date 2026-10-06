@@ -40,16 +40,16 @@ export function Logo({ variant = 'auto', compact = false, className, size = 'md'
         >
           <defs>
             <linearGradient id="geekintern-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#2563EB" />
-              <stop offset="60%" stopColor="#3B82F6" />
-              <stop offset="100%" stopColor="#06B6D4" />
+              <stop offset="0%" stopColor="#059669" />
+              <stop offset="60%" stopColor="#10B981" />
+              <stop offset="100%" stopColor="#047857" />
             </linearGradient>
             <linearGradient id="geekintern-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#F59E0B" />
-              <stop offset="100%" stopColor="#EF4444" />
+              <stop offset="0%" stopColor="#34D399" />
+              <stop offset="100%" stopColor="#10B981" />
             </linearGradient>
             <filter id="cf-shadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#2563EB" floodOpacity="0.25" />
+              <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#059669" floodOpacity="0.25" />
             </filter>
           </defs>
 
@@ -113,10 +113,10 @@ export function Logo({ variant = 'auto', compact = false, className, size = 'md'
         <div className="flex flex-col leading-tight">
           <div className="flex items-center">
             <span className={cn('font-extrabold tracking-tight font-sans', text, textColor)}>
-              Geek<span className="text-blue-600">Intern</span>
+              Geek<span className="text-emerald-600 dark:text-emerald-400">Intern</span>
             </span>
           </div>
-          <span className={cn('font-semibold uppercase tracking-[0.2em] text-slate-500 mt-0.5', subText)}>
+          <span className={cn('font-semibold uppercase tracking-[0.2em] text-zinc-500 mt-0.5', subText)}>
             Build. Innovate. Excel
           </span>
         </div>

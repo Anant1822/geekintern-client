@@ -16,9 +16,12 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          navy: '#1E3A5F',
-          teal: '#0D9488',
-          amber: '#F59E0B',
+          navy: '#18181B',
+          teal: '#059669',
+          green: '#059669',
+          offwhite: '#F9FAF7',
+          grey: '#52525B',
+          amber: '#D97706',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

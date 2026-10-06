@@ -114,7 +114,7 @@ function AnimatedStat({
       : Math.floor(count).toLocaleString('en-US')
 
   return (
-    <div ref={ref} className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+    <div ref={ref} className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight font-sans">
       {formattedValue}
       {suffix}
     </div>
@@ -154,9 +154,9 @@ const DOMAIN_PROGRAMS = [
     description: 'Build responsive, modern web interfaces using HTML5, CSS3, modern JavaScript (ES6+), and React.js.',
     badge: 'Popular',
     icon: Globe,
-    color: 'text-blue-600',
-    bg: 'bg-blue-50',
-    border: 'border-blue-100',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
   {
     title: 'Backend Development',
@@ -234,9 +234,9 @@ const DOMAIN_PROGRAMS = [
     description: 'Master pointers, memory management, algorithmic problem solving, and low-level computing architectures.',
     badge: 'Core Tech',
     icon: Terminal,
-    color: 'text-blue-700',
-    bg: 'bg-blue-50',
-    border: 'border-blue-100',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
   {
     title: 'Blockchain Development',
@@ -286,9 +286,9 @@ const DOMAIN_PROGRAMS = [
     description: 'Perform exploratory data analysis, clean structured datasets, run SQL queries, and generate analytical executive summaries.',
     badge: 'Business Tech',
     icon: BarChart3,
-    color: 'text-blue-600',
-    bg: 'bg-blue-50',
-    border: 'border-blue-100',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
   {
     title: 'Power BI',
@@ -454,9 +454,9 @@ const DOMAIN_PROGRAMS = [
     description: 'Learn connected sensor architectures, MQTT/HTTP protocols, edge device communications, and cloud data collection.',
     badge: 'Connected',
     icon: Network,
-    color: 'text-blue-600',
-    bg: 'bg-blue-50',
-    border: 'border-blue-100',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
   {
     title: 'PLC & SCADA',
@@ -488,9 +488,9 @@ const JOURNEY_STEPS = [
     icon: UserCheck,
     heading: 'Select Your Track & Apply',
     detail: 'Pick the domain that aligns with your learning goals. Submit your basic details in under two minutes with no application fees.',
-    color: 'text-blue-600',
-    bg: 'bg-blue-50',
-    border: 'border-blue-200',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
   {
     step: '02',
@@ -499,9 +499,9 @@ const JOURNEY_STEPS = [
     icon: MailCheck,
     heading: 'Get Your Offer & Task Details',
     detail: 'Receive your verified digital Offer Letter alongside your project problem statement, starter guidance, and submission checklist within 24 hours.',
-    color: 'text-cyan-600',
-    bg: 'bg-cyan-50',
-    border: 'border-cyan-200',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
   {
     step: '03',
@@ -510,9 +510,9 @@ const JOURNEY_STEPS = [
     icon: GitBranch,
     heading: 'Work on Your Project',
     detail: 'Develop your application milestone by milestone. Write clean code, maintain standard Git commit practices, and document your setup in a README.',
-    color: 'text-indigo-600',
-    bg: 'bg-indigo-50',
-    border: 'border-indigo-200',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
   {
     step: '04',
@@ -521,9 +521,9 @@ const JOURNEY_STEPS = [
     icon: Code2,
     heading: 'Submit Your Repository',
     detail: 'Push your finished project to GitHub, verify your live demo or walkthrough, and submit your project links through our student portal for review.',
-    color: 'text-purple-600',
-    bg: 'bg-purple-50',
-    border: 'border-purple-200',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
   {
     step: '05',
@@ -532,8 +532,8 @@ const JOURNEY_STEPS = [
     icon: BadgeCheck,
     heading: 'Receive Verified Credentials',
     detail: 'Get your digital Certificate of Completion with a unique Certificate ID (CID) and scannable QR code that recruiters and colleges can verify online.',
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-50',
+    color: 'text-emerald-700 dark:text-emerald-400',
+    bg: 'bg-emerald-50 dark:bg-emerald-950/60',
     border: 'border-emerald-200',
   },
   {
@@ -543,9 +543,9 @@ const JOURNEY_STEPS = [
     icon: Award,
     heading: 'Build Your Tech Resume',
     detail: 'Add your verified project to your resume and LinkedIn. Top submissions receive a formal Letter of Recommendation to support their job search.',
-    color: 'text-amber-600',
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
+    color: 'text-zinc-700 dark:text-zinc-300',
+    bg: 'bg-zinc-100 dark:bg-zinc-800',
+    border: 'border-zinc-200',
   },
 ]
 
@@ -658,40 +658,40 @@ export function Home() {
       {/* ========================================================= */}
       {/* 1. HERO SECTION */}
       {/* ========================================================= */}
-      <section className="relative min-h-[80vh] flex flex-col justify-center items-center bg-gradient-to-b from-blue-50/60 via-white to-slate-50/40 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 text-slate-900 dark:text-slate-100 pt-16 md:pt-24 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-slate-200/70 dark:border-slate-800 transition-colors duration-200">
+      <section className="relative min-h-[80vh] flex flex-col justify-center items-center bg-gradient-to-b from-[#F9FAF7] via-[#FAF9F6] to-[#F4F5F0] dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900 text-zinc-900 dark:text-zinc-100 pt-16 md:pt-24 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-zinc-200/80 dark:border-zinc-800 transition-colors duration-200">
         {/* Subtle background ambient accents */}
-        <div className="absolute top-12 left-1/4 w-96 h-96 rounded-full bg-blue-100/50 dark:bg-blue-900/20 blur-[100px] pointer-events-none -z-10" />
-        <div className="absolute top-1/3 right-1/4 w-[420px] h-[420px] rounded-full bg-cyan-100/40 dark:bg-cyan-900/15 blur-[120px] pointer-events-none -z-10" />
+        <div className="absolute top-12 left-1/4 w-96 h-96 rounded-full bg-emerald-100/30 dark:bg-emerald-950/20 blur-[100px] pointer-events-none -z-10" />
+        <div className="absolute top-1/3 right-1/4 w-[420px] h-[420px] rounded-full bg-zinc-200/40 dark:bg-zinc-800/20 blur-[120px] pointer-events-none -z-10" />
 
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           {/* Top Badge: Modern status pill */}
-          <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-medium mb-6 sm:mb-8 shadow-xs">
+          <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs sm:text-sm font-medium mb-6 sm:mb-8 shadow-xs">
             <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600 dark:bg-blue-400"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600 dark:bg-emerald-400"></span>
             </span>
-            <span className="font-semibold">Virtual Developer Internships</span>
-            <span className="text-slate-300 dark:text-slate-700">•</span>
-            <span className="text-slate-600 dark:text-slate-300 font-normal">Remote & Self-Paced</span>
+            <span className="font-semibold text-zinc-900 dark:text-zinc-100">Virtual Developer Internships</span>
+            <span className="text-zinc-300 dark:text-zinc-700">•</span>
+            <span className="text-zinc-600 dark:text-zinc-400 font-normal">Remote & Self-Paced</span>
           </div>
 
           {/* Clean Heading with Serif Accent */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.2] mb-5 font-sans text-slate-950 dark:text-white px-2">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.2] mb-5 font-sans text-zinc-950 dark:text-white px-2">
             Project-Based Internships to Build Your Portfolio and{' '}
-            <span className="font-serif italic text-blue-600 dark:text-blue-400 font-bold">
+            <span className="font-serif italic text-emerald-700 dark:text-emerald-400 font-bold">
               Launch Your Tech Career
             </span>.
           </h1>
 
           {/* Subtitle */}
-          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal px-2">
+          <p className="text-zinc-600 dark:text-zinc-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal px-2">
             Build production-grade projects, collaborate on real GitHub repositories, and earn verifiable completion credentials recognized for university credits and tech hiring.
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none">
             <Link to="/apply" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-600/25 inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98">
+              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md shadow-emerald-700/20 inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98">
                 <span>Start Your Internship</span>
                 <ArrowRight className="h-4 w-4 stroke-[2.5]" />
               </Button>
@@ -700,7 +700,7 @@ export function Home() {
             <Link to="/verify" className="w-full sm:w-auto">
               <Button
                 variant="outline"
-                className="w-full sm:w-auto h-12 px-8 rounded-full border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98"
+                className="w-full sm:w-auto h-12 px-8 rounded-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98"
               >
                 <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Verify Certificate</span>
@@ -709,7 +709,7 @@ export function Home() {
           </div>
 
           {/* Trust Highlights */}
-          <div className="mt-8 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
+          <div className="mt-8 pt-6 border-t border-zinc-200/60 dark:border-zinc-800/60 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-zinc-500 dark:text-zinc-400">
             <div className="inline-flex items-center gap-1.5 font-medium">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>Free Application & Instant Offer Letter</span>
@@ -729,18 +729,18 @@ export function Home() {
       {/* ========================================================= */}
       {/* 2. STATS BAR SECTION */}
       {/* ========================================================= */}
-      <section className="bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800 py-10 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+      <section className="bg-[#F4F5F0] dark:bg-zinc-900/60 border-b border-zinc-200/80 dark:border-zinc-800 py-10 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
           {STATS.map((stat, i) => (
-            <div key={i} className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+            <div key={i} className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
               <AnimatedStat
                 target={stat.target}
                 decimals={stat.decimals}
                 suffix={stat.suffix}
                 duration={1800}
               />
-              <div className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1">{stat.label}</div>
-              <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">{stat.sub}</div>
+              <div className="text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-400 mt-1">{stat.label}</div>
+              <div className="text-[11px] sm:text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{stat.sub}</div>
             </div>
           ))}
         </div>
@@ -749,18 +749,18 @@ export function Home() {
       {/* ========================================================= */}
       {/* 2.5 WHY CHOOSE GEEK INTERN (IMMEDIATELY AFTER HERO & STATS) */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-b border-slate-200/80 dark:border-slate-800 transition-colors duration-200">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF9F6] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/80 dark:border-zinc-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-4">
-              <Award className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider mb-4">
+              <Award className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               The Geek Intern Advantage
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
               Why Students & Colleges <br className="hidden sm:inline" />
-              <span className="text-blue-600 dark:text-blue-400">Choose Geek Intern</span>
+              <span className="text-emerald-700 dark:text-emerald-400">Choose Geek Intern</span>
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm md:text-base mt-3 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-zinc-600 dark:text-zinc-300 text-xs sm:text-sm md:text-base mt-3 max-w-2xl mx-auto leading-relaxed">
               We focus on hands-on software development: structured project tasks, clean code reviews, verifiable credentials, and tools to prepare you for tech hiring.
             </p>
           </div>
@@ -768,40 +768,40 @@ export function Home() {
           {/* 6 Core Pillars Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {/* Pillar 1 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-lg transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                   <Terminal className="w-6 h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">100% Practical & Real-World Code</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white mb-2">100% Practical & Real-World Code</h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
                   No generic multiple-choice quizzes or boring video playlists. You write real code, architect clean repository trees, and solve industry-standard problem statements.
                 </p>
               </div>
-              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+              <ul className="space-y-2 pt-4 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300">
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Production-grade GitHub repo standards</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Real API & database integrations</span>
                 </li>
               </ul>
             </div>
 
             {/* Pillar 2 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-lg transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Verifiable Credential (CID)</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white mb-2">Verifiable Credential (CID)</h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
                   Every completion certificate includes a unique Certificate ID (CID) verifiable anytime by prospective employers and college academic boards.
                 </p>
               </div>
-              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+              <ul className="space-y-2 pt-4 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300">
                 <li className="flex items-center gap-2">
                   <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Instant one-click employer verification</span>
@@ -814,92 +814,92 @@ export function Home() {
             </div>
 
             {/* Pillar 3 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-lg transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                   <Zap className="w-6 h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Portfolio & Resume Readiness</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white mb-2">Portfolio & Resume Readiness</h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
                   Transform raw assignments into impressive portfolio pieces. Evaluate your resume keywords against ATS filters and build interview confidence.
                 </p>
               </div>
-              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+              <ul className="space-y-2 pt-4 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300">
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Interactive ATS Resume Checker</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Developer portfolio builder kit</span>
                 </li>
               </ul>
             </div>
 
             {/* Pillar 4 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-cyan-400 dark:hover:border-cyan-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-lg transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-cyan-100 dark:bg-cyan-900/50 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                   <Compass className="w-6 h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Self-Paced Flexible Timelines</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white mb-2">Self-Paced Flexible Timelines</h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
                   Never stress about college exams or conflicting laboratory schedules. Complete your projects at your own pace with responsive mentorship.
                 </p>
               </div>
-              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+              <ul className="space-y-2 pt-4 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300">
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Flexible deadlines suited for college students</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>100% remote virtual environment</span>
                 </li>
               </ul>
             </div>
 
             {/* Pillar 5 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-amber-400 dark:hover:border-amber-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-lg transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                   <Globe className="w-6 h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">14+ Engineering Domains</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white mb-2">14+ Engineering Domains</h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
                   From Modern Web (React, Next.js, Node) and Mobile to Artificial Intelligence, Machine Learning, Cyber Security, and Cloud Infrastructure.
                 </p>
               </div>
-              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+              <ul className="space-y-2 pt-4 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300">
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Modern software engineering tracks</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Open to all college branches & batches</span>
                 </li>
               </ul>
             </div>
 
             {/* Pillar 6 */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 p-6 sm:p-8 hover:bg-white dark:hover:bg-slate-900 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 sm:p-8 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-lg transition-all duration-300 group flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                   <Users className="w-6 h-6" />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Student Mentorship & Support</h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white mb-2">Student Mentorship & Support</h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
                   Get dedicated guidance from project mentors and coordinators to help unblock development challenges and review your code repositories.
                 </p>
               </div>
-              <ul className="space-y-2 pt-4 border-t border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+              <ul className="space-y-2 pt-4 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300">
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>Real human review on code submissions</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                   <span>College NOC & credit transfer assistance</span>
                 </li>
               </ul>
@@ -911,17 +911,17 @@ export function Home() {
       {/* ========================================================= */}
       {/* 3. EXPLORE OUR INTERNSHIP PROGRAMS */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F4F5F0] dark:bg-zinc-900/30 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/80 dark:border-zinc-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-4">
-              <Code2 className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider mb-4">
+              <Code2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               14+ Technical Tracks Available
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-              Explore Our <span className="text-blue-600 dark:text-blue-400">Internship Programs</span>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+              Explore Our <span className="text-emerald-700 dark:text-emerald-400">Internship Programs</span>
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm md:text-base mt-3 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-zinc-600 dark:text-zinc-300 text-xs sm:text-sm md:text-base mt-3 leading-relaxed max-w-2xl mx-auto">
               Curated hands-on problem statements designed to transform students and fresh graduates into industry-ready software developers and engineers.
             </p>
           </div>
@@ -934,8 +934,8 @@ export function Home() {
                 onClick={() => setActiveCategory(tab)}
                 className={`px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all ${
                   activeCategory === tab
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                    : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800'
                 }`}
               >
                 {tab}
@@ -950,30 +950,30 @@ export function Home() {
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-slate-950/50 group"
+                  className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500/70 dark:hover:border-emerald-500/70 p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-zinc-950/50 group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <div className={`w-12 h-12 rounded-xl ${prog.bg} dark:bg-opacity-20 ${prog.color} flex items-center justify-center`}>
                         <IconComp className="w-6 h-6" />
                       </div>
-                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
                         {prog.badge}
                       </span>
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white mb-2 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                       {prog.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                    <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-6">
                       {prog.description}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">4–8 Weeks Duration</span>
+                  <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
+                    <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">4–8 Weeks Duration</span>
                     <Link
                       to={`/apply?domain=${encodeURIComponent(prog.title)}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 group-hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 group-hover:underline"
                     >
                       <span>Apply Now</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -989,14 +989,14 @@ export function Home() {
             {allFilteredPrograms.length > 6 && (
               <Button
                 onClick={() => setShowAllDomains(!showAllDomains)}
-                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-7 h-11 rounded-xl shadow-sm inline-flex items-center justify-center gap-2"
+                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-7 h-11 rounded-xl shadow-xs inline-flex items-center justify-center gap-2"
               >
                 <span>{showAllDomains ? 'Show Less' : 'View All Domains'}</span>
                 <ArrowRight className={`w-3.5 h-3.5 transition-transform ${showAllDomains ? '-rotate-90' : 'rotate-90'}`} />
               </Button>
             )}
             <Link to="/browse" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full sm:w-auto border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs px-6 h-11 rounded-xl shadow-sm">
+              <Button variant="outline" className="w-full sm:w-auto border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-xs px-6 h-11 rounded-xl shadow-xs">
                 Browse All Categories Catalog →
               </Button>
             </Link>
@@ -1007,18 +1007,18 @@ export function Home() {
       {/* ========================================================= */}
       {/* 4. SIX-STEP INTERNSHIP JOURNEY */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/40 text-slate-900 dark:text-slate-100 border-y border-slate-200/80 dark:border-slate-800 relative overflow-hidden transition-colors duration-200">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF9F6] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 border-y border-zinc-200/80 dark:border-zinc-800 relative overflow-hidden transition-colors duration-200">
         <div className="max-w-6xl mx-auto relative">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-4 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               Interactive Internship Roadmap
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-              Internship <span className="text-blue-600 dark:text-blue-400">Journey</span>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+              Internship <span className="text-emerald-700 dark:text-emerald-400">Journey</span>
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-3">
+            <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm mt-3">
               Click any stage number to open its milestone quote and action briefing.
             </p>
           </div>
@@ -1026,7 +1026,7 @@ export function Home() {
           {/* Connected Single-Word Flowchart */}
           <div className="relative">
             {/* Desktop connecting gradient bar behind circles */}
-            <div className="hidden lg:block absolute top-10 left-[8%] right-[8%] h-0.5 bg-gradient-to-r from-blue-300 dark:from-blue-700 via-indigo-300 dark:via-indigo-700 to-amber-300 dark:to-amber-700 z-0" />
+            <div className="hidden lg:block absolute top-10 left-[8%] right-[8%] h-0.5 bg-gradient-to-r from-zinc-300 dark:from-zinc-700 via-emerald-300 dark:via-emerald-700 to-zinc-300 dark:to-zinc-700 z-0" />
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-4 relative z-10">
               {JOURNEY_STEPS.map((step, idx) => {
@@ -1039,13 +1039,13 @@ export function Home() {
                       type="button"
                       onClick={() => setActiveJourneyModal(step)}
                       aria-label={`Open stage ${step.step}: ${step.word}`}
-                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white dark:bg-slate-900 border-2 flex flex-col items-center justify-center transition-all duration-300 shadow-sm cursor-pointer hover:scale-105 sm:hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/40 ${
+                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white dark:bg-zinc-900 border-2 flex flex-col items-center justify-center transition-all duration-300 shadow-xs cursor-pointer hover:scale-105 sm:hover:scale-110 focus:outline-none focus:ring-4 focus:ring-emerald-100 dark:focus:ring-emerald-900/40 ${
                         isSelected
-                          ? 'border-blue-600 dark:border-blue-400 shadow-lg shadow-blue-500/25 ring-4 ring-blue-50 dark:ring-blue-950'
-                          : 'border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400'
+                          ? 'border-emerald-600 dark:border-emerald-400 shadow-md shadow-emerald-500/20 ring-4 ring-emerald-50 dark:ring-emerald-950'
+                          : 'border-zinc-200 dark:border-zinc-800 hover:border-emerald-500 dark:hover:border-emerald-400'
                       }`}
                     >
-                      <span className="absolute -top-2 px-2 py-0.5 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-mono text-[10px] font-bold shadow-xs tracking-wider">
+                      <span className="absolute -top-2 px-2 py-0.5 rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-mono text-[10px] font-bold shadow-xs tracking-wider">
                         {step.step}
                       </span>
                       <IconComp className={`w-5 h-5 sm:w-6 sm:h-6 transition-colors ${step.color} group-hover:scale-110 duration-200`} />
@@ -1054,12 +1054,12 @@ export function Home() {
                     <button
                       type="button"
                       onClick={() => setActiveJourneyModal(step)}
-                      className="mt-3 sm:mt-4 focus:outline-none group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+                      className="mt-3 sm:mt-4 focus:outline-none group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors"
                     >
-                      <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-sm sm:text-base font-bold text-zinc-900 dark:text-white tracking-tight">
                         {step.word}
                       </h3>
-                      <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
+                      <p className="text-[10px] sm:text-[11px] text-zinc-500 dark:text-zinc-400 font-medium mt-0.5">
                         {step.tagline}
                       </p>
                     </button>
@@ -1067,7 +1067,7 @@ export function Home() {
                     <button
                       type="button"
                       onClick={() => setActiveJourneyModal(step)}
-                      className="mt-1 sm:mt-2 text-[10px] font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 inline-flex items-center gap-0.5 hover:underline"
+                      className="mt-1 sm:mt-2 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 inline-flex items-center gap-0.5 hover:underline"
                     >
                       <span>Read Quote</span>
                       <ChevronRight className="w-3 h-3" />
@@ -1079,17 +1079,17 @@ export function Home() {
           </div>
 
           {/* Quick Callout Below Flow */}
-          <div className="mt-12 sm:mt-14 p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="mt-12 sm:mt-14 p-5 sm:p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
-                <Sparkles className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
               </div>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300">
                 Ready to embark on Stage 1? Applications are open with instant enrollment on all 32 tracks.
               </p>
             </div>
             <Link to="/apply" className="flex-shrink-0 w-full sm:w-auto">
-              <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-xs px-5 h-10 rounded-xl font-semibold shadow-sm">
+              <Button className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-5 h-10 rounded-xl font-semibold shadow-xs">
                 Apply Now →
               </Button>
             </Link>
@@ -1099,60 +1099,60 @@ export function Home() {
         {/* Modal / Popup Message on Clicking Each Number */}
         {activeJourneyModal && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-xs animate-in fade-in duration-200"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/60 backdrop-blur-xs animate-in fade-in duration-200"
             onClick={() => setActiveJourneyModal(null)}
           >
             <div
-              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl shadow-slate-950/20 animate-in zoom-in-95 duration-200"
+              className="relative w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-2xl shadow-zinc-950/20 animate-in zoom-in-95 duration-200"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 type="button"
                 onClick={() => setActiveJourneyModal(null)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                 aria-label="Close dialog"
               >
                 <X className="w-5 h-5" />
               </button>
 
               <div className="flex items-center gap-3 mb-5">
-                <div className={`w-12 h-12 rounded-xl ${activeJourneyModal.bg} dark:bg-opacity-20 flex items-center justify-center border ${activeJourneyModal.border} dark:border-slate-700`}>
+                <div className={`w-12 h-12 rounded-xl ${activeJourneyModal.bg} dark:bg-opacity-20 flex items-center justify-center border ${activeJourneyModal.border} dark:border-zinc-700`}>
                   {React.createElement(activeJourneyModal.icon, {
                     className: `w-6 h-6 ${activeJourneyModal.color}`,
                   })}
                 </div>
                 <div>
-                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                     Stage {activeJourneyModal.step}
                   </span>
-                  <h4 className="text-xl font-extrabold text-slate-950 dark:text-white tracking-tight">
+                  <h4 className="text-xl font-extrabold text-zinc-950 dark:text-white tracking-tight">
                     {activeJourneyModal.word}
                   </h4>
                 </div>
               </div>
 
-              <div className="bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700 p-4 mb-4">
-                <p className="text-sm font-serif italic text-slate-800 dark:text-slate-200 leading-relaxed">
+              <div className="bg-zinc-50 dark:bg-zinc-800/60 rounded-xl border border-zinc-200/80 dark:border-zinc-700 p-4 mb-4">
+                <p className="text-sm font-serif italic text-zinc-800 dark:text-zinc-200 leading-relaxed">
                   {activeJourneyModal.heading}
                 </p>
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-6">
                 {activeJourneyModal.detail}
               </p>
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
                 <Button
                   variant="outline"
                   onClick={() => setActiveJourneyModal(null)}
-                  className="text-xs h-9 rounded-xl border-slate-300 dark:border-slate-700 dark:text-slate-300"
+                  className="text-xs h-9 rounded-xl border-zinc-300 dark:border-zinc-700 dark:text-zinc-300"
                 >
                   Close
                 </Button>
                 <Link to="/apply">
                   <Button
                     onClick={() => setActiveJourneyModal(null)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white text-xs h-9 rounded-xl font-semibold shadow-xs"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-9 rounded-xl font-semibold shadow-xs"
                   >
                     Start Stage 1 →
                   </Button>
@@ -1166,17 +1166,17 @@ export function Home() {
       {/* ========================================================= */}
       {/* 4.5 COMPANIES WHERE OUR LEARNERS HAVE PROGRESSED */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 border-b border-slate-200/80 dark:border-slate-800 transition-colors duration-200">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#F4F5F0] dark:bg-zinc-900/40 border-b border-zinc-200/80 dark:border-zinc-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3 shadow-xs">
-              <Building2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider mb-3 shadow-xs">
+              <Building2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               Alumni Success
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-              Companies Where Our <span className="text-blue-600 dark:text-blue-400">Learners Have Progressed</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+              Companies Where Our <span className="text-emerald-700 dark:text-emerald-400">Learners Have Progressed</span>
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+            <p className="text-zinc-600 dark:text-zinc-300 text-xs sm:text-sm mt-2 leading-relaxed">
               Our interns have leveraged verified project milestones, GitHub repositories, and verifiable credentials to progress into industry roles.
             </p>
           </div>
@@ -1185,22 +1185,22 @@ export function Home() {
             {PROGRESSION_COMPANIES.map((company, idx) => (
               <div
                 key={idx}
-                className="rounded-xl bg-slate-50/70 dark:bg-slate-900/60 border border-slate-200/90 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400 hover:bg-white dark:hover:bg-slate-900 hover:shadow-md p-3 sm:p-4 text-center transition-all duration-200 group flex flex-col items-center justify-center min-h-[85px] sm:min-h-[96px]"
+                className="rounded-xl bg-white dark:bg-zinc-900/80 border border-zinc-200/90 dark:border-zinc-800 hover:border-emerald-500/70 dark:hover:border-emerald-500/70 hover:shadow-xs p-3 sm:p-4 text-center transition-all duration-200 group flex flex-col items-center justify-center min-h-[85px] sm:min-h-[96px]"
               >
-                <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <span className="text-sm sm:text-base font-bold text-zinc-900 dark:text-white tracking-tight group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                   {company.name}
                 </span>
-                <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+                <span className="text-[10px] sm:text-[11px] font-medium text-zinc-500 dark:text-zinc-400 mt-0.5">
                   {company.domain}
                 </span>
               </div>
             ))}
           </div>
 
-          <div className="mt-8 sm:mt-10 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-center gap-4 sm:gap-12 text-xs text-slate-600 dark:text-slate-400">
+          <div className="mt-8 sm:mt-10 pt-6 border-t border-zinc-200/80 dark:border-zinc-800 flex flex-wrap items-center justify-center gap-4 sm:gap-12 text-xs text-zinc-600 dark:text-zinc-400">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-              <span>Over <strong className="text-slate-900 dark:text-white font-semibold">1,200+</strong> hiring partner networks</span>
+              <span>Over <strong className="text-zinc-900 dark:text-white font-semibold">1,200+</strong> hiring partner networks</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
@@ -1217,71 +1217,71 @@ export function Home() {
       {/* ========================================================= */}
       {/* 5. EARN A RECOGNIZED CERTIFICATE OF COMPLETION */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 border-b border-slate-200/80 dark:border-slate-800 relative overflow-hidden transition-colors duration-200">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF9F6] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/80 dark:border-zinc-800 relative overflow-hidden transition-colors duration-200">
         <div className="max-w-7xl mx-auto relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
             {/* Left Column: Information & Value Proposition */}
             <div className="lg:col-span-6 space-y-5 sm:space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider shadow-xs">
-                <Award className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider shadow-xs">
+                <Award className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 Industry-Recognized Certification
               </div>
 
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-tight">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-tight">
                 Earn a Recognized <br />
-                <span className="text-blue-600 dark:text-blue-400">Certificate of Completion</span>
+                <span className="text-emerald-700 dark:text-emerald-400">Certificate of Completion</span>
               </h2>
 
-              <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed">
+              <p className="text-zinc-600 dark:text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed">
                 Validate your practical software engineering milestones with an official, tamper-proof digital credential. Each certificate is backed by verifiable project commits, unique Certificate IDs (CID), and scannable QR verification.
               </p>
 
               {/* 4 Feature Points */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2">
-                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
                   <div className="flex items-center gap-2.5 mb-1.5">
-                    <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-                      <ShieldCheck className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Tamper-Proof CID</h3>
+                    <h3 className="font-bold text-sm text-zinc-900 dark:text-white">Tamper-Proof CID</h3>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                     Permanent cryptographic digital record verifiable on /verify 24/7.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
                   <div className="flex items-center gap-2.5 mb-1.5">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                      <QrCode className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center">
+                      <QrCode className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Instant QR Scan</h3>
+                    <h3 className="font-bold text-sm text-zinc-900 dark:text-white">Instant QR Scan</h3>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                     Hiring managers scan directly to authenticate completion and performance grade.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
                   <div className="flex items-center gap-2.5 mb-1.5">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                      <CheckCircle2 className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">College NOC / Credits</h3>
+                    <h3 className="font-bold text-sm text-zinc-900 dark:text-white">College NOC / Credits</h3>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                     Widely accepted by university academic boards for mandatory internship credits.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+                <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
                   <div className="flex items-center gap-2.5 mb-1.5">
-                    <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-                      <Award className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-center">
+                      <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <h3 className="font-bold text-sm text-slate-900 dark:text-white">Letter of Recommendation</h3>
+                    <h3 className="font-bold text-sm text-zinc-900 dark:text-white">Letter of Recommendation</h3>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                     Top contributors receive an official LOR for higher studies and job applications.
                   </p>
                 </div>
@@ -1290,14 +1290,14 @@ export function Home() {
               {/* CTAs */}
               <div className="flex flex-wrap items-center gap-3 pt-4">
                 <Link to="/verify" className="w-full sm:w-auto">
-                  <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-6 h-11 rounded-xl shadow-sm inline-flex items-center justify-center gap-2">
+                  <Button className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-6 h-11 rounded-xl shadow-xs inline-flex items-center justify-center gap-2">
                     <ShieldCheck className="w-4 h-4" />
                     <span>Open Verification Portal</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Button>
                 </Link>
                 <Link to="/apply" className="w-full sm:w-auto">
-                  <Button variant="outline" className="w-full sm:w-auto border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs px-5 h-11 rounded-xl shadow-sm">
+                  <Button variant="outline" className="w-full sm:w-auto border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 font-semibold text-xs px-5 h-11 rounded-xl shadow-xs">
                     Apply for an Internship
                   </Button>
                 </Link>
@@ -1306,17 +1306,17 @@ export function Home() {
 
             {/* Right Column: Realistic Demo Certificate Mockup */}
             <div className="lg:col-span-6 relative">
-              <div className="rounded-2xl border-4 border-double border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+              <div className="rounded-2xl border-4 border-double border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-5 sm:p-8 shadow-2xl relative overflow-hidden">
                 <div className="relative z-10 text-center space-y-4">
                   {/* Issuer Brand Header */}
-                  <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-3">
+                  <div className="flex items-center justify-between border-b border-zinc-200/80 dark:border-zinc-800 pb-3">
                     <div className="flex items-center gap-2 text-left">
-                      <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                      <div className="w-8 h-8 rounded-lg bg-zinc-900 dark:bg-zinc-800 text-white flex items-center justify-center font-bold text-xs shadow-xs">
                         GI
                       </div>
                       <div>
-                        <div className="font-extrabold text-sm text-slate-900 dark:text-white tracking-tight">GEEK INTERN</div>
-                        <div className="text-[9px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">Virtual Internship Program</div>
+                        <div className="font-extrabold text-sm text-zinc-900 dark:text-white tracking-tight">GEEK INTERN</div>
+                        <div className="text-[9px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">Virtual Internship Program</div>
                       </div>
                     </div>
                     <div className="text-right">
@@ -1328,57 +1328,57 @@ export function Home() {
 
                   {/* Certificate Title */}
                   <div className="pt-2">
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 font-bold">Certificate of Completion</div>
-                    <h3 className="text-xl sm:text-2xl font-serif italic font-bold text-slate-900 dark:text-white mt-1">
+                    <div className="text-[11px] uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400 font-bold">Certificate of Completion</div>
+                    <h3 className="text-xl sm:text-2xl font-serif italic font-bold text-zinc-900 dark:text-white mt-1">
                       Virtual Internship Excellence
                     </h3>
                   </div>
 
                   {/* Recipient Details */}
                   <div className="py-2">
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">This is proudly awarded to</p>
-                    <div className="text-xl sm:text-2xl font-extrabold text-blue-600 dark:text-blue-400 tracking-tight mt-1 font-sans border-b-2 border-slate-200 dark:border-slate-700 pb-1 max-w-xs mx-auto">
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">This is proudly awarded to</p>
+                    <div className="text-xl sm:text-2xl font-extrabold text-zinc-950 dark:text-white tracking-tight mt-1 font-sans border-b-2 border-zinc-200 dark:border-zinc-700 pb-1 max-w-xs mx-auto">
                       Aarav Singhania
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 max-w-md mx-auto leading-relaxed">
+                    <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-2 max-w-md mx-auto leading-relaxed">
                       for outstanding performance and successful milestone completion in the{' '}
-                      <strong className="text-slate-900 dark:text-white font-semibold">Full Stack Web Development</strong> program.
+                      <strong className="text-zinc-900 dark:text-white font-semibold">Full Stack Web Development</strong> program.
                     </p>
                   </div>
 
                   {/* Technical Meta Grid */}
-                  <div className="grid grid-cols-3 gap-2 bg-slate-50/80 dark:bg-slate-800/60 rounded-xl p-3 border border-slate-200/80 dark:border-slate-750 text-left">
+                  <div className="grid grid-cols-3 gap-2 bg-zinc-50/80 dark:bg-zinc-800/60 rounded-xl p-3 border border-zinc-200/80 dark:border-zinc-700 text-left">
                     <div>
-                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Duration</div>
-                      <div className="text-[11px] font-bold text-slate-800 dark:text-slate-200 mt-0.5">8 Weeks (Remote)</div>
+                      <div className="text-[9px] uppercase tracking-wider text-zinc-400 font-bold">Duration</div>
+                      <div className="text-[11px] font-bold text-zinc-800 dark:text-zinc-200 mt-0.5">8 Weeks (Remote)</div>
                     </div>
                     <div>
-                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Grade / Status</div>
-                      <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">Grade A+ (Distinction)</div>
+                      <div className="text-[9px] uppercase tracking-wider text-zinc-400 font-bold">Grade / Status</div>
+                      <div className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 mt-0.5">Grade A+ (Distinction)</div>
                     </div>
                     <div>
-                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Issue Date</div>
-                      <div className="text-[11px] font-bold text-slate-800 dark:text-slate-200 mt-0.5">September 2026</div>
+                      <div className="text-[9px] uppercase tracking-wider text-zinc-400 font-bold">Issue Date</div>
+                      <div className="text-[11px] font-bold text-zinc-800 dark:text-zinc-200 mt-0.5">September 2026</div>
                     </div>
                   </div>
 
                   {/* Footer Signatures & QR Code */}
-                  <div className="pt-3 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-left">
+                  <div className="pt-3 border-t border-zinc-200/80 dark:border-zinc-800 flex items-center justify-between text-left">
                     <div className="flex items-center gap-3">
-                      <div className="w-14 h-14 p-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs flex items-center justify-center flex-shrink-0">
-                        <QrCode className="w-12 h-12 text-slate-800 dark:text-slate-200" />
+                      <div className="w-14 h-14 p-1 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-xs flex items-center justify-center flex-shrink-0">
+                        <QrCode className="w-12 h-12 text-zinc-800 dark:text-zinc-200" />
                       </div>
                       <div>
-                        <div className="text-[10px] font-mono font-bold text-slate-900 dark:text-white tracking-wider">CID: CF-2026-WD101</div>
-                        <div className="text-[9px] text-slate-500 dark:text-slate-400 font-medium">Scan to verify authenticity</div>
-                        <div className="text-[9px] text-blue-600 dark:text-blue-400 font-semibold mt-0.5">geekintern.com/verify</div>
+                        <div className="text-[10px] font-mono font-bold text-zinc-900 dark:text-white tracking-wider">CID: CF-2026-WD101</div>
+                        <div className="text-[9px] text-zinc-500 dark:text-zinc-400 font-medium">Scan to verify authenticity</div>
+                        <div className="text-[9px] text-emerald-700 dark:text-emerald-400 font-semibold mt-0.5">geekintern.com/verify</div>
                       </div>
                     </div>
 
                     <div className="text-right">
-                      <div className="font-serif italic text-base text-slate-800 dark:text-slate-200 font-bold">Geek Intern Directorate</div>
-                      <div className="text-[9px] uppercase tracking-wider text-slate-400 font-semibold mt-0.5">Project Evaluation Team</div>
-                      <div className="inline-flex items-center gap-1 text-[9px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+                      <div className="font-serif italic text-base text-zinc-800 dark:text-zinc-200 font-bold">Geek Intern Directorate</div>
+                      <div className="text-[9px] uppercase tracking-wider text-zinc-400 font-semibold mt-0.5">Project Evaluation Team</div>
+                      <div className="inline-flex items-center gap-1 text-[9px] text-emerald-700 dark:text-emerald-400 font-semibold mt-1">
                         <CheckCircle2 className="w-2.5 h-2.5" />
                         <span>Digitally Signed</span>
                       </div>
@@ -1394,17 +1394,17 @@ export function Home() {
       {/* ========================================================= */}
       {/* 6. ACCELERATE YOUR JOB HUNT: FREE CAREER TOOLS */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 border-b border-slate-200/80 dark:border-slate-800 transition-colors duration-200">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#F4F5F0] dark:bg-zinc-900/40 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/80 dark:border-zinc-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-3">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               Free Developer Tools
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-              Free Developer Tools to <span className="text-blue-600 dark:text-blue-400">Help You Get Hired</span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+              Free Developer Tools to <span className="text-emerald-700 dark:text-emerald-400">Help You Get Hired</span>
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed">
+            <p className="text-zinc-600 dark:text-zinc-300 text-xs sm:text-sm mt-3 leading-relaxed">
               Practical utilities built to help you optimize your tech resume, review code quality, and prepare for technical interviews.
             </p>
           </div>
@@ -1415,29 +1415,29 @@ export function Home() {
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-xl dark:hover:shadow-slate-950/50 transition-all duration-300 group"
+                  className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-lg dark:hover:shadow-zinc-950/50 transition-all duration-300 group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <IconComp className="w-6 h-6" />
                       </div>
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 uppercase tracking-wider">
+                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 uppercase tracking-wider">
                         {tool.tag}
                       </span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-zinc-950 dark:text-white mb-2 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                       {tool.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                    <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-6">
                       {tool.desc}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800">
                     <Link to={tool.href}>
-                      <Button className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 hover:bg-blue-600 dark:hover:bg-slate-200 font-semibold text-xs h-10 rounded-xl transition-all shadow-xs flex items-center justify-center gap-2">
+                      <Button className="w-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:bg-emerald-600 dark:hover:bg-emerald-500 hover:text-white font-semibold text-xs h-10 rounded-xl transition-all shadow-xs flex items-center justify-center gap-2">
                         <span>{tool.actionText}</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </Button>
@@ -1453,17 +1453,17 @@ export function Home() {
       {/* ========================================================= */}
       {/* 7. AUTHENTIC STUDENT TESTIMONIALS */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 border-b border-slate-200/80 dark:border-slate-800 transition-colors duration-200">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF9F6] dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/80 dark:border-zinc-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-xs font-semibold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider mb-3">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
               Student Feedback
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-              What Past Interns <span className="text-blue-600 dark:text-blue-400">Say About Their Experience</span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+              What Past Interns <span className="text-emerald-700 dark:text-emerald-400">Say About Their Experience</span>
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-3 leading-relaxed">
+            <p className="text-zinc-600 dark:text-zinc-300 text-xs sm:text-sm mt-3 leading-relaxed">
               Genuine feedback from engineering students and graduates who built projects and earned credentials with Geek Intern.
             </p>
           </div>
@@ -1472,7 +1472,7 @@ export function Home() {
             {STUDENT_TESTIMONIALS.map((testimonial, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-200 group"
+                className="rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-lg transition-all duration-200 group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -1487,16 +1487,16 @@ export function Home() {
                     </span>
                   </div>
 
-                  <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 italic">
+                  <p className="text-zinc-700 dark:text-zinc-300 text-xs sm:text-sm leading-relaxed mb-6 italic">
                     "{testimonial.quote}"
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
                   <div>
-                    <div className="font-bold text-sm text-slate-950 dark:text-white">{testimonial.name}</div>
-                    <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">{testimonial.domain}</div>
-                    <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{testimonial.college}</div>
+                    <div className="font-bold text-sm text-zinc-950 dark:text-white">{testimonial.name}</div>
+                    <div className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 mt-0.5">{testimonial.domain}</div>
+                    <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">{testimonial.college}</div>
                   </div>
                 </div>
               </div>
@@ -1505,7 +1505,7 @@ export function Home() {
 
           <div className="mt-10 sm:mt-12 text-center">
             <Link to="/student-reviews">
-              <Button variant="outline" className="border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-xs px-6 h-11 rounded-xl shadow-xs inline-flex items-center gap-2">
+              <Button variant="outline" className="border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-semibold text-xs px-6 h-11 rounded-xl shadow-xs inline-flex items-center gap-2">
                 <span>Read More Student Reviews</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
@@ -1517,14 +1517,14 @@ export function Home() {
       {/* ========================================================= */}
       {/* 9. FREQUENTLY ASKED QUESTIONS */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#F4F5F0] dark:bg-zinc-900/40 text-zinc-900 dark:text-zinc-100 border-b border-zinc-200/80 dark:border-zinc-800 transition-colors duration-200">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10 sm:mb-12">
-            <Badge className="bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 uppercase tracking-widest text-[11px] mb-3 px-3 py-1">
+            <Badge className="bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 uppercase tracking-widest text-[11px] mb-3 px-3 py-1">
               Have Questions?
             </Badge>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-              Frequently Asked <span className="text-blue-600 dark:text-blue-400">Questions</span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+              Frequently Asked <span className="text-emerald-700 dark:text-emerald-400">Questions</span>
             </h2>
           </div>
 
@@ -1534,22 +1534,22 @@ export function Home() {
               return (
                 <div
                   key={idx}
-                  className="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-colors"
+                  className="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-xs transition-colors"
                 >
                   <button
                     type="button"
                     onClick={() => setFaqOpen(isOpen ? null : idx)}
-                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-zinc-900 dark:text-white hover:text-emerald-700 dark:hover:text-emerald-400"
                   >
                     <span>{faq.question}</span>
                     <ChevronRight
-                      className={`w-4 h-4 text-slate-400 transition-transform ${
-                        isOpen ? 'rotate-90 text-blue-600 dark:text-blue-400' : ''
+                      className={`w-4 h-4 text-zinc-400 transition-transform ${
+                        isOpen ? 'rotate-90 text-emerald-700 dark:text-emerald-400' : ''
                       }`}
                     />
                   </button>
                   {isOpen && (
-                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800">
+                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed border-t border-zinc-100 dark:border-zinc-800">
                       {faq.answer}
                     </div>
                   )}
@@ -1563,21 +1563,22 @@ export function Home() {
       {/* ========================================================= */}
       {/* 10. FINAL CALL TO ACTION BANNER */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 text-white relative overflow-hidden">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-zinc-900 dark:bg-zinc-950 text-white relative overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-80 h-80 bg-emerald-500/10 blur-[100px] pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[11px] font-semibold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-300 text-[11px] font-semibold uppercase tracking-wider mb-4">
             Get Started Today
           </div>
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-white">
             Ready to Build Real Projects for Your Resume?
           </h2>
-          <p className="text-blue-100 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+          <p className="text-zinc-300 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
             Pick your track, receive your task brief, and start building production-style code you can show to recruiters. Applications are completely free.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link to="/apply" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-white hover:bg-slate-100 text-blue-700 font-bold text-sm shadow-xl inline-flex items-center justify-center gap-2">
+              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-xl shadow-emerald-950/40 inline-flex items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-98">
                 <span>Apply for Free</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -1585,7 +1586,7 @@ export function Home() {
             <Link to="/browse" className="w-full sm:w-auto">
               <Button
                 variant="outline"
-                className="w-full sm:w-auto h-12 px-8 rounded-full border-white/40 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold"
+                className="w-full sm:w-auto h-12 px-8 rounded-full border-zinc-700 bg-zinc-800/80 hover:bg-zinc-800 text-white text-sm font-semibold transition-transform hover:scale-105 active:scale-98"
               >
                 Explore Tracks
               </Button>
@@ -1597,67 +1598,67 @@ export function Home() {
       {/* ========================================================= */}
       {/* 11. TALK TO SUPPORT SECTION */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-200/80 dark:border-slate-800 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF9F6] dark:bg-zinc-950 border-t border-zinc-200/80 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
         <div className="max-w-5xl mx-auto">
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 lg:p-12 shadow-sm relative overflow-hidden">
+          <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 sm:p-10 lg:p-12 shadow-xs relative overflow-hidden">
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-7">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3">
-                  <HelpCircle className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider mb-3">
+                  <HelpCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   We Are Here to Help
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white mb-3">
-                  Have Questions? <span className="text-blue-600 dark:text-blue-400">Talk to Our Support Team</span>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white mb-3">
+                  Have Questions? <span className="text-emerald-700 dark:text-emerald-400">Talk to Our Support Team</span>
                 </h2>
 
-                <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+                <p className="text-zinc-600 dark:text-zinc-300 text-xs sm:text-sm leading-relaxed mb-6">
                   Need help with domain selection, offer letter dispatch, project submission, college NOC, or verification? Our dedicated student helpdesk is here to assist you.
                 </p>
 
                 {/* Email Support Card */}
-                <div className="p-4 rounded-2xl bg-blue-50/60 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+                <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/90 dark:border-zinc-700 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-zinc-900 dark:bg-zinc-800 text-white flex items-center justify-center flex-shrink-0 shadow-xs">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-slate-500 dark:text-slate-400 block text-[11px] uppercase font-bold tracking-wider">Official Support Email</span>
+                    <span className="text-zinc-500 dark:text-zinc-400 block text-[11px] uppercase font-bold tracking-wider">Official Support Email</span>
                     <a
                       href="mailto:support.geekintern@gmail.com"
-                      className="font-bold text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:underline break-all"
+                      className="font-bold text-sm sm:text-base text-emerald-700 dark:text-emerald-400 hover:underline break-all"
                     >
                       support.geekintern@gmail.com
                     </a>
-                    <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">We reply to every query promptly within 24 hours.</p>
+                    <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-0.5">We reply to every query promptly within 24 hours.</p>
                   </div>
                 </div>
               </div>
 
               {/* Right CTA Box */}
-              <div className="lg:col-span-5 bg-slate-50/80 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 p-5 sm:p-7 flex flex-col items-center text-center">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mb-4 shadow-md shadow-blue-500/20">
+              <div className="lg:col-span-5 bg-zinc-50/80 dark:bg-zinc-800/60 rounded-2xl border border-zinc-200 dark:border-zinc-700 p-5 sm:p-7 flex flex-col items-center text-center">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-zinc-900 dark:bg-zinc-800 text-white flex items-center justify-center mb-4 shadow-sm">
                   <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white mb-1">Online Help Desk</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
+                <h3 className="font-bold text-base text-zinc-900 dark:text-white mb-1">Online Help Desk</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-3 leading-relaxed">
                   Have an urgent inquiry, verification question, or feedback? Send us a direct message anytime.
                 </p>
 
-                <div className="w-full bg-blue-50/90 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 rounded-xl px-3 py-2 mb-4 text-[11px] text-blue-950 dark:text-blue-200 font-medium flex items-center justify-center gap-2 text-center">
-                  <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
+                <div className="w-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 mb-4 text-[11px] text-zinc-800 dark:text-zinc-200 font-medium flex items-center justify-center gap-2 text-center">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span><strong>Quick Tip:</strong> For fastest resolution, reach out via the message box.</span>
                 </div>
 
                 <div className="w-full flex flex-col gap-2.5">
                   <Link to="/contact" className="w-full">
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold h-10 sm:h-11 rounded-xl shadow-xs">
+                    <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold h-10 sm:h-11 rounded-xl shadow-xs">
                       Send Support Message →
                     </Button>
                   </Link>
                   <a href="mailto:support.geekintern@gmail.com" className="w-full">
                     <Button
                       variant="outline"
-                      className="w-full border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold h-10 sm:h-11 rounded-xl"
+                      className="w-full border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 text-xs font-semibold h-10 sm:h-11 rounded-xl"
                     >
                       Email Us Directly
                     </Button>
