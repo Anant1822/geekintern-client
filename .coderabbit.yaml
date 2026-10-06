@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit Configuration for Geek Intern (React, TypeScript, Vite, Tailwind CSS, Supabase)
+language: "en-US"
+early_access: false
+
+tone_instructions: |
+  You are an expert senior software engineer and code reviewer for Geek Intern.
+  Provide concise, constructive, actionable, and friendly code reviews.
+  Focus on:
+  1. React 18+ & TypeScript best practices (proper hook dependencies, avoiding memory leaks, strict type safety).
+  2. Security & privacy (safe Supabase client usage, no exposed service-role secrets, proper input validation via Zod).
+  3. UI & UX (mobile-first responsive Tailwind CSS, dark mode support, accessibility/a11y).
+  4. Platform copy & brand integrity (natural, professional, human-written engineering language; no AI marketing fluff or placeholders).
+
+reviews:
+  # Review profile: "chill" provides balanced, high-signal reviews without noisy nitpicks
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "main"
+      - "master"
+
+  # Path exclusions for generated assets and dependencies
+  path_filters:
+    - "!dist/**"
+    - "!node_modules/**"
+    - "!package-lock.json"
+    - "!**/*.min.js"
+    - "!**/*.min.css"
+    - "!**/*.map"
+
+  # Security and static analysis tools
+  tools:
+    gitleaks:
+      enabled: true
+    markdownlint:
+      enabled: true
+    semgrep:
+      enabled: true
+
+  # Targeted review guidelines per file path
+  path_instructions:
+    - path: "src/**/*.{ts,tsx}"
+      instructions: |
+        - Strict TypeScript typing: avoid `any` or loose casts; enforce interface consistency.
+        - React best practices: check `useEffect` dependencies, prevent infinite re-render loops, and ensure proper state cleanup.
+        - Styling: check responsive Tailwind CSS (`sm:`, `md:`, `lg:`), dark mode (`dark:`), and semantic HTML elements.
+        - Error handling: ensure asynchronous API calls and Supabase queries catch exceptions and display clear user-facing toast / feedback states.
+
+    - path: "src/pages/**/*.{ts,tsx}"
+      instructions: |
+        - Ensure pages maintain consistent `<PageTitle>` meta tags and layout wrappers (`PublicLayout` or `AdminLayout`).
+        - Verify form validation with React Hook Form and Zod where applicable.
+        - Ensure responsive UI works seamlessly across mobile, tablet, and desktop screens.
+
+    - path: "src/lib/**/*.{ts,tsx}"
+      instructions: |
+        - Ensure Supabase queries only use client-safe anon keys via `import.meta.env.VITE_SUPABASE_ANON_KEY`.
+        - Never check in or expose Supabase service-role keys in frontend bundles.
+
+    - path: "index.html"
+      instructions: |
+        - Verify SEO meta tags, title, favicon, and canonical domain links (`geekintern.com`).
+
+chat:
+  auto_reply: true
