@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { paymentsService } from '@/services/payments'
 import { initiateRazorpayPayment } from '@/lib/razorpay'
 import { useAuth } from './useAuth'
@@ -29,7 +29,7 @@ export function usePayment(): UsePaymentReturn {
       const response = await initiateRazorpayPayment({
         amount: order.amount,
         currency: order.currency,
-        name: 'Intership',
+        name: 'Geek Intern',
         description: `Application fee - ${internshipTitle}`,
         order_id: order.order_id,
         prefill: {
