@@ -635,7 +635,7 @@ export function Home() {
       {/* ========================================================= */}
       {/* 1. HERO SECTION */}
       {/* ========================================================= */}
-      <section className="relative min-h-[82vh] flex flex-col justify-center items-center bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] pt-16 md:pt-24 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
+      <section className="relative flex flex-col justify-center items-center bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] pt-20 md:pt-24 pb-8 md:pb-10 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
         {/* Subtle background ambient floating glow accents */}
         <motion.div
           animate={{ y: [0, -18, 0], opacity: [0.45, 0.75, 0.45] }}
@@ -652,14 +652,14 @@ export function Home() {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, ease: 'easeOut' }}
-          className="relative z-10 max-w-5xl mx-auto text-center"
+          className="relative z-10 max-w-4xl mx-auto text-center"
         >
           {/* Top Badge: Aixentrix terracotta/sandstone pill */}
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.45, delay: 0.1 }}
-            className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs sm:text-sm font-medium mb-6 sm:mb-8 shadow-xs"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-medium mb-4 sm:mb-5 shadow-xs"
           >
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -675,10 +675,10 @@ export function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.2] mb-5 font-sans text-[#1A1715] dark:text-[#FAF7F2] px-2"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-[2.85rem] font-extrabold tracking-tight leading-[1.18] mb-3 sm:mb-4 font-sans text-[#1A1715] dark:text-[#FAF7F2] px-2"
           >
             Project-Based Internships to Build Your Portfolio and{' '}
-            <span className="font-serif italic text-[#1A1715] dark:text-white font-bold underline decoration-[#9E4A2B]/40 decoration-wavy decoration-1 underline-offset-8">
+            <span className="font-serif italic text-[#1A1715] dark:text-white font-bold underline decoration-[#9E4A2B]/40 decoration-wavy decoration-1 underline-offset-6">
               Launch Your Tech Career
             </span>.
           </motion.h1>
@@ -688,7 +688,7 @@ export function Home() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-[#57534E] dark:text-stone-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal px-2"
+            className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm md:text-base max-w-xl mx-auto mb-5 sm:mb-6 leading-relaxed font-normal px-2"
           >
             Build production-grade projects, collaborate on real GitHub repositories, and earn verifiable completion credentials recognized for university credits and tech hiring.
           </motion.p>
@@ -698,11 +698,11 @@ export function Home() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none"
+            className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3.5 w-full max-w-md mx-auto sm:max-w-none"
           >
             <Link to="/apply" className="w-full sm:w-auto">
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2">
+                <Button className="w-full sm:w-auto h-10 sm:h-11 px-6 sm:px-7 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs sm:text-sm shadow-xs inline-flex items-center justify-center gap-2">
                   <span>Start Your Internship</span>
                   <ArrowRight className="h-4 w-4 stroke-[2.5]" />
                 </Button>
@@ -713,7 +713,7 @@ export function Home() {
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Button
                   variant="outline"
-                  className="w-full sm:w-auto h-12 px-8 rounded-full border border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5]/90 dark:bg-[#1C1A17] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto h-10 sm:h-11 px-6 sm:px-7 rounded-full border border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5]/90 dark:bg-[#1C1A17] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] font-semibold text-xs sm:text-sm shadow-xs inline-flex items-center justify-center gap-2"
                 >
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
                   <span>Verify Certificate</span>
@@ -727,18 +727,18 @@ export function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.45 }}
-            className="mt-8 pt-6 border-t border-[#E2DDD2]/80 dark:border-stone-800 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[#57534E] dark:text-stone-400"
+            className="mt-5 sm:mt-6 pt-4 border-t border-[#E2DDD2]/80 dark:border-stone-800 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[11px] sm:text-xs text-[#57534E] dark:text-stone-400"
           >
             <div className="inline-flex items-center gap-1.5 font-medium">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
               <span>Free Application & Instant Offer Letter</span>
             </div>
             <div className="inline-flex items-center gap-1.5 font-medium">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
               <span>Verifiable QR Certificate ID</span>
             </div>
             <div className="inline-flex items-center gap-1.5 font-medium">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
               <span>Letter of Recommendation (LOR)</span>
             </div>
           </motion.div>
@@ -748,8 +748,8 @@ export function Home() {
       {/* ========================================================= */}
       {/* 2. STATS BAR SECTION */}
       {/* ========================================================= */}
-      <section className="bg-[#EBE6DC] dark:bg-[#1A1816] bg-dot-matrix border-b border-[#E2DDD2] dark:border-stone-800 py-10 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+      <section className="bg-[#EBE6DC] dark:bg-[#1A1816] bg-dot-matrix border-b border-[#E2DDD2] dark:border-stone-800 py-5 sm:py-6 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-center">
           {STATS.map((stat, i) => (
             <motion.div
               key={i}
@@ -757,8 +757,8 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              whileHover={{ y: -4 }}
-              className="p-4 sm:p-5 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs card-lift"
+              whileHover={{ y: -3 }}
+              className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs card-lift"
             >
               <AnimatedStat
                 target={stat.target}
@@ -766,8 +766,8 @@ export function Home() {
                 suffix={stat.suffix}
                 duration={1800}
               />
-              <div className="text-xs sm:text-sm font-semibold text-[#1A1715] dark:text-stone-200 mt-1">{stat.label}</div>
-              <div className="text-[11px] sm:text-xs text-[#57534E] dark:text-stone-400 mt-0.5">{stat.sub}</div>
+              <div className="text-xs sm:text-sm font-semibold text-[#1A1715] dark:text-stone-200 mt-0.5">{stat.label}</div>
+              <div className="text-[10px] sm:text-[11px] text-[#57534E] dark:text-stone-400">{stat.sub}</div>
             </motion.div>
           ))}
         </div>
@@ -776,12 +776,12 @@ export function Home() {
       {/* ========================================================= */}
       {/* 2.2 TECH STACK MARQUEE TICKER (GKK INTERN STYLE) */}
       {/* ========================================================= */}
-      <div className="py-3 bg-[#FAF7F2] dark:bg-[#181615] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden relative select-none">
+      <div className="py-2.5 bg-[#FAF7F2] dark:bg-[#181615] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden relative select-none">
         <div className="flex w-max animate-marquee space-x-4 sm:space-x-6 items-center">
           {[...TECH_STACKS, ...TECH_STACKS].map((tech, idx) => (
             <div
               key={idx}
-              className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EBE6DC]/80 dark:bg-stone-800/80 border border-[#DCD5C9] dark:border-stone-700 text-xs font-semibold text-[#1A1715] dark:text-stone-200 whitespace-nowrap shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#EBE6DC]/80 dark:bg-stone-800/80 border border-[#DCD5C9] dark:border-stone-700 text-[11px] font-semibold text-[#1A1715] dark:text-stone-200 whitespace-nowrap shadow-xs"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
               <span>{tech}</span>
