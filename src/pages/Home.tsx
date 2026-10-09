@@ -793,24 +793,24 @@ export function Home() {
       {/* ========================================================= */}
       {/* 2.5 WHY CHOOSE GEEK INTERN (IMMEDIATELY AFTER HERO & STATS) */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-4">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-2.5">
               <Award className="w-3.5 h-3.5 text-emerald-600" />
               The Geek Intern Advantage
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
-              Why Students & Colleges <br className="hidden sm:inline" />
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
+              Why Students & Colleges{' '}
               <span className="font-serif italic text-[#1A1715] dark:text-white">Choose Geek Intern</span>
             </h2>
-            <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm md:text-base mt-3 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm mt-2 max-w-2xl mx-auto leading-relaxed">
               We focus on hands-on software development: structured project tasks, clean code reviews, verifiable credentials, and tools to prepare you for tech hiring.
             </p>
           </div>
 
           {/* 6 Core Pillars Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Pillar 1 */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -1015,28 +1015,28 @@ export function Home() {
       {/* ========================================================= */}
       {/* 3. EXPLORE OUR INTERNSHIP PROGRAMS */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#EBE6DC] dark:bg-[#1A1816] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#EBE6DC] dark:bg-[#1A1816] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-4">
+          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-2.5">
               <Code2 className="w-3.5 h-3.5 text-emerald-600" />
               14+ Technical Tracks Available
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
               Explore Our <span className="font-serif italic text-[#1A1715] dark:text-white">Internship Programs</span>
             </h2>
-            <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm md:text-base mt-3 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm mt-2 leading-relaxed max-w-2xl mx-auto">
               Curated hands-on problem statements designed to transform students and fresh graduates into industry-ready software developers and engineers.
             </p>
           </div>
 
           {/* Category Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mb-10 sm:mb-12">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mb-6 sm:mb-8">
             {CATEGORY_TABS.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveCategory(tab)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-xs font-semibold transition-all ${
+                className={`px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
                   activeCategory === tab
                     ? 'bg-[#181615] text-white shadow-xs'
                     : 'bg-[#FAF7F2] dark:bg-[#1C1A17] text-[#57534E] dark:text-stone-300 hover:text-[#1A1715] dark:hover:text-white hover:bg-[#EAE4D7] dark:hover:bg-stone-800 border border-[#E2DDD2] dark:border-stone-800'
@@ -1048,7 +1048,7 @@ export function Home() {
           </div>
 
           {/* Domain Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {displayedPrograms.map((prog, idx) => {
               const IconComp = prog.icon
               return (
@@ -1116,18 +1116,18 @@ export function Home() {
       {/* ========================================================= */}
       {/* 4. SIX-STEP INTERNSHIP JOURNEY */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-y border-[#E2DDD2] dark:border-stone-800 relative overflow-hidden transition-colors duration-200">
-        <div className="max-w-6xl mx-auto relative">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-y border-[#E2DDD2] dark:border-stone-800 relative overflow-hidden transition-colors duration-200">
+        <div className="max-w-7xl mx-auto relative">
           {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-2.5 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
               Interactive Internship Roadmap
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
               Internship <span className="font-serif italic text-[#1A1715] dark:text-white">Journey</span>
             </h2>
-            <p className="text-[#57534E] dark:text-stone-400 text-xs sm:text-sm mt-3">
+            <p className="text-[#57534E] dark:text-stone-400 text-xs sm:text-sm mt-2">
               Click any stage number to open its milestone quote and action briefing.
             </p>
           </div>
@@ -1135,9 +1135,9 @@ export function Home() {
           {/* Connected Single-Word Flowchart */}
           <div className="relative">
             {/* Desktop connecting line behind circles */}
-            <div className="hidden lg:block absolute top-10 left-[8%] right-[8%] h-0.5 bg-[#E2DDD2] dark:bg-stone-800 z-0" />
+            <div className="hidden lg:block absolute top-9 left-[8%] right-[8%] h-0.5 bg-[#E2DDD2] dark:bg-stone-800 z-0" />
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-4 relative z-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5 sm:gap-4 relative z-10">
               {JOURNEY_STEPS.map((step, idx) => {
                 const IconComp = step.icon
                 const isSelected = activeJourneyModal?.step === step.step
@@ -1275,14 +1275,14 @@ export function Home() {
       {/* ========================================================= */}
       {/* 4.5 COMPANIES WHERE OUR LEARNERS HAVE PROGRESSED */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#EBE6DC] dark:bg-[#1A1816] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#EBE6DC] dark:bg-[#1A1816] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-3 shadow-xs">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-2.5 shadow-xs">
               <Building2 className="w-3.5 h-3.5 text-emerald-600" />
               Alumni Success
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
               Companies Where Our <span className="font-serif italic text-[#1A1715] dark:text-white">Learners Have Progressed</span>
             </h2>
             <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm mt-2 leading-relaxed">
@@ -1290,13 +1290,13 @@ export function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3.5">
             {PROGRESSION_COMPANIES.map((company, idx) => (
               <div
                 key={idx}
-                className="rounded-xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 hover:border-[#1A1715]/40 hover:shadow-card-hover p-3 sm:p-4 text-center transition-all duration-200 group flex flex-col items-center justify-center min-h-[85px] sm:min-h-[96px]"
+                className="rounded-xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 hover:border-[#1A1715]/40 hover:shadow-card-hover p-3 text-center transition-all duration-200 group flex flex-col items-center justify-center min-h-[75px] sm:min-h-[85px]"
               >
-                <span className="text-sm sm:text-base font-bold text-[#1A1715] dark:text-[#FAF7F2] tracking-tight group-hover:text-[#9E4A2B] transition-colors">
+                <span className="text-sm font-bold text-[#1A1715] dark:text-[#FAF7F2] tracking-tight group-hover:text-[#9E4A2B] transition-colors">
                   {company.name}
                 </span>
                 <span className="text-[10px] sm:text-[11px] font-medium text-[#78716C] dark:text-stone-400 mt-0.5">
@@ -1306,7 +1306,7 @@ export function Home() {
             ))}
           </div>
 
-          <div className="mt-8 sm:mt-10 pt-6 border-t border-[#E2DDD2] dark:border-stone-800 flex flex-wrap items-center justify-center gap-4 sm:gap-12 text-xs text-[#57534E] dark:text-stone-400">
+          <div className="mt-6 sm:mt-8 pt-5 border-t border-[#E2DDD2] dark:border-stone-800 flex flex-wrap items-center justify-center gap-4 sm:gap-10 text-xs text-[#57534E] dark:text-stone-400">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
               <span>Over <strong className="text-[#1A1715] dark:text-white font-semibold">1,200+</strong> hiring partner networks</span>
@@ -1326,22 +1326,22 @@ export function Home() {
       {/* ========================================================= */}
       {/* 5. EARN A RECOGNIZED CERTIFICATE OF COMPLETION */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 relative overflow-hidden transition-colors duration-200">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 relative overflow-hidden transition-colors duration-200">
         <div className="max-w-7xl mx-auto relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Information & Value Proposition */}
-            <div className="lg:col-span-6 space-y-5 sm:space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider shadow-xs">
+            <div className="lg:col-span-6 space-y-4 sm:space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider shadow-xs">
                 <Award className="w-3.5 h-3.5 text-emerald-600" />
                 Industry-Recognized Certification
               </div>
 
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2] leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2] leading-tight">
                 Earn a Recognized <br />
                 <span className="font-serif italic text-[#1A1715] dark:text-white">Certificate of Completion</span>
               </h2>
 
-              <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm md:text-base leading-relaxed">
+              <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm leading-relaxed">
                 Validate your practical software engineering milestones with an official, tamper-proof digital credential. Each certificate is backed by verifiable project commits, unique Certificate IDs (CID), and scannable QR verification.
               </p>
 
@@ -1503,22 +1503,22 @@ export function Home() {
       {/* ========================================================= */}
       {/* 6. AUTHENTIC STUDENT TESTIMONIALS */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-3">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-2">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
               Student Feedback
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
               What Past Interns <span className="font-serif italic text-[#1A1715] dark:text-white">Say About Their Experience</span>
             </h2>
-            <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm mt-3 leading-relaxed">
+            <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm mt-2 leading-relaxed">
               Genuine feedback from engineering students and graduates who built projects and earned credentials with Geek Intern.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {STUDENT_TESTIMONIALS.map((testimonial, idx) => (
               <motion.div
                 key={idx}
@@ -1527,10 +1527,10 @@ export function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: idx * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 p-6 sm:p-7 flex flex-col justify-between hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-200 group"
+                className="rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 p-5 sm:p-6 flex flex-col justify-between hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-200 group"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex text-amber-400">
                       {Array.from({ length: testimonial.rating }).map((_, i) => (
                         <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
@@ -1542,12 +1542,12 @@ export function Home() {
                     </span>
                   </div>
 
-                  <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm leading-relaxed mb-6 italic">
+                  <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm leading-relaxed mb-4 italic">
                     "{testimonial.quote}"
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-[#E2DDD2] dark:border-stone-800 flex items-center justify-between">
+                <div className="pt-3 border-t border-[#E2DDD2] dark:border-stone-800 flex items-center justify-between">
                   <div>
                     <div className="font-bold text-sm text-[#1A1715] dark:text-[#FAF7F2]">{testimonial.name}</div>
                     <div className="text-xs font-semibold text-[#9E4A2B] dark:text-amber-400 mt-0.5">{testimonial.domain}</div>
@@ -1558,9 +1558,9 @@ export function Home() {
             ))}
           </div>
 
-          <div className="mt-10 sm:mt-12 text-center">
+          <div className="mt-8 sm:mt-10 text-center">
             <Link to="/student-reviews">
-              <Button variant="outline" className="border border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5] dark:bg-[#1C1A17] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] font-semibold text-xs px-6 h-11 rounded-full shadow-xs inline-flex items-center gap-2">
+              <Button variant="outline" className="border border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5] dark:bg-[#1C1A17] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] font-semibold text-xs px-6 h-10 rounded-full shadow-xs inline-flex items-center gap-2">
                 <span>Read More Student Reviews</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
@@ -1572,18 +1572,18 @@ export function Home() {
       {/* ========================================================= */}
       {/* 9. FREQUENTLY ASKED QUESTIONS */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#EBE6DC] dark:bg-[#1A1816] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#EBE6DC] dark:bg-[#1A1816] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10 sm:mb-12">
-            <Badge className="bg-[#FAF7F2] dark:bg-[#1C1A17] text-[#57534E] dark:text-stone-300 border border-[#E2DDD2] dark:border-stone-800 uppercase tracking-widest text-[11px] mb-3 px-3 py-1">
+          <div className="text-center mb-8 sm:mb-10">
+            <Badge className="bg-[#FAF7F2] dark:bg-[#1C1A17] text-[#57534E] dark:text-stone-300 border border-[#E2DDD2] dark:border-stone-800 uppercase tracking-widest text-[11px] mb-2 px-3 py-1">
               Have Questions?
             </Badge>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
               Frequently Asked <span className="font-serif italic text-[#1A1715] dark:text-white">Questions</span>
             </h2>
           </div>
 
-          <div className="flex flex-col gap-3 sm:gap-4">
+          <div className="flex flex-col gap-3">
             {FAQS.map((faq, idx) => {
               const isOpen = faqOpen === idx
               return (
@@ -1594,7 +1594,7 @@ export function Home() {
                   <button
                     type="button"
                     onClick={() => setFaqOpen(isOpen ? null : idx)}
-                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-[#1A1715] dark:text-[#FAF7F2] hover:text-[#9E4A2B]"
+                    className="w-full p-3.5 sm:p-4 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-[#1A1715] dark:text-[#FAF7F2] hover:text-[#9E4A2B]"
                   >
                     <span>{faq.question}</span>
                     <ChevronRight
@@ -1604,7 +1604,7 @@ export function Home() {
                     />
                   </button>
                   {isOpen && (
-                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-[#57534E] dark:text-stone-300 leading-relaxed border-t border-[#E2DDD2] dark:border-stone-800">
+                    <div className="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-1 text-xs sm:text-sm text-[#57534E] dark:text-stone-300 leading-relaxed border-t border-[#E2DDD2] dark:border-stone-800">
                       {faq.answer}
                     </div>
                   )}
@@ -1618,21 +1618,21 @@ export function Home() {
       {/* ========================================================= */}
       {/* 10. FINAL CALL TO ACTION BANNER */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#181615] dark:bg-[#121110] text-white relative overflow-hidden">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#181615] dark:bg-[#121110] text-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-stone-200 text-[11px] font-semibold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-stone-200 text-[11px] font-semibold uppercase tracking-wider mb-3">
             Get Started Today
           </div>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-[#FAF7F2]">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-3 text-[#FAF7F2]">
             Ready to Build Real Projects for Your Resume?
           </h2>
-          <p className="text-stone-300 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+          <p className="text-stone-300 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-6 leading-relaxed">
             Pick your track, receive your task brief, and start building production-style code you can show to recruiters. Applications are completely free.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link to="/apply" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#181615] font-bold text-sm shadow-card-hover inline-flex items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-98">
+              <Button className="w-full sm:w-auto h-11 px-8 rounded-full bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#181615] font-bold text-sm shadow-card-hover inline-flex items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-98">
                 <span>Apply for Free</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -1640,7 +1640,7 @@ export function Home() {
             <Link to="/browse" className="w-full sm:w-auto">
               <Button
                 variant="outline"
-                className="w-full sm:w-auto h-12 px-8 rounded-full border border-stone-600 bg-stone-900/60 hover:bg-stone-800 text-stone-200 text-sm font-semibold transition-transform hover:scale-105 active:scale-98"
+                className="w-full sm:w-auto h-11 px-8 rounded-full border border-stone-600 bg-stone-900/60 hover:bg-stone-800 text-stone-200 text-sm font-semibold transition-transform hover:scale-105 active:scale-98"
               >
                 Explore Tracks
               </Button>
@@ -1652,7 +1652,7 @@ export function Home() {
       {/* ========================================================= */}
       {/* 11. TALK TO SUPPORT SECTION */}
       {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] border-t border-[#E2DDD2] dark:border-stone-800 text-[#1A1715] dark:text-[#FAF7F2] transition-colors duration-200">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] border-t border-[#E2DDD2] dark:border-stone-800 text-[#1A1715] dark:text-[#FAF7F2] transition-colors duration-200">
         <div className="max-w-5xl mx-auto">
           <div className="rounded-3xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 p-6 sm:p-10 lg:p-12 shadow-card relative overflow-hidden">
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
