@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -26,8 +27,8 @@ interface QACardProps {
 function QACard({ icon, question, children, variant = "default" }: QACardProps) {
   const variantStyles = {
     default: "border-[#E2DDD2] bg-[#FAF7F2]",
-    warning: "border-[#E4D5C7] bg-[#F0E6DC]/40",
-    success: "border-[#C2E0D1] bg-[#E8F3ED]/40",
+    warning: "border-[#E4D5C7] bg-[#FAF7F2]",
+    success: "border-[#C2E0D1] bg-[#FAF7F2]",
   };
   const iconBg = {
     default: "bg-[#EBE6DC] text-[#181615]",
@@ -35,19 +36,27 @@ function QACard({ icon, question, children, variant = "default" }: QACardProps) 
     success: "bg-[#E8F3ED] text-[#2D6A4F]",
   };
   return (
-    <Card className={`border ${variantStyles[variant]} shadow-sm`}>
-      <CardContent className="pt-6 pb-6">
-        <div className="flex items-start gap-4">
-          <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${iconBg[variant]}`}>
-            {icon}
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4 }}
+      whileHover={{ y: -3 }}
+    >
+      <Card className={`border ${variantStyles[variant]} shadow-xs card-lift`}>
+        <CardContent className="pt-6 pb-6">
+          <div className="flex items-start gap-4">
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${iconBg[variant]}`}>
+              {icon}
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-[#1A1715] mb-2">{question}</h3>
+              <div className="text-[#57534E] text-sm leading-relaxed space-y-2">{children}</div>
+            </div>
           </div>
-          <div className="flex-1">
-            <h3 className="font-semibold text-[#1A1715] mb-2">{question}</h3>
-            <div className="text-[#57534E] text-sm leading-relaxed space-y-2">{children}</div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
 
@@ -55,46 +64,52 @@ export default function RefundPolicy() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="bg-[#F5F2EB] text-[#1A1715] py-16 px-4 border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto">
+      <section className="relative bg-[#F5F2EB] bg-dot-matrix text-[#1A1715] py-16 px-4 border-b border-[#E2DDD2] overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 max-w-4xl mx-auto"
+        >
           <p className="text-[#8C4325] text-sm font-medium mb-2">Legal</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-3">Refund Policy</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-3 text-[#1A1715]">Refund Policy</h1>
           <p className="text-[#57534E] text-sm">Last updated: {LAST_UPDATED}</p>
-          <p className="text-white/65 text-sm mt-2 max-w-2xl">
+          <p className="text-[#57534E] text-sm mt-2 max-w-2xl">
             We want to be completely transparent about our refund policy. Please read this carefully before
             making any payment on the Geek Intern platform.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Summary Banner */}
-      <section className="py-8 px-4 bg-[#1E3A5F]/5 border-b border-[#1E3A5F]/10">
+      <section className="py-8 px-4 bg-[#FAF7F2] border-b border-[#E2DDD2]">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-              <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                <XCircle className="w-5 h-5 text-red-500" />
+            <div className="flex items-center gap-3 bg-[#FAF7F2] rounded-xl p-4 shadow-xs border border-[#E2DDD2] card-lift">
+              <div className="w-10 h-10 bg-rose-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                <XCircle className="w-5 h-5 text-rose-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">General Rule</p>
+                <p className="text-xs text-[#57534E] font-medium uppercase tracking-wide">General Rule</p>
                 <p className="text-sm font-semibold text-[#1A1715]">Non-refundable</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-              <div className="w-10 h-10 bg-teal-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                <CheckCircle2 className="w-5 h-5 text-teal-600" />
+            <div className="flex items-center gap-3 bg-[#FAF7F2] rounded-xl p-4 shadow-xs border border-[#E2DDD2] card-lift">
+              <div className="w-10 h-10 bg-[#E8F3ED] rounded-lg flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 className="w-5 h-5 text-[#2D6A4F]" />
               </div>
               <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Exceptions</p>
+                <p className="text-xs text-[#57534E] font-medium uppercase tracking-wide">Exceptions</p>
                 <p className="text-sm font-semibold text-[#1A1715]">Technical errors only</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div className="flex items-center gap-3 bg-[#FAF7F2] rounded-xl p-4 shadow-xs border border-[#E2DDD2] card-lift">
               <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Clock className="w-5 h-5 text-amber-500" />
+                <Clock className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Processing</p>
+                <p className="text-xs text-[#57534E] font-medium uppercase tracking-wide">Processing</p>
                 <p className="text-sm font-semibold text-[#1A1715]">7–10 business days</p>
               </div>
             </div>
@@ -103,7 +118,7 @@ export default function RefundPolicy() {
       </section>
 
       {/* Main Q&A */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-[#FAF7F2]">
         <div className="max-w-4xl mx-auto space-y-5">
 
           <QACard
@@ -180,7 +195,7 @@ export default function RefundPolicy() {
             <ol className="list-decimal pl-5 space-y-2 mt-2">
               <li>
                 Email us at{" "}
-                <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline font-medium">
+                <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline font-medium">
                   support.geekintern@gmail.com
                 </a>{" "}
                 with the subject line: <strong>"Refund Request – [Your Registered Email]"</strong>
@@ -265,28 +280,28 @@ export default function RefundPolicy() {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-12 px-4 bg-gray-50 border-t border-gray-200">
+      <section className="py-12 px-4 bg-[#F5F2EB] border-t border-[#E2DDD2]">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#1E3A5F]/10 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-2xl bg-[#EBE6DC] border border-[#E2DDD2] flex items-center justify-center mx-auto mb-4">
             <HelpCircle className="w-7 h-7 text-[#1A1715]" />
           </div>
           <h2 className="text-xl font-bold text-[#1A1715] mb-2">Still Have Questions?</h2>
-          <p className="text-gray-500 text-sm mb-5">
+          <p className="text-[#57534E] text-sm mb-5">
             If your situation is not covered above or you need further clarification, our support team is happy to help.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild className="bg-[#1E3A5F] hover:bg-[#162d4a] text-white">
+            <Button asChild className="bg-[#181615] hover:bg-[#2A2724] text-[#FAF7F2] rounded-full font-semibold shadow-xs">
               <a href="mailto:support.geekintern@gmail.com">
                 <Mail className="w-4 h-4 mr-2" /> Email Support
               </a>
             </Button>
-            <Button asChild variant="outline" className="border-[#1E3A5F] text-[#1A1715] hover:bg-[#1E3A5F] hover:text-white">
+            <Button asChild variant="outline" className="border-[#D6CFC4] text-[#1A1715] hover:bg-[#EAE4D7] rounded-full">
               <Link to="/contact">Visit Contact Page</Link>
             </Button>
           </div>
-          <p className="text-xs text-gray-400 mt-4">
+          <p className="text-xs text-[#57534E] mt-4">
             By using Geek Intern, you agree to our{" "}
-            <Link to="/terms" className="text-[#0D9488] underline">Terms and Conditions</Link> and this Refund Policy.
+            <Link to="/terms" className="text-[#2D6A4F] underline">Terms and Conditions</Link> and this Refund Policy.
           </p>
         </div>
       </section>

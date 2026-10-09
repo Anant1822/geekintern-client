@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge'
 import api from '@/services/api'
 import { supabase } from '@/lib/supabase'
+import { motion } from 'framer-motion'
 
 interface CertificateData {
   certificate_id: string
@@ -110,10 +111,17 @@ export default function VerifyCertificate() {
 
   return (
     <PublicLayout>
-      <div className="min-h-screen bg-[#F5F2EB] dark:bg-[#151311] py-12 sm:py-16 text-[#1A1715] dark:text-[#FAF7F2]">
-        <div className="container max-w-3xl">
+      <div className="min-h-screen bg-[#F5F2EB] dark:bg-[#151311] py-12 sm:py-16 text-[#1A1715] dark:text-[#FAF7F2] relative overflow-hidden bg-dot-matrix">
+        <div className="absolute top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="container max-w-3xl relative z-10">
           {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-center max-w-2xl mx-auto mb-10"
+          >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold mb-4 shadow-xs">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
               Geek Intern Verification Portal
@@ -124,19 +132,24 @@ export default function VerifyCertificate() {
             <p className="mt-3 text-[#57534E] dark:text-stone-400 text-base">
               Validate credentials issued to Geek Intern virtual internship graduates. Enter the unique Certificate ID printed on the document.
             </p>
-          </div>
+          </motion.div>
 
           {/* Search Card */}
-          <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] mb-8 rounded-3xl">
-            <CardContent className="p-6 sm:p-8">
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#78716C]" />
-                  <Input
-                    placeholder="Enter Certificate ID (e.g. CF-2026-WD101)"
-                    value={certId}
-                    onChange={(e) => setCertId(e.target.value)}
-                    className="pl-10 h-11 text-base uppercase font-mono tracking-wide bg-white dark:bg-stone-900 border-[#D6CFC4] dark:border-stone-700 rounded-full"
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
+            <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] mb-8 rounded-3xl card-lift">
+              <CardContent className="p-6 sm:p-8">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#78716C]" />
+                    <Input
+                      placeholder="Enter Certificate ID (e.g. CF-2026-WD101)"
+                      value={certId}
+                      onChange={(e) => setCertId(e.target.value)}
+                      className="pl-10 h-11 text-base uppercase font-mono tracking-wide bg-white dark:bg-stone-900 border-[#D6CFC4] dark:border-stone-700 rounded-full"
                   />
                 </div>
                 <Button
@@ -167,10 +180,16 @@ export default function VerifyCertificate() {
               </div>
             </CardContent>
           </Card>
+        </motion.div>
 
-          {/* Error Result */}
-          {errorMsg && (
-            <Card className="border-red-200 bg-red-50/50 p-6 text-center animate-in fade-in duration-200 rounded-2xl">
+        {/* Error Result */}
+        {errorMsg && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Card className="border-red-200 bg-red-50/50 p-6 text-center rounded-2xl shadow-sm">
               <div className="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-3">
                 <AlertCircle className="h-6 w-6" />
               </div>
@@ -181,11 +200,17 @@ export default function VerifyCertificate() {
                 <a href="mailto:support.geekintern@gmail.com" className="underline font-medium">support.geekintern@gmail.com</a>.
               </p>
             </Card>
-          )}
+          </motion.div>
+        )}
 
-          {/* Success Result */}
-          {certificate && (
-            <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] overflow-hidden animate-in zoom-in-95 duration-200 rounded-3xl">
+        {/* Success Result */}
+        {certificate && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35 }}
+          >
+            <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] overflow-hidden rounded-3xl card-lift">
               {/* Top Banner */}
               <div className="bg-[#181615] px-6 py-4 text-white flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
@@ -281,22 +306,29 @@ export default function VerifyCertificate() {
                 </div>
               </CardContent>
             </Card>
-          )}
+          </motion.div>
+        )}
 
-          {/* CTA Box */}
-          <div className="mt-12 bg-[#181615] dark:bg-[#121110] rounded-3xl p-6 sm:p-8 text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6 shadow-card">
-            <div>
-              <h3 className="text-xl font-bold text-[#FAF7F2]">Want to earn a verified certificate?</h3>
-              <p className="text-stone-300 text-sm mt-1 max-w-md">
-                Enroll in any of our 20+ virtual technical internship tracks and build hands-on projects at your own pace.
-              </p>
-            </div>
-            <Link to="/apply" className="shrink-0">
-              <Button className="bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#181615] font-bold px-7 py-2.5 h-11 rounded-full shadow-xs">
-                Start Internship <ArrowRight className="h-4 w-4 ml-1.5" />
-              </Button>
-            </Link>
+        {/* CTA Box */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="mt-12 bg-[#181615] dark:bg-[#121110] rounded-3xl p-6 sm:p-8 text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6 shadow-card"
+        >
+          <div>
+            <h3 className="text-xl font-bold text-[#FAF7F2]">Want to earn a verified certificate?</h3>
+            <p className="text-stone-300 text-sm mt-1 max-w-md">
+              Enroll in any of our 20+ virtual technical internship tracks and build hands-on projects at your own pace.
+            </p>
           </div>
+          <Link to="/apply" className="shrink-0">
+            <Button className="bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#181615] font-bold px-7 py-2.5 h-11 rounded-full shadow-xs">
+              Start Internship <ArrowRight className="h-4 w-4 ml-1.5" />
+            </Button>
+          </Link>
+        </motion.div>
         </div>
       </div>
     </PublicLayout>

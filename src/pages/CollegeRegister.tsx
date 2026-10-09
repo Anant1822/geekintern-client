@@ -21,6 +21,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import api from "@/services/api";
 import { useToast } from "@/hooks/useToast";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 const INDIAN_STATES = [
   "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh",
@@ -72,12 +73,12 @@ interface BenefitCardProps {
 
 function BenefitCard({ icon, title, description }: BenefitCardProps) {
   return (
-    <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs hover:shadow-sm transition-shadow duration-300">
-      <CardContent className="pt-6 pb-6 flex flex-col items-center text-center gap-3">
-        <div className="w-14 h-14 rounded-full bg-[#E8F3ED] flex items-center justify-center text-[#2D6A4F]">
+    <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-card rounded-3xl card-lift">
+      <CardContent className="pt-8 pb-8 flex flex-col items-center text-center gap-3">
+        <div className="w-14 h-14 rounded-2xl bg-[#E8F3ED] flex items-center justify-center text-[#2D6A4F] border border-[#C2E0D1]">
           {icon}
         </div>
-        <h3 className="font-semibold text-[#1A1715] text-lg">{title}</h3>
+        <h3 className="font-bold text-[#1A1715] text-lg">{title}</h3>
         <p className="text-[#57534E] text-sm leading-relaxed">{description}</p>
       </CardContent>
     </Card>
@@ -151,7 +152,6 @@ export default function CollegeRegister() {
         formData.append("document", uploadedFile);
       }
 
-      // api baseURL is already http://localhost:3001/api, so endpoint is /colleges/inquiry
       await api.post("/colleges/inquiry", formData);
       setSubmitted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -169,19 +169,19 @@ export default function CollegeRegister() {
   if (submitted) {
     return (
       <PublicLayout>
-        <div className="min-h-[70vh] flex items-center justify-center px-4">
-          <Card className="max-w-lg w-full border-0 shadow-xl text-center">
+        <div className="min-h-[70vh] flex items-center justify-center px-4 bg-[#F5F2EB]">
+          <Card className="max-w-lg w-full border border-[#E2DDD2] bg-[#FAF7F2] shadow-card rounded-3xl text-center">
             <CardContent className="pt-12 pb-12 flex flex-col items-center gap-4">
-              <div className="w-20 h-20 rounded-full bg-teal-50 flex items-center justify-center">
-                <CheckCircle className="w-10 h-10 text-teal-600" />
+              <div className="w-20 h-20 rounded-full bg-[#E8F3ED] border border-[#C2E0D1] flex items-center justify-center">
+                <CheckCircle className="w-10 h-10 text-[#2D6A4F]" />
               </div>
               <h2 className="text-2xl font-bold text-[#1A1715]">Thank You!</h2>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-[#57534E] leading-relaxed">
                 Your college partnership inquiry has been received. Our team will review your
                 details and get in touch within{" "}
                 <span className="font-semibold text-[#1A1715]">2–3 business days</span>.
               </p>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[#78716C]">
                 A confirmation email will be sent to your official email address.
               </p>
               <Button
@@ -200,57 +200,97 @@ export default function CollegeRegister() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1E3A5F] to-[#0D9488] text-white py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <span className="inline-block bg-white/15 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1 rounded-full mb-4">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden bg-dot-matrix">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
+          <span className="inline-block bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] text-xs font-semibold uppercase tracking-widest px-4 py-1 rounded-full mb-4">
             College Partnership
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-            Partner with Geek Intern
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-[#1A1715] tracking-tight">
+            Partner with <span className="font-serif italic text-[#8C4325]">Geek Intern</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-[#57534E] max-w-2xl mx-auto leading-relaxed">
             Help your students build real software projects and earn verified credentials. Partner with Geek Intern for technical internship cohorts and NOC support.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Benefits */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-16 px-4 bg-[#EBE6DC] text-[#1A1715] border-b border-[#E2DDD2]">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-[#1A1715] mb-10">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-2xl md:text-3xl font-bold text-center text-[#1A1715] mb-10"
+          >
             Why Partner With Us?
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <BenefitCard
-              icon={<Building2 className="w-7 h-7" />}
-              title="Access to Verified Internships"
-              description="Your students get access to a curated, fraud-free list of internship opportunities filtered by their engineering or academic branch."
-            />
-            <BenefitCard
-              icon={<Users className="w-7 h-7" />}
-              title="Student Placement Support"
-              description="We actively support students throughout the application process — from profile building to offer letter tracking."
-            />
-            <BenefitCard
-              icon={<BarChart3 className="w-7 h-7" />}
-              title="Real-time Application Tracking"
-              description="Placement coordinators get dashboards showing real-time data on applications, selections, and internship completions."
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: 0.05 }}
+              whileHover={{ y: -4 }}
+            >
+              <BenefitCard
+                icon={<Building2 className="w-7 h-7" />}
+                title="Access to Verified Internships"
+                description="Your students get access to a curated, fraud-free list of internship opportunities filtered by their engineering or academic branch."
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: 0.1 }}
+              whileHover={{ y: -4 }}
+            >
+              <BenefitCard
+                icon={<Users className="w-7 h-7" />}
+                title="Student Placement Support"
+                description="We actively support students throughout the application process — from profile building to offer letter tracking."
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: 0.15 }}
+              whileHover={{ y: -4 }}
+            >
+              <BenefitCard
+                icon={<BarChart3 className="w-7 h-7" />}
+                title="Real-time Application Tracking"
+                description="Placement coordinators get dashboards showing real-time data on applications, selections, and internship completions."
+              />
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Form */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-[#F5F2EB]">
         <div className="max-w-3xl mx-auto">
-          <div className="mb-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-10 text-center"
+          >
             <h2 className="text-2xl md:text-3xl font-bold text-[#1A1715] mb-2">
               Register Your College
             </h2>
             <p className="text-[#57534E]">
               Fill in the details below and our partnership team will reach out to you shortly.
             </p>
-          </div>
+          </motion.div>
 
           {serverError && (
             <Alert variant="destructive" className="mb-6">
@@ -259,291 +299,306 @@ export default function CollegeRegister() {
             </Alert>
           )}
 
-          <Card className="border border-gray-200 shadow-sm">
-            <CardContent className="pt-8 pb-8">
-              <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-card rounded-3xl">
+              <CardContent className="pt-8 pb-8">
+                <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
 
-                {/* College & University */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="collegeName">
-                      College Name <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="collegeName"
-                      placeholder="e.g. R.V. College of Engineering"
-                      {...register("collegeName")}
-                      aria-invalid={!!errors.collegeName}
-                    />
-                    {errors.collegeName && (
-                      <p className="text-xs text-red-500">{errors.collegeName.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="universityName">
-                      University Name <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="universityName"
-                      placeholder="e.g. Visvesvaraya Technological University"
-                      {...register("universityName")}
-                      aria-invalid={!!errors.universityName}
-                    />
-                    {errors.universityName && (
-                      <p className="text-xs text-red-500">{errors.universityName.message}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* City & State */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="city">
-                      City <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="city"
-                      placeholder="e.g. Bengaluru"
-                      {...register("city")}
-                      aria-invalid={!!errors.city}
-                    />
-                    {errors.city && (
-                      <p className="text-xs text-red-500">{errors.city.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="state">
-                      State <span className="text-red-500">*</span>
-                    </Label>
-                    <select
-                      id="state"
-                      {...register("state")}
-                      className={cn(
-                        "flex h-10 w-full rounded-md border bg-white px-3 py-2 text-sm",
-                        "focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent",
-                        errors.state ? "border-red-500" : "border-input"
-                      )}
-                    >
-                      <option value="">Select state...</option>
-                      {INDIAN_STATES.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                    {errors.state && (
-                      <p className="text-xs text-red-500">{errors.state.message}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Contact Person */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="contactName">
-                      Contact Person Name <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="contactName"
-                      placeholder="Placement Coordinator / Principal"
-                      {...register("contactName")}
-                      aria-invalid={!!errors.contactName}
-                    />
-                    {errors.contactName && (
-                      <p className="text-xs text-red-500">{errors.contactName.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="officialEmail">
-                      Official Email <span className="text-red-500">*</span>
-                    </Label>
-                    <Input
-                      id="officialEmail"
-                      type="email"
-                      placeholder="placement@college.ac.in"
-                      {...register("officialEmail")}
-                      aria-invalid={!!errors.officialEmail}
-                    />
-                    {errors.officialEmail && (
-                      <p className="text-xs text-red-500">{errors.officialEmail.message}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Phone & Students */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="phone">
-                      Phone Number <span className="text-red-500">*</span>
-                    </Label>
-                    <div className="flex">
-                      <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-gray-50 text-sm text-[#57534E]">
-                        +91
-                      </span>
+                  {/* College & University */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="collegeName" className="text-[#1A1715] font-semibold text-xs">
+                        College Name <span className="text-red-500">*</span>
+                      </Label>
                       <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="9876543210"
-                        className="rounded-l-none"
-                        {...register("phone")}
-                        aria-invalid={!!errors.phone}
-                        maxLength={10}
+                        id="collegeName"
+                        placeholder="e.g. R.V. College of Engineering"
+                        {...register("collegeName")}
+                        aria-invalid={!!errors.collegeName}
+                        className="bg-white border-[#D6CFC4] rounded-full h-11"
+                      />
+                      {errors.collegeName && (
+                        <p className="text-xs text-red-500">{errors.collegeName.message}</p>
+                      )}
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="universityName" className="text-[#1A1715] font-semibold text-xs">
+                        University Name <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="universityName"
+                        placeholder="e.g. Visvesvaraya Technological University"
+                        {...register("universityName")}
+                        aria-invalid={!!errors.universityName}
+                        className="bg-white border-[#D6CFC4] rounded-full h-11"
+                      />
+                      {errors.universityName && (
+                        <p className="text-xs text-red-500">{errors.universityName.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* City & State */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="city" className="text-[#1A1715] font-semibold text-xs">
+                        City <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="city"
+                        placeholder="e.g. Bengaluru"
+                        {...register("city")}
+                        aria-invalid={!!errors.city}
+                        className="bg-white border-[#D6CFC4] rounded-full h-11"
+                      />
+                      {errors.city && (
+                        <p className="text-xs text-red-500">{errors.city.message}</p>
+                      )}
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="state" className="text-[#1A1715] font-semibold text-xs">
+                        State <span className="text-red-500">*</span>
+                      </Label>
+                      <select
+                        id="state"
+                        {...register("state")}
+                        className={cn(
+                          "flex h-11 w-full rounded-full border border-[#D6CFC4] bg-white px-4 py-2 text-sm text-[#1A1715]",
+                          "focus:outline-none focus:ring-2 focus:ring-[#181615] focus:border-transparent",
+                          errors.state ? "border-red-500" : "border-[#D6CFC4]"
+                        )}
+                      >
+                        <option value="">Select state...</option>
+                        {INDIAN_STATES.map((s) => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
+                      {errors.state && (
+                        <p className="text-xs text-red-500">{errors.state.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Contact Person */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="contactName" className="text-[#1A1715] font-semibold text-xs">
+                        Contact Person Name <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="contactName"
+                        placeholder="Placement Coordinator / Principal"
+                        {...register("contactName")}
+                        aria-invalid={!!errors.contactName}
+                        className="bg-white border-[#D6CFC4] rounded-full h-11"
+                      />
+                      {errors.contactName && (
+                        <p className="text-xs text-red-500">{errors.contactName.message}</p>
+                      )}
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="officialEmail" className="text-[#1A1715] font-semibold text-xs">
+                        Official Email <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="officialEmail"
+                        type="email"
+                        placeholder="placement@college.ac.in"
+                        {...register("officialEmail")}
+                        aria-invalid={!!errors.officialEmail}
+                        className="bg-white border-[#D6CFC4] rounded-full h-11"
+                      />
+                      {errors.officialEmail && (
+                        <p className="text-xs text-red-500">{errors.officialEmail.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Phone & Students */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="phone" className="text-[#1A1715] font-semibold text-xs">
+                        Phone Number <span className="text-red-500">*</span>
+                      </Label>
+                      <div className="flex">
+                        <span className="inline-flex items-center px-4 rounded-l-full border border-r-0 border-[#D6CFC4] bg-[#EBE6DC] text-sm text-[#57534E]">
+                          +91
+                        </span>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="9876543210"
+                          className="rounded-l-none rounded-r-full bg-white border-[#D6CFC4] h-11"
+                          {...register("phone")}
+                          aria-invalid={!!errors.phone}
+                          maxLength={10}
+                        />
+                      </div>
+                      {errors.phone && (
+                        <p className="text-xs text-red-500">{errors.phone.message}</p>
+                      )}
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="numberOfStudents" className="text-[#1A1715] font-semibold text-xs">Approx. Number of Students</Label>
+                      <Input
+                        id="numberOfStudents"
+                        type="number"
+                        placeholder="e.g. 2000"
+                        min={0}
+                        {...register("numberOfStudents")}
+                        className="bg-white border-[#D6CFC4] rounded-full h-11"
                       />
                     </div>
-                    {errors.phone && (
-                      <p className="text-xs text-red-500">{errors.phone.message}</p>
+                  </div>
+
+                  {/* Branches */}
+                  <div className="space-y-2">
+                    <Label className="text-[#1A1715] font-semibold text-xs">Branches / Programs Offered</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 border border-[#E2DDD2] rounded-2xl p-4 bg-[#EBE6DC]/40 max-h-60 overflow-y-auto">
+                      <Controller
+                        control={control}
+                        name="branches"
+                        render={({ field }) => (
+                          <>
+                            {BRANCHES.map((branch) => {
+                              const checked = (field.value ?? []).includes(branch);
+                              return (
+                                <label key={branch} className="flex items-center gap-2 text-xs text-[#1A1715] cursor-pointer">
+                                  <input
+                                    type="checkbox"
+                                    className="accent-[#2D6A4F] w-4 h-4 rounded"
+                                    checked={checked}
+                                    onChange={() => {
+                                      const next = checked
+                                        ? (field.value ?? []).filter((b) => b !== branch)
+                                        : [...(field.value ?? []), branch];
+                                      field.onChange(next);
+                                    }}
+                                  />
+                                  <span>{branch}</span>
+                                </label>
+                              );
+                            })}
+                          </>
+                        )}
+                      />
+                    </div>
+                    {selectedBranches.length > 0 && (
+                      <p className="text-xs text-[#2D6A4F] font-semibold">
+                        {selectedBranches.length} branch{selectedBranches.length > 1 ? "es" : ""} selected
+                      </p>
                     )}
                   </div>
+
+                  {/* Website */}
                   <div className="space-y-1.5">
-                    <Label htmlFor="numberOfStudents">Approx. Number of Students</Label>
+                    <Label htmlFor="website" className="text-[#1A1715] font-semibold text-xs">College Website (optional)</Label>
                     <Input
-                      id="numberOfStudents"
-                      type="number"
-                      placeholder="e.g. 2000"
-                      min={0}
-                      {...register("numberOfStudents")}
+                      id="website"
+                      type="url"
+                      placeholder="https://www.yourcollege.ac.in"
+                      {...register("website")}
+                      aria-invalid={!!errors.website}
+                      className="bg-white border-[#D6CFC4] rounded-full h-11"
+                    />
+                    {errors.website && (
+                      <p className="text-xs text-red-500">{errors.website.message}</p>
+                    )}
+                  </div>
+
+                  {/* Message */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="message" className="text-[#1A1715] font-semibold text-xs">Message / Requirements (optional)</Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Tell us about your placement needs, preferred internship domains, expected timeline, etc."
+                      rows={4}
+                      {...register("message")}
+                      className="bg-white border-[#D6CFC4] rounded-2xl"
                     />
                   </div>
-                </div>
 
-                {/* Branches */}
-                <div className="space-y-2">
-                  <Label>Branches / Programs Offered</Label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 border border-gray-200 rounded-md p-4 bg-gray-50 max-h-60 overflow-y-auto">
-                    <Controller
-                      control={control}
-                      name="branches"
-                      render={({ field }) => (
-                        <>
-                          {BRANCHES.map((branch) => {
-                            const checked = (field.value ?? []).includes(branch);
-                            return (
-                              <label key={branch} className="flex items-center gap-2 text-sm cursor-pointer">
-                                <input
-                                  type="checkbox"
-                                  className="accent-[#0D9488] w-4 h-4"
-                                  checked={checked}
-                                  onChange={() => {
-                                    const next = checked
-                                      ? (field.value ?? []).filter((b) => b !== branch)
-                                      : [...(field.value ?? []), branch];
-                                    field.onChange(next);
-                                  }}
-                                />
-                                <span className="text-gray-700">{branch}</span>
-                              </label>
-                            );
-                          })}
-                        </>
-                      )}
-                    />
-                  </div>
-                  {selectedBranches.length > 0 && (
-                    <p className="text-xs text-teal-600">
-                      {selectedBranches.length} branch{selectedBranches.length > 1 ? "es" : ""} selected
-                    </p>
-                  )}
-                </div>
-
-                {/* Website */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="website">College Website (optional)</Label>
-                  <Input
-                    id="website"
-                    type="url"
-                    placeholder="https://www.yourcollege.ac.in"
-                    {...register("website")}
-                    aria-invalid={!!errors.website}
-                  />
-                  {errors.website && (
-                    <p className="text-xs text-red-500">{errors.website.message}</p>
-                  )}
-                </div>
-
-                {/* Message */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="message">Message / Requirements (optional)</Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Tell us about your placement needs, preferred internship domains, expected timeline, etc."
-                    rows={4}
-                    {...register("message")}
-                  />
-                </div>
-
-                {/* Document Upload */}
-                <div className="space-y-2">
-                  <Label>
-                    Supporting Document (optional){" "}
-                    <span className="text-gray-400 font-normal text-xs">PDF only, max 10 MB</span>
-                  </Label>
-                  {uploadedFile ? (
-                    <div className="flex items-center gap-3 bg-teal-50 border border-teal-200 rounded-md px-4 py-3">
-                      <Upload className="w-5 h-5 text-teal-600 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-teal-800 truncate">{uploadedFile.name}</p>
-                        <p className="text-xs text-teal-600">{formatBytes(uploadedFile.size)}</p>
+                  {/* Document Upload */}
+                  <div className="space-y-2">
+                    <Label className="text-[#1A1715] font-semibold text-xs">
+                      Supporting Document (optional){" "}
+                      <span className="text-[#78716C] font-normal text-xs">PDF only, max 10 MB</span>
+                    </Label>
+                    {uploadedFile ? (
+                      <div className="flex items-center gap-3 bg-[#E8F3ED] border border-[#C2E0D1] rounded-2xl px-4 py-3">
+                        <Upload className="w-5 h-5 text-[#2D6A4F] flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-[#2D6A4F] truncate">{uploadedFile.name}</p>
+                          <p className="text-xs text-[#2D6A4F]">{formatBytes(uploadedFile.size)}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={removeFile}
+                          className="text-[#2D6A4F] hover:text-red-500 transition-colors"
+                          aria-label="Remove file"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={removeFile}
-                        className="text-teal-400 hover:text-red-500 transition-colors"
-                        aria-label="Remove file"
+                    ) : (
+                      <div
+                        className="border-2 border-dashed border-[#D6CFC4] rounded-2xl px-6 py-8 text-center cursor-pointer hover:border-[#181615] transition-colors bg-[#FAF8F5]"
+                        onClick={() => fileInputRef.current?.click()}
+                        onKeyDown={(e) => e.key === "Enter" && fileInputRef.current?.click()}
+                        tabIndex={0}
+                        role="button"
+                        aria-label="Click to upload PDF document"
                       >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div
-                      className="border-2 border-dashed border-gray-300 rounded-md px-6 py-8 text-center cursor-pointer hover:border-[#0D9488] transition-colors"
-                      onClick={() => fileInputRef.current?.click()}
-                      onKeyDown={(e) => e.key === "Enter" && fileInputRef.current?.click()}
-                      tabIndex={0}
-                      role="button"
-                      aria-label="Click to upload PDF document"
-                    >
-                      <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-600 font-medium">Click to upload or drag and drop</p>
-                      <p className="text-xs text-gray-400 mt-1">PDF file up to 10 MB</p>
-                    </div>
-                  )}
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="application/pdf"
-                    className="hidden"
-                    onChange={handleFileChange}
-                    aria-label="Upload PDF document"
-                  />
-                  {fileError && <p className="text-xs text-red-500">{fileError}</p>}
-                </div>
+                        <Upload className="w-8 h-8 text-[#78716C] mx-auto mb-2" />
+                        <p className="text-sm text-[#57534E] font-medium">Click to upload or drag and drop</p>
+                        <p className="text-xs text-[#78716C] mt-1">PDF file up to 10 MB</p>
+                      </div>
+                    )}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="application/pdf"
+                      className="hidden"
+                      onChange={handleFileChange}
+                      aria-label="Upload PDF document"
+                    />
+                    {fileError && <p className="text-xs text-red-500">{fileError}</p>}
+                  </div>
 
-                {/* Submit */}
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full h-12 text-base font-semibold bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs transition-colors"
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center gap-2">
-                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                      </svg>
-                      Submitting...
-                    </span>
-                  ) : (
-                    "Submit Partnership Inquiry"
-                  )}
-                </Button>
+                  {/* Submit */}
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full h-12 text-base font-semibold bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs transition-colors"
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                        </svg>
+                        Submitting...
+                      </span>
+                    ) : (
+                      "Submit Partnership Inquiry"
+                    )}
+                  </Button>
 
-                <p className="text-xs text-gray-400 text-center">
-                  By submitting, you agree to our{" "}
-                  <a href="/terms" className="text-[#0D9488] underline">Terms & Conditions</a>{" "}
-                  and{" "}
-                  <a href="/privacy" className="text-[#0D9488] underline">Privacy Policy</a>.
-                </p>
-              </form>
-            </CardContent>
-          </Card>
+                  <p className="text-xs text-[#78716C] text-center">
+                    By submitting, you agree to our{" "}
+                    <a href="/terms" className="text-[#2D6A4F] underline">Terms & Conditions</a>{" "}
+                    and{" "}
+                    <a href="/privacy" className="text-[#2D6A4F] underline">Privacy Policy</a>.
+                  </p>
+                </form>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
     </PublicLayout>

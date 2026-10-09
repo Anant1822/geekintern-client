@@ -22,6 +22,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 interface CoreProject {
   id: string
@@ -212,35 +213,45 @@ export function CorePortfolio() {
       <PageTitle title="Core Engineering & Hardware Portfolio | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-5xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden">
+        <motion.div
+          animate={{ y: [0, -15, 0], opacity: [0.35, 0.65, 0.35] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-10 left-1/3 w-80 h-80 rounded-full bg-[#EBE6DC]/60 dark:bg-stone-900/40 blur-[90px] pointer-events-none -z-10"
+        />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="max-w-5xl mx-auto text-center relative z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Hardware, Firmware & Systems
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715] dark:text-[#FAF7F2]">
             Core Engineering <span className="italic font-serif text-[#8C4325]">Portfolio</span>
           </h1>
-          <p className="text-[#57534E] text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] dark:text-stone-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
             Showcase of synthesizable Verilog RISC-V cores, FreeRTOS CAN telemetry firmware, Industrial IoT edge nodes, ROS 2 autonomous rovers, and FEA mechanical assemblies built by our core engineering interns.
           </p>
 
           {/* Key Stats Bar */}
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-[#1A1715]">VLSI & FPGA</div>
-              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Synthesizable RTL</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs text-center card-lift">
+              <div className="text-2xl font-extrabold text-[#1A1715] dark:text-white">VLSI & FPGA</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">Synthesizable RTL</div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-[#1A1715]">FreeRTOS</div>
-              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Real-Time Kernels</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs text-center card-lift">
+              <div className="text-2xl font-extrabold text-[#1A1715] dark:text-white">FreeRTOS</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">Real-Time Kernels</div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-[#1A1715]">ROS 2 & SLAM</div>
-              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Autonomous Robotics</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs text-center card-lift">
+              <div className="text-2xl font-extrabold text-[#1A1715] dark:text-white">ROS 2 & SLAM</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">Autonomous Robotics</div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-[#1A1715]">100%</div>
-              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">NOC Lab Verified</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs text-center card-lift">
+              <div className="text-2xl font-extrabold text-[#1A1715] dark:text-white">100%</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">NOC Lab Verified</div>
             </div>
           </div>
 
@@ -252,10 +263,10 @@ export function CorePortfolio() {
               placeholder="Search by track, tool, or branch (e.g. Verilog, STM32, ROS 2, FEA)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-11 h-12 bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] placeholder:text-[#57534E]/60 rounded-full shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
+              className="pl-11 h-12 bg-[#FAF7F2] dark:bg-[#1C1A17] border-[#D6CFC4] dark:border-stone-700 text-[#1A1715] dark:text-[#FAF7F2] placeholder:text-[#57534E]/60 rounded-full shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
             />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Category Pills & Project Grid */}

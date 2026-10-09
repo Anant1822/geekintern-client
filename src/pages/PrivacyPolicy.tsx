@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { cn } from "@/lib/utils";
 
@@ -42,22 +43,29 @@ export default function PrivacyPolicy() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="bg-[#F5F2EB] text-[#1A1715] py-16 px-4 border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto">
+      <section className="relative bg-[#F5F2EB] bg-dot-matrix text-[#1A1715] py-16 px-4 border-b border-[#E2DDD2] overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 max-w-4xl mx-auto"
+        >
           <p className="text-[#8C4325] text-sm font-medium mb-2">Legal</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-3">Privacy Policy</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-3 text-[#1A1715]">Privacy Policy</h1>
           <p className="text-[#57534E] text-sm">Last updated: {LAST_UPDATED}</p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row gap-10">
+      <div className="bg-[#FAF7F2] min-h-[70vh]">
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <div className="flex flex-col lg:flex-row gap-10">
 
-          {/* Sidebar TOC */}
-          <aside className="lg:w-64 flex-shrink-0">
-            <div className="sticky top-24 bg-[#FAF7F2] border border-[#E2DDD2] rounded-xl p-4 shadow-xs">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Contents</p>
+            {/* Sidebar TOC */}
+            <aside className="lg:w-64 flex-shrink-0">
+              <div className="sticky top-24 bg-[#FAF7F2] border border-[#E2DDD2] rounded-xl p-4 shadow-xs">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Contents</p>
               <nav className="space-y-1">
                 {SECTIONS.map((s) => (
                   <button
@@ -165,7 +173,7 @@ export default function PrivacyPolicy() {
               <p>
                 No method of electronic transmission or storage is 100% secure. While we strive to protect your information,
                 we cannot guarantee absolute security. If you believe your account has been compromised, please contact us
-                immediately at <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>.
+                immediately at <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline">support.geekintern@gmail.com</a>.
               </p>
             </SectionBlock>
 
@@ -198,7 +206,7 @@ export default function PrivacyPolicy() {
                 <li><strong>Right to Withdraw Consent:</strong> Withdraw consent for optional data processing at any time.</li>
               </ul>
               <p>
-                To exercise any of these rights, please email <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>{" "}
+                To exercise any of these rights, please email <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline">support.geekintern@gmail.com</a>{" "}
                 with the subject line "Data Rights Request". We will respond within 30 days. Identity verification may be
                 required before we action your request.
               </p>
@@ -233,7 +241,7 @@ export default function PrivacyPolicy() {
               </p>
               <p>
                 If you believe we have collected data from a minor without consent, please contact us at{" "}
-                <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>.
+                <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline">support.geekintern@gmail.com</a>.
               </p>
             </SectionBlock>
 
@@ -257,12 +265,12 @@ export default function PrivacyPolicy() {
               <p>
                 For any privacy-related questions, concerns, or requests, please contact our Privacy Officer:
               </p>
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-3 text-sm">
-                <p className="font-semibold text-[#1E3A5F] mb-2">Geek Intern Technologies</p>
-                <p>Email: <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a></p>
+              <div className="bg-[#FAF7F2] border border-[#E2DDD2] rounded-lg p-4 mt-3 text-sm">
+                <p className="font-semibold text-[#1A1715] mb-2">Geek Intern Technologies</p>
+                <p>Email: <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline">support.geekintern@gmail.com</a></p>
                 <p>Subject: Privacy Policy Enquiry</p>
                 <p>Address: Ambikapur, Chhattisgarh, India</p>
-                <p className="mt-2 text-gray-500">We aim to respond to all privacy requests within 30 days.</p>
+                <p className="mt-2 text-[#57534E]">We aim to respond to all privacy requests within 30 days.</p>
               </div>
               <p className="mt-3">
                 You also have the right to lodge a complaint with the relevant data protection authority if you believe
@@ -272,6 +280,7 @@ export default function PrivacyPolicy() {
           </main>
         </div>
       </div>
+    </div>
     </PublicLayout>
   );
 }

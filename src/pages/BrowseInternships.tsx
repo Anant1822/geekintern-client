@@ -33,6 +33,7 @@ import { Input } from '@/components/ui/input'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
 import { ALL_DOMAINS, CATEGORY_TABS } from '@/data/domains'
+import { motion } from 'framer-motion'
 
 const iconMap: Record<string, React.ElementType> = {
   Globe,
@@ -87,21 +88,46 @@ export default function BrowseInternships() {
       <PageTitle title="Browse All Domains & Categories | Geek Intern" />
 
       {/* Hero / Header Section */}
-      <section className="bg-[#F5F2EB] dark:bg-[#151311] border-b border-[#E2DDD2] dark:border-stone-800 pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-[#1A1715] dark:text-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs">
+      <section className="relative bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix border-b border-[#E2DDD2] dark:border-stone-800 pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-[#1A1715] dark:text-[#FAF7F2] overflow-hidden">
+        <motion.div
+          animate={{ y: [0, -12, 0], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-12 left-1/3 w-80 h-80 rounded-full bg-[#EBE6DC]/60 dark:bg-stone-900/40 blur-[90px] pointer-events-none -z-10"
+        />
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs"
+          >
             <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
             31 Industry-Standard Specializations
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]"
+          >
             Browse All Internship <span className="font-serif italic text-[#1A1715] dark:text-white">Domains</span>
-          </h1>
-          <p className="text-[#57534E] dark:text-stone-400 text-sm sm:text-base max-w-2xl mx-auto mt-3 leading-relaxed">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="text-[#57534E] dark:text-stone-400 text-sm sm:text-base max-w-2xl mx-auto mt-3 leading-relaxed"
+          >
             Choose your technical engineering track, build verifiable milestone projects, and earn accredited credentials recognized by tech employers worldwide.
-          </p>
+          </motion.p>
 
           {/* Search bar */}
-          <div className="mt-8 max-w-xl mx-auto relative">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.45, delay: 0.2 }}
+            className="mt-8 max-w-xl mx-auto relative"
+          >
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#78716C] pointer-events-none" />
             <Input
               type="text"
@@ -119,7 +145,7 @@ export default function BrowseInternships() {
                 <X className="w-4 h-4" />
               </button>
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -200,13 +226,18 @@ export default function BrowseInternships() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredDomains.map((domain) => {
+            {filteredDomains.map((domain, idx) => {
               const IconComp = iconMap[domain.iconName] || Globe
 
               return (
-                <div
+                <motion.div
                   key={domain.id}
-                  className="rounded-3xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 hover:border-[#1A1715]/40 dark:hover:border-stone-600 p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover group"
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: (idx % 6) * 0.05 }}
+                  whileHover={{ y: -6 }}
+                  className="rounded-3xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 hover:border-[#1A1715]/40 dark:hover:border-stone-600 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-card-hover group"
                 >
                   <div>
                     {/* Top Row: Icon + Badges */}
@@ -262,10 +293,11 @@ export default function BrowseInternships() {
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </Link>
                   </div>
-                </div>
+                </motion.div>
               )
             })}
           </div>
+
         )}
       </div>
     </PublicLayout>

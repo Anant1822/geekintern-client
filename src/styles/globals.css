@@ -140,12 +140,26 @@
 
   /* Glassmorphism card */
   .glass-card {
-    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-card;
+    @apply bg-[#FAF7F2]/90 dark:bg-[#1C1A17]/90 backdrop-blur-md border border-[#E2DDD2] dark:border-stone-800 shadow-card;
   }
 
-  /* Internship card hover effect */
+  /* Internship and bento card hover effect */
   .internship-card {
-    @apply transition-all duration-200 hover:shadow-card-hover hover:-translate-y-0.5;
+    @apply transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1.5 hover:border-[#181615]/30 dark:hover:border-stone-600;
+  }
+
+  /* Card lift micro-interaction */
+  .card-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover hover:border-[#181615]/30 dark:hover:border-stone-600;
+  }
+
+  /* Dot matrix background pattern */
+  .bg-dot-matrix {
+    background-image: radial-gradient(rgba(26, 23, 21, 0.08) 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+  }
+  .dark .bg-dot-matrix {
+    background-image: radial-gradient(rgba(250, 247, 242, 0.08) 1.2px, transparent 1.2px);
   }
 }
 

@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 export function PortfolioBuilder() {
   const [theme, setTheme] = useState<'clean' | 'dark' | 'neon'>('clean')
@@ -98,16 +99,21 @@ export function PortfolioBuilder() {
       <PageTitle title="Developer Portfolio Builder | Geek Intern" />
 
       {/* Header */}
-      <section className="pt-24 pb-8 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <section className="relative pt-24 pb-8 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4"
+        >
           <div>
-            <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-2 px-3 py-1">
+            <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-2 px-3 py-1 font-semibold">
               One-Click Site Generator
             </Badge>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1A1715]">
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
               Developer <span className="italic font-serif text-[#8C4325]">Portfolio Builder</span>
             </h1>
-            <p className="text-[#57534E] text-xs sm:text-sm mt-1">
+            <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm mt-1">
               Customize your developer profile on the left and see your responsive site preview instantly.
             </p>
           </div>
@@ -121,7 +127,7 @@ export function PortfolioBuilder() {
               <span>{copied ? 'Copied HTML Code!' : 'Copy Website HTML'}</span>
             </Button>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Workspace */}

@@ -8,6 +8,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { motion } from 'framer-motion'
 import type { Internship } from '@/types'
 import {
   cn, formatCurrency, formatDate, formatDuration,
@@ -63,7 +64,15 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
   const isAlmostFull = seatsTotal > 0 && seatsLeft <= 3 && seatsLeft > 0
 
   return (
-    <Card className={cn('internship-card flex flex-col h-full overflow-hidden bg-[#FAF7F2] dark:bg-[#1C1A17] border-[#E2DDD2] dark:border-[#292524] rounded-2xl shadow-xs hover:border-[#181615]/40 transition-all', className)}>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -4 }}
+      className="h-full"
+    >
+      <Card className={cn('internship-card flex flex-col h-full overflow-hidden bg-[#FAF7F2] dark:bg-[#1C1A17] border-[#E2DDD2] dark:border-[#292524] rounded-2xl shadow-xs hover:border-[#181615]/40 transition-all duration-300', className)}>
       <CardContent className="pt-5 pb-3 flex-1">
         {/* Header row */}
         <div className="flex items-start justify-between gap-2 mb-3">
@@ -202,6 +211,7 @@ export function InternshipCard({ internship, className, onSaveToggle }: Internsh
         </div>
       </CardFooter>
     </Card>
+    </motion.div>
   )
 }
 

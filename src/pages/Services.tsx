@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 const SERVICES = [
   {
@@ -92,9 +93,9 @@ const SERVICES = [
       'Conversion rate optimization (CRO)',
       'Analytics setup & ROI tracking dashboards',
     ],
-    color: 'text-amber-600',
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
+    color: 'text-[#8C4325]',
+    bg: 'bg-[#F0E6DC]',
+    border: 'border-[#E2DDD2]',
   },
 ]
 
@@ -111,8 +112,14 @@ export function Services() {
       <PageTitle title="Professional Digital Solutions & Services | Geek Intern" />
 
       {/* Hero */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden bg-dot-matrix">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 rounded-full">
             Digital Solutions
           </Badge>
@@ -134,25 +141,30 @@ export function Services() {
               </Button>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white text-[#1A1715]">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {SERVICES.map((srv, idx) => {
               const IconComp = srv.icon
               return (
-                <div
+                <motion.div
                   key={idx}
-                  className={`rounded-2xl bg-white border ${srv.border} p-8 flex flex-col justify-between hover:-translate-y-1 hover:shadow-xl transition-all duration-300 shadow-sm`}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.08 }}
+                  whileHover={{ y: -6 }}
+                  className="rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 flex flex-col justify-between hover:border-[#181615] transition-all duration-300 shadow-card card-lift"
                 >
                   <div>
-                    <div className={`w-12 h-12 rounded-xl ${srv.bg} ${srv.color} flex items-center justify-center mb-6`}>
+                    <div className={`w-12 h-12 rounded-2xl ${srv.bg} ${srv.color} flex items-center justify-center mb-6 border border-[#E2DDD2]`}>
                       <IconComp className="w-6 h-6" />
                     </div>
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">
+                    <span className="text-[11px] font-semibold text-[#57534E] uppercase tracking-wider block mb-1">
                       {srv.subtitle}
                     </span>
                     <h2 className="text-2xl font-bold text-[#1A1715] mb-3">{srv.title}</h2>
@@ -160,8 +172,8 @@ export function Services() {
                       {srv.desc}
                     </p>
 
-                    <div className="pt-4 border-t border-slate-100 mb-6">
-                      <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">
+                    <div className="pt-4 border-t border-[#E2DDD2] mb-6">
+                      <h4 className="text-xs font-bold text-[#1A1715] uppercase tracking-wider mb-3">
                         Key Capabilities:
                       </h4>
                       <ul className="flex flex-col gap-2">
@@ -176,41 +188,61 @@ export function Services() {
                   </div>
 
                   <Link to="/contact">
-                    <Button variant="outline" className="w-full border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl shadow-sm">
+                    <Button variant="outline" className="w-full border-[#D6CFC4] bg-[#FAF8F5] hover:bg-[#EAE4D7] text-[#1A1715] text-xs font-semibold rounded-full shadow-xs">
                       Request Consultation
                     </Button>
                   </Link>
-                </div>
+                </motion.div>
               )
             })}
           </div>
 
           {/* Process Section */}
-          <div className="mt-28 border-t border-slate-200 pt-16">
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <Badge className="bg-purple-50 text-purple-700 border border-purple-200 uppercase tracking-widest text-[11px] mb-3 px-3 py-1">
+          <div className="mt-28 border-t border-[#E2DDD2] pt-16">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="text-center max-w-3xl mx-auto mb-14"
+            >
+              <Badge className="bg-[#E8F3ED] text-[#2D6A4F] border border-[#C2E0D1] uppercase tracking-widest text-[11px] mb-3 px-3 py-1 rounded-full">
                 How We Deliver
               </Badge>
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1A1715]">
-                Our Engineering <span className="text-[#2D6A4F]">Process</span>
+                Our Engineering <span className="text-[#2D6A4F] font-serif italic">Process</span>
               </h2>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {PROCESS_STEPS.map((step, idx) => (
-                <div key={idx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200">
-                  <div className="text-3xl font-extrabold text-[#2D6A4F]/30 mb-3 font-mono">
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: idx * 0.08 }}
+                  whileHover={{ y: -4 }}
+                  className="p-6 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-card card-lift"
+                >
+                  <div className="text-3xl font-extrabold text-[#8C4325] mb-3 font-mono">
                     {step.step}
                   </div>
                   <h3 className="text-base font-bold text-[#1A1715] mb-2">{step.title}</h3>
                   <p className="text-xs text-[#57534E] leading-relaxed">{step.desc}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-20 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-10 text-center max-w-4xl mx-auto shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="mt-20 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] p-10 text-center max-w-4xl mx-auto shadow-card card-lift"
+          >
             <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-[#1A1715]">Ready to Build Something Exceptional?</h3>
             <p className="text-[#57534E] text-sm max-w-lg mx-auto mb-6">
               Get in touch with our engineering architects today for a free project scoping and technical estimate.
@@ -220,7 +252,7 @@ export function Services() {
                 Contact Us Now →
               </Button>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
     </PublicLayout>

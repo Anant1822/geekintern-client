@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
 import { ALL_STUDENT_REVIEWS, StudentReviewItem } from '@/data/reviewsData'
+import { motion } from 'framer-motion'
 
 const DOMAIN_FILTERS = [
   'All Reviews',
@@ -70,38 +71,48 @@ export function StudentReviews() {
       <PageTitle title="500+ Authentic Student Reviews & Feedback | Geek Intern" />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden">
+        <motion.div
+          animate={{ y: [0, -14, 0], opacity: [0.35, 0.65, 0.35] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-10 left-1/3 w-80 h-80 rounded-full bg-[#EBE6DC]/60 dark:bg-stone-900/40 blur-[90px] pointer-events-none -z-10"
+        />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Verified Experiences
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715] dark:text-[#FAF7F2]">
             Learner <span className="italic font-serif text-[#8C4325]">Reviews & Stories</span>
           </h1>
-          <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] dark:text-stone-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Read over 500 genuine experiences written by engineering and computer science students across India who built real projects, verified their skills, and earned accredited internship credentials.
           </p>
 
           {/* Rating Summary */}
-          <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-6 p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs">
+          <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-6 p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs">
             <div className="flex items-center gap-2">
-              <span className="text-3xl font-extrabold text-[#1A1715]">4.9</span>
+              <span className="text-3xl font-extrabold text-[#1A1715] dark:text-white">4.9</span>
               <div className="flex flex-col items-start">
                 <div className="flex text-amber-400">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-amber-400" />
                   ))}
                 </div>
-                <span className="text-[10px] text-[#57534E] mt-0.5">Overall Rating</span>
+                <span className="text-[10px] text-[#57534E] dark:text-stone-400 mt-0.5">Overall Rating</span>
               </div>
             </div>
-            <div className="hidden sm:block h-8 w-px bg-slate-200 dark:bg-slate-800" />
+            <div className="hidden sm:block h-8 w-px bg-[#E2DDD2] dark:bg-stone-800" />
             <div className="text-left">
-              <div className="text-sm font-bold text-[#1A1715]">{ALL_STUDENT_REVIEWS.length}+ Organic Student Reviews</div>
+              <div className="text-sm font-bold text-[#1A1715] dark:text-white">{ALL_STUDENT_REVIEWS.length}+ Organic Student Reviews</div>
               <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">98.4% Verified Completion Rate</div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Filter Tabs & Review Cards */}
@@ -159,10 +170,14 @@ export function StudentReviews() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {paginatedReviews.map((rev) => (
-                <div
+              {paginatedReviews.map((rev, idx) => (
+                <motion.div
                   key={rev.id}
-                  className="rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-6 sm:p-7 flex flex-col justify-between hover:border-[#181615]/40 transition-all shadow-xs hover:shadow-sm group"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: (idx % 6) * 0.04 }}
+                  whileHover={{ y: -5 }}
+                  className="rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 p-6 sm:p-7 flex flex-col justify-between hover:border-[#181615]/40 transition-all shadow-xs hover:shadow-card-hover group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3.5">
@@ -171,26 +186,26 @@ export function StudentReviews() {
                           <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
                         ))}
                       </div>
-                      <span className="text-[10px] font-semibold text-[#2D6A4F] bg-[#E8F3ED] border border-[#C2E0D1] px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="text-[10px] font-semibold text-[#2D6A4F] dark:text-emerald-400 bg-[#E8F3ED] dark:bg-emerald-950/60 border border-[#C2E0D1] dark:border-emerald-800 px-2 py-0.5 rounded-full flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3" />
                         <span>Verified Intern</span>
                       </span>
                     </div>
 
-                    <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                    <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
                       "{rev.text}"
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-[#E2DDD2] flex items-center justify-between">
+                  <div className="pt-4 border-t border-[#E2DDD2] dark:border-stone-800 flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-sm text-[#1A1715]">{rev.name}</div>
-                      <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">{rev.domain}</div>
-                      <div className="text-[11px] text-[#57534E] mt-0.5 leading-snug">{rev.college}</div>
+                      <div className="font-bold text-sm text-[#1A1715] dark:text-[#FAF7F2]">{rev.name}</div>
+                      <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">{rev.domain}</div>
+                      <div className="text-[11px] text-[#57534E] dark:text-stone-400 mt-0.5 leading-snug">{rev.college}</div>
                     </div>
-                    <div className="text-[10px] text-[#57534E] font-medium">{rev.date}</div>
+                    <div className="text-[10px] text-[#57534E] dark:text-stone-400 font-medium">{rev.date}</div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}

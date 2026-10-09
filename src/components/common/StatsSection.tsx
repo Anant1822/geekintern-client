@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
 
 interface Stat {
   label: string
@@ -73,24 +74,32 @@ interface StatsSectionProps {
 
 export function StatsSection({ stats = DEFAULT_STATS, className, dark = false }: StatsSectionProps) {
   return (
-    <div className={cn('py-12', className)}>
+    <div className={cn('py-12 bg-dot-matrix', className)}>
       <div className="container">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((stat, i) => (
-            <div key={i} className="text-center">
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              whileHover={{ y: -3 }}
+              className="text-center p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-[#292524] shadow-xs hover:shadow-card-hover transition-all duration-300"
+            >
               <p className={cn(
-                'text-4xl sm:text-5xl font-extrabold mb-2',
+                'text-3xl sm:text-5xl font-extrabold mb-2 tracking-tight',
                 dark ? 'text-white' : 'text-[#1A1715] dark:text-[#FAF7F2]'
               )}>
                 <StatCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
               </p>
               <p className={cn(
-                'text-sm font-medium',
+                'text-xs sm:text-sm font-medium',
                 dark ? 'text-white/70' : 'text-[#57534E] dark:text-[#A8A29E]'
               )}>
                 {stat.label}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

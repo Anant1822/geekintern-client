@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import {
   CheckCircle2,
   Github,
@@ -19,8 +20,14 @@ export function Guidelines() {
       <PageTitle title="Internship Guidelines & Task Submission Rules | Geek Intern" />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] bg-dot-matrix text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 max-w-4xl mx-auto text-center"
+        >
           <Badge className="bg-[#EBE6DC] text-[#181615] border border-[#E2DDD2] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
             Program Guidelines & Rules
           </Badge>
@@ -30,14 +37,21 @@ export function Guidelines() {
           <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Everything you need to know about completing project tasks, repository documentation, video walkthroughs, and certificate issuance.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Main Content */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white text-[#1A1715] min-h-[70vh]">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2] text-[#1A1715] min-h-[70vh]">
         <div className="max-w-4xl mx-auto flex flex-col gap-10">
           {/* Step 1 */}
-          <div className="p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            whileHover={{ y: -3 }}
+            className="card-lift p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs"
+          >
             <div className="flex items-center gap-3 mb-4">
               <span className="w-9 h-9 rounded-xl bg-[#EBE6DC] text-[#181615] border border-[#E2DDD2] flex items-center justify-center font-bold text-sm">
                 01
@@ -57,10 +71,17 @@ export function Guidelines() {
                 <span>You can use any modern frameworks, libraries, or design toolkits relevant to your track.</span>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Step 2 */}
-          <div className="p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+            whileHover={{ y: -3 }}
+            className="card-lift p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs"
+          >
             <div className="flex items-center gap-3 mb-4">
               <span className="w-9 h-9 rounded-xl bg-[#EBE6DC] text-[#181615] border border-[#E2DDD2] flex items-center justify-center font-bold text-sm">
                 02
@@ -92,10 +113,17 @@ export function Guidelines() {
                 </ul>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Step 3 */}
-          <div className="p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            whileHover={{ y: -3 }}
+            className="card-lift p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs"
+          >
             <div className="flex items-center gap-3 mb-4">
               <span className="w-9 h-9 rounded-xl bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] flex items-center justify-center font-bold text-sm">
                 03
@@ -118,10 +146,17 @@ export function Guidelines() {
                 <span>Include your GitHub repository link and hashtags #geekintern #internship #developer.</span>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Step 4: Academic Integrity */}
-          <div className="p-8 rounded-2xl bg-rose-50 border border-rose-200 shadow-sm">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            whileHover={{ y: -3 }}
+            className="card-lift p-8 rounded-2xl bg-[#FFF5F5] border border-rose-200 shadow-sm"
+          >
             <div className="flex items-center gap-3 mb-3">
               <ShieldAlert className="w-6 h-6 text-rose-600" />
               <h2 className="text-xl font-bold text-[#1A1715]">Strict Anti-Plagiarism Policy</h2>
@@ -129,10 +164,17 @@ export function Guidelines() {
             <p className="text-xs sm:text-sm text-rose-800 leading-relaxed">
               Copying another candidate's exact repository or submitting unmodified third-party templates will result in immediate disqualification and revocation of certification eligibility.
             </p>
-          </div>
+          </motion.div>
 
           {/* Step 5: Evaluation & Certification */}
-          <div className="p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            whileHover={{ y: -3 }}
+            className="card-lift p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs"
+          >
             <div className="flex items-center gap-3 mb-4">
               <Award className="w-6 h-6 text-amber-500" />
               <h2 className="text-2xl font-bold text-[#1A1715]">Evaluation & Certificate Timeline</h2>
@@ -151,7 +193,7 @@ export function Guidelines() {
                 </Button>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </PublicLayout>

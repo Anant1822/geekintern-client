@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 interface MissionCardProps { icon: React.ReactNode; title: string; description: string; accent: "teal" | "amber" | "navy"; }
 function MissionCard({ icon, title, description, accent }: MissionCardProps) {
@@ -17,10 +18,10 @@ function MissionCard({ icon, title, description, accent }: MissionCardProps) {
     navy:  { bar: "bg-[#181615]", icon: "bg-[#EBE6DC] text-[#181615]" },
   };
   return (
-    <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs hover:shadow-sm transition-shadow duration-300 overflow-hidden">
+    <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-card rounded-3xl card-lift overflow-hidden">
       <div className={cn("h-1.5 w-full", colors[accent].bar)} />
-      <CardContent className="pt-6 pb-6 flex flex-col gap-3">
-        <div className={cn("w-12 h-12 rounded-lg flex items-center justify-center", colors[accent].icon)}>{icon}</div>
+      <CardContent className="pt-8 pb-8 flex flex-col gap-3">
+        <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border border-[#E2DDD2]", colors[accent].icon)}>{icon}</div>
         <h3 className="font-bold text-[#1A1715] text-lg">{title}</h3>
         <p className="text-[#57534E] text-sm leading-relaxed">{description}</p>
       </CardContent>
@@ -31,7 +32,7 @@ function MissionCard({ icon, title, description, accent }: MissionCardProps) {
 interface PainPointProps { icon: React.ReactNode; text: string; }
 function PainPoint({ icon, text }: PainPointProps) {
   return (
-    <div className="flex items-start gap-4 bg-[#FAF7F2] rounded-xl p-5 shadow-xs border border-[#E2DDD2]">
+    <div className="flex items-start gap-4 bg-[#FAF7F2] rounded-2xl p-5 shadow-xs border border-[#E2DDD2] card-lift">
       <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500 flex-shrink-0 mt-0.5">{icon}</div>
       <p className="text-[#57534E] font-medium leading-relaxed">{text}</p>
     </div>
@@ -42,9 +43,9 @@ interface StepCardProps { step: number; title: string; description: string; }
 function StepCard({ step, title, description }: StepCardProps) {
   return (
     <div className="flex flex-col items-center text-center">
-      <div className="w-12 h-12 rounded-full bg-[#181615] text-[#FAF7F2] font-bold text-lg flex items-center justify-center mb-4 shadow-xs">{step}</div>
-      <h4 className="font-semibold text-[#1A1715] mb-2">{title}</h4>
-      <p className="text-[#57534E] text-sm leading-relaxed">{description}</p>
+      <div className="w-12 h-12 rounded-full bg-[#FAF7F2] text-[#181615] font-mono font-bold text-lg flex items-center justify-center mb-4 shadow-xs border border-[#E2DDD2]">{step}</div>
+      <h4 className="font-semibold text-white mb-2">{title}</h4>
+      <p className="text-white/70 text-sm leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -67,18 +68,22 @@ export default function About() {
   return (
     <PublicLayout>
       {/* 1. Hero */}
-      <section className="relative bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-56 h-56 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4 pointer-events-none" />
-        <div className="relative max-w-5xl mx-auto px-4 py-24 text-center">
+      <section className="relative bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden bg-dot-matrix">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="relative max-w-5xl mx-auto px-4 py-24 text-center z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] mb-5 text-xs tracking-widest uppercase">Our Story</Badge>
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-5 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-5 leading-tight text-[#1A1715] tracking-tight">
             About <span className="italic font-serif text-[#8C4325]">Geek Intern</span>
           </h1>
           <p className="text-lg md:text-xl text-[#57534E] max-w-3xl mx-auto leading-relaxed">
             A practical engineering internship platform built for college students and graduates — project-focused, verified, and accessible.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* 2. Our Story */}
@@ -207,9 +212,14 @@ export default function About() {
       </section>
 
       {/* 6. For Students vs For Colleges */}
-      <section className="py-20 px-4 bg-[#EBE6DC]">
+      <section className="py-20 px-4 bg-[#EBE6DC] border-b border-[#E2DDD2]">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-[#1A1715] mb-4">
               Built for Engineering Students & Institutions
             </h2>
@@ -217,64 +227,85 @@ export default function About() {
               Whether you're a student looking for hands-on project experience or a college placement coordinator,
               Geek Intern provides the right framework.
             </p>
-          </div>
+          </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs overflow-hidden">
-              <div className="h-2 bg-[#0D9488]" />
-              <CardContent className="pt-6 pb-8">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center">
-                    <UserCheck className="w-5 h-5 text-[#2D6A4F]" />
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35 }}
+              whileHover={{ y: -4 }}
+            >
+              <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-card rounded-3xl card-lift overflow-hidden">
+                <div className="h-2 bg-[#2D6A4F]" />
+                <CardContent className="pt-8 pb-8">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-12 h-12 rounded-2xl bg-[#E8F3ED] border border-[#C2E0D1] flex items-center justify-center">
+                      <UserCheck className="w-5 h-5 text-[#2D6A4F]" />
+                    </div>
+                    <h3 className="text-xl font-bold text-[#1A1715]">For Students</h3>
                   </div>
-                  <h3 className="text-xl font-bold text-[#1A1715]">For Students</h3>
-                </div>
-                <CompareList color="teal" items={[
-                  "Domain-specific engineering project tracks",
-                  "Real GitHub code repositories to showcase in interviews",
-                  "Free, instant online application process",
-                  "Student portal to track tasks and submissions",
-                  "Verifiable Certificate of Completion with unique CID",
-                  "Prompt email and message support",
-                  "Accepted by universities for internship credits",
-                  "Mobile-friendly student portal",
-                ]} />
-                <Button asChild className="mt-6 bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs w-full">
-                  <Link to="/browse">Browse Tracks <ArrowRight className="w-4 h-4 ml-1" /></Link>
-                </Button>
-              </CardContent>
-            </Card>
-            <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs overflow-hidden">
-              <div className="h-2 bg-[#181615]" />
-              <CardContent className="pt-6 pb-8">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 rounded-xl bg-[#EBE6DC] flex items-center justify-center">
-                    <Search className="w-5 h-5 text-[#1A1715]" />
+                  <CompareList color="teal" items={[
+                    "Domain-specific engineering project tracks",
+                    "Real GitHub code repositories to showcase in interviews",
+                    "Free, instant online application process",
+                    "Student portal to track tasks and submissions",
+                    "Verifiable Certificate of Completion with unique CID",
+                    "Prompt email and message support",
+                    "Accepted by universities for internship credits",
+                    "Mobile-friendly student portal",
+                  ]} />
+                  <Button asChild className="mt-8 bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs w-full">
+                    <Link to="/browse">Browse Tracks <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: 0.1 }}
+              whileHover={{ y: -4 }}
+            >
+              <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-card rounded-3xl card-lift overflow-hidden">
+                <div className="h-2 bg-[#181615]" />
+                <CardContent className="pt-8 pb-8">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-12 h-12 rounded-2xl bg-[#EBE6DC] border border-[#E2DDD2] flex items-center justify-center">
+                      <Search className="w-5 h-5 text-[#1A1715]" />
+                    </div>
+                    <h3 className="text-xl font-bold text-[#1A1715]">For Colleges</h3>
                   </div>
-                  <h3 className="text-xl font-bold text-[#1A1715]">For Colleges</h3>
-                </div>
-                <CompareList color="navy" items={[
-                  "Placement coordinator dashboard",
-                  "Real-time student progress tracking",
-                  "Branch-wise performance analytics and reports",
-                  "Bulk student onboarding assistance",
-                  "College NOC and credit fulfillment support",
-                  "Customized internship cohorts for departments",
-                  "Free partnership onboarding for colleges",
-                  "Direct priority support channel",
-                ]} />
-                <Button asChild className="mt-6 bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs w-full">
-                  <Link to="/college-register">Partner With Us <ArrowRight className="w-4 h-4 ml-1" /></Link>
-                </Button>
-              </CardContent>
-            </Card>
+                  <CompareList color="navy" items={[
+                    "Placement coordinator dashboard",
+                    "Real-time student progress tracking",
+                    "Branch-wise performance analytics and reports",
+                    "Bulk student onboarding assistance",
+                    "College NOC and credit fulfillment support",
+                    "Customized internship cohorts for departments",
+                    "Free partnership onboarding for colleges",
+                    "Direct priority support channel",
+                  ]} />
+                  <Button asChild className="mt-8 bg-[#181615] hover:bg-[#2A2724] text-white rounded-full font-semibold shadow-xs w-full">
+                    <Link to="/college-register">Partner With Us <ArrowRight className="w-4 h-4 ml-1" /></Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* 7. CTA */}
       <section className="py-20 px-4 bg-[#FAF7F2] border-t border-[#E2DDD2]">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto text-center"
+        >
+          <div className="w-16 h-16 rounded-2xl bg-[#F0E6DC] border border-[#E4D5C7] flex items-center justify-center mx-auto mb-6">
             <FileText className="w-8 h-8 text-[#8C4325]" />
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-[#1A1715] mb-4">Ready to Build Real Projects?</h2>
@@ -289,7 +320,7 @@ export default function About() {
               <Link to="/college-register">Partner as College</Link>
             </Button>
           </div>
-        </div>
+        </motion.div>
       </section>
     </PublicLayout>
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { cn } from "@/lib/utils";
 
@@ -45,47 +46,54 @@ export default function TermsAndConditions() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="bg-[#F5F2EB] text-[#1A1715] py-16 px-4 border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto">
+      <section className="relative bg-[#F5F2EB] bg-dot-matrix text-[#1A1715] py-16 px-4 border-b border-[#E2DDD2] overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 max-w-4xl mx-auto"
+        >
           <p className="text-[#8C4325] text-sm font-medium mb-2">Legal</p>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-3">Terms and Conditions</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-3 text-[#1A1715]">Terms and Conditions</h1>
           <p className="text-[#57534E] text-sm">Last updated: {LAST_UPDATED}</p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row gap-10">
+      <div className="bg-[#FAF7F2] min-h-[70vh]">
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <div className="flex flex-col lg:flex-row gap-10">
 
-          {/* Sidebar TOC */}
-          <aside className="lg:w-64 flex-shrink-0">
-            <div className="sticky top-24 bg-[#FAF7F2] border border-[#E2DDD2] rounded-xl p-4 shadow-xs">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Contents</p>
-              <nav className="space-y-1">
-                {SECTIONS.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => handleNavClick(s.id)}
-                    className={cn(
-                      "w-full text-left text-sm px-3 py-2 rounded-lg transition-colors",
-                      activeSection === s.id
-                        ? "bg-[#181615] text-[#FAF7F2] font-medium"
-                        : "text-[#57534E] hover:bg-[#EAE4D7]"
-                    )}
-                  >
-                    {s.title}
-                  </button>
-                ))}
-              </nav>
-            </div>
-          </aside>
+            {/* Sidebar TOC */}
+            <aside className="lg:w-64 flex-shrink-0">
+              <div className="sticky top-24 bg-[#FAF7F2] border border-[#E2DDD2] rounded-xl p-4 shadow-xs">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Contents</p>
+                <nav className="space-y-1">
+                  {SECTIONS.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => handleNavClick(s.id)}
+                      className={cn(
+                        "w-full text-left text-sm px-3 py-2 rounded-lg transition-colors",
+                        activeSection === s.id
+                          ? "bg-[#181615] text-[#FAF7F2] font-medium"
+                          : "text-[#57534E] hover:bg-[#EAE4D7]"
+                      )}
+                    >
+                      {s.title}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+            </aside>
 
-          {/* Main Content */}
-          <main className="flex-1 min-w-0">
-            <div className="bg-[#F0E6DC] border border-[#E4D5C7] rounded-xl p-4 mb-8 text-sm text-[#8C4325]">
-              Please read these Terms and Conditions carefully before using the Geek Intern platform.
-              By accessing or using our services, you agree to be bound by these terms.
-            </div>
+            {/* Main Content */}
+            <main className="flex-1 min-w-0">
+              <div className="bg-[#FAF7F2] border border-[#E2DDD2] rounded-xl p-4 mb-8 text-sm text-[#1A1715] shadow-xs">
+                Please read these Terms and Conditions carefully before using the Geek Intern platform.
+                By accessing or using our services, you agree to be bound by these terms.
+              </div>
 
             <SectionBlock id="acceptance" title="1. Acceptance of Terms">
               <p>
@@ -144,7 +152,7 @@ export default function TermsAndConditions() {
               <ul className="list-disc pl-5 space-y-1">
                 <li>Maintaining the confidentiality of your account credentials;</li>
                 <li>All activities that occur under your account;</li>
-                <li>Notifying us immediately at <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a> of any unauthorised use of your account.</li>
+                <li>Notifying us immediately at <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline">support.geekintern@gmail.com</a> of any unauthorised use of your account.</li>
               </ul>
               <p>
                 You may not share your account credentials with any third party. Each individual must maintain a separate
@@ -161,14 +169,14 @@ export default function TermsAndConditions() {
               <p>
                 Applications to Geek Intern virtual internship programs and task tracks are free of cost.
               </p>
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 my-3">
+              <div className="bg-[#FAF7F2] border border-[#E2DDD2] rounded-lg p-4 my-3">
                 <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div className="font-semibold text-gray-800">Internship Category</div>
-                  <div className="font-semibold text-gray-800">Application Fee</div>
-                  <div className="text-gray-600">Standard Virtual Internships</div>
-                  <div className="text-emerald-600 font-semibold">Free (₹0)</div>
-                  <div className="text-gray-600">Core Engineering Tracks</div>
-                  <div className="text-emerald-600 font-semibold">Free (₹0)</div>
+                  <div className="font-semibold text-[#1A1715]">Internship Category</div>
+                  <div className="font-semibold text-[#1A1715]">Application Fee</div>
+                  <div className="text-[#57534E]">Standard Virtual Internships</div>
+                  <div className="text-[#2D6A4F] font-semibold">Free (₹0)</div>
+                  <div className="text-[#57534E]">Core Engineering Tracks</div>
+                  <div className="text-[#2D6A4F] font-semibold">Free (₹0)</div>
                 </div>
               </div>
               <p>
@@ -189,7 +197,7 @@ export default function TermsAndConditions() {
               </p>
               <p>
                 In the event of a payment failure, please check your bank statement before attempting another payment.
-                For duplicate payments or technical errors, contact us at <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>{" "}
+                For duplicate payments or technical errors, contact us at <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline">support.geekintern@gmail.com</a>{" "}
                 within 7 days of the transaction with your payment reference number.
               </p>
             </SectionBlock>
@@ -226,7 +234,7 @@ export default function TermsAndConditions() {
               <p>
                 Geek Intern is not responsible for delays in certificate issuance caused by external providers failing to
                 confirm completion. Students who believe their certificate has been unreasonably delayed may contact us at{" "}
-                <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a>.
+                <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline">support.geekintern@gmail.com</a>.
                 Certificates issued through the Platform are digital only; physical certificates are not provided.
               </p>
             </SectionBlock>
@@ -287,16 +295,17 @@ export default function TermsAndConditions() {
               <p>
                 If you have any questions, concerns, or complaints regarding these Terms and Conditions, please contact us:
               </p>
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-3 text-sm">
-                <p className="font-semibold text-[#1E3A5F] mb-2">Geek Intern Technologies</p>
-                <p>Email: <a href="mailto:support.geekintern@gmail.com" className="text-[#0D9488] underline">support.geekintern@gmail.com</a></p>
+              <div className="bg-[#FAF7F2] border border-[#E2DDD2] rounded-lg p-4 mt-3 text-sm">
+                <p className="font-semibold text-[#1A1715] mb-2">Geek Intern Technologies</p>
+                <p>Email: <a href="mailto:support.geekintern@gmail.com" className="text-[#2D6A4F] underline">support.geekintern@gmail.com</a></p>
                 <p>Address: Ambikapur, Chhattisgarh, India</p>
-                <p className="mt-2 text-gray-500">Response time: Within 2–3 business days</p>
+                <p className="mt-2 text-[#57534E]">Response time: Within 2–3 business days</p>
               </div>
             </SectionBlock>
           </main>
         </div>
       </div>
+    </div>
     </PublicLayout>
   );
 }

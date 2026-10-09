@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 const TRACKS = [
   {
@@ -74,8 +75,14 @@ export function IndustrialTraining() {
       <PageTitle title="Industrial Training + Internship Program | Geek Intern" />
 
       {/* Hero */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden bg-dot-matrix">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
             University Approved Curriculum
           </Badge>
@@ -87,17 +94,17 @@ export function IndustrialTraining() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/apply?program=industrial-training">
-              <Button className="h-12 px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs rounded-full shadow-xs">
+              <Button className="h-12 px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs shadow-xs">
                 Apply For Industrial Training →
               </Button>
             </Link>
             <Link to="/industrial-training-projects">
-              <Button variant="outline" className="h-12 px-8 rounded-full border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] text-xs font-semibold shadow-xs hover:bg-[#EAE4D7] rounded-full">
+              <Button variant="outline" className="h-12 px-8 rounded-full border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] text-xs font-semibold shadow-xs hover:bg-[#EAE4D7]">
                 View Project Showcase
               </Button>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Perks Grid */}
@@ -107,13 +114,26 @@ export function IndustrialTraining() {
             {PERKS.map((perk, idx) => {
               const PIcon = perk.icon
               return (
-                <div key={idx} className="p-6 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs">
-                  <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] text-[#181615] flex items-center justify-center mb-4 border border-[#E2DDD2]">
-                    <PIcon className="w-6 h-6" />
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: idx * 0.08 }}
+                  whileHover={{ y: -4 }}
+                  className="p-6 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs relative card-lift"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] text-[#181615] flex items-center justify-center border border-[#E2DDD2]">
+                      <PIcon className="w-6 h-6" />
+                    </div>
+                    <span className="font-mono text-xs font-semibold text-[#8C4325] bg-[#F0E6DC] px-2 py-0.5 rounded-full border border-[#E4D5C7]">
+                      0{idx + 1}
+                    </span>
                   </div>
                   <h3 className="text-base font-bold text-[#1A1715] mb-2">{perk.title}</h3>
                   <p className="text-xs text-[#57534E] leading-relaxed">{perk.desc}</p>
-                </div>
+                </motion.div>
               )
             })}
           </div>
@@ -137,16 +157,21 @@ export function IndustrialTraining() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {TRACKS.map((track, idx) => (
-              <div
+              <motion.div
                 key={idx}
-                className="p-8 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] hover:border-[#181615] transition-all flex flex-col justify-between shadow-xs hover:shadow-sm"
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                whileHover={{ y: -5 }}
+                className="p-8 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] hover:border-[#181615] transition-all flex flex-col justify-between shadow-card card-lift"
               >
                 <div>
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                     <span className="text-xs font-bold text-[#8C4325] bg-[#F0E6DC] px-3 py-1 rounded-full border border-[#E4D5C7]">
                       {track.duration}
                     </span>
-                    <span className="text-xs text-slate-500 font-medium">{track.eligibility}</span>
+                    <span className="text-xs text-[#57534E] font-medium">{track.eligibility}</span>
                   </div>
 
                   <h3 className="text-2xl font-bold text-[#1A1715] mb-3">{track.title}</h3>
@@ -155,7 +180,7 @@ export function IndustrialTraining() {
                   </p>
 
                   <div className="mb-6">
-                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">
+                    <span className="text-xs font-bold text-[#57534E] uppercase tracking-wider block mb-2">
                       Core Technologies:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
@@ -171,19 +196,25 @@ export function IndustrialTraining() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100">
+                <div className="pt-4 border-t border-[#E2DDD2]">
                   <Link to={`/apply?program=${encodeURIComponent(track.title)}`}>
                     <Button className="w-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs h-10 rounded-full shadow-xs">
                       Enroll in this Track →
                     </Button>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Verification Box */}
-          <div className="mt-16 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 text-center max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="mt-16 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 text-center max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 shadow-card card-lift"
+          >
             <div className="text-left">
               <h4 className="text-lg font-bold text-[#1A1715] mb-1">Verify Industrial Training Certificate</h4>
               <p className="text-xs text-[#57534E]">
@@ -195,7 +226,7 @@ export function IndustrialTraining() {
                 Verification Portal →
               </Button>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
     </PublicLayout>

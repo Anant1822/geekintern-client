@@ -23,6 +23,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 interface WebProject {
   id: string
@@ -251,35 +252,45 @@ export function WebPortfolio() {
       <PageTitle title="Production Web Development Portfolio | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-5xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden">
+        <motion.div
+          animate={{ y: [0, -15, 0], opacity: [0.35, 0.65, 0.35] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-10 left-1/3 w-80 h-80 rounded-full bg-[#EBE6DC]/60 dark:bg-stone-900/40 blur-[90px] pointer-events-none -z-10"
+        />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="max-w-5xl mx-auto text-center relative z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Engineering Excellence & Capstones
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715] dark:text-[#FAF7F2]">
             Web Development <span className="italic font-serif text-[#8C4325]">Portfolio</span>
           </h1>
-          <p className="text-[#57534E] text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] dark:text-stone-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
             Explore battle-tested full-stack web applications, microservices, and AI-enabled software architectures engineered by Geek Intern developers and verified interns.
           </p>
 
           {/* Key Stats Bar */}
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-[#1A1715]">100%</div>
-              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Production Code</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs text-center card-lift">
+              <div className="text-2xl font-extrabold text-[#1A1715] dark:text-white">100%</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">Production Code</div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-[#1A1715]">Next.js 14</div>
-              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Modern App Router</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs text-center card-lift">
+              <div className="text-2xl font-extrabold text-[#1A1715] dark:text-white">Next.js 14</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">Modern App Router</div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-[#1A1715]">PostgreSQL</div>
-              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">Relational Schemas</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs text-center card-lift">
+              <div className="text-2xl font-extrabold text-[#1A1715] dark:text-white">PostgreSQL</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">Relational Schemas</div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs text-center">
-              <div className="text-2xl font-extrabold text-[#1A1715]">Verified</div>
-              <div className="text-xs font-semibold text-[#2D6A4F] mt-0.5">GitHub Repositories</div>
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs text-center card-lift">
+              <div className="text-2xl font-extrabold text-[#1A1715] dark:text-white">Verified</div>
+              <div className="text-xs font-semibold text-[#2D6A4F] dark:text-emerald-400 mt-0.5">GitHub Repositories</div>
             </div>
           </div>
 
@@ -291,10 +302,10 @@ export function WebPortfolio() {
               placeholder="Search by tech or keyword (e.g. Next.js, Stripe, Docker, AI)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-11 h-12 bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] placeholder:text-[#57534E]/60 rounded-full shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
+              className="pl-11 h-12 bg-[#FAF7F2] dark:bg-[#1C1A17] border-[#D6CFC4] dark:border-stone-700 text-[#1A1715] dark:text-[#FAF7F2] placeholder:text-[#57534E]/60 rounded-full shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
             />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Category Pills & Project Grid */}

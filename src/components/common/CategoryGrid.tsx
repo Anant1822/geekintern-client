@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useInternshipStore } from '@/store/internship.store'
 import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
 
 interface Category {
   id: string
@@ -38,17 +39,23 @@ export function CategoryGrid({ categories = DEFAULT_CATEGORIES, className }: Cat
 
   return (
     <div className={cn('grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4', className)}>
-      {categories.map((category) => (
-        <button
+      {categories.map((category, idx) => (
+        <motion.button
           key={category.id}
           onClick={() => handleCategoryClick(category)}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3, delay: idx * 0.04 }}
+          whileHover={{ scale: 1.03, y: -3 }}
+          whileTap={{ scale: 0.97 }}
           className={cn(
-            'group flex flex-col items-center gap-3 rounded-2xl border p-5 text-center transition-all duration-200',
-            'hover:shadow-sm hover:-translate-y-0.5 hover:border-[#181615]/40 dark:hover:border-[#E2DDD2]/40',
+            'group flex flex-col items-center gap-3 rounded-2xl border p-5 text-center transition-all duration-300',
+            'hover:shadow-card-hover hover:border-[#181615]/40 dark:hover:border-[#E2DDD2]/40',
             category.color
           )}
         >
-          <span className="text-3xl" role="img" aria-label={category.name}>
+          <span className="text-3xl transition-transform duration-300 group-hover:scale-110" role="img" aria-label={category.name}>
             {category.icon}
           </span>
           <div>
@@ -61,7 +68,7 @@ export function CategoryGrid({ categories = DEFAULT_CATEGORIES, className }: Cat
               </p>
             )}
           </div>
-        </button>
+        </motion.button>
       ))}
     </div>
   )

@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/hooks/useToast'
 import api from '@/services/api'
 import { supabase } from '@/lib/supabase'
+import { motion } from 'framer-motion'
 
 export interface DomainCategoryConfig {
   name: string
@@ -499,10 +500,20 @@ export default function Apply() {
 
   return (
     <PublicLayout>
-      <div className="min-h-screen bg-[#F5F2EB] dark:bg-[#151311] py-10 sm:py-14 text-[#1A1715] dark:text-[#FAF7F2]">
-        <div className="container max-w-4xl">
+      <div className="relative min-h-screen bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix py-10 sm:py-14 text-[#1A1715] dark:text-[#FAF7F2] overflow-hidden">
+        <motion.div
+          animate={{ y: [0, -15, 0], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-10 left-1/4 w-96 h-96 rounded-full bg-[#EBE6DC]/60 dark:bg-stone-900/40 blur-[100px] pointer-events-none -z-10"
+        />
+        <div className="container max-w-4xl relative z-10">
           {/* Header Bar */}
-          <div className="text-center max-w-2xl mx-auto mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            className="text-center max-w-2xl mx-auto mb-10"
+          >
             <Badge className="bg-[#FAF7F2] dark:bg-[#1C1A17] text-[#57534E] dark:text-stone-300 border-[#E2DDD2] dark:border-stone-800 px-3 py-1 mb-3 text-xs font-semibold gap-1 inline-flex rounded-full">
               <Sparkles className="h-3.5 w-3.5 text-emerald-600" /> Geek Intern Virtual Internship Program
             </Badge>
@@ -512,7 +523,7 @@ export default function Apply() {
             <p className="mt-3 text-[#57534E] dark:text-stone-400 text-base sm:text-lg">
               Gain real-world experience, build industry-standard portfolio projects, and earn a verifiable certificate with a Letter of Recommendation.
             </p>
-          </div>
+          </motion.div>
 
           {/* Success View */}
           {isSubmitted ? (

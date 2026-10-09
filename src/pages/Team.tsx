@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 const TEAM_MEMBERS = [
   {
@@ -42,8 +43,14 @@ export function Team() {
       <PageTitle title="Meet Team Geek Intern | Geek Intern" />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden bg-dot-matrix">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
             People Behind Geek Intern
           </Badge>
@@ -53,7 +60,7 @@ export function Team() {
           <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             A dedicated group of software architects, university mentors, and curriculum designers bridging academic study with actual engineering careers.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Team Grid */}
@@ -61,11 +68,16 @@ export function Team() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {TEAM_MEMBERS.map((member, idx) => (
-              <div
+              <motion.div
                 key={idx}
-                className="rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] overflow-hidden flex flex-col justify-between hover:border-[#181615] transition-all group shadow-xs hover:shadow-sm"
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: idx * 0.08 }}
+                whileHover={{ y: -6 }}
+                className="rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] overflow-hidden flex flex-col justify-between hover:border-[#181615] transition-all group shadow-card card-lift"
               >
-                <div className="aspect-[4/3] overflow-hidden bg-slate-100">
+                <div className="aspect-[4/3] overflow-hidden bg-[#EBE6DC]">
                   <img
                     src={member.image}
                     alt={member.name}
@@ -82,22 +94,28 @@ export function Team() {
                     <p className="text-xs text-[#57534E] leading-relaxed">{member.bio}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Bottom Banner */}
-          <div className="mt-20 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] shadow-xs p-10 text-center max-w-4xl mx-auto shadow-sm">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="mt-20 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] p-10 text-center max-w-4xl mx-auto shadow-card card-lift"
+          >
             <h3 className="text-2xl font-bold mb-3 text-[#1A1715]">Want to Collaborate or Mentor?</h3>
             <p className="text-[#57534E] text-xs sm:text-sm max-w-lg mx-auto mb-6">
               We welcome experienced tech leads and university faculty interested in mentoring or partnering with Geek Intern.
             </p>
             <Link to="/contact">
-              <Button className="h-10 px-6 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs rounded-full shadow-xs">
+              <Button className="h-11 px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs shadow-xs">
                 Contact the Team →
               </Button>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
     </PublicLayout>

@@ -49,6 +49,13 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
+
+const TECH_STACKS = [
+  'React.js', 'Next.js', 'TypeScript', 'Node.js', 'Python', 'Flutter', 'Embedded C',
+  'VLSI & Verilog', 'Docker', 'PostgreSQL', 'Tailwind CSS', 'Supabase', 'AWS Cloud',
+  'Git & GitHub', 'REST APIs', 'FastAPI', 'Android Studio', 'IoT Architectures'
+]
 
 const STATS = [
   { target: 50000, decimals: 0, suffix: '+', label: 'Students Enrolled', sub: 'From 500+ colleges across India' },
@@ -549,36 +556,6 @@ const JOURNEY_STEPS = [
   },
 ]
 
-const CAREER_TOOLS = [
-  {
-    title: 'ATS Resume Checker',
-    desc: 'Scan your resume against technical job descriptions to check keyword matching, formatting issues, and readability scores.',
-    tag: 'Free Resume Scanner',
-    actionText: 'Scan Your Resume',
-    href: '/ats-checker',
-    icon: CheckCircle2,
-    accent: 'blue',
-  },
-  {
-    title: 'Developer Resume Builder',
-    desc: 'Create a clean, single-page software engineering resume designed specifically to pass ATS parsers and technical recruiter screening.',
-    tag: 'Resume Builder',
-    actionText: 'Build Your Resume',
-    href: '/resume-builder',
-    icon: FileText,
-    accent: 'purple',
-  },
-  {
-    title: 'Developer Portfolio Creator',
-    desc: 'Turn your GitHub repositories and projects into a professional portfolio website you can link directly in job applications.',
-    tag: 'Portfolio Tool',
-    actionText: 'Create Portfolio',
-    href: '/portfolio-builder',
-    icon: Layers,
-    accent: 'emerald',
-  },
-]
-
 // CHANGED QUOTES as requested by the user: "(makes change in qoutes only)"
 const STUDENT_TESTIMONIALS = [
   {
@@ -658,14 +635,32 @@ export function Home() {
       {/* ========================================================= */}
       {/* 1. HERO SECTION */}
       {/* ========================================================= */}
-      <section className="relative min-h-[80vh] flex flex-col justify-center items-center bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] pt-16 md:pt-24 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
-        {/* Subtle background ambient accents */}
-        <div className="absolute top-12 left-1/4 w-96 h-96 rounded-full bg-[#EBE6DC]/60 dark:bg-stone-900/30 blur-[100px] pointer-events-none -z-10" />
-        <div className="absolute top-1/3 right-1/4 w-[420px] h-[420px] rounded-full bg-[#E2DDD2]/50 dark:bg-stone-900/20 blur-[120px] pointer-events-none -z-10" />
+      <section className="relative min-h-[82vh] flex flex-col justify-center items-center bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] pt-16 md:pt-24 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
+        {/* Subtle background ambient floating glow accents */}
+        <motion.div
+          animate={{ y: [0, -18, 0], opacity: [0.45, 0.75, 0.45] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-12 left-1/4 w-96 h-96 rounded-full bg-[#EBE6DC]/70 dark:bg-stone-900/40 blur-[100px] pointer-events-none -z-10"
+        />
+        <motion.div
+          animate={{ y: [0, 20, 0], opacity: [0.35, 0.6, 0.35] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/3 right-1/4 w-[420px] h-[420px] rounded-full bg-[#E2DDD2]/60 dark:bg-stone-900/30 blur-[120px] pointer-events-none -z-10"
+        />
 
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: 'easeOut' }}
+          className="relative z-10 max-w-5xl mx-auto text-center"
+        >
           {/* Top Badge: Aixentrix terracotta/sandstone pill */}
-          <div className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs sm:text-sm font-medium mb-6 sm:mb-8 shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.45, delay: 0.1 }}
+            className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs sm:text-sm font-medium mb-6 sm:mb-8 shadow-xs"
+          >
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
@@ -673,43 +668,67 @@ export function Home() {
             <span className="font-semibold text-[#1A1715] dark:text-[#FAF7F2]">Virtual Developer Internships</span>
             <span className="text-[#D6CFC4] dark:text-stone-700">•</span>
             <span className="text-[#57534E] dark:text-stone-400 font-normal">Remote & Self-Paced</span>
-          </div>
+          </motion.div>
 
           {/* Clean Heading with Serif Accent */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.2] mb-5 font-sans text-[#1A1715] dark:text-[#FAF7F2] px-2">
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.2] mb-5 font-sans text-[#1A1715] dark:text-[#FAF7F2] px-2"
+          >
             Project-Based Internships to Build Your Portfolio and{' '}
             <span className="font-serif italic text-[#1A1715] dark:text-white font-bold underline decoration-[#9E4A2B]/40 decoration-wavy decoration-1 underline-offset-8">
               Launch Your Tech Career
             </span>.
-          </h1>
+          </motion.h1>
 
           {/* Subtitle */}
-          <p className="text-[#57534E] dark:text-stone-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal px-2">
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="text-[#57534E] dark:text-stone-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal px-2"
+          >
             Build production-grade projects, collaborate on real GitHub repositories, and earn verifiable completion credentials recognized for university credits and tech hiring.
-          </p>
+          </motion.p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none">
+          {/* CTAs with Framer Motion interactive scale */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none"
+          >
             <Link to="/apply" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98">
-                <span>Start Your Internship</span>
-                <ArrowRight className="h-4 w-4 stroke-[2.5]" />
-              </Button>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2">
+                  <span>Start Your Internship</span>
+                  <ArrowRight className="h-4 w-4 stroke-[2.5]" />
+                </Button>
+              </motion.div>
             </Link>
 
             <Link to="/verify" className="w-full sm:w-auto">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto h-12 px-8 rounded-full border border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5]/90 dark:bg-[#1C1A17] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-98"
-              >
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Verify Certificate</span>
-              </Button>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto h-12 px-8 rounded-full border border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5]/90 dark:bg-[#1C1A17] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2"
+                >
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  <span>Verify Certificate</span>
+                </Button>
+              </motion.div>
             </Link>
-          </div>
+          </motion.div>
 
           {/* Trust Highlights */}
-          <div className="mt-8 pt-6 border-t border-[#E2DDD2]/80 dark:border-stone-800 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[#57534E] dark:text-stone-400">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="mt-8 pt-6 border-t border-[#E2DDD2]/80 dark:border-stone-800 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[#57534E] dark:text-stone-400"
+          >
             <div className="inline-flex items-center gap-1.5 font-medium">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>Free Application & Instant Offer Letter</span>
@@ -722,17 +741,25 @@ export function Home() {
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>Letter of Recommendation (LOR)</span>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* ========================================================= */}
       {/* 2. STATS BAR SECTION */}
       {/* ========================================================= */}
-      <section className="bg-[#EBE6DC] dark:bg-[#1A1816] border-b border-[#E2DDD2] dark:border-stone-800 py-10 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+      <section className="bg-[#EBE6DC] dark:bg-[#1A1816] bg-dot-matrix border-b border-[#E2DDD2] dark:border-stone-800 py-10 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
           {STATS.map((stat, i) => (
-            <div key={i} className="p-4 sm:p-5 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs">
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              whileHover={{ y: -4 }}
+              className="p-4 sm:p-5 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 shadow-xs card-lift"
+            >
               <AnimatedStat
                 target={stat.target}
                 decimals={stat.decimals}
@@ -741,10 +768,27 @@ export function Home() {
               />
               <div className="text-xs sm:text-sm font-semibold text-[#1A1715] dark:text-stone-200 mt-1">{stat.label}</div>
               <div className="text-[11px] sm:text-xs text-[#57534E] dark:text-stone-400 mt-0.5">{stat.sub}</div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
+
+      {/* ========================================================= */}
+      {/* 2.2 TECH STACK MARQUEE TICKER (GKK INTERN STYLE) */}
+      {/* ========================================================= */}
+      <div className="py-3 bg-[#FAF7F2] dark:bg-[#181615] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden relative select-none">
+        <div className="flex w-max animate-marquee space-x-4 sm:space-x-6 items-center">
+          {[...TECH_STACKS, ...TECH_STACKS].map((tech, idx) => (
+            <div
+              key={idx}
+              className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EBE6DC]/80 dark:bg-stone-800/80 border border-[#DCD5C9] dark:border-stone-700 text-xs font-semibold text-[#1A1715] dark:text-stone-200 whitespace-nowrap shadow-xs"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+              <span>{tech}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* ========================================================= */}
       {/* 2.5 WHY CHOOSE GEEK INTERN (IMMEDIATELY AFTER HERO & STATS) */}
@@ -768,7 +812,17 @@ export function Home() {
           {/* 6 Core Pillars Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {/* Pillar 1 */}
-            <div className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.05 }}
+              whileHover={{ y: -6 }}
+              className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 text-xs font-mono font-bold text-[#8C4325]/60 dark:text-amber-400/60 bg-[#EBE6DC] dark:bg-stone-800/80 px-2 py-0.5 rounded-full border border-[#DCD5C9] dark:border-stone-700">
+                01
+              </div>
               <div>
                 <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] dark:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] flex items-center justify-center mb-6 group-hover:scale-105 transition-all">
                   <Terminal className="w-6 h-6" />
@@ -788,10 +842,20 @@ export function Home() {
                   <span>Real API & database integrations</span>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Pillar 2 */}
-            <div className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.1 }}
+              whileHover={{ y: -6 }}
+              className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 text-xs font-mono font-bold text-[#8C4325]/60 dark:text-amber-400/60 bg-[#EBE6DC] dark:bg-stone-800/80 px-2 py-0.5 rounded-full border border-[#DCD5C9] dark:border-stone-700">
+                02
+              </div>
               <div>
                 <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] dark:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] flex items-center justify-center mb-6 group-hover:scale-105 transition-all">
                   <ShieldCheck className="w-6 h-6" />
@@ -811,10 +875,20 @@ export function Home() {
                   <span>Official Letter of Recommendation (LOR)</span>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Pillar 3 */}
-            <div className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.15 }}
+              whileHover={{ y: -6 }}
+              className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 text-xs font-mono font-bold text-[#8C4325]/60 dark:text-amber-400/60 bg-[#EBE6DC] dark:bg-stone-800/80 px-2 py-0.5 rounded-full border border-[#DCD5C9] dark:border-stone-700">
+                03
+              </div>
               <div>
                 <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] dark:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] flex items-center justify-center mb-6 group-hover:scale-105 transition-all">
                   <Zap className="w-6 h-6" />
@@ -834,10 +908,20 @@ export function Home() {
                   <span>Developer portfolio builder kit</span>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Pillar 4 */}
-            <div className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.2 }}
+              whileHover={{ y: -6 }}
+              className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 text-xs font-mono font-bold text-[#8C4325]/60 dark:text-amber-400/60 bg-[#EBE6DC] dark:bg-stone-800/80 px-2 py-0.5 rounded-full border border-[#DCD5C9] dark:border-stone-700">
+                04
+              </div>
               <div>
                 <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] dark:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] flex items-center justify-center mb-6 group-hover:scale-105 transition-all">
                   <Compass className="w-6 h-6" />
@@ -857,10 +941,20 @@ export function Home() {
                   <span>100% remote virtual environment</span>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Pillar 5 */}
-            <div className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.25 }}
+              whileHover={{ y: -6 }}
+              className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 text-xs font-mono font-bold text-[#8C4325]/60 dark:text-amber-400/60 bg-[#EBE6DC] dark:bg-stone-800/80 px-2 py-0.5 rounded-full border border-[#DCD5C9] dark:border-stone-700">
+                05
+              </div>
               <div>
                 <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] dark:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] flex items-center justify-center mb-6 group-hover:scale-105 transition-all">
                   <Globe className="w-6 h-6" />
@@ -880,10 +974,20 @@ export function Home() {
                   <span>Open to all college branches & batches</span>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Pillar 6 */}
-            <div className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.3 }}
+              whileHover={{ y: -6 }}
+              className="rounded-2xl border border-[#E2DDD2] dark:border-stone-800 bg-[#FAF7F2] dark:bg-[#1C1A17] p-6 sm:p-8 hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+            >
+              <div className="absolute top-4 right-4 text-xs font-mono font-bold text-[#8C4325]/60 dark:text-amber-400/60 bg-[#EBE6DC] dark:bg-stone-800/80 px-2 py-0.5 rounded-full border border-[#DCD5C9] dark:border-stone-700">
+                06
+              </div>
               <div>
                 <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] dark:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] flex items-center justify-center mb-6 group-hover:scale-105 transition-all">
                   <Users className="w-6 h-6" />
@@ -903,7 +1007,7 @@ export function Home() {
                   <span>College NOC & credit transfer assistance</span>
                 </li>
               </ul>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -948,9 +1052,14 @@ export function Home() {
             {displayedPrograms.map((prog, idx) => {
               const IconComp = prog.icon
               return (
-                <div
+                <motion.div
                   key={idx}
-                  className="rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 hover:border-[#1A1715]/40 dark:hover:border-stone-600 p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover group"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
+                  whileHover={{ y: -5 }}
+                  className="rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 hover:border-[#1A1715]/40 dark:hover:border-stone-600 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-card-hover group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -979,7 +1088,7 @@ export function Home() {
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </Link>
                   </div>
-                </div>
+                </motion.div>
               )
             })}
           </div>
@@ -1392,66 +1501,7 @@ export function Home() {
       </section>
 
       {/* ========================================================= */}
-      {/* 6. ACCELERATE YOUR JOB HUNT: FREE CAREER TOOLS */}
-      {/* ========================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#EBE6DC] dark:bg-[#1A1816] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-3">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              Free Developer Tools
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#1A1715] dark:text-[#FAF7F2]">
-              Free Developer Tools to <span className="font-serif italic text-[#1A1715] dark:text-white">Help You Get Hired</span>
-            </h2>
-            <p className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm mt-3 leading-relaxed">
-              Practical utilities built to help you optimize your tech resume, review code quality, and prepare for technical interviews.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {CAREER_TOOLS.map((tool, idx) => {
-              const IconComp = tool.icon
-              return (
-                <div
-                  key={idx}
-                  className="rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 p-6 sm:p-7 flex flex-col justify-between hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-300 group"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-[#EBE6DC] dark:bg-stone-800 text-[#1A1715] dark:text-stone-300 flex items-center justify-center group-hover:scale-105 transition-transform">
-                        <IconComp className="w-6 h-6" />
-                      </div>
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#EBE6DC] dark:bg-stone-800 text-[#57534E] dark:text-stone-300 border border-[#E2DDD2] dark:border-stone-700 uppercase tracking-wider">
-                        {tool.tag}
-                      </span>
-                    </div>
-
-                    <h3 className="text-base sm:text-lg font-bold text-[#1A1715] dark:text-[#FAF7F2] mb-2 group-hover:text-[#9E4A2B] transition-colors">
-                      {tool.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[#57534E] dark:text-stone-300 leading-relaxed mb-6">
-                      {tool.desc}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-[#E2DDD2] dark:border-stone-800">
-                    <Link to={tool.href}>
-                      <Button className="w-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs h-10 rounded-full transition-all shadow-xs flex items-center justify-center gap-2">
-                        <span>{tool.actionText}</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================= */}
-      {/* 7. AUTHENTIC STUDENT TESTIMONIALS */}
+      {/* 6. AUTHENTIC STUDENT TESTIMONIALS */}
       {/* ========================================================= */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto">
@@ -1470,8 +1520,13 @@ export function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {STUDENT_TESTIMONIALS.map((testimonial, idx) => (
-              <div
+              <motion.div
                 key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: idx * 0.1 }}
+                whileHover={{ y: -5 }}
                 className="rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 p-6 sm:p-7 flex flex-col justify-between hover:border-[#1A1715]/40 hover:shadow-card-hover transition-all duration-200 group"
               >
                 <div>
@@ -1499,7 +1554,7 @@ export function Home() {
                     <div className="text-[11px] text-[#78716C] dark:text-stone-400 mt-0.5">{testimonial.college}</div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 

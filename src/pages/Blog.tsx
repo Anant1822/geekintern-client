@@ -23,6 +23,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 export interface BlogPost {
   slug: string
@@ -910,8 +911,9 @@ export default function Blog() {
         }
       />
 
-      <div className="min-h-screen bg-[#F5F2EB] py-10 sm:py-16 transition-colors duration-200">
-        <div className="container max-w-6xl px-4 sm:px-6">
+      <div className="min-h-screen bg-[#F5F2EB] py-10 sm:py-16 transition-colors duration-200 relative overflow-hidden bg-dot-matrix">
+        <div className="absolute top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="container max-w-6xl px-4 sm:px-6 relative z-10">
           {/* ARTICLE VIEW */}
           {activePost ? (
             <div className="space-y-8 animate-in fade-in duration-200">
@@ -1120,8 +1122,13 @@ export default function Blog() {
             /* BLOG LIST VIEW */
             <div className="space-y-12">
               {/* Header Hero */}
-              <div className="text-center max-w-3xl mx-auto space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F0E6DC] border border-[#E4D5C7] text-[#8C4325] text-xs font-semibold">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="text-center max-w-3xl mx-auto space-y-4"
+              >
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F0E6DC] border border-[#E4D5C7] text-[#8C4325] text-xs font-semibold">
                   <Newspaper className="h-4 w-4 text-[#8C4325]" />
                   GeekIntern Official Knowledge Base & Career Guides
                 </div>
@@ -1150,7 +1157,7 @@ export default function Blog() {
                     </button>
                   )}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Category Filter Pills */}
               <div className="flex flex-wrap items-center justify-center gap-2 pb-2">
@@ -1171,81 +1178,88 @@ export default function Blog() {
 
               {/* Featured Post Card (shown when category is 'All' and no search filter) */}
               {selectedCategory === 'All' && !searchQuery && featuredPost && (
-                <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-xs overflow-hidden rounded-3xl">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 sm:p-10 items-center">
-                    <div className="lg:col-span-8 space-y-4">
-                      <div className="flex items-center gap-2">
-                        <Badge className="bg-[#181615] text-white text-[11px] font-bold rounded-full">
-                          Featured Guide
-                        </Badge>
-                        <Badge variant="outline" className="text-[#2D6A4F] border-[#C2E0D1] bg-[#E8F3ED] text-[11px] rounded-full">
-                          {featuredPost.category}
-                        </Badge>
-                        <span className="text-xs text-[#57534E] flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {featuredPost.readTime}
-                        </span>
-                      </div>
-
-                      <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A1715] leading-tight">
-                        <Link
-                          to={`/blog/${featuredPost.slug}`}
-                          className="hover:text-[#8C4325] transition-colors"
-                        >
-                          {featuredPost.title}
-                        </Link>
-                      </h2>
-
-                      <p className="text-sm sm:text-base text-[#57534E] leading-relaxed line-clamp-3">
-                        {featuredPost.subtitle}
-                      </p>
-
-                      <div className="flex items-center justify-between pt-2">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={featuredPost.author.avatar}
-                            alt={featuredPost.author.name}
-                            className="h-9 w-9 rounded-full object-cover border border-[#E2DDD2]"
-                          />
-                          <div>
-                            <p className="text-xs font-bold text-[#1A1715]">
-                              {featuredPost.author.name}
-                            </p>
-                            <p className="text-[11px] text-[#57534E]">
-                              {featuredPost.date}
-                            </p>
-                          </div>
-                        </div>
-
-                        <Link to={`/blog/${featuredPost.slug}`}>
-                          <Button className="bg-[#181615] hover:bg-[#2A2724] text-white text-xs h-9 px-4 gap-1.5 font-semibold rounded-full shadow-xs">
-                            Read Guide
-                            <ArrowRight className="h-3.5 w-3.5" />
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-4 hidden lg:flex items-center justify-center p-6 bg-[#EBE6DC]/40 rounded-2xl border border-[#E2DDD2] text-center">
-                      <div className="space-y-3">
-                        <div className="w-12 h-12 rounded-xl bg-[#181615] text-white flex items-center justify-center mx-auto shadow-xs">
-                          <BookOpen className="h-6 w-6" />
-                        </div>
-                        <h4 className="text-sm font-bold text-[#1A1715]">
-                          Verified Engineering Track
-                        </h4>
-                        <p className="text-xs text-[#57534E]">
-                          Complete real project problem statements, submit GitHub repositories, and get verified ISO credentials on GeekIntern.
-                        </p>
-                        <Link to="/apply" className="inline-block pt-1">
-                          <span className="text-xs font-bold text-[#2D6A4F] hover:underline">
-                            Explore Internship Tracks ↗
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Card className="border border-[#E2DDD2] bg-[#FAF7F2] shadow-card overflow-hidden rounded-3xl card-lift">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 sm:p-10 items-center">
+                      <div className="lg:col-span-8 space-y-4">
+                        <div className="flex items-center gap-2">
+                          <Badge className="bg-[#181615] text-white text-[11px] font-bold rounded-full">
+                            Featured Guide
+                          </Badge>
+                          <Badge variant="outline" className="text-[#2D6A4F] border-[#C2E0D1] bg-[#E8F3ED] text-[11px] rounded-full">
+                            {featuredPost.category}
+                          </Badge>
+                          <span className="text-xs text-[#57534E] flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            {featuredPost.readTime}
                           </span>
-                        </Link>
+                        </div>
+
+                        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A1715] leading-tight">
+                          <Link
+                            to={`/blog/${featuredPost.slug}`}
+                            className="hover:text-[#8C4325] transition-colors"
+                          >
+                            {featuredPost.title}
+                          </Link>
+                        </h2>
+
+                        <p className="text-sm sm:text-base text-[#57534E] leading-relaxed line-clamp-3">
+                          {featuredPost.subtitle}
+                        </p>
+
+                        <div className="flex items-center justify-between pt-2">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={featuredPost.author.avatar}
+                              alt={featuredPost.author.name}
+                              className="h-9 w-9 rounded-full object-cover border border-[#E2DDD2]"
+                            />
+                            <div>
+                              <p className="text-xs font-bold text-[#1A1715]">
+                                {featuredPost.author.name}
+                              </p>
+                              <p className="text-[11px] text-[#57534E]">
+                                {featuredPost.date}
+                              </p>
+                            </div>
+                          </div>
+
+                          <Link to={`/blog/${featuredPost.slug}`}>
+                            <Button className="bg-[#181615] hover:bg-[#2A2724] text-white text-xs h-9 px-4 gap-1.5 font-semibold rounded-full shadow-xs">
+                              Read Guide
+                              <ArrowRight className="h-3.5 w-3.5" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+
+                      <div className="lg:col-span-4 hidden lg:flex items-center justify-center p-6 bg-[#EBE6DC]/40 rounded-2xl border border-[#E2DDD2] text-center">
+                        <div className="space-y-3">
+                          <div className="w-12 h-12 rounded-xl bg-[#181615] text-white flex items-center justify-center mx-auto shadow-xs">
+                            <BookOpen className="h-6 w-6" />
+                          </div>
+                          <h4 className="text-sm font-bold text-[#1A1715]">
+                            Verified Engineering Track
+                          </h4>
+                          <p className="text-xs text-[#57534E]">
+                            Complete real project problem statements, submit GitHub repositories, and get verified ISO credentials on GeekIntern.
+                          </p>
+                          <Link to="/apply" className="inline-block pt-1">
+                            <span className="text-xs font-bold text-[#2D6A4F] hover:underline">
+                              Explore Internship Tracks ↗
+                            </span>
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Card>
+                  </Card>
+                </motion.div>
               )}
 
               {/* Grid of Articles */}
@@ -1260,7 +1274,7 @@ export default function Blog() {
                 </div>
 
                 {filteredPosts.length === 0 ? (
-                  <div className="text-center py-16 bg-[#FAF7F2] rounded-2xl border border-[#E2DDD2] p-8">
+                  <div className="text-center py-16 bg-[#FAF7F2] rounded-3xl border border-[#E2DDD2] p-8">
                     <Newspaper className="h-10 w-10 text-[#57534E] mx-auto mb-3" />
                     <h4 className="text-base font-bold text-[#1A1715]">
                       No matching articles found
@@ -1282,69 +1296,84 @@ export default function Blog() {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredPosts.map((post) => (
-                      <Card
+                    {filteredPosts.map((post, idx) => (
+                      <motion.div
                         key={post.slug}
-                        className="flex flex-col justify-between border border-[#E2DDD2] bg-[#FAF7F2] hover:shadow-sm hover:border-[#181615]/40 transition-all rounded-2xl overflow-hidden group"
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.35, delay: idx * 0.05 }}
+                        whileHover={{ y: -6 }}
+                        className="h-full"
                       >
-                        <CardHeader className="p-5 pb-3 space-y-2.5">
-                          <div className="flex items-center justify-between">
-                            <Badge
-                              variant="secondary"
-                              className="text-[11px] font-semibold bg-[#EBE6DC] text-[#57534E] border border-[#E2DDD2] rounded-full"
-                            >
-                              {post.category}
-                            </Badge>
-                            <span className="text-[11px] text-[#57534E] flex items-center gap-1">
-                              <Clock className="h-3 w-3" />
-                              {post.readTime}
-                            </span>
-                          </div>
-
-                          <CardTitle className="text-base font-bold text-[#1A1715] leading-snug group-hover:text-[#8C4325] transition-colors">
-                            <Link to={`/blog/${post.slug}`}>
-                              {post.title}
-                            </Link>
-                          </CardTitle>
-
-                          <CardDescription className="text-xs text-[#57534E] line-clamp-3 leading-relaxed">
-                            {post.subtitle}
-                          </CardDescription>
-                        </CardHeader>
-
-                        <CardContent className="p-5 pt-3 border-t border-[#E2DDD2] flex items-center justify-between mt-auto">
-                          <div className="flex items-center gap-2.5">
-                            <img
-                              src={post.author.avatar}
-                              alt={post.author.name}
-                              className="h-7 w-7 rounded-full object-cover border border-[#E2DDD2]"
-                            />
-                            <div>
-                              <p className="text-[11px] font-semibold text-[#1A1715] leading-none">
-                                {post.author.name}
-                              </p>
-                              <p className="text-[10px] text-[#57534E] mt-0.5">
-                                {post.date}
-                              </p>
+                        <Card
+                          className="flex flex-col justify-between border border-[#E2DDD2] bg-[#FAF7F2] shadow-card hover:border-[#181615]/40 transition-all rounded-3xl overflow-hidden group h-full card-lift"
+                        >
+                          <CardHeader className="p-6 pb-3 space-y-2.5">
+                            <div className="flex items-center justify-between">
+                              <Badge
+                                variant="secondary"
+                                className="text-[11px] font-semibold bg-[#EBE6DC] text-[#57534E] border border-[#E2DDD2] rounded-full"
+                              >
+                                {post.category}
+                              </Badge>
+                              <span className="text-[11px] text-[#57534E] flex items-center gap-1">
+                                <Clock className="h-3 w-3" />
+                                {post.readTime}
+                              </span>
                             </div>
-                          </div>
 
-                          <Link
-                            to={`/blog/${post.slug}`}
-                            className="inline-flex items-center gap-1 text-xs font-bold text-[#2D6A4F] hover:text-[#181615]"
-                          >
-                            <span>Read</span>
-                            <ArrowRight className="h-3 w-3" />
-                          </Link>
-                        </CardContent>
-                      </Card>
+                            <CardTitle className="text-base font-bold text-[#1A1715] leading-snug group-hover:text-[#8C4325] transition-colors">
+                              <Link to={`/blog/${post.slug}`}>
+                                {post.title}
+                              </Link>
+                            </CardTitle>
+
+                            <CardDescription className="text-xs text-[#57534E] line-clamp-3 leading-relaxed">
+                              {post.subtitle}
+                            </CardDescription>
+                          </CardHeader>
+
+                          <CardContent className="p-6 pt-3 border-t border-[#E2DDD2] flex items-center justify-between mt-auto">
+                            <div className="flex items-center gap-2.5">
+                              <img
+                                src={post.author.avatar}
+                                alt={post.author.name}
+                                className="h-7 w-7 rounded-full object-cover border border-[#E2DDD2]"
+                              />
+                              <div>
+                                <p className="text-[11px] font-semibold text-[#1A1715] leading-none">
+                                  {post.author.name}
+                                </p>
+                                <p className="text-[10px] text-[#57534E] mt-0.5">
+                                  {post.date}
+                                </p>
+                              </div>
+                            </div>
+
+                            <Link
+                              to={`/blog/${post.slug}`}
+                              className="inline-flex items-center gap-1 text-xs font-bold text-[#2D6A4F] hover:text-[#181615]"
+                            >
+                              <span>Read</span>
+                              <ArrowRight className="h-3 w-3" />
+                            </Link>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
                     ))}
                   </div>
                 )}
               </div>
 
               {/* Newsletter / Updates Section */}
-              <div className="rounded-3xl bg-[#FAF7F2] text-[#1A1715] p-8 sm:p-12 border border-[#E2DDD2] shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+                className="rounded-3xl bg-[#FAF7F2] text-[#1A1715] p-8 sm:p-12 border border-[#E2DDD2] shadow-card flex flex-col md:flex-row items-center justify-between gap-6 card-lift"
+              >
                 <div className="max-w-xl space-y-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-[#8C4325]">
                     Stay Ahead in Tech
@@ -1365,7 +1394,7 @@ export default function Blog() {
                     Subscribe
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             </div>
           )}
         </div>

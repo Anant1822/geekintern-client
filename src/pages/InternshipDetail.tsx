@@ -19,6 +19,7 @@ import {
   formatCurrency, formatDate, formatDuration,
   getWorkModeLabel, isDeadlinePassed, cn
 } from '@/lib/utils'
+import { motion } from 'framer-motion'
 
 export default function InternshipDetail() {
   const { id } = useParams<{ id: string }>()
@@ -70,7 +71,12 @@ export default function InternshipDetail() {
     <PublicLayout>
       <PageTitle title={internship.title} />
 
-      <div className="container py-8 max-w-5xl">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45 }}
+        className="container py-8 max-w-5xl"
+      >
         {/* Breadcrumb */}
         <Button variant="ghost" size="sm" asChild className="mb-6 -ml-2 text-muted-foreground">
           <Link to="/browse"><ArrowLeft className="mr-1.5 h-4 w-4" />Back to Browse</Link>
@@ -248,7 +254,7 @@ export default function InternshipDetail() {
             </Card>
           </div>
         </div>
-      </div>
+      </motion.div>
     </PublicLayout>
   )
 }

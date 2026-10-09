@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 interface MobileApp {
   id: string
@@ -119,15 +120,25 @@ export function AppPortfolio() {
       <PageTitle title="Mobile App Portfolio | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-5xl mx-auto text-center">
-          <Badge className="bg-[#E8F3ED] text-[#2D6A4F] border border-[#C2E0D1] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden">
+        <motion.div
+          animate={{ y: [0, -14, 0], opacity: [0.35, 0.65, 0.35] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-10 left-1/3 w-80 h-80 rounded-full bg-[#EBE6DC]/60 dark:bg-stone-900/40 blur-[90px] pointer-events-none -z-10"
+        />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="max-w-5xl mx-auto text-center relative z-10"
+        >
+          <Badge className="bg-[#E8F3ED] text-[#2D6A4F] border border-[#C2E0D1] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Mobile Solutions
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-[#1A1715] dark:text-[#FAF7F2]">
             Mobile Application <span className="italic font-serif text-[#8C4325]">Portfolio</span>
           </h1>
-          <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] dark:text-stone-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             High-performance cross-platform and native iOS & Android applications engineered for speed, offline reliability, and delightful mobile UX.
           </p>
 
@@ -139,10 +150,10 @@ export function AppPortfolio() {
               placeholder="Search apps by stack (Flutter, Kotlin, React Native...)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-11 bg-white border-slate-300 text-[#1A1715] placeholder:text-slate-400 rounded-xl shadow-sm"
+              className="pl-10 h-11 bg-white dark:bg-[#1C1A17] border-slate-300 dark:border-stone-700 text-[#1A1715] dark:text-[#FAF7F2] placeholder:text-slate-400 rounded-full shadow-xs"
             />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Filter Tabs & App Grid */}

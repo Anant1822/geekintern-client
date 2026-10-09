@@ -38,18 +38,29 @@ export function FAQAccordion({ faqs = PLACEHOLDER_FAQS, className }: FAQAccordio
   const activeFaqs = faqs.filter((f) => f.is_active).sort((a, b) => a.order_index - b.order_index)
 
   return (
-    <Accordion type="single" collapsible className={cn('w-full divide-y divide-[#E2DDD2] dark:divide-[#292524]', className)}>
-      {activeFaqs.map((faq) => (
-        <AccordionItem key={faq.id} value={faq.id} className="border-[#E2DDD2] dark:border-[#292524]">
-          <AccordionTrigger className="text-left font-medium text-[#1A1715] dark:text-[#FAF7F2] hover:text-[#8C4325] dark:hover:text-[#FAF7F2] transition-colors py-4">
-            {faq.question}
-          </AccordionTrigger>
-          <AccordionContent className="text-[#57534E] dark:text-[#A8A29E] leading-relaxed pb-4">
-            {faq.answer}
-          </AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
+    <div className={cn('w-full', className)}>
+      <Accordion type="single" collapsible className="w-full space-y-3">
+        {activeFaqs.map((faq) => (
+          <AccordionItem
+            key={faq.id}
+            value={faq.id}
+            className="rounded-2xl border border-[#E2DDD2] dark:border-[#292524] bg-[#FAF7F2] dark:bg-[#1C1A17] px-5 sm:px-6 transition-all duration-300 hover:border-[#181615]/30 hover:shadow-xs overflow-hidden"
+          >
+            <AccordionTrigger className="text-left font-semibold text-sm sm:text-base text-[#1A1715] dark:text-[#FAF7F2] hover:text-[#8C4325] dark:hover:text-[#FAF7F2] transition-colors py-4">
+              <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 pr-3 text-left">
+                <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-[#8C4325] bg-[#F0E6DC] dark:bg-[#8C4325]/20 dark:text-[#F0E6DC] px-2.5 py-0.5 rounded-full border border-[#E4D5C7] dark:border-stone-700 shrink-0">
+                  {faq.category || 'FAQ'}
+                </span>
+                <span>{faq.question}</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="text-xs sm:text-sm text-[#57534E] dark:text-[#A8A29E] leading-relaxed pb-4 pt-2 border-t border-[#E2DDD2]/60 dark:border-stone-800">
+              {faq.answer}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div>
   )
 }
 

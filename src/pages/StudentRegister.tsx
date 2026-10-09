@@ -190,7 +190,7 @@ export default function StudentRegister() {
   return (
     <PublicLayout>
       <PageTitle title="Create Account – Geek Intern" />
-      <div className="min-h-[calc(100vh-10rem)] flex items-center justify-center py-12 px-4">
+      <div className="min-h-[calc(100vh-10rem)] bg-[#F5F2EB] bg-dot-matrix flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-2xl">
           <div className="bg-[#FAF7F2] rounded-2xl shadow-xs border border-[#E2DDD2] p-8 sm:p-10">
             <div className="flex justify-center mb-6"><Logo size="md" /></div>

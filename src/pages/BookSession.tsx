@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 const SESSION_TYPES = [
   {
@@ -76,9 +77,9 @@ export function BookSession() {
     e.preventDefault()
     if (!form.name || !form.email) {
       alert('Please enter your name and email.')
-      return
+    } else {
+      setBooked(true)
     }
-    setBooked(true)
   }
 
   return (
@@ -86,8 +87,14 @@ export function BookSession() {
       <PageTitle title="Book 1-on-1 Mentorship Session | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden bg-dot-matrix">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
             Personalized Engineering Guidance
           </Badge>
@@ -97,25 +104,30 @@ export function BookSession() {
           <p className="text-[#57534E] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Get your code reviewed, practice live mock interviews, and unblock your career roadmap with senior engineers and tech leaders.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Main Content */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white text-[#1A1715] min-h-[70vh]">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] min-h-[70vh]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left: Mentors & Session Tracks (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col gap-10">
             <div>
               <h2 className="text-2xl font-bold text-[#1A1715] mb-4">Choose Your Session Focus</h2>
               <div className="flex flex-col gap-4">
-                {SESSION_TYPES.map((sess) => (
-                  <div
+                {SESSION_TYPES.map((sess, idx) => (
+                  <motion.div
                     key={sess.id}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: idx * 0.08 }}
+                    whileHover={{ y: -4 }}
                     onClick={() => setSelectedSession(sess.id)}
-                    className={`p-6 rounded-2xl border cursor-pointer transition-all ${
+                    className={`p-6 rounded-3xl border cursor-pointer transition-all card-lift ${
                       selectedSession === sess.id
-                        ? 'bg-[#FAF7F2] border-[#181615] shadow-xs'
-                        : 'bg-[#FAF7F2] border-[#E2DDD2] hover:border-[#181615]/40'
+                        ? 'bg-[#FAF7F2] border-[#181615] shadow-card ring-1 ring-[#181615]'
+                        : 'bg-[#FAF7F2] border-[#E2DDD2] hover:border-[#181615]/40 shadow-xs'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2 mb-2">
@@ -137,7 +149,7 @@ export function BookSession() {
                         Google Meet / Zoom
                       </span>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -147,7 +159,15 @@ export function BookSession() {
               <h2 className="text-2xl font-bold text-[#1A1715] mb-4">Available Mentors</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {MENTORS.map((m, idx) => (
-                  <div key={idx} className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] text-center shadow-xs">
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: idx * 0.08 }}
+                    whileHover={{ y: -4 }}
+                    className="p-5 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] text-center shadow-card card-lift"
+                  >
                     <div className="w-12 h-12 rounded-full bg-[#181615] text-[#FAF7F2] font-bold flex items-center justify-center mx-auto mb-3 text-sm shadow-xs">
                       {m.name.charAt(0)}
                     </div>
@@ -158,7 +178,7 @@ export function BookSession() {
                       <Star className="w-3.5 h-3.5 fill-amber-400" />
                       <span>{m.rating} ({m.sessions})</span>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -166,10 +186,16 @@ export function BookSession() {
 
           {/* Right: Booking Form (5 Cols) */}
           <div className="lg:col-span-5">
-            <div className="rounded-2xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 shadow-xl sticky top-24">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 shadow-card sticky top-24"
+            >
               {booked ? (
                 <div className="text-center py-8">
-                  <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-100">
+                  <div className="w-14 h-14 rounded-2xl bg-[#E8F3ED] text-[#2D6A4F] flex items-center justify-center mx-auto mb-4 border border-[#C2E0D1]">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
                   <h3 className="text-xl font-bold text-[#1A1715] mb-2">Session Requested!</h3>
@@ -179,7 +205,7 @@ export function BookSession() {
                   <Button
                     onClick={() => setBooked(false)}
                     variant="outline"
-                    className="border-slate-300 bg-white text-slate-700 text-xs shadow-sm hover:bg-slate-50"
+                    className="border-[#D6CFC4] bg-[#FAF8F5] text-[#1A1715] text-xs shadow-xs hover:bg-[#EAE4D7] rounded-full"
                   >
                     Book Another Session
                   </Button>
@@ -192,54 +218,54 @@ export function BookSession() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-semibold text-slate-700 mb-1 block">Full Name</label>
+                    <label className="text-xs font-semibold text-[#1A1715] mb-1 block">Full Name</label>
                     <Input
                       required
                       placeholder="e.g. Rahul Verma"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] text-xs h-10"
+                      className="bg-white border-[#D6CFC4] text-[#1A1715] text-xs h-11 rounded-full"
                     />
                   </div>
 
                   <div>
-                    <label className="text-xs font-semibold text-slate-700 mb-1 block">Email Address</label>
+                    <label className="text-xs font-semibold text-[#1A1715] mb-1 block">Email Address</label>
                     <Input
                       required
                       type="email"
                       placeholder="rahul@example.com"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] text-xs h-10"
+                      className="bg-white border-[#D6CFC4] text-[#1A1715] text-xs h-11 rounded-full"
                     />
                   </div>
 
                   <div>
-                    <label className="text-xs font-semibold text-slate-700 mb-1 block">WhatsApp / Phone</label>
+                    <label className="text-xs font-semibold text-[#1A1715] mb-1 block">WhatsApp / Phone</label>
                     <Input
                       placeholder="+91 98765 43210"
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] text-xs h-10"
+                      className="bg-white border-[#D6CFC4] text-[#1A1715] text-xs h-11 rounded-full"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs font-semibold text-slate-700 mb-1 block">Preferred Date</label>
+                      <label className="text-xs font-semibold text-[#1A1715] mb-1 block">Preferred Date</label>
                       <Input
                         type="date"
                         value={form.preferredDate}
                         onChange={(e) => setForm({ ...form, preferredDate: e.target.value })}
-                        className="bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] text-xs h-10"
+                        className="bg-white border-[#D6CFC4] text-[#1A1715] text-xs h-11 rounded-full"
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-slate-700 mb-1 block">Time Slot</label>
+                      <label className="text-xs font-semibold text-[#1A1715] mb-1 block">Time Slot</label>
                       <select
                         value={form.preferredTime}
                         onChange={(e) => setForm({ ...form, preferredTime: e.target.value })}
-                        className="w-full bg-slate-50 border border-slate-300 text-[#1A1715] text-xs h-10 rounded-md px-2"
+                        className="w-full bg-white border border-[#D6CFC4] text-[#1A1715] text-xs h-11 rounded-full px-3"
                       >
                         <option>Morning (10 AM - 1 PM)</option>
                         <option>Afternoon (2 PM - 5 PM)</option>
@@ -249,13 +275,13 @@ export function BookSession() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-semibold text-slate-700 mb-1 block">Specific Questions or GitHub Link</label>
+                    <label className="text-xs font-semibold text-[#1A1715] mb-1 block">Specific Questions or GitHub Link</label>
                     <Textarea
                       rows={3}
                       placeholder="What would you like the mentor to review?"
                       value={form.notes}
                       onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                      className="bg-[#FAF7F2] border-[#D6CFC4] text-[#1A1715] text-xs"
+                      className="bg-white border-[#D6CFC4] text-[#1A1715] text-xs rounded-2xl"
                     />
                   </div>
 
@@ -267,7 +293,7 @@ export function BookSession() {
                   </Button>
                 </form>
               )}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

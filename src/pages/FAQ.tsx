@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 interface FAQItem {
   id: number
@@ -183,8 +184,14 @@ export function FAQ() {
       <PageTitle title="Frequently Asked Questions | Geek Intern" />
 
       {/* Hero */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2] overflow-hidden bg-dot-matrix">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
           <Badge className="bg-[#F0E6DC] text-[#8C4325] border border-[#E4D5C7] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Help Center & Guidelines
           </Badge>
@@ -202,10 +209,10 @@ export function FAQ() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search questions by keyword (e.g. certificate, college, NOC, tasks)..."
-              className="pl-11 h-12 rounded-2xl border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
+              className="pl-11 h-12 rounded-full border-[#D6CFC4] bg-[#FAF7F2] text-[#1A1715] shadow-xs text-sm focus:border-[#181615] focus:ring-[#181615]"
             />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Main FAQ Content */}
@@ -231,7 +238,7 @@ export function FAQ() {
           {/* FAQ Accordion List */}
           {filteredFaqs.length === 0 ? (
             <div className="py-16 text-center text-[#57534E]">
-              <HelpCircle className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <HelpCircle className="w-12 h-12 text-[#78716C] mx-auto mb-3" />
               <p className="text-base font-semibold">No questions found matching "{searchQuery}"</p>
               <p className="text-xs text-[#78716C] mt-1">Try searching for broader terms or reset filters.</p>
               <Button
@@ -240,22 +247,26 @@ export function FAQ() {
                   setActiveCategory('All Questions')
                   setSearchQuery('')
                 }}
-                className="mt-4 text-xs border-slate-200"
+                className="mt-4 text-xs border-[#D6CFC4] bg-[#FAF8F5] text-[#1A1715] rounded-full hover:bg-[#EAE4D7]"
               >
                 View All Questions
               </Button>
             </div>
           ) : (
             <div className="flex flex-col gap-3.5">
-              {filteredFaqs.map((faq) => {
+              {filteredFaqs.map((faq, idx) => {
                 const isOpen = openId === faq.id
                 return (
-                  <div
+                  <motion.div
                     key={faq.id}
-                    className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: idx * 0.04 }}
+                    className={`rounded-3xl border transition-all duration-200 overflow-hidden card-lift ${
                       isOpen
-                        ? 'border-[#181615] bg-[#FAF7F2] shadow-xs'
-                        : 'border-[#E2DDD2] bg-[#FAF7F2] hover:border-[#D6CFC4]'
+                        ? 'border-[#181615] bg-[#FAF7F2] shadow-card'
+                        : 'border-[#E2DDD2] bg-[#FAF7F2] hover:border-[#D6CFC4] shadow-xs'
                     }`}
                   >
                     <button
@@ -278,20 +289,26 @@ export function FAQ() {
                       <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-[#57534E] leading-relaxed border-t border-[#E2DDD2] bg-[#F5F2EB]/60">
                         <p>{faq.answer}</p>
                         <div className="mt-3 inline-block">
-                          <span className="text-[10px] uppercase font-bold tracking-wider text-[#57534E] bg-[#EBE6DC] px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] uppercase font-bold tracking-wider text-[#57534E] bg-[#EBE6DC] px-2 py-0.5 rounded-full border border-[#E2DDD2]">
                             {faq.category}
                           </span>
                         </div>
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 )
               })}
             </div>
           )}
 
           {/* Need More Assistance Support Card */}
-          <div className="mt-16 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="mt-16 rounded-3xl bg-[#FAF7F2] border border-[#E2DDD2] p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-card card-lift"
+          >
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-[#181615] text-[#FAF7F2] flex items-center justify-center shrink-0 shadow-xs">
                 <Mail className="w-6 h-6" />
@@ -306,17 +323,17 @@ export function FAQ() {
 
             <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
               <a href="mailto:support.geekintern@gmail.com" className="w-full md:w-auto">
-                <Button className="w-full md:w-auto bg-[#181615] hover:bg-[#2A2724] text-white text-xs font-semibold h-10 px-5 rounded-full shadow-xs">
+                <Button className="w-full md:w-auto bg-[#181615] hover:bg-[#2A2724] text-white text-xs font-semibold h-11 px-6 rounded-full shadow-xs">
                   Email Support Team
                 </Button>
               </a>
               <Link to="/contact" className="w-full md:w-auto">
-                <Button variant="outline" className="w-full md:w-auto border-[#D6CFC4] bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#1A1715] text-xs font-semibold h-10 px-5 rounded-full">
+                <Button variant="outline" className="w-full md:w-auto border-[#D6CFC4] bg-[#FAF7F2] hover:bg-[#EAE4D7] text-[#1A1715] text-xs font-semibold h-11 px-6 rounded-full">
                   Contact Page →
                 </Button>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </PublicLayout>

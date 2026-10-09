@@ -85,6 +85,9 @@ const config: Config = {
         'slide-in-from-bottom': 'slide-in-from-bottom 0.3s ease-out',
         'spin-slow': 'spin 3s linear infinite',
         'pulse-soft': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'marquee': 'marquee 30s linear infinite',
+        'marquee-slow': 'marquee 45s linear infinite',
+        'float': 'float 5s ease-in-out infinite',
       },
       keyframes: {
         'accordion-down': {
@@ -107,11 +110,25 @@ const config: Config = {
           from: { opacity: '0', transform: 'translateY(16px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        'marquee': {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
       },
       backgroundImage: {
         'hero-gradient': 'linear-gradient(135deg, #1A1715 0%, #2A2622 100%)',
         'navy-gradient': 'linear-gradient(135deg, #1A1715 0%, #26221E 100%)',
         'teal-gradient': 'linear-gradient(135deg, #24201D 0%, #1A1715 100%)',
+        'dot-pattern': 'radial-gradient(rgba(26, 23, 21, 0.08) 1.2px, transparent 1.2px)',
+        'dot-pattern-dark': 'radial-gradient(rgba(250, 247, 242, 0.08) 1.2px, transparent 1.2px)',
+      },
+      backgroundSize: {
+        'dot-sm': '20px 20px',
+        'dot-md': '28px 28px',
       },
     },
   },

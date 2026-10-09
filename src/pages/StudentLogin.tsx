@@ -665,7 +665,7 @@ export default function StudentLogin() {
     <PublicLayout>
       <PageTitle title="Student Login & Certificate Portal | Geek Intern" />
 
-      <div className="min-h-[80vh] bg-[#F5F2EB] py-10 md:py-16">
+      <div className="min-h-[80vh] bg-[#F5F2EB] bg-dot-matrix py-10 md:py-16">
         {/* Email Not Registered / Applied Popup Modal */}
         <Dialog
           open={showNotRegisteredModal}

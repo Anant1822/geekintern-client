@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge'
 import api from '@/services/api'
 import { supabase } from '@/lib/supabase'
 import { formatDate } from '@/lib/utils'
+import { motion } from 'framer-motion'
 
 interface OfferLetterData {
   letter_id: string
@@ -122,10 +123,17 @@ export default function VerifyOfferLetter() {
     <PublicLayout>
       <PageTitle title="Verify Internship Offer Letter | Geek Intern Verification Portal" />
 
-      <div className="min-h-screen bg-[#F5F2EB] dark:bg-[#151311] py-12 sm:py-16 text-[#1A1715] dark:text-[#FAF7F2]">
-        <div className="container max-w-4xl px-4 sm:px-6">
+      <div className="min-h-screen bg-[#F5F2EB] dark:bg-[#151311] py-12 sm:py-16 text-[#1A1715] dark:text-[#FAF7F2] relative overflow-hidden bg-dot-matrix">
+        <div className="absolute top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#2D6A4F]/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="container max-w-4xl px-4 sm:px-6 relative z-10">
           {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-center max-w-2xl mx-auto mb-10"
+          >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-semibold mb-4 shadow-xs">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
               Geek Intern Official Document Verification
@@ -136,67 +144,84 @@ export default function VerifyOfferLetter() {
             <p className="mt-3 text-[#57534E] dark:text-stone-400 text-sm sm:text-base leading-relaxed">
               Validate internship engagement and onboarding documents issued by Geek Intern. Enter the unique Offer Letter ID printed on the official letter or document header.
             </p>
-          </div>
+          </motion.div>
 
           {/* Search Card */}
-          <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] mb-8 rounded-3xl">
-            <CardContent className="p-6 sm:p-8">
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#78716C]" />
-                  <Input
-                    placeholder="Enter Offer Letter ID (e.g. GI-OL-2026-DEMO1)"
-                    value={letterId}
-                    onChange={(e) => setLetterId(e.target.value)}
-                    className="pl-10 h-11 text-sm sm:text-base uppercase font-mono tracking-wide bg-white dark:bg-stone-900 border-[#D6CFC4] dark:border-stone-700 rounded-full"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  disabled={isLoading || !letterId.trim()}
-                  className="h-11 px-7 bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-sm shadow-xs rounded-full transition-all"
-                >
-                  {isLoading ? (
-                    <span className="flex items-center gap-2">
-                      <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Verifying...
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-2">
-                      <ShieldCheck className="h-4 w-4" />
-                      Verify Document
-                    </span>
-                  )}
-                </Button>
-              </form>
-              <div className="mt-3 flex items-center justify-between text-xs text-[#78716C] dark:text-stone-400">
-                <span>Looking for a certificate instead? <Link to="/verify" className="text-[#1A1715] dark:text-white hover:underline font-medium">Verify Certificate ↗</Link></span>
-                <span className="font-mono text-[11px] text-[#78716C]">Format: GI-OL-YYYY-XXXXX</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Error Message */}
-          {errorMsg && (
-            <Card className="border-red-200 bg-red-50/70 mb-8 animate-in fade-in rounded-2xl">
-              <CardContent className="p-5 flex items-start gap-3">
-                <AlertCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-semibold text-red-900 text-sm">Offer Letter Not Found</h3>
-                  <p className="text-xs text-red-700 mt-0.5 leading-relaxed">{errorMsg}</p>
-                  <p className="text-xs text-red-600 mt-2">
-                    Please double-check the Offer Letter ID. If you recently received your offer letter, please verify the exact reference code provided in your email.
-                  </p>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
+            <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] mb-8 rounded-3xl card-lift">
+              <CardContent className="p-6 sm:p-8">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#78716C]" />
+                    <Input
+                      placeholder="Enter Offer Letter ID (e.g. GI-OL-2026-DEMO1)"
+                      value={letterId}
+                      onChange={(e) => setLetterId(e.target.value)}
+                      className="pl-10 h-11 text-sm sm:text-base uppercase font-mono tracking-wide bg-white dark:bg-stone-900 border-[#D6CFC4] dark:border-stone-700 rounded-full"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !letterId.trim()}
+                    className="h-11 px-7 bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-sm shadow-xs rounded-full transition-all"
+                  >
+                    {isLoading ? (
+                      <span className="flex items-center gap-2">
+                        <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Verifying...
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2">
+                        <ShieldCheck className="h-4 w-4" />
+                        Verify Document
+                      </span>
+                    )}
+                  </Button>
+                </form>
+                <div className="mt-3 flex items-center justify-between text-xs text-[#78716C] dark:text-stone-400">
+                  <span>Looking for a certificate instead? <Link to="/verify" className="text-[#1A1715] dark:text-white hover:underline font-medium">Verify Certificate ↗</Link></span>
+                  <span className="font-mono text-[11px] text-[#78716C]">Format: GI-OL-YYYY-XXXXX</span>
                 </div>
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Error Message */}
+          {errorMsg && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card className="border-red-200 bg-red-50/70 mb-8 rounded-2xl shadow-sm">
+                <CardContent className="p-5 flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-semibold text-red-900 text-sm">Offer Letter Not Found</h3>
+                    <p className="text-xs text-red-700 mt-0.5 leading-relaxed">{errorMsg}</p>
+                    <p className="text-xs text-red-600 mt-2">
+                      Please double-check the Offer Letter ID. If you recently received your offer letter, please verify the exact reference code provided in your email.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           )}
 
           {/* Verified Offer Letter Card */}
           {offerLetter && (
-            <div className="space-y-6 animate-in fade-in">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.35 }}
+              className="space-y-6"
+            >
               {/* Verification Status Banner */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 card-lift">
                 <div className="flex items-center gap-2.5">
                   <div className="h-8 w-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
                     <CheckCircle2 className="h-5 w-5" />
@@ -230,7 +255,7 @@ export default function VerifyOfferLetter() {
 
               {/* Cloud Uploaded Document Banner (if image/PDF exists) */}
               {offerLetter.image_url && (
-                <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] overflow-hidden rounded-3xl">
+                <Card className="border border-[#E2DDD2] dark:border-stone-800 shadow-card bg-[#FAF7F2] dark:bg-[#1C1A17] overflow-hidden rounded-3xl card-lift">
                   <CardHeader className="bg-[#EBE6DC] dark:bg-stone-900 border-b border-[#E2DDD2] dark:border-stone-700 p-4 flex flex-row items-center justify-between">
                     <div>
                       <CardTitle className="text-sm font-bold text-[#1A1715] dark:text-[#FAF7F2] flex items-center gap-2">
@@ -283,7 +308,7 @@ export default function VerifyOfferLetter() {
               )}
 
               {/* Verified Record Metadata Card */}
-              <div className="bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 rounded-3xl p-6 sm:p-8 shadow-card space-y-6">
+              <div className="bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 rounded-3xl p-6 sm:p-8 shadow-card space-y-6 card-lift">
                 {/* Top header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#E2DDD2] dark:border-stone-800 pb-5">
                   <div>
@@ -336,7 +361,7 @@ export default function VerifyOfferLetter() {
               </div>
 
               {/* Student Portal CTA */}
-              <div className="p-5 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-xs">
+              <div className="p-5 rounded-2xl bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-xs card-lift">
                 <div>
                   <p className="font-bold text-[#1A1715] dark:text-white">Are you the candidate named on this document?</p>
                   <p className="text-[#57534E] dark:text-stone-400 mt-0.5">Sign into the student portal to track onboarding, tasks, and future certificates.</p>
@@ -348,7 +373,7 @@ export default function VerifyOfferLetter() {
                   </Button>
                 </Link>
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
       </div>

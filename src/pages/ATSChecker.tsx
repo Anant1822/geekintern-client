@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { PageTitle } from '@/components/common/PageTitle'
+import { motion } from 'framer-motion'
 
 const PRESET_JOB_DESCRIPTIONS: { [key: string]: string } = {
   'frontend': `Looking for a Frontend Developer with strong skills in React, Next.js, TypeScript, and Tailwind CSS.
@@ -156,18 +157,28 @@ Bachelor of Technology in Computer Science Engineering | CGPA: 8.7/10 (2021 - 20
       <PageTitle title="ATS Resume Score Checker | Geek Intern" />
 
       {/* Hero Header */}
-      <section className="relative pt-24 pb-14 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] text-[#1A1715] border-b border-[#E2DDD2]">
-        <div className="max-w-4xl mx-auto text-center">
-          <Badge className="bg-[#E8F3ED] text-[#2D6A4F] border border-[#C2E0D1] uppercase tracking-widest text-[11px] mb-4 px-3 py-1">
+      <section className="relative pt-24 pb-14 px-4 sm:px-6 lg:px-8 bg-[#F5F2EB] dark:bg-[#151311] bg-dot-matrix text-[#1A1715] dark:text-[#FAF7F2] border-b border-[#E2DDD2] dark:border-stone-800 overflow-hidden">
+        <motion.div
+          animate={{ y: [0, -14, 0], opacity: [0.35, 0.65, 0.35] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-10 left-1/3 w-80 h-80 rounded-full bg-[#EBE6DC]/60 dark:bg-stone-900/40 blur-[90px] pointer-events-none -z-10"
+        />
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="max-w-4xl mx-auto text-center relative z-10"
+        >
+          <Badge className="bg-[#E8F3ED] text-[#2D6A4F] border border-[#C2E0D1] uppercase tracking-widest text-[11px] mb-4 px-3 py-1 font-semibold">
             Applicant Tracking System Scanner
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 text-[#1A1715]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-4 text-[#1A1715] dark:text-[#FAF7F2]">
             Check Your <span className="italic font-serif text-[#8C4325]">ATS Score</span>
           </h1>
-          <p className="text-[#57534E] text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#57534E] dark:text-stone-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
             Over 75% of resumes are discarded by automated applicant tracking filters. Scan your resume text now and get instant keyword matching and scoring.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Main Scanner Section */}
