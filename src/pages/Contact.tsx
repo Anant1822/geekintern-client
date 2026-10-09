@@ -409,7 +409,7 @@ export default function Contact() {
 
             {/* Right Column (Cards) */}
             <div className="lg:col-span-5 space-y-5">
-              {/* Card 1: Primary Admissions & Support */}
+              {/* Single Official Contact Card: Admissions & Support Desk */}
               <Card className="border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl shadow-xs p-6">
                 <div className="flex items-start gap-3.5 mb-3.5">
                   <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-[#185333] dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
@@ -417,10 +417,10 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
-                      Primary Admissions & Support
+                      Official Admissions & Support Desk
                     </h3>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
-                      Direct inbox for candidates, applicants, and general queries.
+                      Direct verified inbox for candidates, applicants, verification, and partnerships.
                     </p>
                   </div>
                 </div>
@@ -483,70 +483,7 @@ export default function Contact() {
                 </div>
               </Card>
 
-              {/* Card 2: Corporate & Academic Desk */}
-              <Card className="border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl shadow-xs p-6">
-                <div className="flex items-start gap-3.5 mb-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 mt-0.5">
-                    <Headphones className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
-                      Corporate & Academic Desk
-                    </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
-                      Geek Intern partner desks, university hiring, and grievance escalation.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Email pill */}
-                <div className="mb-4">
-                  <div className="font-mono text-xs text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 rounded-md px-3 py-1.5 inline-block select-all">
-                    partnerships.geekintern@gmail.com
-                  </div>
-                </div>
-
-                {/* Buttons row */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleCopy("partnerships.geekintern@gmail.com")}
-                    className="h-8 px-3 rounded-lg text-xs font-medium border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 gap-1.5"
-                  >
-                    {copiedEmail === "partnerships.geekintern@gmail.com" ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5 text-slate-500" />
-                        <span>Copy Email</span>
-                      </>
-                    )}
-                  </Button>
-
-                  <a
-                    href="https://mail.google.com/mail/?view=cm&fs=1&to=partnerships.geekintern@gmail.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="h-8 px-3 rounded-lg text-xs font-medium border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 gap-1.5"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
-                      <span>Open in Gmail</span>
-                    </Button>
-                  </a>
-                </div>
-              </Card>
-
-              {/* Card 3: Already Enrolled in an Internship? */}
+              {/* Card 2: Already Enrolled in an Internship? */}
               <Card className="border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl shadow-xs p-6">
                 <div className="flex items-start gap-3.5 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
