@@ -66,8 +66,9 @@ const NAVIGATION_ITEMS: NavItem[] = [
       },
     ],
   },
+  { label: 'Contact Us', href: '/contact' },
   {
-    label: 'Portfolio',
+    label: 'More',
     items: [
       {
         label: 'Web Portfolio',
@@ -87,12 +88,6 @@ const NAVIGATION_ITEMS: NavItem[] = [
         description: 'Embedded systems, VLSI, IoT, robotics, and hardware capstones',
         icon: Cpu,
       },
-    ],
-  },
-  { label: 'Contact Us', href: '/contact' },
-  {
-    label: 'More',
-    items: [
       {
         label: 'Blog & Articles',
         href: '/blog',
