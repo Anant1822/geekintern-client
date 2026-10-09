@@ -24,6 +24,7 @@ const Blog = lazy(() => import('@/pages/Blog'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
 // Portfolio Pages
+const Portfolio = lazy(() => import('@/pages/Portfolio'))
 const WebPortfolio = lazy(() => import('@/pages/WebPortfolio'))
 const AppPortfolio = lazy(() => import('@/pages/AppPortfolio'))
 const CorePortfolio = lazy(() => import('@/pages/CorePortfolio'))
@@ -92,6 +93,8 @@ export default function App() {
           <Route path="/articles" element={<Navigate to="/blog" replace />} />
 
           {/* Portfolio routes */}
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/portfolios" element={<Navigate to="/portfolio" replace />} />
           <Route path="/web-portfolio" element={<WebPortfolio />} />
           <Route path="/app-portfolio" element={<AppPortfolio />} />
           <Route path="/core-portfolio" element={<CorePortfolio />} />

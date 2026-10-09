@@ -652,14 +652,14 @@ export function Home() {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, ease: 'easeOut' }}
-          className="relative z-10 max-w-4xl mx-auto text-center"
+          className="relative z-10 w-full max-w-6xl mx-auto text-center"
         >
           {/* Top Badge: Aixentrix terracotta/sandstone pill */}
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.45, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs font-medium mb-4 sm:mb-5 shadow-xs"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF7F2] dark:bg-[#1C1A17] border border-[#E2DDD2] dark:border-stone-800 text-[#57534E] dark:text-stone-300 text-xs sm:text-sm font-medium mb-4 sm:mb-5 shadow-xs"
           >
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -675,10 +675,10 @@ export function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="text-2xl sm:text-4xl md:text-5xl lg:text-[2.85rem] font-extrabold tracking-tight leading-[1.18] mb-3 sm:mb-4 font-sans text-[#1A1715] dark:text-[#FAF7F2] px-2"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-[3.6rem] font-extrabold tracking-tight leading-[1.14] mb-4 sm:mb-5 font-sans text-[#1A1715] dark:text-[#FAF7F2] max-w-5xl mx-auto"
           >
             Project-Based Internships to Build Your Portfolio and{' '}
-            <span className="font-serif italic text-[#1A1715] dark:text-white font-bold underline decoration-[#9E4A2B]/40 decoration-wavy decoration-1 underline-offset-6">
+            <span className="font-serif italic text-[#1A1715] dark:text-white font-bold underline decoration-[#9E4A2B]/40 decoration-wavy decoration-1 underline-offset-8">
               Launch Your Tech Career
             </span>.
           </motion.h1>
@@ -688,7 +688,7 @@ export function Home() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-[#57534E] dark:text-stone-300 text-xs sm:text-sm md:text-base max-w-xl mx-auto mb-5 sm:mb-6 leading-relaxed font-normal px-2"
+            className="text-[#57534E] dark:text-stone-300 text-sm sm:text-base md:text-lg max-w-3xl mx-auto mb-6 sm:mb-7 leading-relaxed font-normal"
           >
             Build production-grade projects, collaborate on real GitHub repositories, and earn verifiable completion credentials recognized for university credits and tech hiring.
           </motion.p>
@@ -698,11 +698,11 @@ export function Home() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3.5 w-full max-w-md mx-auto sm:max-w-none"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto sm:max-w-none"
           >
             <Link to="/apply" className="w-full sm:w-auto">
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button className="w-full sm:w-auto h-10 sm:h-11 px-6 sm:px-7 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-xs sm:text-sm shadow-xs inline-flex items-center justify-center gap-2">
+                <Button className="w-full sm:w-auto h-11 sm:h-12 px-7 sm:px-8 rounded-full bg-[#181615] hover:bg-[#2A2724] text-white font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2">
                   <span>Start Your Internship</span>
                   <ArrowRight className="h-4 w-4 stroke-[2.5]" />
                 </Button>
@@ -713,7 +713,7 @@ export function Home() {
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Button
                   variant="outline"
-                  className="w-full sm:w-auto h-10 sm:h-11 px-6 sm:px-7 rounded-full border border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5]/90 dark:bg-[#1C1A17] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] font-semibold text-xs sm:text-sm shadow-xs inline-flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto h-11 sm:h-12 px-7 sm:px-8 rounded-full border border-[#D6CFC4] dark:border-stone-700 bg-[#FAF8F5]/90 dark:bg-[#1C1A17] hover:bg-[#EAE4D7] dark:hover:bg-stone-800 text-[#1A1715] dark:text-[#FAF7F2] font-semibold text-sm shadow-xs inline-flex items-center justify-center gap-2"
                 >
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
                   <span>Verify Certificate</span>
@@ -727,18 +727,18 @@ export function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.45 }}
-            className="mt-5 sm:mt-6 pt-4 border-t border-[#E2DDD2]/80 dark:border-stone-800 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[11px] sm:text-xs text-[#57534E] dark:text-stone-400"
+            className="mt-6 sm:mt-7 pt-5 border-t border-[#E2DDD2]/80 dark:border-stone-800 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[#57534E] dark:text-stone-400"
           >
             <div className="inline-flex items-center gap-1.5 font-medium">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>Free Application & Instant Offer Letter</span>
             </div>
             <div className="inline-flex items-center gap-1.5 font-medium">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>Verifiable QR Certificate ID</span>
             </div>
             <div className="inline-flex items-center gap-1.5 font-medium">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>Letter of Recommendation (LOR)</span>
             </div>
           </motion.div>

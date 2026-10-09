@@ -71,22 +71,10 @@ const NAVIGATION_ITEMS: NavItem[] = [
     label: 'More',
     items: [
       {
-        label: 'Web Portfolio',
-        href: '/web-portfolio',
-        description: 'Live web applications, dashboards, and client platforms',
+        label: 'Portfolio',
+        href: '/portfolio',
+        description: 'Explore Web, Mobile App, and Core Engineering portfolios',
         icon: Layers,
-      },
-      {
-        label: 'App Portfolio',
-        href: '/app-portfolio',
-        description: 'iOS, Android, and Flutter mobile applications',
-        icon: Briefcase,
-      },
-      {
-        label: 'Core Portfolio',
-        href: '/core-portfolio',
-        description: 'Embedded systems, VLSI, IoT, robotics, and hardware capstones',
-        icon: Cpu,
       },
       {
         label: 'Blog & Articles',
