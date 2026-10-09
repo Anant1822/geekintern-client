@@ -47,12 +47,6 @@ const NAVIGATION_ITEMS: NavItem[] = [
     label: 'Internships',
     items: [
       {
-        label: 'Apply for Internship',
-        href: '/apply',
-        description: 'Submit your candidate application for verified virtual internships',
-        icon: Award,
-      },
-      {
         label: 'Internship Tracks',
         href: '/browse',
         description: 'Explore web dev, Python, AI, Android, C++, and design roles',
