@@ -89,6 +89,7 @@ const NAVIGATION_ITEMS: NavItem[] = [
       },
     ],
   },
+  { label: 'Contact Us', href: '/contact' },
   {
     label: 'More',
     items: [
@@ -121,12 +122,6 @@ const NAVIGATION_ITEMS: NavItem[] = [
         href: '/college-register',
         description: 'Institutional partnerships and college placement drives',
         icon: GraduationCap,
-      },
-      {
-        label: 'Contact Us',
-        href: '/contact',
-        description: 'Reach our team for candidate support or inquiries',
-        icon: Briefcase,
       },
       {
         label: 'Terms & Conditions',
